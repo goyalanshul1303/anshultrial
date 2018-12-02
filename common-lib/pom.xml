@@ -2,33 +2,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.cartonwale.provider.api</groupId>
-	<artifactId>provider-service</artifactId>
+	<groupId>com.cartonwale.common</groupId>
+	<artifactId>common-lib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>provider-service</name>
+	<name>common-lib</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
-
-		<!-- versions -->
 		<java.version>1.8</java.version>
 		<jjwt.version>0.7.0</jjwt.version>
 		<rxjava.version>1.1.6</rxjava.version>
-		<imgscalr>4.2</imgscalr>
-		<mail.version>1.4</mail.version>
-		<poi.version>3.10.1</poi.version>
-		<common.lib.version>0.0.1-SNAPSHOT</common.lib.version>
-		<!-- versions -->
-
-		<http.port>82</http.port>
-		<mongo.host>localhost</mongo.host>
-		<mongo.port>27017</mongo.port>
-		<mongo.database>product-service-db</mongo.database>
-		<mongo.username></mongo.username>
-		<mongo.password></mongo.password>
-
+		<dropbox.version>2.1.1</dropbox.version>
 	</properties>
 
 	<parent>
@@ -45,28 +31,16 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- Spring Cloud starter -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter</artifactId>
-		</dependency>
-
-		<!-- Eureka service registration -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka-server</artifactId>
-		</dependency>
-
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
 		<!-- Spring Data - Mongo -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
+		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
 		</dependency>
 
 		<!-- Spring Mobile Devices -->
@@ -86,7 +60,7 @@
 		<dependency>
 			<groupId>io.reactivex</groupId>
 			<artifactId>rxjava</artifactId>
-			<version>${rxjava.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<version>${rxjava.version}</version>
 		</dependency>
 
 		<!-- Logger -->
@@ -101,11 +75,18 @@
 		</dependency>
 		<!-- Logger -->
 
-		<!-- common-lib -->
+		<!-- Dropbox -->
 		<dependency>
-			<groupId>com.cartonwale.common</groupId>
-			<artifactId>common-lib</artifactId>
-			<version>${common.lib.version}</version>
+			<groupId>com.dropbox.core</groupId>
+			<artifactId>dropbox-core-sdk</artifactId>
+			<version>${dropbox.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
 		</dependency>
 
 		<!-- Spring - Devtools for refresh server -->
@@ -122,34 +103,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Dalston.RELEASE</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<build>
-		<plugins>
-			<!-- http://docs.spring.io/spring-boot/docs/current/maven-plugin/usage.html -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
