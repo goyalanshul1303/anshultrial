@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,7 +30,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     nooFClientsET,factoryCapacityET ;
     private static Button nextButton;
     private Spinner operatingHrsSpinner;
-    LinearLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting;
+    FlowLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
 
     private TextView typesOfBoxesTV;
     private static CheckBox sameAsRegistered;
@@ -65,10 +64,11 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         nextButton = (Button) view.findViewById(R.id.nextBtn);
         nextButton.setOnClickListener(this);
         operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
-        typesOfBoxes = (LinearLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
+        typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
         typesOfBoxesTV = (TextView) view.findViewById(R.id.boxesSupportedTV);
-        typesCartonCheckboxLL = (LinearLayout)view.findViewById(R.id.typesCartonCheckboxLL);
-        typesOfPrinting = (LinearLayout) view.findViewById(R.id.typesPrintingCheckboxLL);
+        typesCartonCheckboxLL = (FlowLayout)view.findViewById(R.id.typesCartonCheckboxLL);
+        typesOfPrinting = (FlowLayout) view.findViewById(R.id.typesPrintingCheckboxLL);
+        typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
         inflateDataView();
 
 
@@ -110,6 +110,11 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             CheckBox cb = new CheckBox(getActivity());
             cb.setText(entry.getValue());
             typesOfBoxes.addView(cb);
+        }
+        for (Map.Entry <String, String> entry : data.getCorrugationType().entrySet()){
+            CheckBox cb = new CheckBox(getActivity());
+            cb.setText(entry.getValue());
+            typeOfCorrugation.addView(cb);
         }
 
 

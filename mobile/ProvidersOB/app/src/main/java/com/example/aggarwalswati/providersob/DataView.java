@@ -66,7 +66,13 @@ public class DataView {
     }
 
     public void setBoxType(Map<String, String> boxType) {
+
         this.boxType = boxType;
+        boxType.put("HB","Hard Boxes");
+        boxType.put("1","1 Ply");
+        boxType.put("3","3 Ply");
+        boxType.put("5","5 Ply");
+        boxType.put("7","7 Ply");
     }
 
     Map<String, String> corrugationType = new LinkedHashMap<>();

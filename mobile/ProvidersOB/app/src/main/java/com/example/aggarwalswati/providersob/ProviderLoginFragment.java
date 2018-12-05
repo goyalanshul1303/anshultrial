@@ -16,7 +16,15 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by aggarwal.swati on 12/2/18.
@@ -127,7 +135,46 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         } else
             Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
                     .show();
+//        loginProcessWithRetrofit(getEmailId, getPassword);
+
         new MainActivity().replaceLoginFragment();
 
+    }
+    private void loginProcessWithRetrofit(final String email, String password){
+        ApiInterface mApiService = this.getInterfaceService();
+        Call<JSONObject> mService = mApiService.authenticate(email, password);
+        mService.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                JSONObject mLoginObject = response.body();
+//                String returnedResponse = mLoginObject.isLogin;
+//                Toast.makeText(LoginActivity.this, "Returned " + mLoginObject, Toast.LENGTH_LONG).show();
+//                //showProgress(false);
+//                if(returnedResponse.trim().equals("1")){
+//                    // redirect to Main Activity page
+//                    Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                    loginIntent.putExtra("EMAIL", email);
+//                    startActivity(loginIntent);
+//                }
+//                if(returnedResponse.trim().equals("0")){
+//                    // use the registration button to register
+//                    failedLoginMessage.setText(getResources().getString(R.string.registration_message));
+//                    mPasswordView.requestFocus();
+//                }
+            }
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                call.cancel();
+                Toast.makeText(getActivity(), "Please check your network connection and internet permission", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    private ApiInterface getInterfaceService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("BASE_URL")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        final ApiInterface mInterfaceService = retrofit.create(ApiInterface.class);
+        return mInterfaceService;
     }
 }
