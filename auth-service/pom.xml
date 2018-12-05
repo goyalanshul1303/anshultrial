@@ -2,16 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.cartonwale.provider.api</groupId>
-	<artifactId>provider-service</artifactId>
+	<groupId>com.cartonwale.auth.api</groupId>
+	<artifactId>auth-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>provider-service</name>
+	<name>auth-service</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
-
+	
 		<!-- versions -->
 		<java.version>1.8</java.version>
 		<jjwt.version>0.7.0</jjwt.version>
@@ -21,14 +21,18 @@
 		<poi.version>3.10.1</poi.version>
 		<common.lib.version>0.0.1-SNAPSHOT</common.lib.version>
 		<!-- versions -->
-
-		<http.port>83</http.port>
+		
+		<http.port>81</http.port>
 		<mongo.host>biz2biz-shard-00-01-2e6r2.mongodb.net</mongo.host>
 		<mongo.port>27017</mongo.port>
-		<mongo.database>provider-service-db</mongo.database>
+		<mongo.database>auth-service-db</mongo.database>
 		<mongo.username>appuser</mongo.username>
 		<mongo.password>NAmd3SgmePaNnBvc</mongo.password>
-
+		<mongo.uri>mongodb://appuser:NAmd3SgmePaNnBvc@biz2biz-2e6r2.mongodb.net/test?retryWrites=true</mongo.uri>
+		<image.upload.location>C:/quebic-images</image.upload.location>
+		<email.userName>goyalanshul1303@gmail.com</email.userName>
+		<email.password>quebic</email.password>
+		
 	</properties>
 
 	<parent>
@@ -44,13 +48,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
 		<!-- Spring Cloud starter -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
-
+		
 		<!-- Eureka service registration -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -81,12 +85,12 @@
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
-
+		
 		<!-- RxJava -->
 		<dependency>
 			<groupId>io.reactivex</groupId>
 			<artifactId>rxjava</artifactId>
-			<version>${rxjava.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<version>${rxjava.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
 		<!-- Logger -->
@@ -101,6 +105,13 @@
 		</dependency>
 		<!-- Logger -->
 
+		<!-- Java Email API -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${mail.version}</version>
+		</dependency>
+		
 		<!-- common-lib -->
 		<dependency>
 			<groupId>com.cartonwale.common</groupId>
@@ -122,7 +133,7 @@
 		</dependency>
 
 	</dependencies>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -137,7 +148,6 @@
 
 	<build>
 		<plugins>
-			<!-- http://docs.spring.io/spring-boot/docs/current/maven-plugin/usage.html -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -151,5 +161,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>

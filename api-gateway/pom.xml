@@ -2,35 +2,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.cartonwale.provider.api</groupId>
-	<artifactId>provider-service</artifactId>
+	<groupId>com.cartonwale.apigateway</groupId>
+	<artifactId>api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>provider-service</name>
+	<name>api-gateway</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
-
 		<!-- versions -->
 		<java.version>1.8</java.version>
-		<jjwt.version>0.7.0</jjwt.version>
-		<rxjava.version>1.1.6</rxjava.version>
-		<imgscalr>4.2</imgscalr>
-		<mail.version>1.4</mail.version>
-		<poi.version>3.10.1</poi.version>
-		<common.lib.version>0.0.1-SNAPSHOT</common.lib.version>
 		<!-- versions -->
-
-		<http.port>83</http.port>
-		<mongo.host>biz2biz-shard-00-01-2e6r2.mongodb.net</mongo.host>
-		<mongo.port>27017</mongo.port>
-		<mongo.database>provider-service-db</mongo.database>
-		<mongo.username>appuser</mongo.username>
-		<mongo.password>NAmd3SgmePaNnBvc</mongo.password>
-
+		
+		<http.port>8080</http.port>
+		
 	</properties>
-
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -38,57 +26,30 @@
 	</parent>
 
 	<dependencies>
-
 		<!-- Spring MVC & REST, use Embedded Tomcat -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
 		<!-- Spring Cloud starter -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
-
+		
 		<!-- Eureka service registration -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
-
-		<!-- Spring Security -->
+		
+		<!-- Zuul - Gateway -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-zuul</artifactId>
 		</dependency>
-
-		<!-- Spring Data - Mongo -->
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-		</dependency>
-
-		<!-- Spring Mobile Devices -->
-		<dependency>
-			<groupId>org.springframework.mobile</groupId>
-			<artifactId>spring-mobile-device</artifactId>
-		</dependency>
-
-		<!-- JWT -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>${jjwt.version}</version>
-		</dependency>
-
-		<!-- RxJava -->
-		<dependency>
-			<groupId>io.reactivex</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>${rxjava.version}</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
-
+		
 		<!-- Logger -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -100,13 +61,6 @@
 			<artifactId>logback-core</artifactId>
 		</dependency>
 		<!-- Logger -->
-
-		<!-- common-lib -->
-		<dependency>
-			<groupId>com.cartonwale.common</groupId>
-			<artifactId>common-lib</artifactId>
-			<version>${common.lib.version}</version>
-		</dependency>
 
 		<!-- Spring - Devtools for refresh server -->
 		<dependency>
@@ -120,9 +74,9 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
-
+		
 	</dependencies>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -137,7 +91,6 @@
 
 	<build>
 		<plugins>
-			<!-- http://docs.spring.io/spring-boot/docs/current/maven-plugin/usage.html -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -151,5 +104,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>

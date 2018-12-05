@@ -22,12 +22,12 @@
 		<common.lib.version>0.0.1-SNAPSHOT</common.lib.version>
 		<!-- versions -->
 
-		<http.port>82</http.port>
-		<mongo.host>localhost</mongo.host>
+		<http.port>83</http.port>
+		<mongo.host>biz2biz-shard-00-01-2e6r2.mongodb.net</mongo.host>
 		<mongo.port>27017</mongo.port>
-		<mongo.database>product-service-db</mongo.database>
-		<mongo.username></mongo.username>
-		<mongo.password></mongo.password>
+		<mongo.database>provider-service-db</mongo.database>
+		<mongo.username>appuser</mongo.username>
+		<mongo.password>NAmd3SgmePaNnBvc</mongo.password>
 
 	</properties>
 
