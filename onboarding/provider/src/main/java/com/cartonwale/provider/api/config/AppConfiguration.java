@@ -63,7 +63,7 @@ public class AppConfiguration {
 	
 	@Bean
     public CacheManager cacheManager() {
-        return CacheConfig.createCacheManager("ProductDaoImpl");
+        return CacheConfig.createCacheManager("ProviderDaoImpl");
     }
 	
 	@LoadBalanced

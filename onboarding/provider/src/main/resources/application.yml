@@ -6,9 +6,11 @@ spring:
 # Mongo properties
   data:
     mongodb:
-      host: @mongo.host@
-      port: @mongo.port@
+      uri: mongodb://appuser:NAmd3SgmePaNnBvc@biz2biz-shard-00-00-2e6r2.mongodb.net:27017,biz2biz-shard-00-01-2e6r2.mongodb.net:27017,biz2biz-shard-00-02-2e6r2.mongodb.net:27017/test?ssl=true&replicaSet=biz2biz-shard-0&authSource=admin&retryWrites=true
+      #port: @mongo.port@
       database: @mongo.database@
+      #username: @mongo.username@
+      #password: @mongo.password@
 
 
 # HTTP Server
