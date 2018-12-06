@@ -19,26 +19,26 @@ import com.cartonwale.provider.api.service.ProviderService;
 public class ProviderController extends ControllerBase{
 
 	@Autowired
-	private ProviderService productService;
+	private ProviderService providerService;
 	
 	@RequestMapping
     public AsyncResponseEntity<Provider> getAll() {
-		return makeAsyncResponse(productService.getAll());
+		return makeAsyncResponse(providerService.getAll());
     }
 	
 	@RequestMapping("/{id}")
     public AsyncResponseEntity<Provider> getById(@PathVariable("id") String id) {
-		return makeAsyncResponse(productService.getById(id));
+		return makeAsyncResponse(providerService.getById(id));
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
     public AsyncResponseEntity<Provider> add(@ModelAttribute Provider product) {
-    	return makeAsyncResponse(productService.add(product), HttpStatus.CREATED);
+    	return makeAsyncResponse(providerService.add(product), HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
     public AsyncResponseEntity<Provider> edit(@ModelAttribute Provider product) {
-    	return makeAsyncResponse(productService.edit(product), HttpStatus.ACCEPTED);
+    	return makeAsyncResponse(providerService.edit(product), HttpStatus.ACCEPTED);
     }
     
 }

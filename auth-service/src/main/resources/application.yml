@@ -1,0 +1,45 @@
+# Spring properties
+spring:
+  application:
+    name: auth-service
+
+# Mongo properties
+  data:
+    mongodb:
+      uri: mongodb://appuser:NAmd3SgmePaNnBvc@biz2biz-shard-00-00-2e6r2.mongodb.net:27017,biz2biz-shard-00-01-2e6r2.mongodb.net:27017,biz2biz-shard-00-02-2e6r2.mongodb.net:27017/test?ssl=true&replicaSet=biz2biz-shard-0&authSource=admin&retryWrites=true
+      #port: @mongo.port@
+      database: @mongo.database@
+      #username: @mongo.username@
+      #password: @mongo.password@
+
+# HTTP Server
+server:
+  port: @http.port@
+  
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+
+# Auth JWT
+jwt:
+  header: Authorization
+  secret: carton_secret
+  expiration: 172800 #seconds
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+# Image Upload Location
+image:
+  upload:
+    location: @image.upload.location@
+    
+# Email
+email:
+  userName: @email.userName@
+  password: @email.password@
