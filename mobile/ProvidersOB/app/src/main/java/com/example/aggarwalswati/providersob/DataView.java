@@ -9,75 +9,76 @@ import java.util.Map;
  */
 
 public class DataView {
-    public Map<String, String> getOperatingHrs() {
+    public LinkedHashMap<String, String> getOperatingHrs() {
         return operatingHrs;
     }
 
-    public void setOperatingHrs(Map<String, String> operatingHrs) {
+    public void setOperatingHrs(LinkedHashMap<String, String> operatingHrs) {
 
         this.operatingHrs = operatingHrs;
-        operatingHrs.put("","Choose Operating Hours");
-        operatingHrs.put("day","Day");
-        operatingHrs.put("night","Night");
-        operatingHrs.put("full","24 Hours");
+        operatingHrs.put("-1","Choose Operating Hours");
+        operatingHrs.put("d","Day");
+        operatingHrs.put("n","Night");
+        operatingHrs.put("f","24 Hours");
     }
 
     // Spinner Drop down elements
-    Map<String, String> operatingHrs = new LinkedHashMap<>();
+    LinkedHashMap<String, String> operatingHrs = new LinkedHashMap<>();
 
-    public Map<String, String> getTypeOfPrinting() {
+    public LinkedHashMap<Integer, String> getTypeOfPrinting() {
         return typeOfPrinting;
     }
 
-    public void setTypeOfPrinting(Map<String, String> typeOfPrinting) {
+    public void setTypeOfPrinting(LinkedHashMap<Integer, String> typeOfPrinting) {
         this.typeOfPrinting = typeOfPrinting;
-        typeOfPrinting.put("na","NA");
-        typeOfPrinting.put("1","1 color");
-        typeOfPrinting.put("2","2 color");
-        typeOfPrinting.put("3","3 color");
-        typeOfPrinting.put("4","4 color");
+        typeOfPrinting.put(-1,"Choose printing  types");
+        typeOfPrinting.put(0,"NA");
+        typeOfPrinting.put(1,"1 color");
+        typeOfPrinting.put(2,"2 color");
+        typeOfPrinting.put(3,"3 color");
+        typeOfPrinting.put(4,"4 color");
 
     }
 
-    public Map<String, String> getTypesOfCartons() {
+    public LinkedHashMap<Integer, String> getTypesOfCartons() {
         return typesOfCartons;
     }
 
-    public void setTypesOfCartons(Map<String, String> typesOfCartons) {
+    public void setTypesOfCartons(LinkedHashMap<Integer, String> typesOfCartons) {
         this.typesOfCartons = typesOfCartons;
-        typesOfCartons.put("C","Corrugated");
-        typesOfCartons.put("D","Die Cutting");
+        typesOfCartons.put(1,"Corrugated");
+        typesOfCartons.put(2,"Die Cutting");
 
     }
 
-    public Map<String, String> getCorrugationType() {
+    public LinkedHashMap<Integer, String> getCorrugationType() {
         return corrugationType;
     }
 
-    public void setCorrugationType(Map<String, String> corrugationType) {
+    public void setCorrugationType(LinkedHashMap<Integer, String> corrugationType) {
         this.corrugationType = corrugationType;
-        corrugationType.put("B","Broad");
-        corrugationType.put("N","Narrow");
-        corrugationType.put("S","Slim");
+        corrugationType.put(1,"Broad");
+        corrugationType.put(2,"Narrow");
+        corrugationType.put(3,"Slim");
     }
 
-    public Map<String, String> getBoxType() {
+    public LinkedHashMap<Integer, String> getBoxType() {
         return boxType;
     }
 
-    public void setBoxType(Map<String, String> boxType) {
+    public void setBoxType(LinkedHashMap<Integer, String> boxType) {
 
         this.boxType = boxType;
-        boxType.put("HB","Hard Boxes");
-        boxType.put("1","1 Ply");
-        boxType.put("3","3 Ply");
-        boxType.put("5","5 Ply");
-        boxType.put("7","7 Ply");
+//        boxType.put("HB","Hard Boxes");
+        boxType.put(1,"1 Ply");
+        boxType.put(3,"3 Ply");
+        boxType.put(5,"5 Ply");
+        boxType.put(7,"7 Ply");
     }
 
-    Map<String, String> corrugationType = new LinkedHashMap<>();
-    Map<String, String> boxType = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> corrugationType = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> boxType = new LinkedHashMap<>();
 
-    Map<String, String> typeOfPrinting = new LinkedHashMap<>();
-    Map<String, String> typesOfCartons = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> typeOfPrinting = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> typesOfCartons = new LinkedHashMap<>();
 }
