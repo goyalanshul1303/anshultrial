@@ -22,7 +22,7 @@
 		<common.lib.version>0.0.1-SNAPSHOT</common.lib.version>
 		<!-- versions -->
 		
-		<http.port>3333</http.port>
+		<http.port>8080</http.port>
 		<mongo.host>biz2biz-shard-00-01-2e6r2.mongodb.net</mongo.host>
 		<mongo.port>27017</mongo.port>
 		<mongo.database>auth-service-db</mongo.database>

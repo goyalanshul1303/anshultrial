@@ -20,7 +20,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://cartonwale.appspot.com:2222/eureka/
+      defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
 
