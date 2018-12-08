@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 	</parent>
 
 	<dependencies>
@@ -33,7 +33,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<exclusions>
 				<exclusion>
-					<groupId>org.springframework.boot</groupId> <!-- Exclude Project-D from Project-B -->
+					<groupId>org.springframework.boot</groupId> 
 					<artifactId>spring-boot-starter-tomcat</artifactId>
 				</exclusion>
 			</exclusions>
