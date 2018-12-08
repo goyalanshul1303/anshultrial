@@ -1,7 +1,7 @@
 package com.cartonwale.auth.api.config;
 
-import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.cache.CacheManager;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
