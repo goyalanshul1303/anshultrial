@@ -34,11 +34,7 @@ zuul:
       
 ribbon:
   restclient:
-    enabled:true
-  ReadTimeout:60000
-  ConnectTimeout:10000
-  MaxAutoRetries:1
-  MaxAutoRetriesNextServer:1
+    enabled: true
       
 # Increase the Hystrix timeout to 60s (globally)
 hystrix:
