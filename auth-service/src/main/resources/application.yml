@@ -25,7 +25,7 @@ eureka:
     securePortEnabled: true
     nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    hostname: cartonwale-auth-service.appspot.com
+    hostname: cartonwale.appspot.com
 
 # Auth JWT
 jwt:
