@@ -13,8 +13,10 @@ eureka:
     serviceUrl:
       defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
+  	securePortEnabled: true
+  	nonSecurePortEnabled: false
     leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    hostname: cartonwale-api-gateway.appspot.com
+    hostname: cartonwale.appspot.com
 
 # Api-Gate-Way
 zuul:
