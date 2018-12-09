@@ -34,13 +34,15 @@ zuul:
       serviceId: PROVIDER-SERVICE
       stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
-  host:
-    connect-timeout-millis: 5000
-    socket-timeout-millis: 60000
+  #host:
+    #connect-timeout-millis: 5000
+    #socket-timeout-millis: 60000
     
 ribbon:
     ReadTimeout: 60000
     ConnectTimeout: 60000
+    eureka
+      enabled: true
 
       
 # Increase the Hystrix timeout to 60s (globally)
