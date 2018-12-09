@@ -4,8 +4,8 @@ spring:
     name: api-gateway  # Identify this application
 
 # Server
-server:
-  port: @http.port@   # HTTP (Tomcat) port
+#server:
+#  port: @http.port@   # HTTP (Tomcat) port
 
 # Discovery Server Access
 eureka:
