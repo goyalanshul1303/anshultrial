@@ -13,7 +13,7 @@ eureka:
     serviceUrl:
       defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    leaseRenewalIntervalInSeconds: 5000   # DO NOT DO THIS IN PRODUCTION
 
 # Api-Gate-Way
 zuul:
@@ -22,11 +22,13 @@ zuul:
     auth-service:
       path: /auth-service/**
       serviceId: AUTH-SERVICE
+      stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
       path: /provider-service/**
       serviceId: PROVIDER-SERVICE
+      stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
   host:
     connect-timeout-millis: 5000
