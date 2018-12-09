@@ -23,6 +23,7 @@ eureka:
       defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
     leaseRenewalIntervalInSeconds: 5000   # DO NOT DO THIS IN PRODUCTION
+    hostname: cartonwale-auth-service.appspot.com
 
 # Auth JWT
 jwt:
