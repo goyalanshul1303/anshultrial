@@ -46,13 +46,6 @@ ribbon:
 
       
 # Increase the Hystrix timeout to 60s (globally)
-hystrix:
-  command:
-    auth-service:
-      execution:
-        isolation:
-          strategy: THREAD
-          thread:
-            timeoutInMilliseconds: 61000
+
             
       
