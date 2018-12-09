@@ -35,10 +35,7 @@ zuul:
   host:
     connect-timeout-millis: 5000
     socket-timeout-millis: 60000
-      
-ribbon:
-  restclient:
-    enabled: true
+
       
 # Increase the Hystrix timeout to 60s (globally)
 hystrix:
