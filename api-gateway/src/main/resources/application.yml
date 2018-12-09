@@ -33,6 +33,8 @@ zuul:
     socket-timeout-millis: 60000
       
 ribbon:
+  restclient:
+    enabled:true
   ReadTimeout:60000
   ConnectTimeout:10000
   MaxAutoRetries:1
