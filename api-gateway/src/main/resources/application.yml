@@ -42,6 +42,9 @@ hystrix:
       execution:
         isolation:
           strategy: THREAD
-          thread:
-            timeoutInMilliseconds: 61000
+        timeout:
+          enabled: false
+          #thread:
+            #timeoutInMilliseconds: 61000
+            
       
