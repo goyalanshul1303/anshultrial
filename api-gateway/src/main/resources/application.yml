@@ -19,7 +19,6 @@ eureka:
 # Api-Gate-Way
 zuul:
   prefix: /api
-  zuul.ignoredServices=*
   routes:
     auth-service:
       path: /auth-service/**
