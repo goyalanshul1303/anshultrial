@@ -34,7 +34,7 @@ zuul:
       
 ribbon:
   ReadTimeout:60000
-  connection-timeout: 3000
+  ConnectTimeout:10000
   eureka: 
     enabled: true
   eager-load:
