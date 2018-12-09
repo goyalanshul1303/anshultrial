@@ -28,6 +28,9 @@ zuul:
       path: /provider-service/**
       serviceId: PROVIDER-SERVICE
       sensitiveHeaders: Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: 5000
+    socket-timeout-millis: 10000
       
 ribbon:
   ReadTimeout:5000
@@ -38,13 +41,11 @@ ribbon:
 # Increase the Hystrix timeout to 60s (globally)
 hystrix:
   command:
-    auth-service:
+    default:
       execution:
         isolation:
           strategy: THREAD
-        timeout:
-          enabled: false
-          #thread:
-            #timeoutInMilliseconds: 61000
+          thread:
+            timeoutInMilliseconds: 61000
             
       
