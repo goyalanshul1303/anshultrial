@@ -30,11 +30,15 @@ zuul:
       sensitiveHeaders: Cookie,Set-Cookie
   host:
     connect-timeout-millis: 5000
-    socket-timeout-millis: 10000
+    socket-timeout-millis: 60000
       
 ribbon:
-  ReadTimeout:5000
-  ConnectTimeout:10000
+  ReadTimeout:60000
+  connection-timeout: 3000
+  eureka: 
+    enabled: true
+  eager-load:
+    enabled: true
   MaxAutoRetries:1
   MaxAutoRetriesNextServer:1
       
@@ -44,7 +48,6 @@ hystrix:
     default:
       execution:
         isolation:
-          strategy: THREAD
           thread:
             timeoutInMilliseconds: 61000
             
