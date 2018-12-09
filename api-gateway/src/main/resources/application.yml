@@ -23,7 +23,7 @@ zuul:
       path: /auth-service/**
       url: https://cartonwale-auth-service.appspot.com
       #serviceId: AUTH-SERVICE
-      stripPrefix: false
+      #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
