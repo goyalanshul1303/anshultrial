@@ -29,6 +29,11 @@ zuul:
       serviceId: PROVIDER-SERVICE
       sensitiveHeaders: Cookie,Set-Cookie
       
+ribbon:
+  ReadTimeout:5000
+  ConnectTimeout:10000
+  MaxAutoRetries:1
+  MaxAutoRetriesNextServer:1
       
 # Increase the Hystrix timeout to 60s (globally)
 hystrix:
