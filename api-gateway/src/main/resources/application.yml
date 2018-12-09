@@ -35,8 +35,6 @@ zuul:
 ribbon:
   ReadTimeout:60000
   ConnectTimeout:10000
-  eureka: 
-    enabled: true
   eager-load:
     enabled: true
   MaxAutoRetries:1
