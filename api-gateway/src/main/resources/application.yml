@@ -37,6 +37,10 @@ zuul:
   host:
     connect-timeout-millis: 5000
     socket-timeout-millis: 60000
+    
+ribbon:
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
 
       
 # Increase the Hystrix timeout to 60s (globally)
@@ -45,6 +49,7 @@ hystrix:
     default:
       execution:
         isolation:
+          strategy: THREAD
           thread:
             timeoutInMilliseconds: 61000
             
