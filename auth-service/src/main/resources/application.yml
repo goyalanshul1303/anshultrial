@@ -13,8 +13,8 @@ spring:
       #password: @mongo.password@
 
 # HTTP Server
-server:
-  port: @http.port@
+#server:
+#  port: @http.port@
   
 # Discovery Server Access
 eureka:
