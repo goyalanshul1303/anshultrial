@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +33,20 @@ public class ProviderController extends ControllerBase{
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public AsyncResponseEntity<Provider> add(@ModelAttribute Provider product) {
-    	return makeAsyncResponse(providerService.add(product), HttpStatus.CREATED);
+    public AsyncResponseEntity<Provider> add(@RequestBody Provider provider) {
+    	return makeAsyncResponse(providerService.add(provider), HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public AsyncResponseEntity<Provider> edit(@ModelAttribute Provider product) {
-    	return makeAsyncResponse(providerService.edit(product), HttpStatus.ACCEPTED);
+    public AsyncResponseEntity<Provider> edit(@ModelAttribute Provider provider) {
+    	return makeAsyncResponse(providerService.edit(provider), HttpStatus.ACCEPTED);
     }
+    
+    /*@InitBinder
+    public void bindEnums(WebDataBinder binder) {
+    	
+    	binder.registerCustomEditor(AddressType.class, "addressType", 
+		});
+    }*/
     
 }
