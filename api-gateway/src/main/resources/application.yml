@@ -4,16 +4,19 @@ spring:
     name: api-gateway  # Identify this application
 
 # Server
-server:
-  port: @http.port@   # HTTP (Tomcat) port
+#server:
+#  port: @http.port@   # HTTP (Tomcat) port
 
 # Discovery Server Access
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://cartonwale.appspot.com/eureka/
+      defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    securePortEnabled: true
+    nonSecurePortEnabled: false
+    #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    hostname: cartonwale-api-gateway.appspot.com
 
 # Api-Gate-Way
 zuul:
@@ -21,21 +24,28 @@ zuul:
   routes:
     auth-service:
       path: /auth-service/**
+      #url: https://cartonwale-auth-service.appspot.com
       serviceId: AUTH-SERVICE
+      stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
       path: /provider-service/**
       serviceId: PROVIDER-SERVICE
+      stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
-      
+  #host:
+    #connect-timeout-millis: 5000
+    #socket-timeout-millis: 60000
+    
+ribbon:
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
+    eureka:
+      enabled: true
+
       
 # Increase the Hystrix timeout to 60s (globally)
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 60000
+
+            
       

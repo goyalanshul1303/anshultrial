@@ -1,6 +1,5 @@
 package com.cartonwale.auth.api.config;
 
-import java.util.Map;
 import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.cache.CacheManager;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -29,12 +27,12 @@ public class AppConfiguration {
 	public ErrorAttributes errorAttributes() {
 	    
 		return new DefaultErrorAttributes(){
-	    	@Override
+	    	/*@Override
 	        public Map<String, Object> getErrorAttributes(RequestAttributes requestAttributes, boolean includeStackTrace) {
 	            Map<String, Object> errorAttributes = super.getErrorAttributes(requestAttributes, includeStackTrace);
 	            errorAttributes.remove("exception");
 	            return errorAttributes;
-	        }
+	        }*/
 	    };
 	    
 	}

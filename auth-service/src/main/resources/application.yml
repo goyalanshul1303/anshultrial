@@ -13,16 +13,19 @@ spring:
       #password: @mongo.password@
 
 # HTTP Server
-server:
-  port: @http.port@
+#server:
+#  port: @http.port@
   
 # Discovery Server Access
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://cartonwale.appspot.com/eureka/
+      defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    securePortEnabled: true
+    nonSecurePortEnabled: false
+    #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    hostname: cartonwale-auth-service.appspot.com
 
 # Auth JWT
 jwt:

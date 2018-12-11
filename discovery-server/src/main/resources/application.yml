@@ -2,10 +2,12 @@
 eureka:
   instance:
     hostname: cartonwale.appspot.com
+    securePortEnabled: true
+    nonSecurePortEnabled: false
   client:  # Not a client, don't register with yourself
     registerWithEureka: false
     fetchRegistry: false
        
 # HTTP Server
-server:
-  port: @http.port@
+#server:
+#  port: @http.port@

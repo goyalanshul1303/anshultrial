@@ -15,12 +15,13 @@
 		<jjwt.version>0.7.0</jjwt.version>
 		<rxjava.version>1.1.6</rxjava.version>
 		<dropbox.version>2.1.1</dropbox.version>
+		<appengine.target.version>1.9.64</appengine.target.version>
 	</properties>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
+		<version>1.5.18.RELEASE</version>
 	</parent>
 
 	<dependencies>
@@ -29,6 +30,25 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId> <!-- Exclude Project-D from Project-B -->
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions> 
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>${appengine.target.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Spring Data - Mongo -->
@@ -103,5 +123,19 @@
 		</dependency>
 
 	</dependencies>
+	
+	<dependencyManagement>
+		<dependencies>
+	        <dependency>
+	            <!-- Import dependency management from Spring Boot -->
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>1.5.18.RELEASE</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency> 
+		</dependencies>
+		
+	</dependencyManagement>
 
 </project>
