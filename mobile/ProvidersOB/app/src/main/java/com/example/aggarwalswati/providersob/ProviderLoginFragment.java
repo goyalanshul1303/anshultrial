@@ -156,9 +156,9 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         } else
             Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
                     .show();
-        new SendPostRequest().execute();
+//        new SendPostRequest().execute();
 
-//        new MainActivity().replaceLoginFragment();
+        new MainActivity().replaceLoginFragment();
 
     }
 
