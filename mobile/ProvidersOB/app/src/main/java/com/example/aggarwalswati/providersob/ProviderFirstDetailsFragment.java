@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by aggarwal.swati on 12/2/18.
  */
@@ -36,13 +37,13 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private static View view;
 
     private static EditText companyName, contactName, email, websitelink, mobile, landline, registeredaddress, correspondenceAddress, foundationYear, annulaincome,
-            nooFClientsET, gst, panCardET,creditLimitET;
+            nooFClientsET, gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
+            registeredState, registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresState, corresPincode;
     private static Button nextButton;
     private Spinner operatingHrsSpinner, typesPrintingSpinner;
     FlowLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
 
-    private TextView typesOfBoxesTV;
-    private static CheckBox sameAsRegistered;
+    private CheckBox sameAsRegistered;
     private int isCredit = -1;
     private int isManufacture = -1;
     private int isLogistics = -1;
@@ -50,7 +51,6 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private LinearLayout creditSupoortLL;
     private int isCapacity = -1;
 
-    private static FragmentManager fragmentManager;
     RequestData request = new RequestData();
     DataView data = new DataView();
     private EditText capacityET;
@@ -72,13 +72,12 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
     // Initiate Views
     private void initViews() {
-        fragmentManager = getActivity().getSupportFragmentManager();
         companyName = (EditText) view.findViewById(R.id.companyNameET);
         contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
         landline = (EditText) view.findViewById(R.id.landlineET);
-        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
-        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
+//        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
+//        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
         websitelink = (EditText) view.findViewById(R.id.websiteET);
         foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
         annulaincome = (EditText) view.findViewById(R.id.incomeET);
@@ -86,7 +85,6 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         nextButton.setOnClickListener(this);
         operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
         typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
-        typesOfBoxesTV = (TextView) view.findViewById(R.id.boxesSupportedTV);
         typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
         typesPrintingSpinner = (Spinner) view.findViewById(R.id.typesPrintingSpinner);
         typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
@@ -103,9 +101,22 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         manufactureRG = (RadioGroup) view.findViewById(R.id.manufactureRG);
         qualityRG = (RadioGroup) view.findViewById(R.id.qualityInspectionRG);
         creditSupoortLL = (LinearLayout) view.findViewById(R.id.creditSupoortLL);
-        creditLimitET =(EditText) view.findViewById(R.id.creditLimitET);
-        creditDaysET =(EditText)view.findViewById(R.id.creditDaysET);
-        
+        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
+        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
+        sameAsRegistered = (CheckBox) view.findViewById(R.id.same_address);
+        registeredAdd1 = (EditText) view.findViewById(R.id.registeredAddressET1);
+        registeredAdd2 = (EditText) view.findViewById(R.id.registeredAddressET2);
+        registeredAdd3 = (EditText) view.findViewById(R.id.registeredAddressET3);
+        registeredCountry = (EditText) view.findViewById(R.id.registeredCountry);
+        registeredPincode = (EditText) view.findViewById(R.id.registeredPincode);
+        registeredState = (EditText) view.findViewById(R.id.registeredState);
+        corresAdd1 = (EditText) view.findViewById(R.id.correspondenceAddressET1);
+        corresAdd2 = (EditText) view.findViewById(R.id.correspondenceAddressET2);
+        corresAdd3 = (EditText) view.findViewById(R.id.correspondenceAddressET3);
+        corresCountry = (EditText) view.findViewById(R.id.correspondenceCountry);
+        corresState = (EditText) view.findViewById(R.id.correspondenceState);
+        corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
+
         inflateDataView();
 
 
@@ -337,6 +348,19 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             }
         });
 
+        sameAsRegistered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sameAsRegistered.isChecked()) {
+                    corresAdd1.setText(registeredAdd1.getText());
+                    corresAdd2.setText(registeredAdd2.getText());
+                    corresAdd3.setText(registeredAdd3.getText());
+                    corresPincode.setText(registeredPincode.getText());
+                    corresState.setText(registeredState.getText());
+                    corresCountry.setText(registeredCountry.getText());
+                }
+            }
+        });
 
     }
 
@@ -399,10 +423,10 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
 
             } else {
-                if (mobile.getText().toString().length() < 10){
+                if (mobile.getText().toString().length() < 10) {
                     Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "Please input mobile number", Toast.LENGTH_SHORT).show();
                 }
                 return;
@@ -492,8 +516,8 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
                 Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
                 return;
-            }else{
-                if (isCredit == 1){
+            } else {
+                if (isCredit == 1) {
                     if (!TextUtils.isEmpty(creditLimitET.getText())) {
                         request.setCreditLimit(Integer.parseInt(creditLimitET.getText().toString()));
                     } else {
@@ -526,7 +550,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+//            postDataToserver();
 
         }
     }

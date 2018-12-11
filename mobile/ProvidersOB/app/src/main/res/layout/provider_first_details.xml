@@ -119,47 +119,182 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_registeredaddres"
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Registered Address"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/registeredAddressET1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Address Line 1"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
 
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/registeredAddressET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Your Registered Address"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_correspoaddres"
+            <EditText
+                android:id="@+id/registeredAddressET2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Address Line 2"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
 
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+            <EditText
+                android:id="@+id/registeredAddressET3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address Line 3"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/corresAddressET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Your Correspondence Address"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/registeredState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="State"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/registeredCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Country"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/registeredPincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pincode"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:id="@+id/same_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Same as registered address"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Correspondence Address"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/correspondenceAddressET1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address Line 1"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/correspondenceAddressET2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address Line 2"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/correspondenceAddressET3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address Line 3"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/correspondenceState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="State"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/correspondenceCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Country"
+                android:imeOptions="actionNext"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/correspondencePincode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Pincode"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="@color/hint_text_light_grey"
+                android:textSize="16sp" />
+
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_mobile"
@@ -175,10 +310,10 @@
                     android:layout_height="wrap_content"
                     android:hint="Mobile Number"
                     android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
                     android:inputType="number"
                     android:maxLength="10"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textColor="#000000"
                     android:textColorHint="@color/hint_text_light_grey"
                     android:textSize="16sp" />
@@ -198,8 +333,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Landline Number (Optional)"
                     android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
                     android:textColorHint="@color/hint_text_light_grey"
@@ -241,8 +376,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Foundation Year"
                     android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
                     android:textColorHint="@color/hint_text_light_grey"
@@ -262,8 +397,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Annual Income"
-                    android:inputType="number"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
@@ -285,8 +420,8 @@
                     android:layout_height="wrap_content"
                     android:hint="No. of Clients"
                     android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
                     android:textColorHint="@color/hint_text_light_grey"
@@ -307,10 +442,10 @@
                     android:layout_height="wrap_content"
                     android:hint="Number Of Boxes / day"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
-                    android:inputType="number"
                     android:textColorHint="@color/hint_text_light_grey"
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
@@ -355,15 +490,14 @@
                 android:layout_marginTop="10dip"
                 android:text="Types of Printing Supported:"
                 android:textSize="16sp" />
+
             <Spinner
                 android:id="@+id/typesPrintingSpinner"
                 style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                ></Spinner>
-
+                android:layout_marginTop="5dp"></Spinner>
 
 
             <TextView
@@ -415,13 +549,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Die Cutting charges"
                     android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
                     android:inputType="number"
+                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
                     android:textColorHint="@color/hint_text_light_grey"
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -439,8 +574,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="( W x H )"   android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="13dp"
+                    android:text="( W x H )"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -481,6 +617,7 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -510,14 +647,15 @@
                     android:text="No"
                     android:textSize="16sp" />
             </RadioGroup>
+
             <LinearLayout
+                android:id="@+id/creditSupoortLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/creditSupoortLL"
-                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
-                android:visibility="gone"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_credit_limit"
@@ -533,13 +671,14 @@
                         android:layout_height="wrap_content"
                         android:hint="Max Credit Limit"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
-                        android:inputType="number"
                         android:textColor="#000000"
                         android:textColorHint="@color/hint_text_light_grey"
                         android:textSize="16sp" />
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_credit_days"
                     android:layout_width="match_parent"
@@ -554,15 +693,14 @@
                         android:layout_height="wrap_content"
                         android:hint="No Of Days for credit"
                         android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
-                        android:inputType="number"
                         android:textColor="#000000"
                         android:textColorHint="@color/hint_text_light_grey"
                         android:textSize="16sp" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
-
 
 
             <TextView

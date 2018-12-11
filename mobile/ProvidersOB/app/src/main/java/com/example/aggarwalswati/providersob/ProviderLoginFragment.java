@@ -1,11 +1,13 @@
 package com.example.aggarwalswati.providersob;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +16,40 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import javax.net.ssl.HttpsURLConnection;
+
 
 /**
  * Created by aggarwal.swati on 12/2/18.
@@ -35,10 +60,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
     private static EditText emailid, password;
     private static Button loginButton;
-
     private static CheckBox show_hide_password;
-    private static LinearLayout loginLayout;
-    private static FragmentManager fragmentManager;
+    private static ProgressBar progressBar;
 
     public ProviderLoginFragment() {
 
@@ -55,15 +78,13 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
     // Initiate Views
     private void initViews() {
-        fragmentManager = getActivity().getSupportFragmentManager();
 
         emailid = (EditText) view.findViewById(R.id.login_emailid);
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
-
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         show_hide_password = (CheckBox) view
                 .findViewById(R.id.show_hide_password);
-        loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
 
     }
 
@@ -135,46 +156,107 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         } else
             Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
                     .show();
-//        loginProcessWithRetrofit(getEmailId, getPassword);
+        new SendPostRequest().execute();
 
-        new MainActivity().replaceLoginFragment();
+//        new MainActivity().replaceLoginFragment();
 
     }
-    private void loginProcessWithRetrofit(final String email, String password){
-        ApiInterface mApiService = this.getInterfaceService();
-        Call<JSONObject> mService = mApiService.authenticate(email, password);
-        mService.enqueue(new Callback<JSONObject>() {
-            @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                JSONObject mLoginObject = response.body();
-//                String returnedResponse = mLoginObject.isLogin;
-//                Toast.makeText(LoginActivity.this, "Returned " + mLoginObject, Toast.LENGTH_LONG).show();
-//                //showProgress(false);
-//                if(returnedResponse.trim().equals("1")){
-//                    // redirect to Main Activity page
-//                    Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-//                    loginIntent.putExtra("EMAIL", email);
-//                    startActivity(loginIntent);
-//                }
-//                if(returnedResponse.trim().equals("0")){
-//                    // use the registration button to register
-//                    failedLoginMessage.setText(getResources().getString(R.string.registration_message));
-//                    mPasswordView.requestFocus();
-//                }
+
+
+    public class SendPostRequest extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+
+                URL url = new URL("https://cartonwale-auth-service.appspot.com/auth");
+
+                JSONObject postDataParams = new JSONObject();
+                postDataParams.put("username", "goyalanshul1303");
+                postDataParams.put("password", "abc123");
+                Log.e("params", postDataParams.toString());
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
             }
-            @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
-                call.cancel();
-                Toast.makeText(getActivity(), "Please check your network connection and internet permission", Toast.LENGTH_LONG).show();
-            }
-        });
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), result,
+                    Toast.LENGTH_LONG).show();
+        }
     }
-    private ApiInterface getInterfaceService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("BASE_URL")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        final ApiInterface mInterfaceService = retrofit.create(ApiInterface.class);
-        return mInterfaceService;
+
+
+    public String getPostDataString(JSONObject params) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        Iterator<String> itr = params.keys();
+
+        while (itr.hasNext()) {
+
+            String key = itr.next();
+            Object value = params.get(key);
+
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(key, "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
+
+        }
+        return result.toString();
     }
+
+
 }
