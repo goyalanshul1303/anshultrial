@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Created by aggarwal.swati on 12/2/18.
  */
@@ -35,14 +36,14 @@ import java.util.Map;
 public class ProviderFirstDetailsFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
-    private static EditText companyName, contactName, email, websitelink, mobile, landline, registeredaddress, correspondenceAddress, foundationYear, annulaincome,
-            nooFClientsET, gst, panCardET,creditLimitET;
+    private static EditText companyName, contactName, email, websitelink, mobile, landline, foundationYear, annulaincome,
+            nooFClientsET, gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
+            registeredState, registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresState, corresPincode;
     private static Button nextButton;
     private Spinner operatingHrsSpinner, typesPrintingSpinner;
     FlowLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
 
-    private TextView typesOfBoxesTV;
-    private static CheckBox sameAsRegistered;
+    private CheckBox sameAsRegistered;
     private int isCredit = -1;
     private int isManufacture = -1;
     private int isLogistics = -1;
@@ -50,13 +51,13 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private LinearLayout creditSupoortLL;
     private int isCapacity = -1;
 
-    private static FragmentManager fragmentManager;
     RequestData request = new RequestData();
     DataView data = new DataView();
     private EditText capacityET;
     private EditText dieCuttingET;
     private RadioGroup isCreditRG, isLogisticsRG, qualityRG, manufactureRG, capacityRG;
     private EditText creditDaysET;
+    List<AddressClass> addresses = new ArrayList<>();
 
     public ProviderFirstDetailsFragment() {
 
@@ -72,13 +73,12 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
     // Initiate Views
     private void initViews() {
-        fragmentManager = getActivity().getSupportFragmentManager();
         companyName = (EditText) view.findViewById(R.id.companyNameET);
         contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
         landline = (EditText) view.findViewById(R.id.landlineET);
-        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
-        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
+//        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
+//        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
         websitelink = (EditText) view.findViewById(R.id.websiteET);
         foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
         annulaincome = (EditText) view.findViewById(R.id.incomeET);
@@ -86,7 +86,6 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         nextButton.setOnClickListener(this);
         operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
         typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
-        typesOfBoxesTV = (TextView) view.findViewById(R.id.boxesSupportedTV);
         typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
         typesPrintingSpinner = (Spinner) view.findViewById(R.id.typesPrintingSpinner);
         typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
@@ -103,9 +102,22 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         manufactureRG = (RadioGroup) view.findViewById(R.id.manufactureRG);
         qualityRG = (RadioGroup) view.findViewById(R.id.qualityInspectionRG);
         creditSupoortLL = (LinearLayout) view.findViewById(R.id.creditSupoortLL);
-        creditLimitET =(EditText) view.findViewById(R.id.creditLimitET);
-        creditDaysET =(EditText)view.findViewById(R.id.creditDaysET);
-        
+        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
+        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
+        sameAsRegistered = (CheckBox) view.findViewById(R.id.same_address);
+        registeredAdd1 = (EditText) view.findViewById(R.id.registeredAddressET1);
+        registeredAdd2 = (EditText) view.findViewById(R.id.registeredAddressET2);
+        registeredAdd3 = (EditText) view.findViewById(R.id.registeredAddressET3);
+        registeredCountry = (EditText) view.findViewById(R.id.registeredCountry);
+        registeredPincode = (EditText) view.findViewById(R.id.registeredPincode);
+        registeredState = (EditText) view.findViewById(R.id.registeredState);
+        corresAdd1 = (EditText) view.findViewById(R.id.correspondenceAddressET1);
+        corresAdd2 = (EditText) view.findViewById(R.id.correspondenceAddressET2);
+        corresAdd3 = (EditText) view.findViewById(R.id.correspondenceAddressET3);
+        corresCountry = (EditText) view.findViewById(R.id.correspondenceCountry);
+        corresState = (EditText) view.findViewById(R.id.correspondenceState);
+        corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
+
         inflateDataView();
 
 
@@ -337,12 +349,27 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             }
         });
 
+        sameAsRegistered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sameAsRegistered.isChecked()) {
+                    corresAdd1.setText(registeredAdd1.getText());
+                    corresAdd2.setText(registeredAdd2.getText());
+                    corresAdd3.setText(registeredAdd3.getText());
+                    corresPincode.setText(registeredPincode.getText());
+                    corresState.setText(registeredState.getText());
+                    corresCountry.setText(registeredCountry.getText());
+                }
+            }
+        });
 
     }
 
 
     @Override
     public void onClick(View view) {
+        AddressClass rgistredAddress = new AddressClass();
+        AddressClass corresAddress = new AddressClass();
         if (view.getId() == R.id.nextBtn) {
             // move to next screen
             if (!TextUtils.isEmpty(companyName.getText())) {
@@ -352,7 +379,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 return;
             }
             if (!TextUtils.isEmpty(contactName.getText())) {
-                request.setCompanyName(contactName.getText().toString());
+                request.setContactName(contactName.getText().toString());
 
             } else {
                 Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
@@ -365,13 +392,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input email address", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(websitelink.getText())) {
-                request.setWebsite(websitelink.getText().toString());
 
-            } else {
-                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (!TextUtils.isEmpty(panCardET.getText())) {
                 request.setCompanyPAN(panCardET.getText().toString());
 
@@ -386,6 +407,102 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input GST number", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            if (!TextUtils.isEmpty(registeredAdd1.getText())) {
+                rgistredAddress.setAddressLine1(registeredAdd1.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address line 1", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(registeredAdd2.getText())) {
+                rgistredAddress.setAddressLine2(registeredAdd2.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address line 2", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(registeredAdd3.getText())) {
+                rgistredAddress.setAddressLine3(registeredAdd3.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address line 3", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(registeredState.getText())) {
+                rgistredAddress.setState(registeredState.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address state", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(registeredCountry.getText())) {
+                rgistredAddress.setCountry(registeredCountry.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address country", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(registeredPincode.getText())) {
+                rgistredAddress.setPincode(Integer.parseInt(registeredPincode.getText().toString()));
+
+            } else {
+                Toast.makeText(getActivity(), "Please input registered address pincode", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            rgistredAddress.setType("registered");
+            addresses.add(rgistredAddress);
+
+            if (!TextUtils.isEmpty(corresAdd1.getText())) {
+                corresAddress.setAddressLine1(corresAdd1.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address line 1", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(corresAdd2.getText())) {
+                corresAddress.setAddressLine2(corresAdd2.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address line 2", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(corresAdd3.getText())) {
+                corresAddress.setAddressLine3(corresAdd3.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address line 3", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(corresState.getText())) {
+                corresAddress.setState(corresState.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address state", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(corresCountry.getText())) {
+                corresAddress.setCountry(corresCountry.getText().toString());
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address country", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(corresPincode.getText())) {
+                corresAddress.setPincode(Integer.parseInt(corresPincode.getText().toString()));
+
+            } else {
+                Toast.makeText(getActivity(), "Please input correspondence address pincode", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            corresAddress.setType("correspondence");
+            addresses.add(corresAddress);
+
+            request.setAddresses(addresses);
+
             if (!TextUtils.isEmpty(mobile.getText())) {
                 JSONObject object = new JSONObject();
                 try {
@@ -399,10 +516,10 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
 
             } else {
-                if (mobile.getText().toString().length() < 10){
+                if (mobile.getText().toString().length() < 10) {
                     Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
                     return;
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "Please input mobile number", Toast.LENGTH_SHORT).show();
                 }
                 return;
@@ -419,22 +536,14 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 }
 
             }
-            if (!TextUtils.isEmpty(registeredaddress.getText())) {
-                JSONObject object = new JSONObject();
-//                object.put("")
-//                request.setEmail(email.getText().toString());
+            if (!TextUtils.isEmpty(websitelink.getText())) {
+                request.setWebsite(websitelink.getText().toString());
 
             } else {
-                Toast.makeText(getActivity(), "Please input registered address", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(correspondenceAddress.getText())) {
-//                request.setEmail(email.getText().toString());
 
-            } else {
-                Toast.makeText(getActivity(), "Please input correspondence address", Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (!TextUtils.isEmpty(foundationYear.getText())) {
                 request.setFoundationYear(Integer.parseInt(foundationYear.getText().toString()));
 
@@ -492,8 +601,8 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
                 Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
                 return;
-            }else{
-                if (isCredit == 1){
+            } else {
+                if (isCredit == 1) {
                     if (!TextUtils.isEmpty(creditLimitET.getText())) {
                         request.setCreditLimit(Integer.parseInt(creditLimitET.getText().toString()));
                     } else {
@@ -526,7 +635,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+//            postDataToserver();
 
         }
     }

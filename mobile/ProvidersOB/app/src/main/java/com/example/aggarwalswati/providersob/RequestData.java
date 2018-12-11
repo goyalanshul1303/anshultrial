@@ -36,10 +36,20 @@ public class RequestData {
     int foundationYear;
     int annualIncome;
     int clientCount;
-    List<Integer> cartontype= new ArrayList();
-    List<Integer> corrugationType= new ArrayList();
-    List<Integer> supportedSheetLayers= new ArrayList();
+    List<Integer> cartontype = new ArrayList();
+    List<Integer> corrugationType = new ArrayList();
+    List<Integer> supportedSheetLayers = new ArrayList();
     List<JSONObject> phones = new ArrayList<>();
+
+    public List<AddressClass> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressClass> addresses) {
+        this.addresses = addresses;
+    }
+
+    List<AddressClass> addresses = new ArrayList<>();
     boolean isCreditSupported;
     int creditLimit;
     int creditDays;
