@@ -42,11 +42,11 @@ zuul:
     #connect-timeout-millis: 5000
     #socket-timeout-millis: 60000
     
-#ribbon:
-#    ReadTimeout: 60000
-#    ConnectTimeout: 60000
-#    eureka:
-#     enabled: true
+ribbon:
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
+    eureka:
+     enabled: true
 
       
 # Increase the Hystrix timeout to 60s (globally)
