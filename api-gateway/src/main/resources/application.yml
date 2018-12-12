@@ -11,6 +11,7 @@ spring:
 eureka:
   client:
     serviceUrl:
+      #defaultZone: http://localhost:1111/eureka/
       defaultZone: https://cartonwale.appspot.com/eureka/
   instance:
     securePortEnabled: true
@@ -26,23 +27,24 @@ zuul:
       path: /auth-service/**
       #url: https://cartonwale-auth-service.appspot.com
       serviceId: AUTH-SERVICE
-      stripPrefix: false
+      #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
       path: /provider-service/**
+      #url: https://cartonwale-provider-service.appspot.com
       serviceId: PROVIDER-SERVICE
-      stripPrefix: false
+      #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
   #host:
     #connect-timeout-millis: 5000
     #socket-timeout-millis: 60000
     
-ribbon:
-    ReadTimeout: 60000
-    ConnectTimeout: 60000
-    eureka:
-      enabled: true
+#ribbon:
+#    ReadTimeout: 60000
+#    ConnectTimeout: 60000
+#    eureka:
+#     enabled: true
 
       
 # Increase the Hystrix timeout to 60s (globally)
