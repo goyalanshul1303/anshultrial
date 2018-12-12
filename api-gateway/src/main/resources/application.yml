@@ -50,6 +50,16 @@ ribbon:
 
       
 # Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+        timeout:
+          enabled: false
+#          thread:
+#            timeoutInMilliseconds: 61000
 
             
       
