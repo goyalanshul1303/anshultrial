@@ -24,7 +24,7 @@ eureka:
   client:
     serviceUrl:
       #defaultZone: http://localhost:1111/eureka/
-      defaultZone: https://cartonwale.appspot.com/eureka/
+      defaultZone: https://cartonwale-225319.appspot.com/eureka/
   instance:
     #securePortEnabled: true
     #nonSecurePortEnabled: false

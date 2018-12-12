@@ -2,7 +2,7 @@
 eureka:
   instance:
     #hostname: localhost
-    hostname: cartonwale.appspot.com
+    hostname: cartonwale-225319.appspot.com
     #securePortEnabled: true
     #nonSecurePortEnabled: false
   client:  # Not a client, don't register with yourself
