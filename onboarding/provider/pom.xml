@@ -5,7 +5,7 @@
 	<groupId>com.cartonwale.provider.api</groupId>
 	<artifactId>provider-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>provider-service</name>
 	<url>http://maven.apache.org</url>
