@@ -14,7 +14,7 @@ spring:
 
 
 # HTTP Server
-server:
+#server:
 #  port: @http.port@
 #  ssl:
 #    enabled: true

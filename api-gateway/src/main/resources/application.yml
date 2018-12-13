@@ -4,7 +4,7 @@ spring:
     name: api-gateway  # Identify this application
 
 # Server
-server:
+#server:
 #  port: @http.port@   # HTTP (Tomcat) port
 #  ssl:
 #    enabled: true
