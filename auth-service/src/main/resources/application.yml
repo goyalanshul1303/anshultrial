@@ -14,7 +14,7 @@ spring:
 
 # HTTP Server
 server:
-  port: 8080
+  port: 80
   ssl:
     enabled: true
   
@@ -30,7 +30,7 @@ eureka:
     securePortEnabled: true
     nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    hostname: https://cartonwale-auth-service.appspot.com:8080
+    hostname: cartonwale-auth-service.appspot.com:80
 
 # Auth JWT
 jwt:
