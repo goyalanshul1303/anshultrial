@@ -16,8 +16,8 @@ spring:
 # HTTP Server
 server:
 #  port: @http.port@
-  ssl:
-    enabled: true
+#  ssl:
+#    enabled: true
   
 # Discovery Server Access
 eureka:

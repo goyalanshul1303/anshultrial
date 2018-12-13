@@ -15,20 +15,20 @@ spring:
 # HTTP Server
 server:
   port: 80
-  ssl:
-    enabled: true
+#  ssl:
+#    enabled: true
   
 # Discovery Server Access
 eureka:
   client:
-    securePortEnabled: true
+    #securePortEnabled: true
     serviceUrl:
       #defaultZone: http://localhost:1111/eureka/
       defaultZone: https://cartonwale-225319.appspot.com/eureka/
   instance:
-    securePort: ${server.port}
-    securePortEnabled: true
-    nonSecurePortEnabled: false
+    #securePort: ${server.port}
+    #securePortEnabled: true
+    #nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
     hostname: cartonwale-auth-service.appspot.com:80
 
