@@ -27,15 +27,15 @@ zuul:
   routes:
     auth-service:
       path: /auth-service/**
-      #url: https://cartonwale-auth-service.appspot.com
-      serviceId: AUTH-SERVICE
+      url: https://cartonwale-auth-service.appspot.com
+      #serviceId: AUTH-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
       path: /provider-service/**
-      #url: https://cartonwale-provider-service.appspot.com
-      serviceId: PROVIDER-SERVICE
+      url: https://cartonwale-provider-service.appspot.com
+      #serviceId: PROVIDER-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
   #host:
