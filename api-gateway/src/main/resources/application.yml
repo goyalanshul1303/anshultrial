@@ -38,6 +38,13 @@ zuul:
       #serviceId: PROVIDER-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
+      
+    consumer-service:
+      path: /consumer-service/**
+      url: https://cartonwale-consumer-service.appspot.com
+      #serviceId: CONSUMER-SERVICE
+      #stripPrefix: false
+      sensitiveHeaders: Cookie,Set-Cookie
   #host:
     #connect-timeout-millis: 5000
     #socket-timeout-millis: 60000
