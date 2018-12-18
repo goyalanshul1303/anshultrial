@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.IntStream;
+
 import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.cartonwale.auth.api.dao.RoleDao;
 import com.cartonwale.auth.api.dao.UserDao;
 import com.cartonwale.auth.api.dto.UserImageDto;
@@ -59,11 +62,13 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     }
 
 	@Override
-	public Single<User> findByEmail(String email){
+	public User findByEmail(String email){
 		try{
-			return Single.just(userDao.findByEmail(email));
+			return /*Single.just(*/userDao.findByEmail(email)/*)*/;
 		}catch (DataAccessException e) {
-			return Single.error(e);
+			System.out.println(e);
+			return null;
+			/*return Single.error(e);*/
         }
 	}
 	
@@ -77,54 +82,57 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	}
 	
 	@Override
-    public Single<User> add(User user){
+    public User add(User user){
 		
 		registerValidation(user);
     	
-    	return findByEmail(user.getEmail()).flatMap(checkUser->{
+    	/*return findByEmail(user.getEmail()).flatMap(*/
+    			
+		User checkUser = findByEmail(user.getEmail());
+		
+		//check email already registered
+		if(checkUser != null)
+			throw new DuplicateEmailRegisteredException(); 
+		
+		//setting default username, if username is empty
+    	if(StringUtils.isEmpty(user.getUsername())){
+    		String[] splictedEmail = user.getEmail().split("@");
+    		if(splictedEmail.length >= 2) user.setUsername(splictedEmail[0]);
+    	}
     		
-    		//check email already registered
-    		if(checkUser != null)
-				throw Exceptions.propagate(new DuplicateEmailRegisteredException()); 
+        //encode password
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	user.setRegisteredOn(new Date());
+    	user.setLastPasswordResetDate(new Date());
+        
+    	for(Role r : user.getRoles()){
+    	
+    		Role role;
+			try {
+				role = roleDao.getById(r.getId());
+				 //set user_permission
+	            List<Permission> permissions = role.getPermissions();
+	            for(Permission permission : permissions){
+	            	user.getPermissions().add(permission);
+	            }
+	            
+			} catch (DataAccessException e) {
+				System.out.println(e);
+				return null;
+			}
     		
-    		//setting default username, if username is empty
-        	if(StringUtils.isEmpty(user.getUsername())){
-        		String[] splictedEmail = user.getEmail().split("@");
-        		if(splictedEmail.length >= 2) user.setUsername(splictedEmail[0]);
-        	}
-        		
-            //encode password
-        	user.setPassword(passwordEncoder.encode(user.getPassword()));
-        	user.setRegisteredOn(new Date());
-        	user.setLastPasswordResetDate(new Date());
+    	}
+    	
+    	user.setStatus(User.STATUS_ACTIVE);
+        
+        return super.add(user);
             
-        	for(Role r : user.getRoles()){
-        	
-        		Role role;
-				try {
-					role = roleDao.getById(r.getId());
-					 //set user_permission
-    	            List<Permission> permissions = role.getPermissions();
-    	            for(Permission permission : permissions){
-    	            	user.getPermissions().add(permission);
-    	            }
-    	            
-				} catch (DataAccessException e) {
-					throw Exceptions.propagate(e);
-				}
-        		
-        	}
-        	
-        	user.setStatus(User.STATUS_ACTIVE);
-            
-            return super.add(user);
-            
-    	});
+    	/*});*/
     	
     }
 	
 	@Override
-    public Single<User> edit(User user, UserImageDto imageDto){
+    public User edit(User user, UserImageDto imageDto) throws ServiceException{
     	
 		User loggedUser = SecurityUtil.getLoggedDbUser();
 		
@@ -146,46 +154,48 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	}
     	//Prepare Cover Picture File Names
     	
-    	return getById(loggedUser.getId()).flatMap(savedUser->{
-    		if(savedUser != null){
-				
-    			/**
-    			 * email, username, password, can't update by common edit function
-    			 */
-    			user.setId(savedUser.getId());
-    			user.setEmail(savedUser.getEmail());
-    			user.setUsername(savedUser.getUsername());
-    			user.setPassword(savedUser.getPassword());
-    			user.setRoles(savedUser.getRoles());
-    			user.setPermissions(savedUser.getPermissions());
-    			user.setRegisteredOn(savedUser.getRegisteredOn());
-    			user.setLastPasswordResetDate(savedUser.getLastPasswordResetDate());
-    			user.setLastLoggedOn(savedUser.getLastLoggedOn());
-    			user.setAttempts(savedUser.getAttempts());
-    			user.setStatus(savedUser.getStatus());
+    	/*return getById(loggedUser.getId()).flatMap(*/
     			
-    			//add images with existing images
-    			user.setProfileImageContainer(savedUser.getProfileImageContainer());
-    			user.getProfileImageContainer().getImages().addAll(tmpProfilePictures);
-    			
-    			user.setCoverImageContainer(savedUser.getCoverImageContainer());
-    			user.getCoverImageContainer().getImages().addAll(tmpCoverPictures);
+		User savedUser = getById(loggedUser.getId());
+		if(savedUser != null){
 				
-    			if(Role.checkUserIs_Seller_Admin(savedUser) || Role.checkUserIs_Seller(savedUser)){
-    				user.setSellerProfile(savedUser.getSellerProfile());
-    				user.setBuyerProfile(null);
-    			}
-    			else if(Role.checkUserIs_Buyer(savedUser)){
-    				user.setBuyerProfile(savedUser.getBuyerProfile());
-    				user.setSellerProfile(null);
-    			}
-    			
-				return super.edit(user);
+			/**
+			 * email, username, password, can't update by common edit function
+			 */
+			user.setId(savedUser.getId());
+			user.setEmail(savedUser.getEmail());
+			user.setUsername(savedUser.getUsername());
+			user.setPassword(savedUser.getPassword());
+			user.setRoles(savedUser.getRoles());
+			user.setPermissions(savedUser.getPermissions());
+			user.setRegisteredOn(savedUser.getRegisteredOn());
+			user.setLastPasswordResetDate(savedUser.getLastPasswordResetDate());
+			user.setLastLoggedOn(savedUser.getLastLoggedOn());
+			user.setAttempts(savedUser.getAttempts());
+			user.setStatus(savedUser.getStatus());
+			
+			//add images with existing images
+			user.setProfileImageContainer(savedUser.getProfileImageContainer());
+			user.getProfileImageContainer().getImages().addAll(tmpProfilePictures);
+			
+			user.setCoverImageContainer(savedUser.getCoverImageContainer());
+			user.getCoverImageContainer().getImages().addAll(tmpCoverPictures);
+			
+			if(Role.checkUserIs_Seller_Admin(savedUser) || Role.checkUserIs_Seller(savedUser)){
+				user.setSellerProfile(savedUser.getSellerProfile());
+				user.setBuyerProfile(null);
+			}
+			else if(Role.checkUserIs_Buyer(savedUser)){
+				user.setBuyerProfile(savedUser.getBuyerProfile());
+				user.setSellerProfile(null);
+			}
+			
+			return super.edit(user);
 				
-			}else{
-				throw Exceptions.propagate(new ServiceException(ErrorMessage.USER_NOT_FOUND));
-			}	
-    	}).map(u->{
+		}else{
+			throw new ServiceException(ErrorMessage.USER_NOT_FOUND);
+		}	
+		/*}).map(u->{
     		
     		IntStream.range(0, imageDto.getProfileImagesFiles().size()).forEach(idx->{
 				
@@ -218,28 +228,29 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 			});
     		
     		return u;
-    	});
+    	});*/
     	
     }
 	
 	@Override
-    public Single<Boolean> changePassword(String oldPassword, String newPassword){
+    public Boolean changePassword(String oldPassword, String newPassword){
 
 		User loggedUser = SecurityUtil.getLoggedDbUser();
 		
        if(passwordEncoder.matches(oldPassword, loggedUser.getPassword())){
     	   
-    	   return getById(loggedUser.getId()).flatMap(savedUser->{
+    	   /*return getById(loggedUser.getId()).flatMap(*/
+		   User savedUser = getById(loggedUser.getId());
+		   
+		   savedUser.setPassword(passwordEncoder.encode(newPassword));
+		   savedUser.setLastPasswordResetDate(new Date());
+		   super.edit(savedUser);
+		   return true;
 			   
-			   savedUser.setPassword(passwordEncoder.encode(newPassword));
-    		   savedUser.setLastPasswordResetDate(new Date());
-    		   super.edit(savedUser);
-    		   return Single.just(true);
-			   
-		   });
+		   /*});*/
     	   
        }else
-    	   return Single.error(new OldPasswordNotMatch());
+    	   throw new OldPasswordNotMatch();
     }
 
 	@Override
