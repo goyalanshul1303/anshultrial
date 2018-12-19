@@ -229,6 +229,16 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             progressBar.setVisibility(View.GONE);
             Toast.makeText(getActivity(), result,
                     Toast.LENGTH_LONG).show();
+
+            try {
+                JSONObject object = new JSONObject(result);
+                SharedPreferences.putString(getActivity(),
+                        SharedPreferences.KEY_AUTHTOKEN,
+                        object.optString("token"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

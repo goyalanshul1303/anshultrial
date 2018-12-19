@@ -55,11 +55,11 @@ public class AddressClass {
         this.country = country;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -68,5 +68,5 @@ public class AddressClass {
     String state;
     int pincode;
     String country;
-    String type;
+    int type;
 }

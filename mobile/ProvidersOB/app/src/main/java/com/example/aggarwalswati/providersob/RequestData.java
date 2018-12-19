@@ -20,15 +20,15 @@ public class RequestData {
 
     int printingType;
 
-    public String getOperatingHours() {
+    public int getOperatingHours() {
         return operatingHours;
     }
 
-    public void setOperatingHours(String operatingHours) {
+    public void setOperatingHours(int operatingHours) {
         this.operatingHours = operatingHours;
     }
 
-    String operatingHours;
+    int operatingHours;
     String companyName;
     String contactName;
     String email;

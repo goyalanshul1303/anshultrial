@@ -1,9 +1,11 @@
 package com.example.aggarwalswati.providersob;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +15,36 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
 
 
 /**
@@ -38,9 +56,9 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
     private static EditText companyName, contactName, email, websitelink, mobile, landline, foundationYear, annulaincome,
             nooFClientsET, gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
-            registeredState, registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresState, corresPincode;
+            registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresPincode;
     private static Button nextButton;
-    private Spinner operatingHrsSpinner, typesPrintingSpinner;
+    private Spinner operatingHrsSpinner, typesPrintingSpinner, corresState, registeredState;
     FlowLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
 
     private CheckBox sameAsRegistered;
@@ -50,6 +68,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private int isQuality = -1;
     private LinearLayout creditSupoortLL;
     private int isCapacity = -1;
+    int registeredStatePOs;
 
     RequestData request = new RequestData();
     DataView data = new DataView();
@@ -58,6 +77,10 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private RadioGroup isCreditRG, isLogisticsRG, qualityRG, manufactureRG, capacityRG;
     private EditText creditDaysET;
     List<AddressClass> addresses = new ArrayList<>();
+    private  ProgressBar progressBar;
+    List<JSONObject> phones = new ArrayList<>();
+    private EditText height, width;
+    String registeredStateString, corespondingStateString;
 
     public ProviderFirstDetailsFragment() {
 
@@ -73,6 +96,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
     // Initiate Views
     private void initViews() {
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         companyName = (EditText) view.findViewById(R.id.companyNameET);
         contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
@@ -109,15 +133,20 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         registeredAdd2 = (EditText) view.findViewById(R.id.registeredAddressET2);
         registeredAdd3 = (EditText) view.findViewById(R.id.registeredAddressET3);
         registeredCountry = (EditText) view.findViewById(R.id.registeredCountry);
+        registeredCountry.setText("India");
+        registeredCountry.setEnabled(false);
         registeredPincode = (EditText) view.findViewById(R.id.registeredPincode);
-        registeredState = (EditText) view.findViewById(R.id.registeredState);
+        registeredState = (Spinner) view.findViewById(R.id.registeredState);
         corresAdd1 = (EditText) view.findViewById(R.id.correspondenceAddressET1);
         corresAdd2 = (EditText) view.findViewById(R.id.correspondenceAddressET2);
         corresAdd3 = (EditText) view.findViewById(R.id.correspondenceAddressET3);
         corresCountry = (EditText) view.findViewById(R.id.correspondenceCountry);
-        corresState = (EditText) view.findViewById(R.id.correspondenceState);
+        corresState = (Spinner) view.findViewById(R.id.correspondenceState);
+        corresCountry.setEnabled(false);
+        corresCountry.setText("India");
         corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
-
+        height = (EditText) view.findViewById(R.id.height);
+        width = (EditText) view.findViewById(R.id.width);
         inflateDataView();
 
 
@@ -127,13 +156,15 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
         data.setBoxType(new LinkedHashMap<Integer, String>());
         data.setCorrugationType(new LinkedHashMap<Integer, String>());
-        data.setOperatingHrs(new LinkedHashMap<String, String>());
+        data.setOperatingHrs(new LinkedHashMap<Integer, String>());
         data.setTypeOfPrinting(new LinkedHashMap<Integer, String>());
         data.setTypesOfCartons(new LinkedHashMap<Integer, String>());
+        data.setStatesMap(new LinkedHashMap<String, String>());
         List<String> operatingHrs = new ArrayList<String>();
         List<String> typesPrinting = new ArrayList<String>();
+        List<String> states = new ArrayList<String>();
 
-        for (Map.Entry<String, String> entry : data.getOperatingHrs().entrySet()) /** Loop through all entrys in the HashMap **/ {
+        for (Map.Entry<Integer, String> entry : data.getOperatingHrs().entrySet()) /** Loop through all entrys in the HashMap **/ {
             operatingHrs.add(entry.getValue());
         }
         // Creating adapter for spinner
@@ -150,13 +181,25 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         // Drop down layout style - list view with radio button
         dataAdapterPrinting.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+
+        for (Map.Entry<String, String> entry : data.getStatesMap().entrySet()) /** Loop through all entrys in the HashMap **/ {
+            states.add(entry.getValue());
+        }
+        // Creating adapter for spinner
+        ArrayAdapter<String> statesAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, states);
+
+        // Drop down layout style - list view with radio button
+        statesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // attaching data adapter to spinner
         operatingHrsSpinner.setAdapter(dataAdapter);
         typesPrintingSpinner.setAdapter(dataAdapterPrinting);
+        corresState.setAdapter(statesAdapter);
+        registeredState.setAdapter(statesAdapter);
         operatingHrsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setOperatingHours((String) Utils.getElementByIndex(data.getOperatingHrs(), i));
+                request.setOperatingHours((Integer) Utils.getElementByIndex(data.getOperatingHrs(), i));
 
             }
 
@@ -177,6 +220,34 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
             }
         });
+
+        registeredState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                registeredStateString = (String) Utils.getElementByIndex(data.getStatesMap(), i);
+                registeredStatePOs = i;
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        corresState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                corespondingStateString = (String) Utils.getElementByIndex(data.getStatesMap(), i);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         for (Map.Entry<Integer, String> entry : data.getTypesOfCartons().entrySet()) {
             final CheckBox cb = new CheckBox(getActivity());
@@ -357,7 +428,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                     corresAdd2.setText(registeredAdd2.getText());
                     corresAdd3.setText(registeredAdd3.getText());
                     corresPincode.setText(registeredPincode.getText());
-                    corresState.setText(registeredState.getText());
+                    corresState.setSelection(registeredStatePOs);
                     corresCountry.setText(registeredCountry.getText());
                 }
             }
@@ -370,6 +441,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     public void onClick(View view) {
         AddressClass rgistredAddress = new AddressClass();
         AddressClass corresAddress = new AddressClass();
+        addresses = new ArrayList<>();
         if (view.getId() == R.id.nextBtn) {
             // move to next screen
             if (!TextUtils.isEmpty(companyName.getText())) {
@@ -429,19 +501,16 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input registered address line 3", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(registeredState.getText())) {
-                rgistredAddress.setState(registeredState.getText().toString());
+            if (!TextUtils.isEmpty(registeredStateString)) {
+                rgistredAddress.setState(registeredStateString);
 
             } else {
                 Toast.makeText(getActivity(), "Please input registered address state", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!TextUtils.isEmpty(registeredCountry.getText())) {
-                rgistredAddress.setCountry(registeredCountry.getText().toString());
+                rgistredAddress.setCountry("IN");
 
-            } else {
-                Toast.makeText(getActivity(), "Please input registered address country", Toast.LENGTH_SHORT).show();
-                return;
             }
             if (!TextUtils.isEmpty(registeredPincode.getText())) {
                 rgistredAddress.setPincode(Integer.parseInt(registeredPincode.getText().toString()));
@@ -452,7 +521,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             }
 
 
-            rgistredAddress.setType("registered");
+            rgistredAddress.setType(1);
             addresses.add(rgistredAddress);
 
             if (!TextUtils.isEmpty(corresAdd1.getText())) {
@@ -476,8 +545,8 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input correspondence address line 3", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(corresState.getText())) {
-                corresAddress.setState(corresState.getText().toString());
+            if (!TextUtils.isEmpty(corespondingStateString)) {
+                corresAddress.setState(corespondingStateString);
 
             } else {
                 Toast.makeText(getActivity(), "Please input correspondence address state", Toast.LENGTH_SHORT).show();
@@ -486,9 +555,6 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             if (!TextUtils.isEmpty(corresCountry.getText())) {
                 corresAddress.setCountry(corresCountry.getText().toString());
 
-            } else {
-                Toast.makeText(getActivity(), "Please input correspondence address country", Toast.LENGTH_SHORT).show();
-                return;
             }
             if (!TextUtils.isEmpty(corresPincode.getText())) {
                 corresAddress.setPincode(Integer.parseInt(corresPincode.getText().toString()));
@@ -498,43 +564,18 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 return;
             }
 
-            corresAddress.setType("correspondence");
+            corresAddress.setType(2);
             addresses.add(corresAddress);
 
             request.setAddresses(addresses);
 
-            if (!TextUtils.isEmpty(mobile.getText())) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("type", "mobile");
-                    object.put("number", (mobile.getText().toString()));
-                    request.getPhones().add(object);
-                    request.setPhones(request.getPhones());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            } else {
-                if (mobile.getText().toString().length() < 10) {
-                    Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    Toast.makeText(getActivity(), "Please input mobile number", Toast.LENGTH_SHORT).show();
-                }
+            if (TextUtils.isEmpty(mobile.getText().toString())) {
+                Toast.makeText(getActivity(), "Please input mobile number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(landline.getText())) {
-                JSONObject object = new JSONObject();
-                try {
-                    object.put("type", "landline");
-                    object.put("number", (landline.getText().toString()));
-                    request.getPhones().add(object);
-                    request.setPhones(request.getPhones());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+            if (mobile.getText().toString().length() < 10) {
+                Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
+                return;
             }
             if (!TextUtils.isEmpty(websitelink.getText())) {
                 request.setWebsite(websitelink.getText().toString());
@@ -569,7 +610,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input number of boxes produced per day", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (request.getOperatingHours().isEmpty() || request.getOperatingHours().equalsIgnoreCase("-1")) {
+            if (request.getOperatingHours() == -1) {
                 Toast.makeText(getActivity(), "Please select operating hours", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -597,6 +638,19 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input die cutting charges", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!TextUtils.isEmpty(width.getText())) {
+                request.setMaxBoxSizeW(Integer.parseInt(width.getText().toString()));
+            } else {
+                Toast.makeText(getActivity(), "Please input box width", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!TextUtils.isEmpty(height.getText())) {
+                request.setMaxBoxSizeL(Integer.parseInt(height.getText().toString()));
+            } else {
+                Toast.makeText(getActivity(), "Please input box length", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (isCredit == -1) {
 
                 Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
@@ -635,8 +689,111 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
                 return;
             }
-//            postDataToserver();
+            new SendPostRequest().execute();
 
+//            postDataToServer();
+
+
+        }
+    }
+
+
+    public class SendPostRequest extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+            phones = new ArrayList<>();
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+                if (!TextUtils.isEmpty(mobile.getText())) {
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("type", 1);
+                        object.put("number", (mobile.getText().toString()));
+                        phones.add(object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (!TextUtils.isEmpty(landline.getText())) {
+                    JSONObject object = new JSONObject();
+                    try {
+                        object.put("type", 2);
+                        object.put("number", (landline.getText().toString()));
+                        phones.add(object);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                request.setPhones(phones);
+                URL url = new URL("https://cartonwale-api-gateway.appspot.com/api/provider-service/providers");
+                JSONObject object = null;
+                Gson gson = new Gson();
+                String json = gson.toJson(request);
+                try {
+                    object = new JSONObject(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(object.toString());
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_CREATED) {
+
+                    BufferedReader in = new BufferedReader(new
+                            InputStreamReader(
+                            conn.getInputStream()));
+
+                    StringBuffer sb = new StringBuffer("");
+                    String line = "";
+
+                    while ((line = in.readLine()) != null) {
+
+                        sb.append(line);
+                        break;
+                    }
+
+                    in.close();
+                    return sb.toString();
+
+                } else {
+                    return new String("false : " + responseCode);
+                }
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), result,
+                    Toast.LENGTH_LONG).show();
         }
     }
 
