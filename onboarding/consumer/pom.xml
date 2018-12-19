@@ -25,7 +25,7 @@
 		<http.port>8080</http.port>
 		<mongo.host>biz2biz-shard-00-01-2e6r2.mongodb.net</mongo.host>
 		<mongo.port>27017</mongo.port>
-		<mongo.database>provider-service-db</mongo.database>
+		<mongo.database>consumer-service-db</mongo.database>
 		<mongo.username>appuser</mongo.username>
 		<mongo.password>NAmd3SgmePaNnBvc</mongo.password>
 		<mongo.uri>mongodb://appuser:NAmd3SgmePaNnBvc@biz2biz-2e6r2.mongodb.net/test?retryWrites=true</mongo.uri>
