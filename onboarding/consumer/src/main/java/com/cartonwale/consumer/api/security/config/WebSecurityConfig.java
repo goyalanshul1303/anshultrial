@@ -1,4 +1,4 @@
-package com.cartonwale.provider.api.security.config;
+package com.cartonwale.consumer.api.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                .antMatchers(HttpMethod.GET, "/providers/**").hasRole(Permission.USER_SELLER)
-                .antMatchers(HttpMethod.POST, "/providers/**").hasRole(Permission.USER_SELLER)
-				.antMatchers(HttpMethod.PUT, "/providers/**").hasRole(Permission.USER_SELLER)
+                .antMatchers(HttpMethod.GET, "/consumers/**").hasRole(Permission.USER_SELLER)
+                .antMatchers(HttpMethod.POST, "/consumers/**").hasRole(Permission.USER_SELLER)
+				.antMatchers(HttpMethod.PUT, "/consumers/**").hasRole(Permission.USER_SELLER)
                 
                 //authenticated requests
                 .anyRequest().authenticated();

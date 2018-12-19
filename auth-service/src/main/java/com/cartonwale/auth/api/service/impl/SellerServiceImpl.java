@@ -35,7 +35,7 @@ public class SellerServiceImpl extends GenericServiceImpl<User> implements Selle
 	@Override
 	public Single<User> registerOtherSeller(User seller) {
 		
-		User loggedUser = SecurityUtil.getLoggedDbUser();
+		/*User loggedUser = SecurityUtil.getLoggedDbUser();
 		
 		return getById(loggedUser.getId()).flatMap(u->{
 			
@@ -50,7 +50,9 @@ public class SellerServiceImpl extends GenericServiceImpl<User> implements Selle
 			
 			return userService.add(seller);
 			
-		});
+		});*/
+		
+		return null;
 		
 	}
 

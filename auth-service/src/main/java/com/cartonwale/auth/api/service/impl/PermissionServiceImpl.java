@@ -28,12 +28,13 @@ public class PermissionServiceImpl extends GenericServiceImpl<Permission> implem
     }
 	
 	@Override
-	public Single<Permission> add(Permission permission){
+	public Permission add(Permission permission){
 		try{
 			permissionDao.add(permission);
-			return Single.just(permission);
+			return permission;
 		}catch (DataAccessException e) {
-			return Single.error(e);
+			System.out.println(e);
+			return null;
         }
 	}
 }

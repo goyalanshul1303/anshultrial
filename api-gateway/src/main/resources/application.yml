@@ -6,15 +6,18 @@ spring:
 # Server
 #server:
 #  port: @http.port@   # HTTP (Tomcat) port
+#  ssl:
+#    enabled: true
 
 # Discovery Server Access
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://cartonwale.appspot.com/eureka/
+      #defaultZone: http://localhost:1111/eureka/
+      defaultZone: https://cartonwale-225319.appspot.com/eureka/
   instance:
-    securePortEnabled: true
-    nonSecurePortEnabled: false
+    #securePortEnabled: true
+    #nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
     hostname: cartonwale-api-gateway.appspot.com
 
@@ -24,15 +27,23 @@ zuul:
   routes:
     auth-service:
       path: /auth-service/**
-      #url: https://cartonwale-auth-service.appspot.com
-      serviceId: AUTH-SERVICE
-      stripPrefix: false
+      url: https://cartonwale-auth-service.appspot.com
+      #serviceId: AUTH-SERVICE
+      #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
       
     provider-service:
       path: /provider-service/**
-      serviceId: PROVIDER-SERVICE
-      stripPrefix: false
+      url: https://cartonwale-provider-service.appspot.com
+      #serviceId: PROVIDER-SERVICE
+      #stripPrefix: false
+      sensitiveHeaders: Cookie,Set-Cookie
+      
+    consumer-service:
+      path: /consumer-service/**
+      url: https://cartonwale-consumer-service.appspot.com
+      #serviceId: CONSUMER-SERVICE
+      #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
   #host:
     #connect-timeout-millis: 5000
@@ -41,8 +52,9 @@ zuul:
 ribbon:
     ReadTimeout: 60000
     ConnectTimeout: 60000
+    #IsSecure: true
     eureka:
-      enabled: true
+     enabled: true
 
       
 # Increase the Hystrix timeout to 60s (globally)

@@ -1,7 +1,7 @@
 # Spring properties
 spring:
   application:
-    name: auth-service
+    name: consumer-service
 
 # Mongo properties
   data:
@@ -12,6 +12,7 @@ spring:
       #username: @mongo.username@
       #password: @mongo.password@
 
+
 # HTTP Server
 server:
   port: 80
@@ -21,16 +22,14 @@ server:
 # Discovery Server Access
 eureka:
   client:
-    #securePortEnabled: true
     serviceUrl:
       #defaultZone: http://localhost:1111/eureka/
       defaultZone: https://cartonwale-225319.appspot.com/eureka/
   instance:
-    #securePort: ${server.port}
     #securePortEnabled: true
     #nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    hostname: cartonwale-auth-service.appspot.com
+    hostname: cartonwale-consumer-service.appspot.com
 
 # Auth JWT
 jwt:
@@ -42,12 +41,3 @@ jwt:
       path: auth
       refresh: refresh
 
-# Image Upload Location
-image:
-  upload:
-    location: @image.upload.location@
-    
-# Email
-email:
-  userName: @email.userName@
-  password: @email.password@
