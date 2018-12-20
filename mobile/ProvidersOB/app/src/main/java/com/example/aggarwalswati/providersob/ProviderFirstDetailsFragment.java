@@ -78,7 +78,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     private EditText creditDaysET;
     List<AddressClass> addresses = new ArrayList<>();
     private  ProgressBar progressBar;
-    List<JSONObject> phones = new ArrayList<>();
+    List<PhoneClass> phones = new ArrayList<>();
     private EditText height, width;
     String registeredStateString, corespondingStateString;
 
@@ -261,15 +261,15 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                     Object key = Utils.getKeyFromValue(data.getTypesOfCartons(), cb.getText().toString());
                     if (cb.isChecked()) {
                         if (null != key) {
-                            request.getCartontype().add((Integer) key);
+                            request.getCartonType().add((Integer) key);
                         }
                     } else {
-                        if (null != key && request.getCartontype().contains(key)) {
-                            request.getCartontype().remove(key);
+                        if (null != key && request.getCartonType().contains(key)) {
+                            request.getCartonType().remove(key);
 
                         }
                     }
-                    request.setCartontype(request.getCartontype());
+                    request.setCartonType(request.getCartonType());
                 }
             });
         }
@@ -614,7 +614,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please select operating hours", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (request.getCartontype().isEmpty()) {
+            if (request.getCartonType().isEmpty()) {
                 Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -702,33 +702,25 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
-            phones = new ArrayList<>();
+
         }
 
         protected String doInBackground(String... arg0) {
-
+            PhoneClass mobilePhone = new PhoneClass();
+            PhoneClass landlinePhone = new PhoneClass();
+            phones = new ArrayList<>();
             try {
                 if (!TextUtils.isEmpty(mobile.getText())) {
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("type", 1);
-                        object.put("number", (mobile.getText().toString()));
-                        phones.add(object);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    mobilePhone.setType(1);
+                    mobilePhone.setNumber(Integer.parseInt(mobile.getText().toString()));
+
+                    phones.add(mobilePhone);
                 }
 
                 if (!TextUtils.isEmpty(landline.getText())) {
-                    JSONObject object = new JSONObject();
-                    try {
-                        object.put("type", 2);
-                        object.put("number", (landline.getText().toString()));
-                        phones.add(object);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    landlinePhone.setType(2);
+                    landlinePhone.setNumber(Integer.parseInt(landline.getText().toString()));
+                    phones.add(landlinePhone);
 
                 }
                 request.setPhones(phones);

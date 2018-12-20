@@ -16,9 +16,9 @@ public class RequestData {
     String website;
     int foundationYear;
     int annualIncome;
-    List<Integer> cartontype = new ArrayList();
+    List<Integer> cartonType = new ArrayList();
 
-    List<JSONObject> phones = new ArrayList<>();
+    List<PhoneClass> phones = new ArrayList<>();
 
     public List<AddressClass> getAddresses() {
         return addresses;
@@ -74,20 +74,20 @@ public class RequestData {
     }
 
 
-    public List<Integer> getCartontype() {
-        return cartontype;
+    public List<Integer> getCartonType() {
+        return cartonType;
     }
 
-    public void setCartontype(List<Integer> cartontype) {
-        this.cartontype = cartontype;
+    public void setCartonType(List<Integer> cartonType) {
+        this.cartonType = cartonType;
     }
 
 
-    public List<JSONObject> getPhones() {
+    public List<PhoneClass> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<JSONObject> phones) {
+    public void setPhones(List<PhoneClass> phones) {
         this.phones = phones;
     }
 
