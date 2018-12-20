@@ -10,36 +10,15 @@ import java.util.List;
  */
 
 public class RequestData {
-    public int getPrintingType() {
-        return printingType;
-    }
 
-    public void setPrintingType(int printingType) {
-        this.printingType = printingType;
-    }
-
-    int printingType;
-
-    public int getOperatingHours() {
-        return operatingHours;
-    }
-
-    public void setOperatingHours(int operatingHours) {
-        this.operatingHours = operatingHours;
-    }
-
-    int operatingHours;
-    String companyName;
     String contactName;
     String email;
     String website;
     int foundationYear;
     int annualIncome;
-    int clientCount;
-    List<Integer> cartontype = new ArrayList();
-    List<Integer> corrugationType = new ArrayList();
-    List<Integer> supportedSheetLayers = new ArrayList();
-    List<JSONObject> phones = new ArrayList<>();
+    List<Integer> cartonType = new ArrayList();
+
+    List<PhoneClass> phones = new ArrayList<>();
 
     public List<AddressClass> getAddresses() {
         return addresses;
@@ -50,18 +29,9 @@ public class RequestData {
     }
 
     List<AddressClass> addresses = new ArrayList<>();
-    boolean isCreditSupported;
-    int creditLimit;
-    int creditDays;
-    int factoryCapacity;
 
-    public String getCompanyName() {
-        return companyName;
-    }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+
 
     public String getContactName() {
         return contactName;
@@ -103,84 +73,22 @@ public class RequestData {
         this.annualIncome = annualIncome;
     }
 
-    public int getClientCount() {
-        return clientCount;
+
+    public List<Integer> getCartonType() {
+        return cartonType;
     }
 
-    public void setClientCount(int clientCount) {
-        this.clientCount = clientCount;
+    public void setCartonType(List<Integer> cartonType) {
+        this.cartonType = cartonType;
     }
 
-    public List<Integer> getCartontype() {
-        return cartontype;
-    }
 
-    public void setCartontype(List<Integer> cartontype) {
-        this.cartontype = cartontype;
-    }
-
-    public List<Integer> getCorrugationType() {
-        return corrugationType;
-    }
-
-    public void setCorrugationType(List<Integer> corrugationType) {
-        this.corrugationType = corrugationType;
-    }
-
-    public List<Integer> getSupportedSheetLayers() {
-        return supportedSheetLayers;
-    }
-
-    public void setSupportedSheetLayers(List<Integer> supportedSheetLayers) {
-        this.supportedSheetLayers = supportedSheetLayers;
-    }
-
-    public List<JSONObject> getPhones() {
+    public List<PhoneClass> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<JSONObject> phones) {
+    public void setPhones(List<PhoneClass> phones) {
         this.phones = phones;
-    }
-
-    public boolean isCreditSupported() {
-        return isCreditSupported;
-    }
-
-    public void setCreditSupported(boolean creditSupported) {
-        isCreditSupported = creditSupported;
-    }
-
-    public int getCreditLimit() {
-        return creditLimit;
-    }
-
-    public void setCreditLimit(int creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-
-    public int getCreditDays() {
-        return creditDays;
-    }
-
-    public void setCreditDays(int creditDays) {
-        this.creditDays = creditDays;
-    }
-
-    public int getFactoryCapacity() {
-        return factoryCapacity;
-    }
-
-    public void setFactoryCapacity(int factoryCapacity) {
-        this.factoryCapacity = factoryCapacity;
-    }
-
-    public boolean isLogisticAvailable() {
-        return isLogisticAvailable;
-    }
-
-    public void setLogisticAvailable(boolean logisticAvailable) {
-        isLogisticAvailable = logisticAvailable;
     }
 
     public String getCompanyPAN() {
@@ -199,64 +107,9 @@ public class RequestData {
         this.gstin = gstin;
     }
 
-    public boolean isShareCapacity() {
-        return shareCapacity;
-    }
 
-    public void setShareCapacity(boolean shareCapacity) {
-        this.shareCapacity = shareCapacity;
-    }
-
-    public boolean isAllowQualityInspect() {
-        return allowQualityInspect;
-    }
-
-    public void setAllowQualityInspect(boolean allowQualityInspect) {
-        this.allowQualityInspect = allowQualityInspect;
-    }
-
-    public int getDieCuttingChargesperThousand() {
-        return dieCuttingChargesperThousand;
-    }
-
-    public void setDieCuttingChargesperThousand(int dieCuttingChargesperThousand) {
-        this.dieCuttingChargesperThousand = dieCuttingChargesperThousand;
-    }
-
-    public boolean isManufactureWithProvidedMaterial() {
-        return manufactureWithProvidedMaterial;
-    }
-
-    public void setManufactureWithProvidedMaterial(boolean manufactureWithProvidedMaterial) {
-        this.manufactureWithProvidedMaterial = manufactureWithProvidedMaterial;
-    }
-
-    public int getMaxBoxSizeL() {
-        return maxBoxSizeL;
-    }
-
-    public void setMaxBoxSizeL(int maxBoxSizeL) {
-        this.maxBoxSizeL = maxBoxSizeL;
-    }
-
-    public int getMaxBoxSizeW() {
-        return maxBoxSizeW;
-    }
-
-    public void setMaxBoxSizeW(int maxBoxSizeW) {
-        this.maxBoxSizeW = maxBoxSizeW;
-    }
-
-    boolean isLogisticAvailable;
     String companyPAN;
     String gstin;
-    boolean shareCapacity;
-    boolean allowQualityInspect;
-    int dieCuttingChargesperThousand;
-    boolean manufactureWithProvidedMaterial;
-    int maxBoxSizeL;
-    int maxBoxSizeW;
-
 
 
 }

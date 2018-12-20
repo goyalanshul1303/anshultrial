@@ -3,9 +3,7 @@ package com.example.aggarwalswati.providersob;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +14,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,10 +30,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,50 +38,44 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 
-
 /**
  * Created by aggarwal.swati on 12/2/18.
  */
 
-public class ProviderFirstDetailsFragment extends Fragment implements View.OnClickListener {
+public class ConsumerDetailsFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
     private static EditText companyName, contactName, email, websitelink, mobile, landline, foundationYear, annulaincome,
-            nooFClientsET, gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
-            registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresPincode;
+            gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
+            registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresPincode,quantityET,vendorET;
     private static Button nextButton;
-    private Spinner operatingHrsSpinner, typesPrintingSpinner, corresState, registeredState;
-    FlowLayout typesOfBoxes, typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
+    private Spinner frequencySpinner, consumerTypeSpinner, consumerScaleSpinner,registeredState, corresState;
+    FlowLayout  typesCartonCheckboxLL;
 
     private CheckBox sameAsRegistered;
-    private int isCredit = -1;
-    private int isManufacture = -1;
-    private int isLogistics = -1;
-    private int isQuality = -1;
-    private LinearLayout creditSupoortLL;
-    private int isCapacity = -1;
+    private int isSample = -1;
+
+
     int registeredStatePOs;
 
-    ProviderRequest request = new ProviderRequest();
+    ConsumerRequest request = new ConsumerRequest();
     DataView data = new DataView();
-    private EditText capacityET;
-    private EditText dieCuttingET;
-    private RadioGroup isCreditRG, isLogisticsRG, qualityRG, manufactureRG, capacityRG;
-    private EditText creditDaysET;
+
+    private RadioGroup isSmapleRG;
+    private EditText creditDaysET,otherVendorET;
     List<AddressClass> addresses = new ArrayList<>();
     private  ProgressBar progressBar;
     List<PhoneClass> phones = new ArrayList<>();
-    private EditText height, width;
     String registeredStateString, corespondingStateString;
 
-    public ProviderFirstDetailsFragment() {
+    public ConsumerDetailsFragment() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.provider_first_details, container, false);
+        view = inflater.inflate(R.layout.consumer_first_details, container, false);
         initViews();
         return view;
     }
@@ -97,35 +83,23 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        companyName = (EditText) view.findViewById(R.id.companyNameET);
+        companyName = (EditText) view.findViewById(R.id.consumerNameET);
         contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
         landline = (EditText) view.findViewById(R.id.landlineET);
-//        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
-//        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
         websitelink = (EditText) view.findViewById(R.id.websiteET);
         foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
         annulaincome = (EditText) view.findViewById(R.id.incomeET);
         nextButton = (Button) view.findViewById(R.id.nextBtn);
         nextButton.setOnClickListener(this);
-        operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
-        typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
+        frequencySpinner = (Spinner)view.findViewById(R.id.spinnerFrequency);
         typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
-        typesPrintingSpinner = (Spinner) view.findViewById(R.id.typesPrintingSpinner);
-        typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
+        consumerScaleSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerSCale);
+        consumerTypeSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerType);
         panCardET = (EditText) view.findViewById(R.id.panCardET);
         gst = (EditText) view.findViewById(R.id.gst);
         email = (EditText) view.findViewById(R.id.emailEditText);
-        nooFClientsET = (EditText) view.findViewById(R.id.numberClientsET);
-        capacityET = (EditText) view.findViewById(R.id.capacityET);
-        dieCuttingET = (EditText) view.findViewById(R.id.dieCuttingET);
-        capacityRG = (RadioGroup) view.findViewById(R.id.shareCapacityRG);
-        isLogisticsRG = (RadioGroup) view.findViewById(R.id.logisticsRG);
-        isCreditRG = (RadioGroup) view
-                .findViewById(R.id.creditSupportRG);
-        manufactureRG = (RadioGroup) view.findViewById(R.id.manufactureRG);
-        qualityRG = (RadioGroup) view.findViewById(R.id.qualityInspectionRG);
-        creditSupoortLL = (LinearLayout) view.findViewById(R.id.creditSupoortLL);
+        isSmapleRG = (RadioGroup) view.findViewById(R.id.sampleRG);
         creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
         creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
         sameAsRegistered = (CheckBox) view.findViewById(R.id.same_address);
@@ -145,8 +119,9 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         corresCountry.setEnabled(false);
         corresCountry.setText("India");
         corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
-        height = (EditText) view.findViewById(R.id.height);
-        width = (EditText) view.findViewById(R.id.width);
+        quantityET = (EditText)view.findViewById(R.id.quantityET);
+        vendorET = (EditText) view.findViewById(R.id.vendorET);
+        otherVendorET= (EditText)view.findViewById(R.id.otherVendorET);
         inflateDataView();
 
 
@@ -154,32 +129,43 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
     private void inflateDataView() {
 
-        data.setBoxType(new LinkedHashMap<Integer, String>());
-        data.setCorrugationType(new LinkedHashMap<Integer, String>());
-        data.setOperatingHrs(new LinkedHashMap<Integer, String>());
-        data.setTypeOfPrinting(new LinkedHashMap<Integer, String>());
         data.setTypesOfCartons(new LinkedHashMap<Integer, String>());
+        data.setConsumerFrequency(new LinkedHashMap<Integer, String>());
+        data.setConsumerScale(new LinkedHashMap<Integer, String>());
+        data.setConsumerType(new LinkedHashMap<Integer, String>());
         data.setStatesMap(new LinkedHashMap<String, String>());
-        List<String> operatingHrs = new ArrayList<String>();
-        List<String> typesPrinting = new ArrayList<String>();
+        List<String> frequency = new ArrayList<String>();
+        List<String> consumerType = new ArrayList<String>();
+        List<String> consumerScale = new ArrayList<String>();
         List<String> states = new ArrayList<String>();
 
-        for (Map.Entry<Integer, String> entry : data.getOperatingHrs().entrySet()) /** Loop through all entrys in the HashMap **/ {
-            operatingHrs.add(entry.getValue());
+        for (Map.Entry<Integer, String> entry : data.getConsumerFrequency().entrySet()) /** Loop through all entrys in the HashMap **/ {
+            frequency.add(entry.getValue());
         }
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, operatingHrs);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, frequency);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (Map.Entry<Integer, String> entry : data.getTypeOfPrinting().entrySet()) /** Loop through all entrys in the HashMap **/ {
-            typesPrinting.add(entry.getValue());
+
+
+        for (Map.Entry<Integer, String> entry : data.getConsumerScale().entrySet()) /** Loop through all entrys in the HashMap **/ {
+            consumerScale.add(entry.getValue());
         }
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapterPrinting = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, typesPrinting);
+        ArrayAdapter<String> dataAdapterScale = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, consumerScale);
 
         // Drop down layout style - list view with radio button
-        dataAdapterPrinting.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapterScale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        for (Map.Entry<Integer, String> entry : data.getConsumerType().entrySet()) /** Loop through all entrys in the HashMap **/ {
+            consumerType.add(entry.getValue());
+        }
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, consumerType);
+
+        // Drop down layout style - list view with radio button
+        dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         for (Map.Entry<String, String> entry : data.getStatesMap().entrySet()) /** Loop through all entrys in the HashMap **/ {
@@ -192,14 +178,15 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         statesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        operatingHrsSpinner.setAdapter(dataAdapter);
-        typesPrintingSpinner.setAdapter(dataAdapterPrinting);
+        consumerScaleSpinner.setAdapter(dataAdapterScale);
+        consumerTypeSpinner.setAdapter(dataAdapterType);
+        frequencySpinner.setAdapter(dataAdapter);
         corresState.setAdapter(statesAdapter);
         registeredState.setAdapter(statesAdapter);
-        operatingHrsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        consumerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setOperatingHours((Integer) Utils.getElementByIndex(data.getOperatingHrs(), i));
+                request.setConsumerType((Integer) Utils.getElementByIndex(data.getConsumerType(), i));
 
             }
 
@@ -208,10 +195,23 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
             }
         });
-        typesPrintingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        consumerScaleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setPrintingType((Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
+                request.setConsumerScale((Integer) Utils.getElementByIndex(data.getConsumerScale(), i));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        frequencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                request.setExpectedQuantityFrequency((Integer) Utils.getElementByIndex(data.getConsumerFrequency(), i));
 
             }
 
@@ -274,149 +274,23 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
             });
         }
 
-        for (Map.Entry<Integer, String> entry : data.getBoxType().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typesOfBoxes.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getBoxType(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getSupportedSheetLayers().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getSupportedSheetLayers().contains(key)) {
-                            request.getSupportedSheetLayers().remove(key);
-
-                        }
-                    }
-                    request.setSupportedSheetLayers(request.getSupportedSheetLayers());
-                }
-            });
-        }
-        for (Map.Entry<Integer, String> entry : data.getCorrugationType().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typeOfCorrugation.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getCorrugationType(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getCorrugationType().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getCorrugationType().contains(key)) {
-                            request.getCorrugationType().remove(key);
-
-                        }
-                    }
-                    request.setCorrugationType(request.getCorrugationType());
-                }
-            });
-        }
-        isCreditRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        isSmapleRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
 
-                    case R.id.yesCredit:
-                        isCredit = 1;
-                        creditSupoortLL.setVisibility(View.VISIBLE);
-                        request.setCreditSupported(true);
-
+                    case R.id.yesSmaple:
+                        isSample = 1;
+                        request.setSampleCollection(true);
                         break;
-                    case R.id.noCredit:
-                        isCredit = 0;
-                        creditSupoortLL.setVisibility(View.GONE);
-                        request.setCreditSupported(false);
-
+                    case R.id.noSmaple:
+                        isSample = 0;
+                        request.setSampleCollection(false);
                         break;
                     default:
-                        isCredit = -1;
+                        isSample = -1;
                 }
 
-            }
-        });
-        manufactureRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesManufacture:
-                        isManufacture = 1;
-                        request.setManufactureWithProvidedMaterial(true);
-
-                        break;
-                    case R.id.noManufacture:
-                        isManufacture = 0;
-                        request.setManufactureWithProvidedMaterial(false);
-                        break;
-                    default:
-                        isManufacture = -1;
-                }
-
-            }
-        });
-        qualityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesQuality:
-                        isQuality = 1;
-                        request.setAllowQualityInspect(true);
-                        break;
-                    case R.id.noQuality:
-                        isQuality = 0;
-                        request.setAllowQualityInspect(false);
-                        break;
-                    default:
-                        isQuality = -1;
-                }
-
-            }
-        });
-        isLogisticsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesLogistics:
-                        isLogistics = 1;
-                        request.setLogisticAvailable(true);
-
-                        break;
-                    case R.id.noLogistics:
-                        isLogistics = 0;
-                        request.setLogisticAvailable(false);
-
-                        break;
-                    default:
-                        isLogistics = -1;
-                }
-            }
-        });
-        capacityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesshareCapacity:
-                        isCapacity = 1;
-                        request.setShareCapacity(true);
-
-                        break;
-                    case R.id.noshareCapacity:
-                        isCapacity = 0;
-                        request.setShareCapacity(false);
-
-                        break;
-                    default:
-                        isCapacity = -1;
-                }
             }
         });
 
@@ -445,7 +319,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
         if (view.getId() == R.id.nextBtn) {
             // move to next screen
             if (!TextUtils.isEmpty(companyName.getText())) {
-                request.setCompanyName(companyName.getText().toString());
+                request.setConsumerName(companyName.getText().toString());
             } else {
                 Toast.makeText(getActivity(), "Please input company name", Toast.LENGTH_SHORT).show();
                 return;
@@ -598,97 +472,55 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
                 Toast.makeText(getActivity(), "Please input annual income", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(nooFClientsET.getText())) {
-                request.setClientCount(Integer.parseInt(nooFClientsET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input number of clients", Toast.LENGTH_SHORT).show();
+            if (request.getConsumerType() == -1){
+                Toast.makeText(getActivity(), "Please select consumer type", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(capacityET.getText())) {
-                request.setFactoryCapacity(Integer.parseInt(capacityET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input number of boxes produced per day", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getOperatingHours() == -1) {
-                Toast.makeText(getActivity(), "Please select operating hours", Toast.LENGTH_SHORT).show();
+            if(request.getConsumerScale() == -1) {
+                Toast.makeText(getActivity(), "Please select consumer scale", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (request.getCartonType().isEmpty()) {
                 Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (request.getPrintingType() == -1) {
-                Toast.makeText(getActivity(), "Please select printing type", Toast.LENGTH_SHORT).show();
+            if(quantityET.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity(), "Please select quanity", Toast.LENGTH_SHORT).show();
+                return;
+            }else{
+                request.setExpectedQuantity(Integer.parseInt(quantityET.getText().toString()));
+            }
+            if(request.getExpectedQuantityFrequency() == -1){
+                Toast.makeText(getActivity(), "Please select frequency", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (request.getCorrugationType().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select corrugation type", Toast.LENGTH_SHORT).show();
+            if (isSample == -1) {
+                Toast.makeText(getActivity(), "Please select is smaple provided or not", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (request.getSupportedSheetLayers().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select supported sheets type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(dieCuttingET.getText())) {
-                request.setDieCuttingChargesperThousand(Integer.parseInt(dieCuttingET.getText().toString()));
+            if (!TextUtils.isEmpty(creditLimitET.getText())) {
+                request.setPrepaymentPercent(Integer.parseInt(creditLimitET.getText().toString()));
             } else {
-                Toast.makeText(getActivity(), "Please input die cutting charges", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please input pre payment percentage", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(width.getText())) {
-                request.setMaxBoxSizeW(Integer.parseInt(width.getText().toString()));
+            if (!TextUtils.isEmpty(creditDaysET.getText())) {
+                request.setMaxCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
             } else {
-                Toast.makeText(getActivity(), "Please input box width", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(height.getText())) {
-                request.setMaxBoxSizeL(Integer.parseInt(height.getText().toString()));
+            if (!TextUtils.isEmpty(vendorET.getText())) {
+                request.setCurrentVendor((vendorET.getText().toString()));
             } else {
-                Toast.makeText(getActivity(), "Please input box length", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please input vendor name", Toast.LENGTH_SHORT).show();
                 return;
+            }
+            if (!TextUtils.isEmpty(otherVendorET.getText())) {
+                request.setOtherVendor(otherVendorET.getText().toString());
             }
 
-            if (isCredit == -1) {
 
-                Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                if (isCredit == 1) {
-                    if (!TextUtils.isEmpty(creditLimitET.getText())) {
-                        request.setCreditLimit(Integer.parseInt(creditLimitET.getText().toString()));
-                    } else {
-                        Toast.makeText(getActivity(), "Please input credit limit", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(creditDaysET.getText())) {
-                        request.setCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
-                    } else {
-                        Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                }
-            }
-            if (isLogistics == -1) {
-                Toast.makeText(getActivity(), "Please select is logistics available", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (isQuality == -1) {
-                Toast.makeText(getActivity(), "Please select open to allow quality inspection", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (isCapacity == -1) {
-                Toast.makeText(getActivity(), "Please select open to share capacity changes", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (isManufacture == -1) {
-                Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
-                return;
-            }
             new SendPostRequest().execute();
 
 //            postDataToServer();
@@ -702,7 +534,6 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
-
         }
 
         protected String doInBackground(String... arg0) {
@@ -724,7 +555,7 @@ public class ProviderFirstDetailsFragment extends Fragment implements View.OnCli
 
                 }
                 request.setPhones(phones);
-                URL url = new URL("https://cartonwale-api-gateway.appspot.com/api/provider-service/providers");
+                URL url = new URL("https://cartonwale-api-gateway.appspot.com/api/consumer-service/consumers");
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);

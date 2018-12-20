@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                .replace(R.id.frameContainer, new ProviderFirstDetailsFragment(),
+                .replace(R.id.frameContainer, new ConsumerDetailsFragment(),
                         "details").commit();
     }
 
