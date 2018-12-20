@@ -17,26 +17,22 @@ public class DataView {
     public void setStatesMap(LinkedHashMap<String, String> statesMap) {
         this.statesMap = statesMap;
         statesMap.put("", "Select State");
-        statesMap.put("Andhra Pradesh", "Andhra Pradesh");
-        statesMap.put("Andaman and Nicobar Islands", "Andaman and Nicobar Islands");
-        statesMap.put("Arunachal Pradesh", "Arunachal Pradesh");
-        statesMap.put("Assam", "Assam");
-        statesMap.put("Bihar", "Bihar");
-        statesMap.put("Chandigarh", "Chandigarh");
-        statesMap.put("Chhattisgarh", "Chhattisgarh");
-        statesMap.put("Gujarat", "Gujarat");
-        statesMap.put("Haryana", "Haryana");
-        statesMap.put("Himachal Pradesh", "Himachal Pradesh");
-        statesMap.put("Jammu and Kashmir", "Jammu and Kashmir");
-        statesMap.put("Jharkhand", "Jharkhand");
-        statesMap.put("Karnataka", "Karnataka");
-        statesMap.put("Madhya Pradesh", "Madhya Pradesh");
-        statesMap.put("Maharashtra", "Maharashtra");
-        statesMap.put("Delhi", "Delhi");
-        statesMap.put("Punjab", "Punjab");
-        statesMap.put("Rajasthan", "Rajasthan");
-        statesMap.put("Uttar Pradesh", "Uttar Pradesh");
-        statesMap.put("Uttarakhand", "Uttarakhand");
+        statesMap.put("AP", "Andhra Pradesh");
+        statesMap.put("Bih", "Bihar");
+        statesMap.put("Ch", "Chandigarh");
+        statesMap.put("Gj", "Gujarat");
+        statesMap.put("Har", "Haryana");
+        statesMap.put("HP", "Himachal Pradesh");
+        statesMap.put("JK", "Jammu and Kashmir");
+        statesMap.put("Jha", "Jharkhand");
+        statesMap.put("Kar", "Karnataka");
+        statesMap.put("MP", "Madhya Pradesh");
+        statesMap.put("Mah", "Maharashtra");
+        statesMap.put("Del", "Delhi");
+        statesMap.put("Pun", "Punjab");
+        statesMap.put("Raj", "Rajasthan");
+        statesMap.put("UP", "Uttar Pradesh");
+        statesMap.put("UK", "Uttarakhand");
     }
 
     LinkedHashMap<String, String> statesMap = new LinkedHashMap<>();
@@ -114,4 +110,48 @@ public class DataView {
 
     LinkedHashMap<Integer, String> typeOfPrinting = new LinkedHashMap<>();
     LinkedHashMap<Integer, String> typesOfCartons = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> consumerFrequency = new LinkedHashMap<>();
+    LinkedHashMap<Integer, String> consumerType = new LinkedHashMap<>();
+
+    public LinkedHashMap<Integer, String> getConsumerFrequency() {
+        return consumerFrequency;
+    }
+
+    public void setConsumerFrequency(LinkedHashMap<Integer, String> consumerFrequency) {
+        this.consumerFrequency = consumerFrequency;
+        consumerFrequency.put(-1,"Select consumer frequency");
+        consumerFrequency.put(1,"MONTHLY");
+        consumerFrequency.put(2,"QUARTERLY");
+        consumerFrequency.put(3,"HALFYEARLY");
+        consumerFrequency.put(4,"YEARLY");
+
+    }
+
+    public LinkedHashMap<Integer, String> getConsumerType() {
+        return consumerType;
+    }
+
+    public void setConsumerType(LinkedHashMap<Integer, String> consumerType) {
+        this.consumerType = consumerType;
+        consumerType.put(-1,"Select consumer type");
+        consumerType.put(1,"FMCG");
+        consumerType.put(2,"FOOD");
+
+    }
+
+    public LinkedHashMap<Integer, String> getConsumerScale() {
+        return consumerScale;
+    }
+
+    public void setConsumerScale(LinkedHashMap<Integer, String> consumerScale) {
+        this.consumerScale = consumerScale;
+        consumerScale.put(-1,"Select consumer scale");
+        consumerScale.put(1,"SMALL");
+        consumerScale.put(2,"MEDIUM");
+        consumerScale.put(3,"LARGE");
+        consumerScale.put(4,"MICRO");
+    }
+
+    LinkedHashMap<Integer, String> consumerScale = new LinkedHashMap<>();
+
 }
