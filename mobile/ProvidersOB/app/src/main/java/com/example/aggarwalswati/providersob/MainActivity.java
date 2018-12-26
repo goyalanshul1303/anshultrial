@@ -2,6 +2,7 @@ package com.example.aggarwalswati.providersob;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -31,13 +32,24 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                .replace(R.id.frameContainer, new ConsumerDetailsFragment(),
-                        "details").commit();
+                .replace(R.id.frameContainer, new ChooseActivityFragment(),
+                        "choose_action").commit();
     }
 
-    @Override
-    public void onBackPressed() {
+    // Replace Login Fragment with animation
+    protected static void addActionFragment(Fragment fragment) {
 
-        super.onBackPressed();
+            fragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                    .replace(R.id.frameContainer, fragment)
+                    .addToBackStack(null).commit();
+
     }
-}
+
+        @Override
+        public void onBackPressed () {
+
+            super.onBackPressed();
+        }
+    }
