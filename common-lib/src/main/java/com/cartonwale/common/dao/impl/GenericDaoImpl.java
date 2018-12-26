@@ -1,19 +1,21 @@
 package com.cartonwale.common.dao.impl;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-
-import com.cartonwale.common.dao.GenericDao;
-import com.cartonwale.common.exception.DataAccessException;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
+import com.cartonwale.common.dao.GenericDao;
+import com.cartonwale.common.exception.DataAccessException;
 
 @CacheConfig(cacheResolver="primaryCacheResolver")
 public class GenericDaoImpl<T> implements GenericDao<T> {
@@ -99,6 +101,20 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 			logger.debug("type {} getAll", type);
 		try {
 			return mongoOperations.findAll(type);
+		} catch (Exception e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
+	@Override
+	@Cacheable(cacheResolver="secondaryCacheResolver" ,unless="#result == null")
+	public List<T> getAllByColumn(String column, String userId) throws DataAccessException {
+		if (logger.isDebugEnabled())
+			logger.debug("type {} getAllByUser", type);
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where(column).is(userId));
+			return mongoOperations.find(query, type);
 		} catch (Exception e) {
 			throw new DataAccessException(e);
 		}

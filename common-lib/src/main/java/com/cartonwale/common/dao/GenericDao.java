@@ -47,5 +47,7 @@ public interface GenericDao<T> {
 
     MongoOperations getMongoOperations();
 
+	List<T> getAllByColumn(String column, String userId) throws DataAccessException;
+
 
 }
