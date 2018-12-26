@@ -27,7 +27,7 @@ public class OrderController extends ControllerBase{
 	private OrderService orderService;
 	
 	@RequestMapping("/consumer")
-    public ResponseEntity<List<Order>> getAll(Authentication authentication) {
+    public ResponseEntity<List<Order>> getAll() {
 		AuthUser user = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getDetails();
 		System.out.println(user.getUserId());
 		return makeResponse(orderService.getAllByConsumer(user.getUserId()));
