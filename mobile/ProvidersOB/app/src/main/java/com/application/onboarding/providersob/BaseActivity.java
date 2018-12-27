@@ -1,4 +1,4 @@
-package com.example.aggarwalswati.providersob;
+package com.application.onboarding.providersob;
 
 import android.app.Activity;
 import android.app.FragmentManager;

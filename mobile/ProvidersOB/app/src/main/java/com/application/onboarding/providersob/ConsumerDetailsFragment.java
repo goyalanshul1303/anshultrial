@@ -1,4 +1,4 @@
-package com.example.aggarwalswati.providersob;
+package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.aggarwalswati.providersob.R;
 
 import com.google.gson.Gson;
 
@@ -50,7 +52,7 @@ public class ConsumerDetailsFragment extends Fragment implements View.OnClickLis
             registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresPincode,quantityET,vendorET;
     private static Button nextButton;
     private Spinner frequencySpinner, consumerTypeSpinner, consumerScaleSpinner,registeredState, corresState;
-    FlowLayout  typesCartonCheckboxLL;
+    FlowLayout typesCartonCheckboxLL;
 
     private CheckBox sameAsRegistered;
     private int isSample = -1;

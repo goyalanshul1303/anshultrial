@@ -1,4 +1,4 @@
-package com.example.aggarwalswati.providersob;
+package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,7 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aggarwalswati.providersob.R;
 import com.google.gson.Gson;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
