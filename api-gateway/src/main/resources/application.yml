@@ -48,8 +48,8 @@ zuul:
       
     order-service:
       path: /order-service/**
-      #url: https://cartonwale-order-service.appspot.com
-      serviceId: ORDER-SERVICE
+      url: https://cartonwale-order-service.appspot.com
+      #serviceId: ORDER-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
   #host:
