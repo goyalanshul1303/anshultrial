@@ -1,4 +1,4 @@
-package com.example.aggarwalswati.providersob;
+package com.application.onboarding.providersob;
 
 import android.content.Context;
 import android.text.TextUtils;

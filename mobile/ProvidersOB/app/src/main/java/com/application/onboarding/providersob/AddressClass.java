@@ -1,4 +1,4 @@
-package com.example.aggarwalswati.providersob;
+package com.application.onboarding.providersob;
 
 /**
  * Created by aggarwal.swati on 12/11/18.

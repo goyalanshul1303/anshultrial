@@ -438,14 +438,14 @@
                 android:text="Types of Cartons Needed:"
                 android:textSize="16sp" />
 
-            <com.example.aggarwalswati.providersob.FlowLayout
+            <com.application.onboarding.providersob.FlowLayout
                 android:id="@+id/typesCartonCheckboxLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
 
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.example.aggarwalswati.providersob.FlowLayout>
+                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>
 
 
             <android.support.design.widget.TextInputLayout
