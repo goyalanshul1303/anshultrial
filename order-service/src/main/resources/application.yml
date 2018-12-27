@@ -15,7 +15,7 @@ spring:
 
 # HTTP Server
 server:
-  port: 80
+  port: 8080
 #  ssl:
 #    enabled: true
   
@@ -26,8 +26,8 @@ eureka:
       #defaultZone: http://localhost:1111/eureka/
       defaultZone: https://cartonwale-225319.appspot.com/eureka/
   instance:
-    #securePortEnabled: true
-    #nonSecurePortEnabled: false
+    securePortEnabled: true
+    nonSecurePortEnabled: false
     leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
     hostname: cartonwale-order-service.appspot.com
 
