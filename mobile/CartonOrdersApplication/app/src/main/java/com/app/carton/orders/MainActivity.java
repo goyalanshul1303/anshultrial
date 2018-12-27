@@ -1,12 +1,9 @@
-package com.application.onboarding.providersob;
+package com.app.carton.orders;
 
-
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-
-
+import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
@@ -21,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frameContainer, new ProviderLoginFragment(),
-                            Utils.Login_Fragment).commit();
+                    .replace(R.id.frameContainer, new OrdersLoginFragment(),
+                            "").commit();
         }
 
 
@@ -33,24 +30,24 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                .replace(R.id.frameContainer, new ChooseActivityFragment(),
+                .replace(R.id.frameContainer, new CreateOrderFragment(),
                         "choose_action").commit();
     }
 
     // Replace Login Fragment with animation
     protected static void addActionFragment(Fragment fragment) {
 
-            fragmentManager
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                    .replace(R.id.frameContainer, fragment)
-                    .addToBackStack(null).commit();
+        fragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                .replace(R.id.frameContainer, fragment)
+                .addToBackStack(null).commit();
 
     }
 
-        @Override
-        public void onBackPressed () {
+    @Override
+    public void onBackPressed () {
 
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
+}

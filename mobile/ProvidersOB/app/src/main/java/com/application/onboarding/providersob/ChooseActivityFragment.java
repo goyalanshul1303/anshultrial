@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.aggarwalswati.providersob.R;
 
 /**
  * Created by aggarwal.swati on 12/26/18.

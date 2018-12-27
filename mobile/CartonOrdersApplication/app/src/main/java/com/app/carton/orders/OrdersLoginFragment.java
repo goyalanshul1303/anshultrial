@@ -1,9 +1,9 @@
-package com.application.onboarding.providersob;
+package com.app.carton.orders;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -15,48 +15,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
-
 /**
- * Created by aggarwal.swati on 12/2/18.
+ * Created by aggarwal.swati on 12/27/18.
  */
 
-public class ProviderLoginFragment extends Fragment implements View.OnClickListener {
+public class OrdersLoginFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
     private static EditText emailid, password;
@@ -64,7 +45,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
     private static CheckBox show_hide_password;
     private static ProgressBar progressBar;
 
-    public ProviderLoginFragment() {
+    public OrdersLoginFragment() {
 
     }
 
