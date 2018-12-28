@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WelcomeErrorAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/login_email_button</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/theme_accent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="colorControlNormal">@color/resume_btn_color</item>
+
+    </style>
+</resources>

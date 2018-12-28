@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/details_bg"
+        android:fillViewport="true"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Consumer Type"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinnerConsumerType"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"></Spinner>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Types of Carts Supported:"
+                android:textSize="16sp" />
+
+            <com.app.carton.orders.FlowLayout
+                android:id="@+id/typesCartonCheckboxLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Types of Printing Supported:"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/typesPrintingSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"></Spinner>
+
+
+            <TextView
+                android:id="@+id/boxesSupportedTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+
+                android:text="Types of Boxes Supported:"
+                android:textSize="16sp" />
+
+            <com.app.carton.orders.FlowLayout
+                android:id="@+id/typeBoxesCheckboxLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+
+            <TextView
+                android:id="@+id/typeOfCorrugationTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Types of Corrugation boxes Supported:"
+                android:textSize="16sp" />
+
+            <com.app.carton.orders.FlowLayout
+                android:id="@+id/typeOfCorrugationLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:errorTextAppearance="@style/WelcomeErrorAppearance"
+                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                <EditText
+                    android:id="@+id/quantityET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Expected Quantity"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textColorHint="@color/hint_text_light_grey"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Is Sample Available?"
+                android:textSize="16sp" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:id="@+id/previousSample"
+                    android:layout_height="wrap_content" android:textSize="13sp"
+                    android:text="Use Previous"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:id="@+id/newSample"
+                    android:layout_height="wrap_content" android:textSize="13sp"
+                    android:text="Collect New Sample"/>
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/createOrderBtn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@color/background_color"
+                android:padding="3dp"
+                android:text="Create Order"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </ScrollView>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        />
+</FrameLayout>
