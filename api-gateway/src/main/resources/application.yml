@@ -4,22 +4,23 @@ spring:
     name: api-gateway  # Identify this application
 
 # Server
-#server:
-#  port: @http.port@   # HTTP (Tomcat) port
+server:
+  port: @http.port@   # HTTP (Tomcat) port
 #  ssl:
 #    enabled: true
 
 # Discovery Server Access
-eureka:
-  client:
-    serviceUrl:
-      #defaultZone: http://localhost:1111/eureka/
-      defaultZone: https://cartonwale-225319.appspot.com/eureka/
-  instance:
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:1111/eureka/
+      #defaultZone: https://cartonwale-225319.appspot.com/eureka/
+  #instance:
     #securePortEnabled: true
     #nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    hostname: cartonwale-api-gateway.appspot.com
+    #hostname: cartonwale-api-gateway.appspot.com
+    #hostname: localhost
 
 # Api-Gate-Way
 zuul:

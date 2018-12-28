@@ -1,8 +1,8 @@
 # Configure this Discovery Server
 eureka:
   instance:
-    #hostname: localhost
-    hostname: cartonwale-225319.appspot.com
+    hostname: localhost
+    #hostname: cartonwale-225319.appspot.com
     #securePortEnabled: true
     #nonSecurePortEnabled: false
   client:  # Not a client, don't register with yourself
@@ -10,7 +10,7 @@ eureka:
     fetchRegistry: false
        
 # HTTP Server
-#server:
-#  port: @http.port@
+server:
+  port: @http.port@
 #  ssl:
 #    enabled: true
