@@ -22,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.aggarwalswati.providersob.R;
 import com.google.gson.Gson;
 
 
