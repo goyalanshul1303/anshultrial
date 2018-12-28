@@ -25,11 +25,12 @@ eureka:
     serviceUrl:
       #defaultZone: http://localhost:1111/eureka/
       defaultZone: https://cartonwale-225319.appspot.com/eureka/
-  #instance:
+  instance:
     #securePortEnabled: true
     #nonSecurePortEnabled: false
-    #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-    #hostname: cartonwale-order-service.appspot.com
+    leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
+    #hostname: cartonwale-api-gateway.appspot.com
+    #hostname: localhost
 
 # Auth JWT
 jwt:
