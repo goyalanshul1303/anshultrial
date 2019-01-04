@@ -20,5 +20,9 @@
     <string name="registered_emailid">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
+    <string name="no_order_available">No Order placed yet.</string>
+    <string name="create_new_order">Create New Order</string>
+    <string name="last_order_placed">Last Order placed</string>
+    <string name="repeat_order">Repeat Order</string>
 </resources>
 
