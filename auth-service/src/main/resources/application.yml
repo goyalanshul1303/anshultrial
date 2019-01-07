@@ -19,18 +19,18 @@ server:
 #    enabled: true
   
 # Discovery Server Access
-#eureka:
-#  client:
+eureka:
+  client:
     #securePortEnabled: true
-#    serviceUrl:
+    serviceUrl:
       #defaultZone: http://localhost:1111/eureka/
-#      defaultZone: https://cartonwale-225319.appspot.com/eureka/
+      defaultZone: https://cartonwale-225319.appspot.com/eureka/
 #  instance:
     #securePort: ${server.port}
     #securePortEnabled: true
     #nonSecurePortEnabled: false
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
-#    hostname: cartonwale-auth-service.appspot.com
+    hostname: cartonwale-auth-service.appspot.com
 
 # Auth JWT
 jwt:
