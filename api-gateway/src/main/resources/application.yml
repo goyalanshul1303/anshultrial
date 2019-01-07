@@ -53,9 +53,9 @@ zuul:
       #serviceId: ORDER-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
-  #host:
-    #connect-timeout-millis: 5000
-    #socket-timeout-millis: 60000
+  host:
+    connect-timeout-millis: 5000
+    socket-timeout-millis: 60000
     
 ribbon:
     ReadTimeout: 60000
