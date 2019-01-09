@@ -10,7 +10,7 @@ eureka:
     fetchRegistry: false
        
 # HTTP Server
-server:
-  port: @http.port@
+#server:
+#  port: @http.port@
 #  ssl:
 #    enabled: true
