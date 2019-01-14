@@ -27,7 +27,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 	@Override
 	public Consumer add(Consumer consumer) {
 		Consumer created = super.add(consumer);
-		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Account Details", "anshul.golu@gmail.com", getMailBody(consumer)));
+		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Account Details", "admin@cartonwale-consumer-service.appspotmail.com", getMailBody(consumer)));
 		return created;
 	}
 	
