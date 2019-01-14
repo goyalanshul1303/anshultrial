@@ -14,15 +14,15 @@ import com.cartonwale.auth.api.service.UserService;
 import com.cartonwale.common.util.ControllerBase;
 
 @RestController
-@RequestMapping("/buyers")
-public class BuyerController extends ControllerBase {
+@RequestMapping("/consumers")
+public class ConsumerController extends ControllerBase {
 
     @Autowired
     private UserService userService;
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> save(@ModelAttribute User user) {
-    	user.getRoles().add(Role.Create_Buyer());
+    	user.getRoles().add(Role.Create_Consumer());
     	user.setSellerProfile(null);
         return makeResponse(userService.add(user), HttpStatus.CREATED);
     }

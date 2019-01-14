@@ -88,8 +88,8 @@ public class RolesPermissionsSetupController extends ControllerBase{
 		
 		//Role ROLE_BUYER
 		Role role_BUYER = new Role();
-		role_BUYER.setId(Role.ROLE_BUYER);
-		role_BUYER.setCode(Role.ROLE_BUYER);
+		role_BUYER.setId(Role.ROLE_CONSUMER);
+		role_BUYER.setCode(Role.ROLE_CONSUMER);
 		role_BUYER.setStatus(1);
 		role_BUYER.getPermissions().add(permission_USER);
 		role_BUYER.getPermissions().add(permission_BUYER);

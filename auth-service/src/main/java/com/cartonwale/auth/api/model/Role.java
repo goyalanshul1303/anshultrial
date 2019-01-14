@@ -14,7 +14,7 @@ public class Role extends EntityBase{
     public static final String ROLE_ADMIN = "role.admin";
     public static final String ROLE_SELLER_ADMIN = "role.seller.admin";
     public static final String ROLE_SELLER = "role.seller";
-    public static final String ROLE_BUYER = "role.buyer";
+    public static final String ROLE_CONSUMER = "role.consumer";
 
     private String code;
 
@@ -57,8 +57,8 @@ public class Role extends EntityBase{
 		return new Role(Role.ROLE_SELLER);
 	}
 	
-	public static Role Create_Buyer(){
-		return new Role(Role.ROLE_BUYER);
+	public static Role Create_Consumer(){
+		return new Role(Role.ROLE_CONSUMER);
 	}
 	
 	public static boolean checkUserIs_Admin(User user){
@@ -74,7 +74,7 @@ public class Role extends EntityBase{
 	}
 	
 	public static boolean checkUserIs_Buyer(User user){
-		return checkUserType(user, Role.Create_Buyer());
+		return checkUserType(user, Role.Create_Consumer());
 	}
 	
 	public static boolean checkUserType(User user, Role... roles){

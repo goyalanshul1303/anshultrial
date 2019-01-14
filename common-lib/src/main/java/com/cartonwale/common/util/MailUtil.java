@@ -24,7 +24,7 @@ public class MailUtil {
 	      Message msg = new MimeMessage(session);
 	      msg.setFrom(new InternetAddress(mail.getFromAddress(), "Cartonwale Admin"));
 	      msg.addRecipient(Message.RecipientType.TO,
-	                       new InternetAddress(mail.getToAddress(), "Mr. User"));
+	                       new InternetAddress(mail.getToAddress(), "Consumer"));
 	      msg.setSubject(mail.getSubject());
 	      msg.setText(mail.getBody());
 	      Transport.send(msg);

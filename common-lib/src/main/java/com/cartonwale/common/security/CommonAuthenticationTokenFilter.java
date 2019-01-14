@@ -33,6 +33,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.cartonwale.common.security.AuthUser;
+import com.cartonwale.common.util.ServiceUtil;
 
 public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -41,8 +42,8 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${jwt.header}")
     private String tokenHeader;
     
-    @Autowired
-	private RestTemplate restTemplate;
+   /* @Autowired
+	private RestTemplate restTemplate;*/
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -53,7 +54,7 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
 
         	try{
         		
-        		HttpHeaders headers = new HttpHeaders();
+        		/*HttpHeaders headers = new HttpHeaders();
         		headers.add("Authorization", authToken);
         		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         	
@@ -64,7 +65,10 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
         						"http://AUTH-SERVICE/auth/current"
         						, HttpMethod.POST
         						, entity
-        						, String.class);
+        						, String.class);*/
+        		
+        		ResponseEntity<String> responseEntity = 
+        				ServiceUtil.call(HttpMethod.POST, authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/auth/current", "");
             	
         		String jsonUserDetails = responseEntity.getBody();
                 UserDetails userDetails = prepareUserDetails(jsonUserDetails);
