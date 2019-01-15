@@ -1,14 +1,12 @@
-package com.cartonwale.auth.api.model;
+package com.cartonwale.common.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.cartonwale.common.model.EntityBase;
-import com.cartonwale.common.model.Permission;
+
 import com.cartonwale.common.model.image.ImageContainer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection="User")
 public class User extends EntityBase{
@@ -32,22 +30,11 @@ public class User extends EntityBase{
     private Date registeredOn;
 
     private Integer attempts;
-
-    @DBRef
-    private List<Role> roles = new ArrayList<>();
-
-    @DBRef
-    private List<Permission> permissions = new ArrayList<>();
-    
-    private EmailVerification emailVerification;
     
     private Date lastPasswordResetDate;
     
     private String entityId;
     
-    private SellerProfile sellerProfile = new SellerProfile();
-    private BuyerProfile buyerProfile = new BuyerProfile();
-
     public String getEmail() {
         return email;
     }
@@ -129,32 +116,6 @@ public class User extends EntityBase{
 		this.attempts = attempts;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-	
-	@JsonIgnore
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
-
-	@JsonIgnore
-	public EmailVerification getEmailVerification() {
-		return emailVerification;
-	}
-
-	public void setEmailVerification(EmailVerification emailVerification) {
-		this.emailVerification = emailVerification;
-	}
-
 	@JsonIgnore
 	public Date getLastPasswordResetDate() {
 		return lastPasswordResetDate;
@@ -172,20 +133,4 @@ public class User extends EntityBase{
 		this.entityId = entityId;
 	}
 
-	public SellerProfile getSellerProfile() {
-		return sellerProfile;
-	}
-
-	public void setSellerProfile(SellerProfile sellerProfile) {
-		this.sellerProfile = sellerProfile;
-	}
-
-	public BuyerProfile getBuyerProfile() {
-		return buyerProfile;
-	}
-
-	public void setBuyerProfile(BuyerProfile buyerProfile) {
-		this.buyerProfile = buyerProfile;
-	}
-	
 }

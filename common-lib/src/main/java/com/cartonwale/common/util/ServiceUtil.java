@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,9 @@ public class ServiceUtil {
 
 	@Autowired
 	private static RestTemplate restTemplate;
+	
+	@Value("${jwt.header}")
+    private static String tokenHeader;
 
 	public static ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
 			HttpHeaders headers, String serviceUrl, String body) {
@@ -35,5 +39,9 @@ public class ServiceUtil {
 
 		return responseEntity;
 
+	}
+	
+	public static String getTokenHeader(){
+		return tokenHeader;
 	}
 }

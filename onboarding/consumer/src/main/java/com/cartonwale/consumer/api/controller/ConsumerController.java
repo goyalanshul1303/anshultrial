@@ -2,6 +2,8 @@ package com.cartonwale.consumer.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
+import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.consumer.api.model.Consumer;
 import com.cartonwale.consumer.api.service.ConsumerService;
 
@@ -35,8 +38,10 @@ public class ConsumerController extends ControllerBase{
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Consumer> add(@RequestBody Consumer consumer) {
-    	return makeResponse(consumerService.add(consumer), HttpStatus.CREATED);
+    public ResponseEntity<Consumer> add(@RequestBody Consumer consumer, HttpServletRequest request) {
+		consumerService.add(consumer);
+		consumerService.addConsumerUser(consumer, request.getHeader(ServiceUtil.getTokenHeader()));
+    	return makeResponse(consumer, HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
