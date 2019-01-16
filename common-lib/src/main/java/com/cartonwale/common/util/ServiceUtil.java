@@ -12,9 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class ServiceUtil {
-	
-	@Value("${jwt.header}")
-    private static String tokenHeader;
 
 	public static ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
 			HttpHeaders headers, String serviceUrl, String body, RestTemplate restTemplate) {
@@ -35,9 +32,5 @@ public class ServiceUtil {
 
 		return responseEntity;
 
-	}
-	
-	public static String getTokenHeader(){
-		return tokenHeader;
 	}
 }

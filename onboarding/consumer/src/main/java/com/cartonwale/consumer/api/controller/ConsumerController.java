@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +28,9 @@ public class ConsumerController extends ControllerBase{
 	@Autowired
 	private ConsumerService consumerService;
 	
+	@Value("${jwt.header}")
+    private static String tokenHeader;
+	
 	@RequestMapping
     public ResponseEntity<List<Consumer>> getAll() {
 		return makeResponse(consumerService.getAll());
@@ -39,8 +43,8 @@ public class ConsumerController extends ControllerBase{
 	
 	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Consumer> add(@RequestBody Consumer consumer, HttpServletRequest request) {
-		consumerService.add(consumer);
-		consumerService.addConsumerUser(consumer, request.getHeader(ServiceUtil.getTokenHeader()));
+		Consumer createdConsumer = consumerService.add(consumer);
+		consumerService.addConsumerUser(createdConsumer, request.getHeader(tokenHeader));
     	return makeResponse(consumer, HttpStatus.CREATED);
     }
     
