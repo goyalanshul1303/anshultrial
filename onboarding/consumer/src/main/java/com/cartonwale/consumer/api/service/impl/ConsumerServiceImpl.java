@@ -61,17 +61,12 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 		user.setEmail(consumer.getEmail());
 		user.setFirstName(consumer.getContactName());
 		user.setLastName("");
-		user.setPassword(PasswordGenerator.generatePassword());
+		//user.setPassword(PasswordGenerator.generatePassword());
 		user.setRegisteredOn(new Date());
 		user.setStatus(0);
 		user.setUsername(consumer.getCompanyPAN());
 		user.setEntityId(consumer.getId());
 		return user;
-	}
-
-	private String getMailBody(String userId, String password) {
-
-		return "UserId: " + userId + "\nPassword: " + password;
 	}
 
 	@Override
@@ -88,10 +83,6 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
 				getConsumerUserAsString(user), restTemplate);
-
-		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Cartonwale Account Details",
-				"admin@cartonwale-consumer-service.appspotmail.com",
-				getMailBody(user.getUsername(), user.getPassword())));
 
 	}
 

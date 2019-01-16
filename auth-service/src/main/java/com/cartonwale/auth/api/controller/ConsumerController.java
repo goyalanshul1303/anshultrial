@@ -12,6 +12,7 @@ import com.cartonwale.auth.api.model.Role;
 import com.cartonwale.auth.api.model.User;
 import com.cartonwale.auth.api.service.UserService;
 import com.cartonwale.common.util.ControllerBase;
+import com.cartonwale.common.util.PasswordGenerator;
 
 @RestController
 @RequestMapping("/consumers")
@@ -24,6 +25,7 @@ public class ConsumerController extends ControllerBase {
     public ResponseEntity<User> save(@ModelAttribute User user) {
     	user.getRoles().add(Role.Create_Consumer());
     	user.setSellerProfile(null);
+    	user.setPassword(PasswordGenerator.generatePassword());
         return makeResponse(userService.add(user), HttpStatus.CREATED);
     }
 

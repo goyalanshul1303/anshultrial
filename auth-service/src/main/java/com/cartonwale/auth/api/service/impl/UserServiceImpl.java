@@ -31,9 +31,11 @@ import com.cartonwale.common.exception.RequiredFieldMissingException;
 import com.cartonwale.common.exception.ServiceException;
 import com.cartonwale.common.messages.ErrorMessage;
 import com.cartonwale.common.messages.InfoMessage;
+import com.cartonwale.common.model.Mail;
 import com.cartonwale.common.model.Permission;
 import com.cartonwale.common.model.image.Image;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
+import com.cartonwale.common.util.MailUtil;
 import com.cartonwale.common.util.image.ImageUtil;
 
 import rx.Single;
@@ -127,11 +129,21 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	
     	user.setStatus(User.STATUS_ACTIVE);
         
-        return super.add(user);
+    	User created  = super.add(user);
+    	
+    	MailUtil.sendMail(new Mail(user.getEmail(), "Your Cartonwale Account Details",
+				"admin@cartonwale-consumer-service.appspotmail.com",
+				getMailBody(user.getUsername(), user.getPassword())));
+        return created;
             
     	/*});*/
     	
     }
+	
+	private String getMailBody(String userId, String password) {
+
+		return "UserId: " + userId + "\nPassword: " + password;
+	}
 	
 	@Override
     public User edit(User user, UserImageDto imageDto) throws ServiceException{
