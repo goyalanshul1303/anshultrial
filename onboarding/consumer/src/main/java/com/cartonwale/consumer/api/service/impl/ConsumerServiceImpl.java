@@ -12,11 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.cartonwale.common.model.Mail;
 import com.cartonwale.common.model.User;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
-import com.cartonwale.common.util.MailUtil;
-import com.cartonwale.common.util.PasswordGenerator;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.consumer.api.dao.ConsumerDao;
 import com.cartonwale.consumer.api.model.Consumer;
@@ -82,7 +79,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
-				user, restTemplate);
+				getConsumerUserAsString(user), restTemplate);
 
 	}
 

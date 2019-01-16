@@ -10,10 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-public class ServiceUtil<T> {
+public class ServiceUtil {
 
-	public static <T> ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
-			HttpHeaders headers, String serviceUrl, T body, RestTemplate restTemplate) {
+	public static ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
+			HttpHeaders headers, String serviceUrl, String body, RestTemplate restTemplate) {
 
 		if (headers == null)
 			headers = new HttpHeaders();
@@ -23,8 +23,9 @@ public class ServiceUtil<T> {
 
 		headers.add("Authorization", authToken);
 		headers.setAccept(accepts);
+		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<T> entity = new HttpEntity<T>(body, headers);
+		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,
 				String.class);
