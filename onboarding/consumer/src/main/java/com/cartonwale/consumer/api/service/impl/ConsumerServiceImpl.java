@@ -82,7 +82,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
-				getConsumerUserAsString(user), restTemplate);
+				user, restTemplate);
 
 	}
 
