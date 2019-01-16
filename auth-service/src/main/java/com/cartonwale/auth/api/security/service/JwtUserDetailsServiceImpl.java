@@ -40,7 +40,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 				logger.debug("userService-{}", userService);
 			
 			//username may be email
-			user = userService.findByUsernameOrEmail(username, username).toBlocking().value();
+			user = userService.findByUsernameOrEmail(username, username)/*.toBlocking().value()*/;
 			
 			if (logger.isDebugEnabled())
 				logger.debug("user - {}", user);
