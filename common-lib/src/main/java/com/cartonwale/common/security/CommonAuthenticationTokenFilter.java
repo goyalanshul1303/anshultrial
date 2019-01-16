@@ -42,8 +42,8 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${jwt.header}")
     private String tokenHeader;
     
-   /* @Autowired
-	private RestTemplate restTemplate;*/
+    @Autowired
+	private RestTemplate restTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -68,7 +68,7 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
         						, String.class);*/
         		
         		ResponseEntity<String> responseEntity = 
-        				ServiceUtil.call(HttpMethod.POST, authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/auth/current", "");
+        				ServiceUtil.call(HttpMethod.POST, authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/auth/current", "", restTemplate);
             	
         		String jsonUserDetails = responseEntity.getBody();
                 UserDetails userDetails = prepareUserDetails(jsonUserDetails);

@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.Mail;
 import com.cartonwale.common.model.User;
@@ -28,6 +29,9 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 	@Autowired
 	private ConsumerDao consumerDao;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@PostConstruct
 	void init() {
@@ -83,7 +87,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
-				getConsumerUserAsString(user));
+				getConsumerUserAsString(user), restTemplate);
 
 		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Cartonwale Account Details",
 				"admin@cartonwale-consumer-service.appspotmail.com",
