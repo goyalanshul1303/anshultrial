@@ -25,24 +25,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements ConsumerService {
-	
+
 	@Autowired
 	private ConsumerDao consumerDao;
-	
+
 	@PostConstruct
 	void init() {
 		init(Consumer.class, consumerDao);
 	}
-	
+
 	@Override
 	public Consumer add(Consumer consumer) {
-		
+
 		return super.add(consumer);
 	}
-	
+
 	private String getConsumerUserAsString(User user) {
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		String json = null;
 		try {
 			json = mapper.writeValueAsString(user);
@@ -66,25 +66,29 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 	}
 
 	private String getMailBody(String userId, String password) {
-		
+
 		return "UserId: " + userId + "\nPassword: " + password;
 	}
 
 	@Override
 	public Consumer edit(Consumer consumer) {
-		
+
 		return super.edit(consumer);
 	}
 
 	@Override
 	public void addConsumerUser(Consumer consumer, String authToken) {
-		
+
 		User user = getConsumerUser(consumer);
-		
-		ResponseEntity<String> responseEntity = 
-				ServiceUtil.call(HttpMethod.POST, authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers", getConsumerUserAsString(user));
-		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Cartonwale Account Details", "admin@cartonwale-consumer-service.appspotmail.com", getMailBody(user.getUsername(), user.getPassword())));
-		
+
+		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
+				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
+				getConsumerUserAsString(user));
+
+		MailUtil.sendMail(new Mail(consumer.getEmail(), "Your Cartonwale Account Details",
+				"admin@cartonwale-consumer-service.appspotmail.com",
+				getMailBody(user.getUsername(), user.getPassword())));
+
 	}
-	
+
 }

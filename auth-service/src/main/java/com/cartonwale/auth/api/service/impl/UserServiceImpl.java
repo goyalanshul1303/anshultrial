@@ -73,11 +73,13 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	}
 	
 	@Override
-	public Single<User> findByUsernameOrEmail(String username, String email){
+	public User findByUsernameOrEmail(String username, String email){
 		try{
-			return Single.just(userDao.findByUsernameOrEmail(username, email));
+			return /*Single.just(*/userDao.findByUsernameOrEmail(username, email)/*)*/;
 		}catch (DataAccessException e) {
-			return Single.error(e);
+			System.out.println(e);
+			return null;
+			/*return Single.error(e);*/
         }
 	}
 	
@@ -88,7 +90,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	
     	/*return findByEmail(user.getEmail()).flatMap(*/
     			
-		User checkUser = findByEmail(user.getEmail());
+		User checkUser = findByUsernameOrEmail(user.getUsername(), user.getEmail());
 		
 		//check email already registered
 		if(checkUser != null)

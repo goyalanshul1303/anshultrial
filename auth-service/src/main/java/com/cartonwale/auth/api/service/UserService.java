@@ -13,7 +13,7 @@ public interface UserService extends GenericService<User>{
 	
 	/*Single<*/User/*>*/ findByEmail(String email);
 	
-	Single<User> findByUsernameOrEmail(String username, String email);
+	/*Single<*/User/*>*/ findByUsernameOrEmail(String username, String email);
     
 	User edit(User user, UserImageDto imageDto) throws ServiceException;
 	
