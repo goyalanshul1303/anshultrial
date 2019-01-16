@@ -3,7 +3,7 @@ package com.cartonwale.auth.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +22,7 @@ public class ConsumerController extends ControllerBase {
     private UserService userService;
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<User> save(@ModelAttribute User user) {
+    public ResponseEntity<User> save(@RequestBody User user) {
     	user.getRoles().add(Role.Create_Consumer());
     	user.setSellerProfile(null);
     	user.setPassword(PasswordGenerator.generatePassword());
