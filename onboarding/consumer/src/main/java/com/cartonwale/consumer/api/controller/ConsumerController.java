@@ -29,7 +29,7 @@ public class ConsumerController extends ControllerBase{
 	private ConsumerService consumerService;
 	
 	@Value("${jwt.header}")
-    private static String tokenHeader;
+    private String tokenHeader;
 	
 	@RequestMapping
     public ResponseEntity<List<Consumer>> getAll() {
