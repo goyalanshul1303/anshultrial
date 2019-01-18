@@ -116,7 +116,8 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	}
     		
         //encode password
-    	user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	String emailPwd = user.getPassword();
+    	user.setPassword(passwordEncoder.encode(emailPwd));
     	user.setRegisteredOn(new Date());
     	user.setLastPasswordResetDate(new Date());
         
@@ -138,13 +139,13 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     		
     	}
     	
-    	user.setStatus(User.STATUS_ACTIVE);
+    	user.setStatus(User.STATUS_INACTIVE);
         
     	User created  = super.add(user);
     	
     	MailUtil.sendMail(new Mail(user.getEmail(), "Your Cartonwale Account Details",
 				"admin@cartonwale-auth-service.appspotmail.com",
-				getMailBody(user.getUsername(), user.getPassword())));
+				getMailBody(user.getUsername(), emailPwd)));
         return created;
             
     	/*});*/
@@ -269,6 +270,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 		   
 		   savedUser.setPassword(passwordEncoder.encode(newPassword));
 		   savedUser.setLastPasswordResetDate(new Date());
+		   savedUser.setStatus(User.STATUS_ACTIVE);
 		   super.edit(savedUser);
 		   return true;
 			   

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,7 +44,7 @@ public class UserController extends ControllerBase {
     }
 	
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	public ResponseEntity<CommonResponse> passwordChange(@ModelAttribute PasswordDto passwordDto) {
+	public ResponseEntity<CommonResponse> passwordChange(@RequestAttribute PasswordDto passwordDto) {
 		return makeResponse(
 				/*userService.changePassword(passwordDto.getOldPassword(), passwordDto.getNewPassword())
 				.map(r->*/new CommonResponse(1, userService.changePassword(passwordDto.getOldPassword(), passwordDto.getNewPassword())))/*)*/;
