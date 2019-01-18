@@ -75,6 +75,17 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	}
 	
 	@Override
+	public User findByUsername(String username){
+		try{
+			return /*Single.just(*/userDao.findByUsername(username)/*)*/;
+		}catch (DataAccessException e) {
+			System.out.println(e);
+			return null;
+			/*return Single.error(e);*/
+        }
+	}
+	
+	@Override
 	public User findByUsernameOrEmail(String username, String email){
 		try{
 			return /*Single.just(*/userDao.findByUsernameOrEmail(username, email)/*)*/;
@@ -132,7 +143,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	User created  = super.add(user);
     	
     	MailUtil.sendMail(new Mail(user.getEmail(), "Your Cartonwale Account Details",
-				"admin@cartonwale-consumer-service.appspotmail.com",
+				"admin@cartonwale-auth-service.appspotmail.com",
 				getMailBody(user.getUsername(), user.getPassword())));
         return created;
             

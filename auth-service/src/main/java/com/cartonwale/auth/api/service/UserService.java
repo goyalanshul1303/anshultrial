@@ -24,5 +24,7 @@ public interface UserService extends GenericService<User>{
 	Single<User> findUserByToken(String token);
 
 	Boolean changePassword(String oldPassword, String newPassword);
+
+	User findByUsername(String username);
 	
 }

@@ -16,5 +16,7 @@ public interface UserDao extends GenericDao<User>{
 	User findUserByToken(String token)throws DataAccessException;
 
 	User findByUsernameOrEmail(String username, String email) throws DataAccessException;
+
+	User findByUsername(String username) throws DataAccessException;
 	
 }
