@@ -10,6 +10,8 @@ public class Order extends EntityBase{
 
 	private CartonType cartonType;
 	
+	private SheetLayerType sheetLayerType;
+	
 	private CorrugationType corrugationType;
 	
 	private int quantity;
@@ -30,6 +32,14 @@ public class Order extends EntityBase{
 
 	public void setCartonType(CartonType cartonType) {
 		this.cartonType = cartonType;
+	}
+
+	public SheetLayerType getSheetLayerType() {
+		return sheetLayerType;
+	}
+
+	public void setSheetLayerType(SheetLayerType sheetLayerType) {
+		this.sheetLayerType = sheetLayerType;
 	}
 
 	public CorrugationType getCorrugationType() {
