@@ -30,24 +30,24 @@ public class Order extends EntityBase{
 		return cartonType;
 	}
 
-	public void setCartonType(CartonType cartonType) {
-		this.cartonType = cartonType;
+	public void setCartonType(int value) {
+		this.cartonType = CartonType.getCartonType(value);
 	}
 
 	public SheetLayerType getSheetLayerType() {
 		return sheetLayerType;
 	}
 
-	public void setSheetLayerType(SheetLayerType sheetLayerType) {
-		this.sheetLayerType = sheetLayerType;
+	public void setSheetLayerType(int value) {
+		this.sheetLayerType = SheetLayerType.getSheetLayerType(value);
 	}
 
 	public CorrugationType getCorrugationType() {
 		return corrugationType;
 	}
 
-	public void setCorrugationType(CorrugationType corrugationType) {
-		this.corrugationType = corrugationType;
+	public void setCorrugationType(int value) {
+		this.corrugationType = CorrugationType.getCorrugationType(value);
 	}
 
 	public int getQuantity() {
@@ -62,8 +62,8 @@ public class Order extends EntityBase{
 		return printingType;
 	}
 
-	public void setPrintingType(PrintingType printingType) {
-		this.printingType = printingType;
+	public void setPrintingType(int value) {
+		this.printingType = PrintingType.getPrintingType(value);
 	}
 
 	public OrderStatus getOrderStatus() {
