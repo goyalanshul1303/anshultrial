@@ -11,12 +11,14 @@ public class AuthUser implements UserDetails {
 	private String username;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
+    private String entityId;
     
-	public AuthUser(String userId, String username, Collection<? extends GrantedAuthority> authorities, boolean enabled) {
+	public AuthUser(String userId, String username, Collection<? extends GrantedAuthority> authorities, boolean enabled, String entityId) {
 		this.userId = userId;
 		this.username = username;
 		this.authorities = authorities;
 		this.enabled = enabled;
+		this.entityId = entityId;
 	}
 	
 	public String getUserId() {
@@ -57,6 +59,10 @@ public class AuthUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+	public String getEntityId() {
+		return entityId;
+	}
 
 	@Override
 	public String toString() {

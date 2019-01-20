@@ -94,6 +94,7 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     	JsonNode root = objectMapper.readTree(jsonUserDetails);
     	
     	String userId = root.get("dbUser").get("id").asText();
+    	String entityId = root.get("dbUser").get("entityId").asText();
     	String username = root.get("username").asText();
     	boolean isEnabled =  root.get("enabled").asBoolean();
     	
@@ -105,6 +106,6 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     		authorities.add(new SimpleGrantedAuthority(authorityNode.get("authority").asText()));
     	}
     	
-    	return new AuthUser(userId, username, authorities, isEnabled);
+    	return new AuthUser(userId, username, authorities, isEnabled, entityId);
     }
 }

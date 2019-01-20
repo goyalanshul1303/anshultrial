@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.order.api.dao.OrderDao;
 import com.cartonwale.order.api.model.Order;
@@ -26,6 +27,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	@Override
 	public Order add(Order order) {
 		
+		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		return super.add(order);
 	}
 	
@@ -36,9 +38,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 	
 	@Override
-	public List<Order> getAllByConsumer(String consumerId){
+	public List<Order> getAll(){
 		
-		return orderDao.getAllByConsumer(consumerId);
+		return orderDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
-	
 }
