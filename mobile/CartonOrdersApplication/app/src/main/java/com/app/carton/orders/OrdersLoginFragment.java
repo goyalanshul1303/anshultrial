@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -138,9 +139,9 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
         } else
             Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
                     .show();
-//        new SendPostRequest().execute();
+        new SendPostRequest().execute();
 
-        new MainActivity().replaceLoginFragment();
+//        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
     }
 
@@ -155,7 +156,7 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
 
             try {
 
-                URL url = new URL("https://cartonwale-auth-service.appspot.com/auth");
+                URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
                 postDataParams.put("username", "goyalanshul1303");
@@ -176,53 +177,57 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                 writer.flush();
                 writer.close();
                 os.close();
+                InputStream inputStream;
 
-                int responseCode = conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-
-                    BufferedReader in = new BufferedReader(new
-                            InputStreamReader(
-                            conn.getInputStream()));
-
-                    StringBuffer sb = new StringBuffer("");
-                    String line = "";
-
-                    while ((line = in.readLine()) != null) {
-
-                        sb.append(line);
-                        break;
-                    }
-
-                    in.close();
-                    return sb.toString();
-
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
                 } else {
-                    return new String("false : " + responseCode);
+                    inputStream = conn.getErrorStream();
                 }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
 
         }
-
         @Override
         protected void onPostExecute(String result) {
-            progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), result,
-                    Toast.LENGTH_LONG).show();
+            JSONObject object = null;
 
+            progressBar.setVisibility(View.GONE);
             try {
-                JSONObject object = new JSONObject(result);
-                SharedPreferences.putString(getActivity(),
-                        SharedPreferences.KEY_AUTHTOKEN,
-                        object.optString("token"));
+                object = new JSONObject(result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                Toast.makeText(getActivity(), object.optString("message"),
+                        Toast.LENGTH_LONG).show();
+            }else if (!object.optString("token").isEmpty()) {
+                Toast.makeText(getActivity(), "Login Successful",
+                        Toast.LENGTH_LONG).show();
+
+                SharedPreferences.putString(getActivity(),
+                        SharedPreferences.KEY_AUTHTOKEN,
+                        object.optString("token"));
+                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+            } else{
+                Toast.makeText(getActivity(), "Something Went Wrong",
+                        Toast.LENGTH_LONG).show();
+            }
+
 
         }
     }
+
 
 
     public String getPostDataString(JSONObject params) throws Exception {

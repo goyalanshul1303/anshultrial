@@ -26,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Replace Login Fragment with animation
-    protected void replaceLoginFragment() {
+    protected void replaceLoginFragment(Fragment fragment) {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
-                .replace(R.id.frameContainer, new CreateOrderFragment(),
+                .replace(R.id.frameContainer, fragment,
                         "choose_action").commit();
     }
 

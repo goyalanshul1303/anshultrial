@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -253,7 +254,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
             try {
 
-                URL url = new URL("https://cartonwale-api-gateway.appspot.com/api/consumer-service/consumers");
+                URL url = new URL(WebServiceConstants.CREATE_ORDER);
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);
@@ -281,29 +282,21 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                 writer.close();
                 os.close();
 
-                int responseCode = conn.getResponseCode();
+                InputStream inputStream;
 
-                if (responseCode == HttpsURLConnection.HTTP_CREATED) {
-
-                    BufferedReader in = new BufferedReader(new
-                            InputStreamReader(
-                            conn.getInputStream()));
-
-                    StringBuffer sb = new StringBuffer("");
-                    String line = "";
-
-                    while ((line = in.readLine()) != null) {
-
-                        sb.append(line);
-                        break;
-                    }
-
-                    in.close();
-                    return sb.toString();
-
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
                 } else {
-                    return new String("false : " + responseCode);
+                    inputStream = conn.getErrorStream();
                 }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
