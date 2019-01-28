@@ -1,5 +1,9 @@
 package com.application.onboarding.providersob;
 
+import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -26,5 +30,11 @@ public class Utils {
         return (map.keySet().toArray())[index];
     }
 
-
+    public static void hideKeypad(Context context, View view) {
+        if (context != null && view != null) {
+            InputMethodManager imm = (InputMethodManager) context
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }

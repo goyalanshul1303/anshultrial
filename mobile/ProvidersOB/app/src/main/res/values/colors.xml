@@ -13,4 +13,5 @@
     <color name="hint_text_light_grey">#c1c1c1</color>
     <color name="theme_accent">#3F51B5</color>
     <color name="resume_btn_color">#FFA000</color>
+    <color name="button_bg_blue">#048DD2</color>
 </resources>

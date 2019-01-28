@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -556,7 +557,7 @@ public class ConsumerDetailsFragment extends Fragment implements View.OnClickLis
 
                 }
                 request.setPhones(phones);
-                URL url = new URL("https://cartonwale-api-gateway.appspot.com/api/consumer-service/consumers");
+                URL url = new URL(WebServiceConstants.CREATE_CONSUMER);
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);
@@ -584,29 +585,21 @@ public class ConsumerDetailsFragment extends Fragment implements View.OnClickLis
                 writer.close();
                 os.close();
 
-                int responseCode = conn.getResponseCode();
+                InputStream inputStream;
 
-                if (responseCode == HttpsURLConnection.HTTP_CREATED) {
-
-                    BufferedReader in = new BufferedReader(new
-                            InputStreamReader(
-                            conn.getInputStream()));
-
-                    StringBuffer sb = new StringBuffer("");
-                    String line = "";
-
-                    while ((line = in.readLine()) != null) {
-
-                        sb.append(line);
-                        break;
-                    }
-
-                    in.close();
-                    return sb.toString();
-
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
                 } else {
-                    return new String("false : " + responseCode);
+                    inputStream = conn.getErrorStream();
                 }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
@@ -616,8 +609,23 @@ public class ConsumerDetailsFragment extends Fragment implements View.OnClickLis
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), result,
-                    Toast.LENGTH_LONG).show();
+            try {
+                JSONObject object = new JSONObject(result);
+                if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                    Toast.makeText(getActivity(), object.optString("message"),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Consumer created successfully",
+                            Toast.LENGTH_LONG).show();
+                    new MainActivity().replaceLoginFragment(new ProviderFirstDetailsFragment());
+                }
+
+//                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
