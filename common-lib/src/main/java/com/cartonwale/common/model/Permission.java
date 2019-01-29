@@ -10,7 +10,7 @@ public class Permission extends EntityBase{
 	public static String USER = "USER";
 	public static String USER_ADMIN = "USER_ADMIN";
 	public static String USER_SELLER_ADMIN = "USER_SELLER_ADMIN";
-	public static String USER_SELLER = "USER_SELLER";
+	public static String USER_PROVIDER = "USER_SELLER";
 	public static String USER_CONSUMER = "USER_CONSUMER";
 	
     private String code;

@@ -23,9 +23,10 @@ public class ConsumerController extends ControllerBase {
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> save(@RequestBody User user) {
+    	
     	user.getRoles().add(Role.Create_Consumer());
-    	user.setSellerProfile(null);
     	user.setPassword(PasswordGenerator.generatePassword());
+    	
         return makeResponse(userService.add(user), HttpStatus.CREATED);
     }
 

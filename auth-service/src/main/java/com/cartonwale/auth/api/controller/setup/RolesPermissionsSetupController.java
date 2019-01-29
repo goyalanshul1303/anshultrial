@@ -45,8 +45,8 @@ public class RolesPermissionsSetupController extends ControllerBase{
 		permission_SELLER_ADMIN.setStatus(1);
 		
 		Permission permission_SELLER = new Permission();
-		permission_SELLER.setId(Permission.USER_SELLER);
-		permission_SELLER.setCode(Permission.USER_SELLER);
+		permission_SELLER.setId(Permission.USER_PROVIDER);
+		permission_SELLER.setCode(Permission.USER_PROVIDER);
 		permission_SELLER.setStatus(1);
 		
 		Permission permission_BUYER = new Permission();
@@ -79,25 +79,25 @@ public class RolesPermissionsSetupController extends ControllerBase{
 		role_SELLER_ADMIN.getPermissions().add(permission_SELLER);
 		
 		//Role ROLE_SELLER
-		Role role_SELLER = new Role();
-		role_SELLER.setId(Role.ROLE_SELLER);
-		role_SELLER.setCode(Role.ROLE_SELLER);
-		role_SELLER.setStatus(1);
-		role_SELLER.getPermissions().add(permission_USER);
-		role_SELLER.getPermissions().add(permission_SELLER);
+		Role role_PROVIDER = new Role();
+		role_PROVIDER.setId(Role.ROLE_PROVIDER);
+		role_PROVIDER.setCode(Role.ROLE_PROVIDER);
+		role_PROVIDER.setStatus(1);
+		role_PROVIDER.getPermissions().add(permission_USER);
+		role_PROVIDER.getPermissions().add(permission_SELLER);
 		
 		//Role ROLE_BUYER
-		Role role_BUYER = new Role();
-		role_BUYER.setId(Role.ROLE_CONSUMER);
-		role_BUYER.setCode(Role.ROLE_CONSUMER);
-		role_BUYER.setStatus(1);
-		role_BUYER.getPermissions().add(permission_USER);
-		role_BUYER.getPermissions().add(permission_BUYER);
+		Role role_CONSUMER = new Role();
+		role_CONSUMER.setId(Role.ROLE_CONSUMER);
+		role_CONSUMER.setCode(Role.ROLE_CONSUMER);
+		role_CONSUMER.setStatus(1);
+		role_CONSUMER.getPermissions().add(permission_USER);
+		role_CONSUMER.getPermissions().add(permission_BUYER);
 		
 		roleService.add(role_ADMIN);
 		roleService.add(role_SELLER_ADMIN);
-		roleService.add(role_SELLER);
-		roleService.add(role_BUYER);
+		roleService.add(role_PROVIDER);
+		roleService.add(role_CONSUMER);
 		
 		return makeResponse("roles-permissions : init");
 		

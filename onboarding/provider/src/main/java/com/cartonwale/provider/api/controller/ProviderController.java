@@ -2,7 +2,10 @@ package com.cartonwale.provider.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +27,9 @@ public class ProviderController extends ControllerBase{
 	@Autowired
 	private ProviderService providerService;
 	
+	@Value("${jwt.header}")
+    private String tokenHeader;
+	
 	@RequestMapping
     public ResponseEntity<List<Provider>> getAll() {
 		return makeResponse(providerService.getAll());
@@ -35,7 +41,9 @@ public class ProviderController extends ControllerBase{
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Provider> add(@RequestBody Provider provider) {
+    public ResponseEntity<Provider> add(@RequestBody Provider provider, HttpServletRequest request) {
+		Provider createdProvider = providerService.add(provider);
+		providerService.addProviderUser(createdProvider, request.getHeader(tokenHeader));
     	return makeResponse(providerService.add(provider), HttpStatus.CREATED);
     }
     
