@@ -53,6 +53,13 @@ zuul:
       #serviceId: ORDER-SERVICE
       #stripPrefix: false
       sensitiveHeaders: Cookie,Set-Cookie
+      
+    product-service:
+      path: /product-service/**
+      url: https://cartonwale-product-service.appspot.com
+      #serviceId: PRODUCT-SERVICE
+      #stripPrefix: false
+      sensitiveHeaders: Cookie,Set-Cookie
   host:
     connect-timeout-millis: 5000
     socket-timeout-millis: 60000
