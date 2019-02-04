@@ -11,8 +11,8 @@ import java.util.List;
 public class CreateOrderRequest {
     List<Integer> cartonType = new ArrayList();
     private int printingType;
-    private List<Integer> corrugationType;
-    private List<Integer> supportedSheetLayers;
+    List<Integer> corrugationType = new ArrayList();
+    List<Integer> supportedSheetLayers = new ArrayList();
     private int consumerType;
     private int expectedQuantity;
 

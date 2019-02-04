@@ -78,7 +78,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         quantityET = (EditText) view.findViewById(R.id.quantityET);
         previousSample = (Button)view.findViewById(R.id.previousSample);
         newSample = (Button)view.findViewById(R.id.newSample);
-
+        createOrderBtn.setOnClickListener(this);
         inflateDataView();
 
 
@@ -87,14 +87,23 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     private void inflateDataView() {
 
         data.setBoxType(new LinkedHashMap<Integer, String>());
+        data.setConsumerType(new LinkedHashMap<Integer, String>());
         data.setCorrugationType(new LinkedHashMap<Integer, String>());
         data.setTypeOfPrinting(new LinkedHashMap<Integer, String>());
         data.setTypesOfCartons(new LinkedHashMap<Integer, String>());
         List<String> typesPrinting = new ArrayList<String>();
+        List<String> consumerTypes = new ArrayList<String>();
+
+
+        for (Map.Entry<Integer, String> entry : data.getConsumerType().entrySet()) /** Loop through all entrys in the HashMap **/ {
+            consumerTypes.add(entry.getValue());
+        }
 
         for (Map.Entry<Integer, String> entry : data.getTypeOfPrinting().entrySet()) /** Loop through all entrys in the HashMap **/ {
             typesPrinting.add(entry.getValue());
         }
+
+
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapterPrinting = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, typesPrinting);
 
@@ -109,6 +118,30 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 request.setPrintingType((Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapterConsumer = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, consumerTypes);
+
+        // Drop down layout style - list view with radio button
+        dataAdapterConsumer.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        // attaching data adapter to spinner
+        consumerTypeSpinner.setAdapter(dataAdapterConsumer);
+
+        consumerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                request.setConsumerType((Integer) Utils.getElementByIndex(data.getConsumerType(), i));
 
             }
 
@@ -235,7 +268,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
 
 
-//            new SendPostRequest().execute();
+            new SendPostRequest().execute();
 
 //            postDataToServer();
 
