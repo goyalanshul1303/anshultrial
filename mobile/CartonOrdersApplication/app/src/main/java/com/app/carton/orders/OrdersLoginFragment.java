@@ -211,7 +211,7 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                     || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                 Toast.makeText(getActivity(), object.optString("message"),
                         Toast.LENGTH_LONG).show();
-            }else if (!object.optString("token").isEmpty()) {
+            }else if (null!= object && !object.optString("token").isEmpty()) {
                 Toast.makeText(getActivity(), "Login Successful",
                         Toast.LENGTH_LONG).show();
 
