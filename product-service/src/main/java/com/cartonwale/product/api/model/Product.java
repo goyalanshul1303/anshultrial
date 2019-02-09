@@ -72,12 +72,10 @@ public class Product extends EntityBase{
 		this.printingType = PrintingType.getPrintingType(value);
 	}
 
-	@JsonIgnore
 	public String getConsumerId() {
 		return consumerId;
 	}
 
-	@JsonIgnore
 	public void setConsumerId(String consumerId) {
 		this.consumerId = consumerId;
 	}
