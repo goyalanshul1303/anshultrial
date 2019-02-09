@@ -20,8 +20,6 @@ public class Product extends EntityBase{
 	
 	private PrintingType printingType;
 	
-	private OrderStatus orderStatus;
-	
 	private String consumerId;
 	
 	private Dimension dimension;
@@ -72,14 +70,6 @@ public class Product extends EntityBase{
 
 	public void setPrintingType(int value) {
 		this.printingType = PrintingType.getPrintingType(value);
-	}
-
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
 	}
 
 	@JsonIgnore

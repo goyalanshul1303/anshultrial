@@ -24,12 +24,12 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		init(Product.class, productDao);
 	}
 	
-	@Override
+	/*@Override
 	public Product add(Product product) {
 		
 		product.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		return super.add(product);
-	}
+	}*/
 	
 	@Override
 	public Product edit(Product product) {
