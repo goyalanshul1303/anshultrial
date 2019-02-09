@@ -63,8 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 
                 //allow requests
                 .antMatchers(HttpMethod.GET, "/users/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/consumers/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/providers/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/consumers/**").hasAnyRole(Permission.USER_ADMIN)
+                .antMatchers(HttpMethod.POST, "/providers/**").hasAnyRole(Permission.USER_ADMIN)
                 .antMatchers("/test/images/**").permitAll()
                 .antMatchers("/roles-permissions-setup/init/**").permitAll()
                 

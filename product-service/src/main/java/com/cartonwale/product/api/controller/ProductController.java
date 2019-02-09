@@ -33,6 +33,11 @@ public class ProductController extends ControllerBase{
 		return makeResponse(productService.getById(id));
     }
 	
+	@RequestMapping("{consumerId}/{id}")
+    public ResponseEntity<Product> getByConsumerIdAndId(@PathVariable("consumerId") String consumerId, @PathVariable("id") String id) {
+		return makeResponse(productService.getById(consumerId, id));
+    }
+	
 	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Product> add(@RequestBody Product product) {
     	return makeResponse(productService.add(product), HttpStatus.CREATED);

@@ -42,9 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 
-                .antMatchers(HttpMethod.GET, "/product/**").hasAnyRole(Permission.USER_PROVIDER,Permission.USER_CONSUMER)
-                .antMatchers(HttpMethod.POST, "/product/**").hasAnyRole(Permission.USER_PROVIDER,Permission.USER_CONSUMER)
-				.antMatchers(HttpMethod.PUT, "/product/**").hasAnyRole(Permission.USER_PROVIDER,Permission.USER_CONSUMER)
+                .antMatchers(HttpMethod.GET, "/product/{consumerId}/{id}/**").hasAnyRole(Permission.USER_ADMIN)
+                .antMatchers(HttpMethod.GET, "/product/{id}/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_PROVIDER)
+                .antMatchers(HttpMethod.GET, "/product/**").hasAnyRole(Permission.USER_CONSUMER)
+                .antMatchers(HttpMethod.POST, "/product/**").hasAnyRole(Permission.USER_ADMIN)
+				.antMatchers(HttpMethod.PUT, "/product/**").hasAnyRole(Permission.USER_ADMIN)
                 
                 //authenticated requests
                 .anyRequest().authenticated();

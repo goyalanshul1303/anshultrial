@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{
+	
+	private String name;
 
 	private CartonType cartonType;
 	
@@ -22,9 +24,15 @@ public class Product extends EntityBase{
 	
 	private String consumerId;
 	
-	private String providerId;
-	
 	private Dimension dimension;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public CartonType getCartonType() {
 		return cartonType;
@@ -82,16 +90,6 @@ public class Product extends EntityBase{
 	@JsonIgnore
 	public void setConsumerId(String consumerId) {
 		this.consumerId = consumerId;
-	}
-
-	@JsonIgnore
-	public String getProviderId() {
-		return providerId;
-	}
-
-	@JsonIgnore
-	public void setProviderId(String providerId) {
-		this.providerId = providerId;
 	}
 
 	public Dimension getDimension() {

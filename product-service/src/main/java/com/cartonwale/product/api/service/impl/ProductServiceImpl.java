@@ -42,4 +42,16 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		return productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
+
+	@Override
+	public Product getById(String id) {
+
+		return productDao.getById(SecurityUtil.getAuthUserDetails().getEntityId(), id);
+	}
+	
+	@Override
+	public Product getById(String consumerId, String id) {
+
+		return productDao.getById(consumerId, id);
+	}
 }

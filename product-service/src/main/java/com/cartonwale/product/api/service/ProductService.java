@@ -5,4 +5,6 @@ import com.cartonwale.product.api.model.Product;
 
 public interface ProductService extends GenericService<Product>{
 
+	Product getById(String consumerId, String id);
+
 }

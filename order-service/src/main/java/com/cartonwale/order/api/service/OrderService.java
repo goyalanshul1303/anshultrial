@@ -5,4 +5,6 @@ import com.cartonwale.order.api.model.Order;
 
 public interface OrderService extends GenericService<Order>{
 
+	Order add(Order order, String authToken);
+
 }

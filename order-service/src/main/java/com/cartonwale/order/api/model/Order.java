@@ -1,5 +1,7 @@
 package com.cartonwale.order.api.model;
 
+import java.util.Date;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
@@ -7,16 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "Order")
 public class Order extends EntityBase{
-
-	private CartonType cartonType;
-	
-	private SheetLayerType sheetLayerType;
-	
-	private CorrugationType corrugationType;
 	
 	private int quantity;
-	
-	private PrintingType printingType;
 	
 	private OrderStatus orderStatus;
 	
@@ -25,30 +19,14 @@ public class Order extends EntityBase{
 	private String providerId;
 	
 	private Dimension dimension;
-
-	public CartonType getCartonType() {
-		return cartonType;
-	}
-
-	public void setCartonType(int value) {
-		this.cartonType = CartonType.getCartonType(value);
-	}
-
-	public SheetLayerType getSheetLayerType() {
-		return sheetLayerType;
-	}
-
-	public void setSheetLayerType(int value) {
-		this.sheetLayerType = SheetLayerType.getSheetLayerType(value);
-	}
-
-	public CorrugationType getCorrugationType() {
-		return corrugationType;
-	}
-
-	public void setCorrugationType(int value) {
-		this.corrugationType = CorrugationType.getCorrugationType(value);
-	}
+	
+	private Date orderDate;
+	
+	private String productId;
+	
+	private String productName;
+	
+	private int changeDimension;
 
 	public int getQuantity() {
 		return quantity;
@@ -56,14 +34,6 @@ public class Order extends EntityBase{
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-	}
-
-	public PrintingType getPrintingType() {
-		return printingType;
-	}
-
-	public void setPrintingType(int value) {
-		this.printingType = PrintingType.getPrintingType(value);
 	}
 
 	public OrderStatus getOrderStatus() {
@@ -100,6 +70,38 @@ public class Order extends EntityBase{
 
 	public void setDimension(Dimension dimension) {
 		this.dimension = dimension;
+	}
+
+	public Date getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public int getChangeDimension() {
+		return changeDimension;
+	}
+
+	public void setChangeDimension(int changeDimension) {
+		this.changeDimension = changeDimension;
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.cartonwale.common.dao;
 
 import java.util.List;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 
 import com.cartonwale.common.exception.DataAccessException;
 
@@ -47,7 +48,7 @@ public interface GenericDao<T> {
 
     MongoOperations getMongoOperations();
 
-	List<T> getAllByColumn(String column, String userId) throws DataAccessException;
+	List<T> getAll(Query query) throws DataAccessException;
 
 
 }

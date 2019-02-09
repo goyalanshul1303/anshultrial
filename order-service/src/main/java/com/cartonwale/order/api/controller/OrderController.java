@@ -2,7 +2,10 @@ package com.cartonwale.order.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +26,9 @@ public class OrderController extends ControllerBase{
 	@Autowired
 	private OrderService orderService;
 	
+	@Value("${jwt.header}")
+    private String tokenHeader;
+	
 	@RequestMapping
     public ResponseEntity<List<Order>> getAll() {
 		return makeResponse(orderService.getAll());
@@ -34,8 +40,8 @@ public class OrderController extends ControllerBase{
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Order> add(@RequestBody Order order) {
-    	return makeResponse(orderService.add(order), HttpStatus.CREATED);
+    public ResponseEntity<Order> add(@RequestBody Order order, HttpServletRequest request) {
+    	return makeResponse(orderService.add(order, request.getHeader(tokenHeader)), HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
