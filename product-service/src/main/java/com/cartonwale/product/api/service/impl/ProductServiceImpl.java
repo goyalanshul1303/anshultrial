@@ -54,4 +54,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 
 		return productDao.getById(consumerId, id);
 	}
+
+	@Override
+	public List<Product> getAll(String consumerId) {
+		return productDao.getAllByConsumer(consumerId);
+	}
 }
