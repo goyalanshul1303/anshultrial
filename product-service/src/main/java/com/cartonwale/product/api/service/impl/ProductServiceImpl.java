@@ -24,12 +24,12 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		init(Product.class, productDao);
 	}
 	
-	@Override
+	/*@Override
 	public Product add(Product product) {
 		
 		product.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		return super.add(product);
-	}
+	}*/
 	
 	@Override
 	public Product edit(Product product) {
@@ -41,5 +41,22 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	public List<Product> getAll(){
 		
 		return productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+	}
+
+	@Override
+	public Product getById(String id) {
+
+		return productDao.getById(SecurityUtil.getAuthUserDetails().getEntityId(), id);
+	}
+	
+	@Override
+	public Product getById(String consumerId, String id) {
+
+		return productDao.getById(consumerId, id);
+	}
+
+	@Override
+	public List<Product> getAll(String consumerId) {
+		return productDao.getAllByConsumer(consumerId);
 	}
 }

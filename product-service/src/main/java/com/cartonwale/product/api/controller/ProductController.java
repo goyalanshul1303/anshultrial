@@ -28,9 +28,19 @@ public class ProductController extends ControllerBase{
 		return makeResponse(productService.getAll());
     }
 	
+	@RequestMapping("/consumer/{consumerId}")
+    public ResponseEntity<List<Product>> getAll(@PathVariable("consumerId") String consumerId) {
+		return makeResponse(productService.getAll(consumerId));
+    }
+	
 	@RequestMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable("id") String id) {
 		return makeResponse(productService.getById(id));
+    }
+	
+	@RequestMapping("{consumerId}/{id}")
+    public ResponseEntity<Product> getByConsumerIdAndId(@PathVariable("consumerId") String consumerId, @PathVariable("id") String id) {
+		return makeResponse(productService.getById(consumerId, id));
     }
 	
 	@RequestMapping(method = RequestMethod.POST)

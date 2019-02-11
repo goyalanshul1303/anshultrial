@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.cartonwale.common.dao.GenericDao;
 import com.cartonwale.common.exception.DataAccessException;
-import com.cartonwale.common.exception.ResourceNotFoundException;
 import com.cartonwale.common.service.GenericService;
-
-import rx.Observable;
-import rx.Single;
-import rx.exceptions.Exceptions;
 
 public class GenericServiceImpl<T> implements GenericService<T> {
 	

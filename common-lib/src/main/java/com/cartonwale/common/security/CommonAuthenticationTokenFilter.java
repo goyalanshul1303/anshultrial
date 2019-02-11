@@ -54,19 +54,6 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
 
         	try{
         		
-        		/*HttpHeaders headers = new HttpHeaders();
-        		headers.add("Authorization", authToken);
-        		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        	
-        		HttpEntity<String> entity = new HttpEntity<String>("", headers);
-        		
-        		ResponseEntity<String> responseEntity = 
-        				restTemplate.exchange(
-        						"http://AUTH-SERVICE/auth/current"
-        						, HttpMethod.POST
-        						, entity
-        						, String.class);*/
-        		
         		ResponseEntity<String> responseEntity = 
         				ServiceUtil.call(HttpMethod.POST, authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/auth/current", "", restTemplate);
             	

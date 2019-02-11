@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import com.cartonwale.common.dao.GenericDao;
@@ -108,12 +107,11 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 	
 	@Override
 	@Cacheable(cacheResolver="secondaryCacheResolver" ,unless="#result == null")
-	public List<T> getAllByColumn(String column, String userId) throws DataAccessException {
+	public List<T> getAll(Query query) throws DataAccessException {
 		if (logger.isDebugEnabled())
 			logger.debug("type {} getAllByUser", type);
 		try {
-			Query query = new Query();
-			query.addCriteria(Criteria.where(column).is(userId));
+			
 			return mongoOperations.find(query, type);
 		} catch (Exception e) {
 			throw new DataAccessException(e);
