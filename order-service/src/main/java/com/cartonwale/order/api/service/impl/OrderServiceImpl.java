@@ -51,7 +51,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			throw new BadRequestException("Product Id is missing");
 		}
 
-		checkIfProductExists(order, authToken);
+		//checkIfProductExists(order, authToken);
 		
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		order.setOrderDate(new Date());
@@ -69,7 +69,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
     	JsonNode root;
 		try {
 			root = objectMapper.readTree(jsonProductDetails);
-			String productId = root.get("Id").asText();
+			String productId = root.get("id").asText();
 			
 			if(StringUtils.isEmpty(productId))
 				throw new ProductNotFoundException();

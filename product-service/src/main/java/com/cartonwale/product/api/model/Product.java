@@ -3,7 +3,6 @@ package com.cartonwale.product.api.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{
