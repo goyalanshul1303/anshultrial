@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:text="Please select type of customer you want to add"
+            android:text="Please select type of customer you want to view"
             />
         <Button
             android:id="@+id/providerButton"
@@ -25,7 +25,7 @@
             android:layout_marginTop="7dp"
             android:background="@color/background_color"
             android:padding="3dp"
-            android:text="Provider On Boarding"
+            android:text="Providers On Boarded"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
             android:layout_marginTop="15dp"
             android:background="@color/background_color"
             android:padding="3dp"
-            android:text="Consumer On Boarding"
+            android:text="Consumers On Boarded"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold" />

@@ -14,4 +14,8 @@
     <color name="theme_accent">#3F51B5</color>
     <color name="resume_btn_color">#FFA000</color>
     <color name="button_bg_blue">#048DD2</color>
+    <color name="White">#ffffff</color>
+    <color name="course_heading_color">#8c8d94</color>
+    <color name="color_dashboard_papers_text">#212121</color>
+
 </resources>

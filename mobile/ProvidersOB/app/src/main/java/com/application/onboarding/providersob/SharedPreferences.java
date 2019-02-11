@@ -11,6 +11,8 @@ public class SharedPreferences {
     private static final String PREFERENCE_NAME = "preferences";
 
     public static final String KEY_AUTHTOKEN = "authToken";
+    public static final String KEY_CHANGED_PASSWORD = "changePassword";
+
     public static void putString(Context context, String key, String value) {
         if (context != null) {
             android.content.SharedPreferences.Editor edit = getSharedPreferences(context).edit();
@@ -29,6 +31,13 @@ public class SharedPreferences {
         }
     }
 
+    public static boolean getBoolean(Context context, String key, boolean def) {
+        if (context != null) {
+            return getSharedPreferences(context).getBoolean(key, def);
+        } else {
+            return false;
+        }
+    }
     public static String getString(Context context, String key) {
         if (context != null) {
             return getSharedPreferences(context).getString(key, null);
@@ -46,7 +55,15 @@ public class SharedPreferences {
             return null;
         }
     }
+    public static boolean getBoolean(Context context, String key) {
 
+        if (context != null) {
+            return getBoolean(context, key, false);
+        } else {
+            return false;
+        }
+
+    }
 
     public static android.content.SharedPreferences getSharedPreferences(Context context) {
         android.content.SharedPreferences sharedPreferences =
