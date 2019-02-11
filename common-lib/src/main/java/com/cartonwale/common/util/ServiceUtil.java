@@ -25,7 +25,12 @@ public class ServiceUtil {
 		headers.setAccept(accepts);
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		HttpEntity<String> entity = new HttpEntity<String>(body, headers);
+		HttpEntity<String> entity;
+		if (body != null) {
+			entity = new HttpEntity<String>(body, headers);
+		} else {
+			entity = new HttpEntity<String>(headers);
+		}
 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,
 				String.class);
