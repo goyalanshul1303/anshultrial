@@ -2,7 +2,6 @@ package com.application.onboarding.providersob;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.widget.Button;
  * Created by aggarwal.swati on 12/26/18.
  */
 
-public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
+public class OnboardedCostumersListFragment extends Fragment implements View.OnClickListener {
     private static View view;
     private Button consumerButton, providerButton;
 
@@ -24,7 +23,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
            MainActivity.addActionFragment(new ProviderFirstDetailsFragment());
 
         }else if (view.getId() == R.id.consumerButton){
-            MainActivity.addActionFragment(new ConsumerListFragment());
+            MainActivity.addActionFragment(new ConsumerDetailsFragment());
         }
 
     }

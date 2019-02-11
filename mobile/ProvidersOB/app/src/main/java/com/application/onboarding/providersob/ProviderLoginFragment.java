@@ -178,7 +178,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
                 JSONObject postDataParams = new JSONObject();
                 postDataParams.put("username", "goyalanshul1303");
-                postDataParams.put("password", "123456");
+                postDataParams.put("password", "abc123");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -190,7 +190,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(postDataParams));
+                writer.write(Utils.getPostDataString(postDataParams));
 
                 writer.flush();
                 writer.close();
@@ -239,7 +239,12 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     SharedPreferences.putString(getActivity(),
                             SharedPreferences.KEY_AUTHTOKEN,
                             object.optString("token"));
-                    new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                    if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                        new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
+                    }else{
+                        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                    }
+
                 } else{
                     Toast.makeText(getActivity(), "Something Went Wrong",
                             Toast.LENGTH_LONG).show();
@@ -250,30 +255,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
     }
 
 
-        public String getPostDataString(JSONObject params) throws Exception {
 
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-
-            Iterator<String> itr = params.keys();
-
-            while (itr.hasNext()) {
-
-                String key = itr.next();
-                Object value = params.get(key);
-
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(key, "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-
-            }
-            return result.toString();
-        }
 
 
     }

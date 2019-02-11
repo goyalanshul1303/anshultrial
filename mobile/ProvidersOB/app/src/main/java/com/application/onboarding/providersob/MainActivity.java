@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         // If savedinstnacestate is null then replace login fragment
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null ) {
             fragmentManager
                     .beginTransaction()
                     .replace(R.id.frameContainer, new ProviderLoginFragment(),
