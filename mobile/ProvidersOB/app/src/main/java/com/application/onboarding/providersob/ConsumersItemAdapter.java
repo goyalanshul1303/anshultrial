@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdapter.CustomViewHolder>
         implements View.OnClickListener {
-
+    OnItemClickListener mItemClickListener;
 
     private ArrayList<ConsumerDetailsItem> data = new ArrayList();
     Context context;
@@ -49,6 +50,8 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
             customViewHolder.customerEmail.setVisibility(View.VISIBLE);
         }
         customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
+        customViewHolder.textLL.setOnClickListener(this);
+        customViewHolder.textLL.setTag(i);
 
     }
 
@@ -57,21 +60,18 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
         return (null != data ? data.size() : 0);
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView, customerEmail;
+        LinearLayout textLL;
 
 
         public CustomViewHolder(View view) {
             super(view);
             this.textView = (TextView) view.findViewById(R.id.customerName);
             customerEmail= (TextView)view.findViewById(R.id.customerEmail);
+            textLL = (LinearLayout)view.findViewById(R.id.textLL);
 
         }
 
@@ -80,5 +80,16 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
     public interface OnItemClickListener {
 
         public void onItemClick(View view, int position);
+    }
+
+    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (mItemClickListener != null) {
+            mItemClickListener.onItemClick(view, (Integer) view.getTag());
+        }
     }
 }
