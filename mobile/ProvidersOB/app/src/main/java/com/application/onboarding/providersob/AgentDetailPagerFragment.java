@@ -1,9 +1,11 @@
 package com.application.onboarding.providersob;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +25,8 @@ public class AgentDetailPagerFragment extends Fragment {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
+    private String selectedId;
+    String customerType = "";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +35,17 @@ public class AgentDetailPagerFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        if (getArguments() != null){
+            customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
+            selectedId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
+
+        }
+
+    }
     private void inflateViews() {
 
         MainActivity main = (MainActivity)getActivity();
@@ -55,7 +68,7 @@ public class AgentDetailPagerFragment extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -65,7 +78,13 @@ public class AgentDetailPagerFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            Bundle bundle = new Bundle();
+
+            bundle.putString("selectedId", selectedId);
+            bundle.putString("urlType", customerType);
+            Fragment fragment = mFragmentList.get(position);
+            fragment.setArguments(bundle);
+            return fragment;
         }
 
         @Override

@@ -43,7 +43,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     View viewNoAgentAdded;
     ArrayList<ConsumerDetailsItem> consumerDetailsItems = new ArrayList<>();
     private Button addAgentBtn;
-
+    String customerType = "";
 
     public OnboardedCostumersListFragment() {
 
@@ -52,7 +52,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String customerType = "";
+
         if (getArguments() != null){
             customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
         }
@@ -71,10 +71,6 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
         return view;
     }
 
-    public void setCustomerBoardedType(String customerType)
-    {
-
-    }
 
     // Initiate Views
     private void initViews() {
@@ -170,7 +166,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
             JSONArray list = new JSONArray(result);
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
-
+                consumerDetailsItems = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
                     ConsumerDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ConsumerDetailsItem.class);
                     consumerDetailsItems.add(item);
@@ -188,6 +184,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
                         Bundle bundle = new Bundle();
                         ConsumerDetailsItem item = consumerDetailsItems.get(position);
                         bundle.putString("selectedId", item.id);
+                        bundle.putString("urlType", customerType);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 

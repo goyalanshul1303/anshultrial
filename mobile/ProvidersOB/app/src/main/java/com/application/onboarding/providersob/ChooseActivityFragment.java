@@ -20,10 +20,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.providerButton){
             // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ProviderFirstDetailsFragment());
+           MainActivity.addActionFragment(new CreateProviderFragment());
 
         }else if (view.getId() == R.id.consumerButton){
-            MainActivity.addActionFragment(new OnboardedCostumersListFragment());
+            MainActivity.addActionFragment(new CreateConsumerFragment());
         }
 
     }

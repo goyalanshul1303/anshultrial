@@ -1,12 +1,18 @@
 package com.application.onboarding.providersob;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -67,4 +73,38 @@ public class Utils {
         }
         return result.toString();
     }
+
+    public static void setDetailsTextField(String preText,
+                                           Context context, TextView textView, String postText) {
+        if (null == context) {
+            return;
+        }
+        SpannableStringBuilder longDescription = new SpannableStringBuilder();
+
+        longDescription.append(getKeyword(preText,
+                context.getResources().getColor(R.color.course_heading_color)));
+        longDescription.append(" ");
+        longDescription.append(getKeyword(postText,
+                context.getResources().getColor(R.color.color_dashboard_papers_text)));
+        textView.setText(longDescription);
+
+    }
+    private static SpannableString getKeyword(String keyword, int color) {
+        SpannableString spanKyeword = new SpannableString(keyword);
+        spanKyeword.setSpan(new ForegroundColorSpan(color), 0,
+                keyword.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spanKyeword;
+    }
+    public static String toCSV(ArrayList<String> array)
+    {
+        String result = ""; if (array.size() > 0)
+        {
+        StringBuilder sb = new StringBuilder();
+        for (String s : array) { sb.append(s).append(",");
+        }
+        result = sb.deleteCharAt(sb.length() - 1).toString();
+        }
+        return result;
+    }
+
 }
