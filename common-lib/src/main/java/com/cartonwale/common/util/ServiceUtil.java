@@ -23,10 +23,11 @@ public class ServiceUtil {
 
 		headers.add("Authorization", authToken);
 		headers.setAccept(accepts);
-		headers.setContentType(MediaType.APPLICATION_JSON);
+		
 
 		HttpEntity<String> entity;
 		if (body != null) {
+			headers.setContentType(MediaType.APPLICATION_JSON);
 			entity = new HttpEntity<String>(body, headers);
 		} else {
 			entity = new HttpEntity<String>(headers);
