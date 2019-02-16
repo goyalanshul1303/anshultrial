@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/11/19.
  */
 
-public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdapter.CustomViewHolder>
+public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapter.CustomViewHolder>
         implements View.OnClickListener {
     OnItemClickListener mItemClickListener;
 
-    private ArrayList<ConsumerDetailsItem> data = new ArrayList();
+    private ArrayList<ProductsDetailsItem> data = new ArrayList();
     Context context;
 
-    public ConsumersItemAdapter (Context mContext, ArrayList<ConsumerDetailsItem> data){
+    public ProductsItemAdapter(Context mContext, ArrayList<ProductsDetailsItem> data){
         context = mContext;
         this.data = data;
 
@@ -37,21 +37,16 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        ConsumerDetailsItem testObjtem = data.get(i);
-        if (null == testObjtem.consumerName || testObjtem.consumerName.isEmpty() ){
+        ProductsDetailsItem testObjtem = data.get(i);
+        if (null == testObjtem.name || testObjtem.name.isEmpty() ){
             customViewHolder.textView.setText("N/A");
         }else{
-            customViewHolder.textView.setText(testObjtem.consumerName);
+            customViewHolder.textView.setText(testObjtem.name);
         }
-        if (null == testObjtem.email || testObjtem.email.isEmpty()){
-            customViewHolder.customerEmail.setVisibility(View.GONE);
-        }else
-        {
-            customViewHolder.customerEmail.setVisibility(View.VISIBLE);
-        }
-        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
-        customViewHolder.textLL.setOnClickListener(this);
-        customViewHolder.textLL.setTag(i);
+//        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
+//        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
+//        customViewHolder.textLL.setOnClickListener(this);
+//        customViewHolder.textLL.setTag(i);
 
     }
 

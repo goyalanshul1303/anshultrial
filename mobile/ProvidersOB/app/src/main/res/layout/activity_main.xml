@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:background="@color/background_color" >
 
-
-
         <FrameLayout
             android:id="@+id/frameContainer"
             android:layout_width="fill_parent"

@@ -1,12 +1,13 @@
 package com.application.onboarding.providersob;
 
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,78 +22,68 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by aggarwal.swati on 2/11/19.
+ * Created by aggarwal.swati on 2/12/19.
  */
 
-public class ConsumerListFragment extends Fragment implements View.OnClickListener {
+public class AgentProductsListFragment extends Fragment implements View.OnClickListener {
 
     private static View view;
 
-    private RecyclerView orderListView;
+    private RecyclerView productsRecyclerView;
 
     private ProgressBar progressBar;
     private String urlType;
     DataView data = new DataView();
-    private ConsumersItemAdapter adapter;
-    View viewNoAgentAdded;
-    ArrayList<ConsumerDetailsItem> consumerDetailsItems = new ArrayList<>();
-    private Button addAgentBtn;
+    private ProductsItemAdapter adapter;
+    View viewNoProductAdded;
+    ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
+    private Button addProductBtn;
+    String customerType = "";
+    private String selectedId = "";
 
-
-    public ConsumerListFragment() {
+    public AgentProductsListFragment() {
 
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String customerType = "";
+
         if (getArguments() != null){
             customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
+            selectedId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
         }
-        if (customerType.equalsIgnoreCase("consumers")){
-            urlType = WebServiceConstants.CREATE_CONSUMER;
-        }else{
-            urlType = WebServiceConstants.CREATE_PROVIDER;
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.consumer_list, container, false);
+        view = inflater.inflate(R.layout.products_list, container, false);
         initViews();
         return view;
     }
 
-    public void setCustomerBoardedType(String customerType)
-    {
-
-    }
 
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        orderListView = (RecyclerView) view.findViewById(R.id.consumersRecyclerView);
-        viewNoAgentAdded = (View)view.findViewById(R.id.viewNoAgentAdded);
-        addAgentBtn = (Button)view.findViewById(R.id.addAgent);
-        addAgentBtn.setOnClickListener(this);
+        productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
+        viewNoProductAdded = (View)view.findViewById(R.id.viewNoProductAdded);
+        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
+        addProductBtn.setOnClickListener(this);
 
-        new GetConsumerListTask().execute();
+        new GetAllProductsAsyncTask().execute();
     }
 
-    public class GetConsumerListTask extends AsyncTask<String, Void, String> {
+    public class GetAllProductsAsyncTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
@@ -102,7 +93,9 @@ public class ConsumerListFragment extends Fragment implements View.OnClickListen
 
             try {
 
-                URL url = new URL(urlType);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
+                string.append("5c5b2db59943f200010bf6bf");
+                URL url = new URL(string.toString());
 
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -158,45 +151,50 @@ public class ConsumerListFragment extends Fragment implements View.OnClickListen
 //                    getFragmentManager().popBackStackImmediate();
 //                }
                 }else{
-                    try {
-                        JSONArray list = new JSONArray(result);
-                        if (null!= list && list.length() > 0 ){
-                            Gson gson=new Gson();
-
-                            for (int i = 0 ; i < list.length() ;i ++){
-                                ConsumerDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ConsumerDetailsItem.class);
-                                consumerDetailsItems.add(item);
-                            }
-                            adapter = new ConsumersItemAdapter(getActivity(), consumerDetailsItems);
-                            orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            orderListView.setAdapter(adapter);
-                            viewNoAgentAdded.setVisibility(View.GONE);
-                            orderListView.setVisibility(View.VISIBLE);
-
-                        }else{
-                            // no consumers added . please add consumer first
-                            viewNoAgentAdded.setVisibility(View.VISIBLE);
-                            orderListView.setVisibility(View.GONE);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    parseListingData(result);
 
                 }
             }else  {
-
+                Toast.makeText(getActivity(), "Something went wrong please try again",
+                        Toast.LENGTH_LONG).show();
             }
 
 
         }
     }
 
+    private void parseListingData(String result) {
+        try {
+            JSONArray list = new JSONArray(result);
+            if (null!= list && list.length() > 0 ){
+                Gson gson=new Gson();
+                productDetailsItems = new ArrayList<>();
+                for (int i = 0 ; i < list.length() ;i ++){
+                    ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
+                    productDetailsItems.add(item);
+                }
+                adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
+                productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                productsRecyclerView.setAdapter(adapter);
+                viewNoProductAdded.setVisibility(View.GONE);
+                productsRecyclerView.setVisibility(View.VISIBLE);
+//                adapter.SetOnItemClickListener();
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.addAgent){
-            MainActivity.addActionFragment(new ChooseActivityFragment());
+            }else{
+                // no consumers added . please add consumer first
+                viewNoProductAdded.setVisibility(View.VISIBLE);
+                productsRecyclerView.setVisibility(View.GONE);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.addProductBtn){
+            MainActivity.addActionFragment(new ChooseActivityFragment());
+        }
+    }
 }

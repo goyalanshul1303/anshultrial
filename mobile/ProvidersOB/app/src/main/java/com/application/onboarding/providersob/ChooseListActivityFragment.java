@@ -18,7 +18,7 @@ public class ChooseListActivityFragment extends Fragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        Fragment newFragment = new ConsumerListFragment();
+        Fragment newFragment = new OnboardedCostumersListFragment();
         Bundle bundle = new Bundle();
         if (view.getId() == R.id.providerButton){
             bundle.putString("urlType", "providers");

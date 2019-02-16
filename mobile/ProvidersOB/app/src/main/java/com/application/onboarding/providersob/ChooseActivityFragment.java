@@ -2,7 +2,6 @@ package com.application.onboarding.providersob;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.providerButton){
             // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ProviderFirstDetailsFragment());
+           MainActivity.addActionFragment(new CreateProviderFragment());
 
         }else if (view.getId() == R.id.consumerButton){
-            MainActivity.addActionFragment(new ConsumerListFragment());
+            MainActivity.addActionFragment(new CreateConsumerFragment());
         }
 
     }
