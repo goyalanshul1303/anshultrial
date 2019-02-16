@@ -2,6 +2,7 @@ package com.cartonwale.common.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +36,34 @@ public class ServiceUtil {
 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,
 				String.class);
+
+		return responseEntity;
+
+	}
+	
+	public static ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
+			HttpHeaders headers, String serviceUrl, String body, RestTemplate restTemplate, Map<String, Object> params) {
+
+		if (headers == null)
+			headers = new HttpHeaders();
+
+		if (accepts == null)
+			accepts = Arrays.asList(MediaType.APPLICATION_JSON);
+
+		headers.add("Authorization", authToken);
+		headers.setAccept(accepts);
+		
+
+		HttpEntity<String> entity;
+		if (body != null) {
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			entity = new HttpEntity<String>(body, headers);
+		} else {
+			entity = new HttpEntity<String>(headers);
+		}
+
+		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,
+				String.class, params);
 
 		return responseEntity;
 
