@@ -219,6 +219,13 @@ String id;
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.addProductBtn){
+            AddProductFragment fragment = new AddProductFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("consumerId", id);
+            fragment.setArguments(bundle);
+            MainActivity.addActionFragment(fragment);
+        }
 
     }
 }

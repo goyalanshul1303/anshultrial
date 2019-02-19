@@ -13,6 +13,6 @@ public class WebServiceConstants {
     public static final String CREATE_CONSUMER = BASE_URL + "/consumer-service/consumers";
     public static final String CREATE_PROVIDER = BASE_URL + "/provider-service/providers";
     public static final String GET_ALL_PRODUCTS = BASE_URL + "/product-service/product/consumer/";
-
+    public static final String ADD_PRODUCT = BASE_URL +"/product-service/product";
 
 }
