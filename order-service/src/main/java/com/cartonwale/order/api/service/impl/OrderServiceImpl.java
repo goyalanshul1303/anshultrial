@@ -63,10 +63,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	private void checkIfProductExists(Order order, String authToken) {
 		
-		Map<String, Object> params = new HashMap<>();
-		params.put("productId", order.getProductId());
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.GET, authToken, null, null,
-				"http://PRODUCT-SERVICE/product/{productId}", null, restTemplate, params);
+				"http://PRODUCT-SERVICE/product/" + order.getProductId(), null, restTemplate);
 
 		String jsonProductDetails = responseEntity.getBody();
 		ObjectMapper objectMapper = new ObjectMapper();
