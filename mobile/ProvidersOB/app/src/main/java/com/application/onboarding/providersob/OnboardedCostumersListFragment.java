@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,31 +137,36 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
 
 //
             if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                if (result.trim().charAt(0) == '[') {
+                    Log.e("Response is : ", "JSONArray");
+                    parseListingData(result);
+                } else if (result.trim().charAt(0) == '{') {
+                    try {
+
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
 //                if (getFragmentManager().getBackStackEntryCount() > 0) {
 //                    getFragmentManager().popBackStackImmediate();
 //                }
-                }else{
-                    parseListingData(result);
-
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
                 }
-            }else  {
+
+
+            } else {
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
-
     private void parseListingData(String result) {
         try {
             JSONArray list = new JSONArray(result);

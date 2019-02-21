@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,22 +139,27 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
 
 //
             if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                if(result.trim().charAt(0) == '[') {
+                    Log.e("Response is : " , "JSONArray");
+                        parseListingData(result);
+                } else if(result.trim().charAt(0) == '{') {
+                    try {
+                        object = new JSONObject(result);
+                        if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else  {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
-//                if (getFragmentManager().getBackStackEntryCount() > 0) {
-//                    getFragmentManager().popBackStackImmediate();
-//                }
-                }else{
-                    parseListingData(result);
-
                 }
+
+
             }else  {
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
@@ -194,7 +200,11 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.addProductBtn){
-            MainActivity.addActionFragment(new ChooseActivityFragment());
+            AddProductFragment fragment = new AddProductFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("consumerId", selectedId);
+            fragment.setArguments(bundle);
+            MainActivity.addActionFragment(fragment);
         }
     }
 }
