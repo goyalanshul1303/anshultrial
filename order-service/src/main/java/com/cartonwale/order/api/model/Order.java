@@ -36,8 +36,8 @@ public class Order extends EntityBase{
 		this.quantity = quantity;
 	}
 
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
+	public int getOrderStatus() {
+		return orderStatus.getValue();
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {

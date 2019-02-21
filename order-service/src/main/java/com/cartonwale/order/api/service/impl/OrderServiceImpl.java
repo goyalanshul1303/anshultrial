@@ -98,4 +98,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 		return orderDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
+
+	@Override
+	public List<Order> getPlacedOrders() {
+		
+		return orderDao.getPlacedOrders();
+	}
 }

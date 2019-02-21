@@ -8,5 +8,7 @@ import com.cartonwale.order.api.model.Order;
 public interface OrderDao extends GenericDao<Order> {
 
 	List<Order> getAllByConsumer(String consumerId);
+	
+	List<Order> getPlacedOrders();
 
 }

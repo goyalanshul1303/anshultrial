@@ -10,6 +10,7 @@ import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.order.api.dao.OrderDao;
 import com.cartonwale.order.api.model.Order;
+import com.cartonwale.order.api.model.OrderStatus;
 
 @Repository
 public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
@@ -28,6 +29,20 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public List<Order> getPlacedOrders() {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("orderStatus").is(OrderStatus.ORDER_PLACED));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 }
