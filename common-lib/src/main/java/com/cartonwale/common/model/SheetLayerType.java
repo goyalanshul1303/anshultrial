@@ -1,7 +1,8 @@
-package com.cartonwale.provider.api.model;
+package com.cartonwale.common.model;
 
 public enum SheetLayerType {
 
+	SINGLE_PLY(1),
 	THREE_PLY(3),
 	FIVE_PLY(5),
 	SEVEN_PLY(7);

@@ -3,6 +3,7 @@ package com.cartonwale.product.api.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
+import com.cartonwale.common.model.SheetLayerType;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{

@@ -3,10 +3,10 @@ package com.cartonwale.provider.api.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
+import com.cartonwale.common.model.SheetLayerType;
 
 @Document(collection = "Provider")
 public class Provider extends EntityBase{
