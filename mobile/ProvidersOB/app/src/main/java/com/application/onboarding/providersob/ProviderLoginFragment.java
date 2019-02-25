@@ -27,6 +27,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -163,6 +164,10 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
     }
 
+    public void getAuthorizationResponse() {
+        new SendAuthorizationRequest().execute();
+    }
+
 
     public class SendPostRequest extends AsyncTask<String, Void, String> {
 
@@ -239,11 +244,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     SharedPreferences.putString(getActivity(),
                             SharedPreferences.KEY_AUTHTOKEN,
                             object.optString("token"));
-                    if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
-                        new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
-                    }else{
-                        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
-                    }
+                    getAuthorizationResponse();
 
                 } else{
                     Toast.makeText(getActivity(), "Something Went Wrong",
@@ -254,8 +255,87 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    public class SendAuthorizationRequest extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+
+                URL url = new URL(WebServiceConstants.PERMISSION);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+                InputStream inputStream;
+
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
 
 
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject object = null;
+
+            progressBar.setVisibility(View.GONE);
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                Toast.makeText(getActivity(), object.optString("message"),
+                        Toast.LENGTH_LONG).show();
+            }else if (null!=object && null!=object.optJSONObject("dbUser")) {
+                JSONObject dbUserObj = object.optJSONObject("dbUser");
+                if (null!=dbUserObj.optJSONArray("roles")){
+                    JSONArray rolesArray = dbUserObj.optJSONArray("roles");
+                        for (int i = 0 ; i < 1; i++){
+                           JSONObject rolesObj = rolesArray.optJSONObject(i);
+                           if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.seller.admin")){
+                               if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                                   new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
+                               }else{
+                                   new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                               }
+
+                           }else{
+                               Toast.makeText(getActivity(), "Something Went Wrong",
+                                       Toast.LENGTH_LONG).show();
+                           }
+                        }
+                    }
+                }else{
+                Toast.makeText(getActivity(), "Something Went Wrong",
+                        Toast.LENGTH_LONG).show();
+            }
+
+            }
 
 
+        }
     }
+
