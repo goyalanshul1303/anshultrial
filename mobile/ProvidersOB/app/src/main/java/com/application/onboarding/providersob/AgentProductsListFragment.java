@@ -95,7 +95,7 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
             try {
 
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
-                string.append("5c5b2db59943f200010bf6bf");
+                string.append(selectedId);
                 URL url = new URL(string.toString());
 
 

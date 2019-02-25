@@ -171,6 +171,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.nextBtn) {
+            Utils.hideKeypad(getActivity(), view);
             // move to next screen
             if (!TextUtils.isEmpty(productName.getText())) {
                 request.setName(productName.getText().toString());
