@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null ) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frameContainer, new ProviderLoginFragment(),
+                    .replace(R.id.frameContainer, new UserAdminLoginFragment(),
                             Utils.Login_Fragment).commit();
         }
 

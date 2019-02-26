@@ -1,9 +1,9 @@
-package com.application.onboarding.providersob;
+package com.app.carton.orders;
+
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -15,49 +15,27 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.net.ssl.HttpsURLConnection;
-
 
 /**
- * Created by aggarwal.swati on 12/2/18.
+ * Created by aggarwal.swati on 12/27/18.
  */
 
-public class ProviderLoginFragment extends Fragment implements View.OnClickListener {
+public class ConsumerLoginFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
     private static EditText emailid, password;
@@ -65,7 +43,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
     private static CheckBox show_hide_password;
     private static ProgressBar progressBar;
 
-    public ProviderLoginFragment() {
+    public ConsumerLoginFragment() {
 
     }
 
@@ -160,7 +138,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     .show();
         new SendPostRequest().execute();
 
-
+//        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
     }
 
@@ -182,7 +160,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "goyalanshul1303");
+                postDataParams.put("username", "abcd18349e");
                 postDataParams.put("password", "abc123");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -233,23 +211,23 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-                if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                    Toast.makeText(getActivity(), object.optString("message"),
-                            Toast.LENGTH_LONG).show();
-                }else if (null!=object &&!object.optString("token").isEmpty()) {
-                    Toast.makeText(getActivity(), "Login Successful",
-                            Toast.LENGTH_LONG).show();
+            if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                Toast.makeText(getActivity(), object.optString("message"),
+                        Toast.LENGTH_LONG).show();
+            }else if (null!=object &&!object.optString("token").isEmpty()) {
+                Toast.makeText(getActivity(), "Login Successful",
+                        Toast.LENGTH_LONG).show();
 
-                    SharedPreferences.putString(getActivity(),
-                            SharedPreferences.KEY_AUTHTOKEN,
-                            object.optString("token"));
-                    getAuthorizationResponse();
+                SharedPreferences.putString(getActivity(),
+                        SharedPreferences.KEY_AUTHTOKEN,
+                        object.optString("token"));
+                getAuthorizationResponse();
 
-                } else{
-                    Toast.makeText(getActivity(), "Something Went Wrong",
-                            Toast.LENGTH_LONG).show();
-                }
+            } else{
+                Toast.makeText(getActivity(), "Something Went Wrong",
+                        Toast.LENGTH_LONG).show();
+            }
 
 
         }
@@ -313,29 +291,30 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 JSONObject dbUserObj = object.optJSONObject("dbUser");
                 if (null!=dbUserObj.optJSONArray("roles")){
                     JSONArray rolesArray = dbUserObj.optJSONArray("roles");
-                        for (int i = 0 ; i < 1; i++){
-                           JSONObject rolesObj = rolesArray.optJSONObject(i);
-                           if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.seller.admin")){
-                               if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
-                                   new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
-                               }else{
-                                   new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
-                               }
+                    for (int i = 0 ; i < 1; i++){
+                        JSONObject rolesObj = rolesArray.optJSONObject(i);
+                        if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.consumer")){
+                            if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                                new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
+                            }else{
+                                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                            }
 
-                           }else{
-                               Toast.makeText(getActivity(), "Something Went Wrong",
-                                       Toast.LENGTH_LONG).show();
-                           }
+                        }else{
+                            Toast.makeText(getActivity(), "Something Went Wrong",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
-                }else{
+                }
+            }else{
                 Toast.makeText(getActivity(), "Something Went Wrong",
                         Toast.LENGTH_LONG).show();
             }
 
-            }
-
-
         }
+
+
     }
 
+
+}

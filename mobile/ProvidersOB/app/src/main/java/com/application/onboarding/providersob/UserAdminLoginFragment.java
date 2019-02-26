@@ -1,9 +1,9 @@
-package com.app.carton.orders;
-
+package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -15,30 +15,49 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.HttpsURLConnection;
 
+
 /**
- * Created by aggarwal.swati on 12/27/18.
+ * Created by aggarwal.swati on 12/2/18.
  */
 
-public class OrdersLoginFragment extends Fragment implements View.OnClickListener {
+public class UserAdminLoginFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
     private static EditText emailid, password;
@@ -46,7 +65,7 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
     private static CheckBox show_hide_password;
     private static ProgressBar progressBar;
 
-    public OrdersLoginFragment() {
+    public UserAdminLoginFragment() {
 
     }
 
@@ -141,8 +160,12 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                     .show();
         new SendPostRequest().execute();
 
-//        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
+
+    }
+
+    public void getAuthorizationResponse() {
+        new SendAuthorizationRequest().execute();
     }
 
 
@@ -172,7 +195,7 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(postDataParams));
+                writer.write(Utils.getPostDataString(postDataParams));
 
                 writer.flush();
                 writer.close();
@@ -192,11 +215,86 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                 }
 
                 return response.toString();
+
+
             } catch (Exception e) {
                 return new String("Exception: " + e.getMessage());
             }
 
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject object = null;
+
+            progressBar.setVisibility(View.GONE);
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+                if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                    Toast.makeText(getActivity(), object.optString("message"),
+                            Toast.LENGTH_LONG).show();
+                }else if (null!=object &&!object.optString("token").isEmpty()) {
+                    Toast.makeText(getActivity(), "Login Successful",
+                            Toast.LENGTH_LONG).show();
+
+                    SharedPreferences.putString(getActivity(),
+                            SharedPreferences.KEY_AUTHTOKEN,
+                            object.optString("token"));
+                    getAuthorizationResponse();
+
+                } else{
+                    Toast.makeText(getActivity(), "Something Went Wrong",
+                            Toast.LENGTH_LONG).show();
+                }
+
+
+        }
+    }
+
+    public class SendAuthorizationRequest extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+
+                URL url = new URL(WebServiceConstants.PERMISSION);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+                InputStream inputStream;
+
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
+
+
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
@@ -211,49 +309,33 @@ public class OrdersLoginFragment extends Fragment implements View.OnClickListene
                     || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                 Toast.makeText(getActivity(), object.optString("message"),
                         Toast.LENGTH_LONG).show();
-            }else if (null!= object && !object.optString("token").isEmpty()) {
-                Toast.makeText(getActivity(), "Login Successful",
-                        Toast.LENGTH_LONG).show();
+            }else if (null!=object && null!=object.optJSONObject("dbUser")) {
+                JSONObject dbUserObj = object.optJSONObject("dbUser");
+                if (null!=dbUserObj.optJSONArray("roles")){
+                    JSONArray rolesArray = dbUserObj.optJSONArray("roles");
+                        for (int i = 0 ; i < 1; i++){
+                           JSONObject rolesObj = rolesArray.optJSONObject(i);
+                           if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.seller.admin")){
+                               if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                                   new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
+                               }else{
+                                   new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                               }
 
-                SharedPreferences.putString(getActivity(),
-                        SharedPreferences.KEY_AUTHTOKEN,
-                        object.optString("token"));
-                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
-            } else{
+                           }else{
+                               Toast.makeText(getActivity(), "Something Went Wrong",
+                                       Toast.LENGTH_LONG).show();
+                           }
+                        }
+                    }
+                }else{
                 Toast.makeText(getActivity(), "Something Went Wrong",
                         Toast.LENGTH_LONG).show();
+            }
+
             }
 
 
         }
     }
 
-
-
-    public String getPostDataString(JSONObject params) throws Exception {
-
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        Iterator<String> itr = params.keys();
-
-        while (itr.hasNext()) {
-
-            String key = itr.next();
-            Object value = params.get(key);
-
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(key, "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-
-        }
-        return result.toString();
-    }
-
-
-}

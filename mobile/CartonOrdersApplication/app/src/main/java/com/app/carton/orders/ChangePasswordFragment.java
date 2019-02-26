@@ -260,9 +260,9 @@ public class ChangePasswordFragment extends Fragment
                     Toast.makeText(getActivity(), object.optString("message"),
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getActivity(), "Passwords changed successfully",
+                    Toast.makeText(getActivity(), "Passwords changed successfully, please login again with new password",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new CreateOrderFragment());
+                    new MainActivity().replaceLoginFragment(new ConsumerLoginFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
