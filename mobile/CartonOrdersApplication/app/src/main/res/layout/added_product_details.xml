@@ -78,6 +78,7 @@
                 android:background="@color/background_color"
                 android:padding="3dp"
                 android:text="Add Product"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />

@@ -68,5 +68,6 @@
         android:text="Add Product"
         android:textColor="@color/white"
         android:textSize="17sp"
+        android:visibility="gone"
         android:textStyle="bold" />
 </RelativeLayout>

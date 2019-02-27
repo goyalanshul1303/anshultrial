@@ -48,6 +48,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     private Button addProductBtn;
     String customerType = "";
     private String selectedId = "";
+    private String consumerId;
 
     public ConsumerProductsListFragment() {
 
@@ -177,6 +178,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 for (int i = 0 ; i < list.length() ;i ++){
                     ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
                     productDetailsItems.add(item);
+                    consumerId = item.consumerId;
                 }
                 adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -190,7 +192,8 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                         Fragment newFragment = new ProductDetailsFragment();
                         Bundle bundle = new Bundle();
                         ProductsDetailsItem item = productDetailsItems.get(position);
-                        bundle.putString("selectedId", item.id);
+                        bundle.putString("selectedId", item.consumerId);
+                        bundle.putString("productId", item.id);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 
@@ -210,11 +213,12 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.addProductBtn){
-            AddProductFragment fragment = new AddProductFragment();
-            Bundle bundle = new Bundle();
-            fragment.setArguments(bundle);
-            new MainActivity().replaceLoginFragment(new AddProductFragment ());
-        }
+//        if (view.getId() == R.id.addProductBtn){
+//            AddProductFragment fragment = new AddProductFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putString("consumerId", consumerId);
+//            fragment.setArguments(bundle);
+//            new MainActivity().replaceLoginFragment(fragment);
+//        }
     }
 }

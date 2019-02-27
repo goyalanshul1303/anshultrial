@@ -14,6 +14,4 @@ public class ProductsDetailsItem {
     String quantity;
     String corrugationType;
     String printingType;
-
-    String email;
 }

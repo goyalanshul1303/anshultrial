@@ -35,7 +35,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private ProgressBar progressBar;
     private Button addProductBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
-    String id;
+    String consumerId,productId;
     public ProductDetailsFragment() {
 
     }
@@ -43,10 +43,9 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String customerType = "";
         if (getArguments() != null){
-            customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
-            id = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
+            consumerId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
+            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
         }
     }
 
@@ -83,7 +82,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
             try {
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_SINGLE_PRODUCT);
-                string.append(id);
+                string.append(productId);
                 URL url = new URL(string.toString());
 
 
@@ -167,7 +166,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         if (view.getId() == R.id.addProductBtn){
             AddProductFragment fragment = new AddProductFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("consumerId", id);
+            bundle.putString("consumerId", consumerId);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }
