@@ -71,5 +71,9 @@ public class SharedPreferences {
 
         return sharedPreferences;
     }
+    public static boolean logout(Context context) {
+        return getSharedPreferences(context).edit().clear().commit();
+    }
+
 
 }

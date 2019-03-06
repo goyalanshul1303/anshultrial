@@ -18,12 +18,12 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
         implements View.OnClickListener {
     OnItemClickListener mItemClickListener;
 
-    private ArrayList<ConsumerDetailsItem> data = new ArrayList();
+    ArrayList<ConsumerDetailsItem> consumerDetailsItems = new ArrayList<>();
+    ArrayList<ProviderDetailsItem> providerDetailsItems = new ArrayList<>();
     Context context;
 
-    public ConsumersItemAdapter (Context mContext, ArrayList<ConsumerDetailsItem> data){
+    public ConsumersItemAdapter (Context mContext){
         context = mContext;
-        this.data = data;
 
 }
     @Override
@@ -37,19 +37,30 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        ConsumerDetailsItem testObjtem = data.get(i);
-        if (null == testObjtem.consumerName || testObjtem.consumerName.isEmpty() ){
+        String companyName = "";
+        String email = null;
+        if (null!=consumerDetailsItems && consumerDetailsItems.size() > 0){
+            ConsumerDetailsItem testObjtem = consumerDetailsItems.get(i);
+            companyName = testObjtem.consumerName;
+            email = testObjtem.email;
+        }else if (null != providerDetailsItems && providerDetailsItems.size() > 0) {
+            ProviderDetailsItem testObjtem = providerDetailsItems.get(i);
+            email = testObjtem.email;
+            companyName = testObjtem.companyName;
+        }
+
+        if (null == companyName || companyName.isEmpty() ){
             customViewHolder.textView.setText("N/A");
         }else{
-            customViewHolder.textView.setText(testObjtem.consumerName);
+            customViewHolder.textView.setText(companyName);
         }
-        if (null == testObjtem.email || testObjtem.email.isEmpty()){
+        if (null == email || email.isEmpty()){
             customViewHolder.customerEmail.setVisibility(View.GONE);
         }else
         {
             customViewHolder.customerEmail.setVisibility(View.VISIBLE);
         }
-        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
+        customViewHolder.customerEmail.setText("Email : " + email);
         customViewHolder.textLL.setOnClickListener(this);
         customViewHolder.textLL.setTag(i);
 
@@ -57,7 +68,22 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
 
     @Override
     public int getItemCount() {
-        return (null != data ? data.size() : 0);
+        int size = 0;
+        if (null!= consumerDetailsItems && consumerDetailsItems.size() > 0){
+            size = consumerDetailsItems.size();
+        }else  if (null!=providerDetailsItems && providerDetailsItems.size() > 0){
+            size = providerDetailsItems.size();
+        }
+        return size;
+    }
+
+    public void setConsumerItemList(ArrayList<ConsumerDetailsItem> consumerItemList) {
+        this.consumerDetailsItems = consumerItemList;
+    }
+
+    public void providerItemsList(ArrayList<ProviderDetailsItem> providerDetailsItems) {
+        this.providerDetailsItems = providerDetailsItems;
+
     }
 
 

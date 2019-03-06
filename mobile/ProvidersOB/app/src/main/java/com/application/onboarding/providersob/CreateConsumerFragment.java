@@ -542,14 +542,14 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
             try {
                 if (!TextUtils.isEmpty(mobile.getText())) {
                     mobilePhone.setType(1);
-                    mobilePhone.setNumber(Integer.parseInt(mobile.getText().toString()));
+                    mobilePhone.setNumber((mobile.getText().toString()));
 
                     phones.add(mobilePhone);
                 }
 
                 if (!TextUtils.isEmpty(landline.getText())) {
                     landlinePhone.setType(2);
-                    landlinePhone.setNumber(Integer.parseInt(landline.getText().toString()));
+                    landlinePhone.setNumber((landline.getText().toString()));
                     phones.add(landlinePhone);
 
                 }

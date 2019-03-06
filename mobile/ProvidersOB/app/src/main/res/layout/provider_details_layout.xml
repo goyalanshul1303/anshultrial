@@ -69,18 +69,10 @@
 
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
-            <TextView
-            android:id="@+id/consumerTye"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Folder name here."
-            android:textColor="@color/color_dashboard_papers_text"
-            android:textSize="16sp" />
+
 
             <TextView
-                android:id="@+id/consumerScale"
+                android:id="@+id/clientCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -100,16 +92,15 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/sampleCollection"
+                android:id="@+id/logisticsAvailable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
             <TextView
-                android:id="@+id/expectedQuantity"
+                android:id="@+id/operatingHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -119,13 +110,56 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/expectedQuantityFrequency"
+                android:id="@+id/printingType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
+            <TextView
+                android:id="@+id/corrugationType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/supportedSheetLayers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/creditLimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/creditDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/factoryCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+
 
 
             <Button

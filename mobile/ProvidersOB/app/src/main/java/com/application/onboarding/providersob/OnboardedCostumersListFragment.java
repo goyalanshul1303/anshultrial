@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     private static View view;
 
     private RecyclerView orderListView;
+    LinearLayout consumersRecyclerViewLL;
 
     private ProgressBar progressBar;
     private String urlType;
@@ -43,7 +45,9 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     private ConsumersItemAdapter adapter;
     View viewNoAgentAdded;
     ArrayList<ConsumerDetailsItem> consumerDetailsItems = new ArrayList<>();
-    private Button addAgentBtn;
+    ArrayList<ProviderDetailsItem> providerDetailsItems = new ArrayList<>();
+
+    private Button addAgentBtn,addAgentNew;
     String customerType = "";
 
     public OnboardedCostumersListFragment() {
@@ -80,7 +84,9 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
         viewNoAgentAdded = (View)view.findViewById(R.id.viewNoAgentAdded);
         addAgentBtn = (Button)view.findViewById(R.id.addAgent);
         addAgentBtn.setOnClickListener(this);
-
+        consumersRecyclerViewLL = (LinearLayout)view.findViewById(R.id.consumersRecyclerViewLL);
+        addAgentNew = (Button) view.findViewById(R.id.addAgentNew);
+        addAgentNew.setOnClickListener(this);
         new GetConsumerListTask().execute();
     }
 
@@ -151,6 +157,12 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
                             || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
+                        if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
+                            // logout user and take him to login screen again
+                            SharedPreferences.logout(getActivity());
+                            MainActivity.replaceLoginFragment(new UserAdminLoginFragment());
+
+                        }
 //                if (getFragmentManager().getBackStackEntryCount() > 0) {
 //                    getFragmentManager().popBackStackImmediate();
 //                }
@@ -172,24 +184,43 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
             JSONArray list = new JSONArray(result);
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
+                adapter = new ConsumersItemAdapter(getActivity());
                 consumerDetailsItems = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
-                    ConsumerDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ConsumerDetailsItem.class);
-                    consumerDetailsItems.add(item);
+                    if (urlType.contains("consumers")){
+                        ConsumerDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ConsumerDetailsItem.class);
+                        consumerDetailsItems.add(item);
+
+                    }else{
+                        ProviderDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProviderDetailsItem.class);
+                        providerDetailsItems.add(item);
+
+                    }
+                    adapter.setConsumerItemList(consumerDetailsItems);
+                    adapter.providerItemsList(providerDetailsItems);
+
                 }
-                adapter = new ConsumersItemAdapter(getActivity(), consumerDetailsItems);
+
+
                 orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 orderListView.setAdapter(adapter);
                 viewNoAgentAdded.setVisibility(View.GONE);
-                orderListView.setVisibility(View.VISIBLE);
+                consumersRecyclerViewLL.setVisibility(View.VISIBLE);
                 adapter.SetOnItemClickListener(new ConsumersItemAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(View view, int position) {
                         Fragment newFragment = new AgentDetailPagerFragment();
                         Bundle bundle = new Bundle();
-                        ConsumerDetailsItem item = consumerDetailsItems.get(position);
-                        bundle.putString("selectedId", item.id);
+                        if (urlType.contains("consumers")){
+                            ConsumerDetailsItem  item = consumerDetailsItems.get(position);
+                            bundle.putString("selectedId", item.id);
+
+                        }else{
+                           ProviderDetailsItem item = providerDetailsItems.get(position);
+                            bundle.putString("selectedId", item.id);
+                        }
+
                         bundle.putString("urlType", customerType);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
@@ -200,7 +231,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
             }else{
                 // no consumers added . please add consumer first
                 viewNoAgentAdded.setVisibility(View.VISIBLE);
-                orderListView.setVisibility(View.GONE);
+                consumersRecyclerViewLL.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -210,7 +241,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.addAgent){
+        if (view.getId() == R.id.addAgent || view.getId() == R.id.addAgentNew){
             MainActivity.addActionFragment(new ChooseActivityFragment());
         }
     }

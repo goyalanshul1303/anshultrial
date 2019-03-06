@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +42,8 @@ public class AgentDetailsFragment extends Fragment implements View.OnClickListen
     private Button addProductBtn;
     TextView custmerName, email,contactName, quantity, pan, website, foundationYear,consumerType, consumerScale, cartonType, sample,expectedQuantityFrequency;
 String id;
+    private TextView factoryCapacity,creditDays,creditLimit,supportedSheetLayers,corrugationType,printingType, logisticsAvailable,operatingHours, clientCount;
+
     public AgentDetailsFragment() {
 
     }
@@ -62,27 +66,51 @@ String id;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.agent_boarded_details, container, false);
+        if (urlType.contains("providers")){
+            view = inflater.inflate(R.layout.provider_details_layout,container, false);
+            initProviderViews();
+        }else{
+            view = inflater.inflate(R.layout.agent_boarded_details, container, false);
+           initConsumerViews();
+        }
         initViews();
         return view;
     }
 
-
-    // Initiate Views
-    private void initViews() {
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
+    private void initConsumerViews() {
         quantity = (TextView)view.findViewById(R.id.expectedQuantity);
         expectedQuantityFrequency = (TextView)view.findViewById(R.id.expectedQuantityFrequency);
+        consumerScale = (TextView)view.findViewById(R.id.consumerScale);
+        consumerType = (TextView)view.findViewById(R.id.consumerTye);
+        sample = (TextView)view.findViewById(R.id.sampleCollection);
+    }
+
+    private void initProviderViews() {
+        factoryCapacity = (TextView) view.findViewById(R.id.factoryCapacity);
+        creditDays = (TextView) view.findViewById(R.id.creditDays);
+        creditLimit = (TextView) view.findViewById(R.id.creditLimit);
+        supportedSheetLayers = (TextView) view.findViewById(R.id.supportedSheetLayers);
+        corrugationType = (TextView) view.findViewById(R.id.corrugationType);
+        printingType = (TextView) view.findViewById(R.id.printingType);
+        operatingHours = (TextView) view.findViewById(R.id.operatingHours);
+        logisticsAvailable = (TextView) view.findViewById(R.id.logisticsAvailable);
+        clientCount = (TextView) view.findViewById(R.id.clientCount);
+
+    }
+
+    private void initViews(){
+    // Initiate Views
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
+
         custmerName = (TextView)view.findViewById(R.id.customerName);
         email = (TextView)view.findViewById(R.id.customerEmail);
         contactName = (TextView)view.findViewById(R.id.contactName);
-        consumerScale = (TextView)view.findViewById(R.id.consumerScale);
-        consumerType = (TextView)view.findViewById(R.id.consumerTye);
+
         foundationYear = (TextView)view.findViewById(R.id.foundationYear);
         pan = (TextView)view.findViewById(R.id.panNumber);
         website= (TextView)view.findViewById(R.id.website);
-        sample = (TextView)view.findViewById(R.id.sampleCollection);
+
         cartonType = (TextView)view.findViewById(R.id.cartonType);
         addProductBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
@@ -169,7 +197,8 @@ String id;
     }
 
     private void parseListingData(JSONObject result) {
-        Utils.setDetailsTextField("Customer Name", getActivity(), custmerName, result.optString("consumerName"));
+        Gson gson=new Gson();
+
         Utils.setDetailsTextField("Contact Name", getActivity(), contactName, result.optString("contactName"));
 
         Utils.setDetailsTextField("Email", getActivity(), email, result.optString("email"));
@@ -178,9 +207,7 @@ String id;
         Utils.setDetailsTextField("Foundation Year", getActivity(), foundationYear, result.optString("foundationYear"));
         Utils.setDetailsTextField("Company PAN ", getActivity(), pan, result.optString("companyPAN"));
 
-        Utils.setDetailsTextField("Consumer Type", getActivity(), consumerType, result.optString("consumerType"));
 
-        Utils.setDetailsTextField("Consumer Scale", getActivity(), consumerScale, result.optString("consumerScale"));
         String cartonTypeString = "";
         if (null!= result.optString("cartonType")){
             try {
@@ -190,7 +217,7 @@ String id;
                     for(int i = 0, count = cartonArray.length(); i< count; i++)
                     {
                         try {
-                            String string = cartonArray.getString(i);
+                               String string = cartonArray.getString(i);
                             stringArray.add(string);
                         }
                         catch (JSONException e) {
@@ -205,12 +232,83 @@ String id;
                 e.printStackTrace();
             }
         }
+        String corrugationSTring = "";
+        if (null!= result.optString("corrugationType")){
+            try {
+                JSONArray corrugationArray = new JSONArray(result.optString("corrugationType"));
+                if (null!=corrugationArray){
+                    ArrayList<String> stringArray = new ArrayList<String>();
+                    for(int i = 0, count = corrugationArray.length(); i< count; i++)
+                    {
+                        try {
+                            String string = corrugationArray.getString(i);
+                            stringArray.add(string);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    corrugationSTring =  Utils.toCSV(stringArray);
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        String sheetLayerSTring = "";
+        if (null!= result.optString("supportedSheetLayers")){
+            try {
+                JSONArray supportedSheetLayers = new JSONArray(result.optString("supportedSheetLayers"));
+                if (null!=supportedSheetLayers){
+                    ArrayList<String> stringArray = new ArrayList<String>();
+                    for(int i = 0, count = supportedSheetLayers.length(); i< count; i++)
+                    {
+                        try {
+                            String string = supportedSheetLayers.getString(i);
+                            stringArray.add(string);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    sheetLayerSTring =  Utils.toCSV(stringArray);
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
         Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
-        Utils.setDetailsTextField("Expected Quantity Frequency", getActivity(), expectedQuantityFrequency, result.optString("expectedQuantityFrequency"));
+        if (urlType.contains("providers")){
+                ProviderDetailsItem item=gson.fromJson(String.valueOf(result),ProviderDetailsItem.class);
+                Utils.setDetailsTextField("Customer Name", getActivity(), custmerName, item.companyName);
+                Utils.setDetailsTextField("Corrugation Type ", getActivity(), corrugationType, corrugationSTring);
+                Utils.setDetailsTextField("Supported Sheet Layers Type ", getActivity(), supportedSheetLayers, sheetLayerSTring);
+                Utils.setDetailsTextField("Printing Type", getActivity(), printingType, item.printingType);
+                Utils.setDetailsTextField("Operating Hours  ", getActivity(), operatingHours, item.operatingHours);
+                Utils.setDetailsTextField("Factory Capacity ", getActivity(), factoryCapacity, String.valueOf(item.factoryCapacity));
+                Utils.setDetailsTextField("Credit Limit  ", getActivity(), creditLimit, String.valueOf(item.creditLimit));
+                Utils.setDetailsTextField("Client Count  ", getActivity(), clientCount, String.valueOf(item.clientCount));
+                Utils.setDetailsTextField("Credit Days  ", getActivity(), creditDays, String.valueOf(item.creditDays));
+                Utils.setDetailsTextField("Is Logistics Available", getActivity(), logisticsAvailable, String.valueOf(item.logisticAvailable));
+        }else{
+            ConsumerDetailsItem item=gson.fromJson(String.valueOf(result),ConsumerDetailsItem.class);
+            Utils.setDetailsTextField("Consumer Type ", getActivity(), consumerType, item.consumerType);
+            Utils.setDetailsTextField("Customer Name", getActivity(), custmerName, item.consumerName);
 
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("expectedQuantity"));
+            Utils.setDetailsTextField("Consumer Scale ", getActivity(), consumerScale, item.consumerScale);
 
-        Utils.setDetailsTextField("Is Sample Collected", getActivity(), sample, String.valueOf(result.optBoolean("sampleCollection")));
+            Utils.setDetailsTextField("Expected Frequency", getActivity(), expectedQuantityFrequency, item.expectedQuantityFrequency);
+
+            Utils.setDetailsTextField("Quantity ", getActivity(), quantity, item.expectedQuantity);
+
+            Utils.setDetailsTextField("Is Sample Collected", getActivity(), sample, String.valueOf(item.sampleCollection));
+        }
+
 
     }
 

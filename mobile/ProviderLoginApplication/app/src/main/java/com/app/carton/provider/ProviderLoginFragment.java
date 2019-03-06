@@ -294,7 +294,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     for (int i = 0 ; i < 1; i++){
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.consumer")){
-                            if (SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                            if (null != SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD)&& SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
                                 new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                             }else{
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
