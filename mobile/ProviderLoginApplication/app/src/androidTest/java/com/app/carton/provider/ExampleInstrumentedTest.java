@@ -1,4 +1,4 @@
-package com.app.carton.orders;
+package com.app.carton.provider;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

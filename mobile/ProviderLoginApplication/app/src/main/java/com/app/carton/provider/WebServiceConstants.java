@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 /**
  * Created by aggarwal.swati on 1/28/19.

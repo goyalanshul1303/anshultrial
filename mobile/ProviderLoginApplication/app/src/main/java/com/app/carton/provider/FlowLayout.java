@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.content.Context;
 import android.util.AttributeSet;

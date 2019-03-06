@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.content.Context;
 import android.text.Spannable;
@@ -8,8 +8,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-
-import com.app.carton.orders.R;
 
 import org.json.JSONObject;
 

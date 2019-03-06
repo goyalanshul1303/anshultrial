@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.app.carton.orders.R;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/8/19.
  */
 
-public class ConsumerOrderListFragment extends Fragment implements View.OnClickListener  {
+public class ProviderOrderListFragment extends Fragment implements View.OnClickListener  {
 
     private static View view;
 
@@ -46,7 +45,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
 
-    public ConsumerOrderListFragment() {
+    public ProviderOrderListFragment() {
 
     }
 

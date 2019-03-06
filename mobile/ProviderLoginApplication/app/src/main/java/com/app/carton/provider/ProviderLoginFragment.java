@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 
 import android.os.AsyncTask;
@@ -18,8 +18,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.app.carton.orders.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +35,7 @@ import java.net.URL;
  * Created by aggarwal.swati on 12/27/18.
  */
 
-public class ConsumerLoginFragment extends Fragment implements View.OnClickListener {
+public class ProviderLoginFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
     private static EditText emailid, password;
@@ -45,7 +43,7 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
     private static CheckBox show_hide_password;
     private static ProgressBar progressBar;
 
-    public ConsumerLoginFragment() {
+    public ProviderLoginFragment() {
 
     }
 

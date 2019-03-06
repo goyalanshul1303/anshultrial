@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,30 +8,28 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.app.carton.orders.R;
-
 import java.util.ArrayList;
 
 /**
- * Created by aggarwal.swati on 2/11/19.
+ * Created by aggarwal.swati on 2/8/19.
  */
 
-public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapter.CustomViewHolder>
+public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.CustomViewHolder>
         implements View.OnClickListener {
     OnItemClickListener mItemClickListener;
 
-    private ArrayList<ProductsDetailsItem> data = new ArrayList();
+    private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
 
-    public ProductsItemAdapter(Context mContext, ArrayList<ProductsDetailsItem> data){
+    public OrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data){
         context = mContext;
         this.data = data;
 
-}
+    }
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.listview_item_row, null);
+                .inflate(R.layout.orders_listview_item_row, null);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
@@ -39,16 +37,16 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
 
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
-        ProductsDetailsItem testObjtem = data.get(i);
-        if (null == testObjtem.name || testObjtem.name.isEmpty() ){
+        OrdersListDetailsItem testObjtem = data.get(i);
+        if (null == testObjtem.productName || testObjtem.productName.isEmpty() ){
             customViewHolder.textView.setText("N/A");
         }else{
-            customViewHolder.textView.setText(testObjtem.name);
+            customViewHolder.textView.setText(testObjtem.productName);
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
-//        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
-        customViewHolder.textLL.setOnClickListener(this);
-        customViewHolder.textLL.setTag(i);
+        customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
+//        customViewHolder.textLL.setOnClickListener(this);
+//        customViewHolder.textLL.setTag(i);
 
     }
 
@@ -60,15 +58,15 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, customerEmail;
+        TextView textView, quantity;
         LinearLayout textLL;
 
 
         public CustomViewHolder(View view) {
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
-            customerEmail= (TextView)view.findViewById(R.id.customerEmail);
-            textLL = (LinearLayout)view.findViewById(R.id.textLL);
+            this.quantity = (TextView) view.findViewById(R.id.quantity);
+
 
         }
 

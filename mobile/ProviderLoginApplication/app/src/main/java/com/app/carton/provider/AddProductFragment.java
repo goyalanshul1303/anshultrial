@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.app.carton.orders.R;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -307,7 +306,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
                 } else {
                     Toast.makeText(getActivity(), "Product Created successfully",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ConsumerProductsListFragment ());
+                    new MainActivity().replaceLoginFragment(new ProviderProductsListFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

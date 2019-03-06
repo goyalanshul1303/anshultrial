@@ -1,11 +1,9 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.app.carton.orders.R;
 
 public class MainActivity extends AppCompatActivity {
     private static FragmentManager fragmentManager;
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.frameContainer, new ConsumerLoginFragment(),
+                    .replace(R.id.frameContainer, new ProviderLoginFragment(),
                             "").commit();
         }
 

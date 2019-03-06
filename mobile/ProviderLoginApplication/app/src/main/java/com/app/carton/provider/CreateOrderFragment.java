@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 
 import android.os.AsyncTask;
@@ -16,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.app.carton.orders.R;
 import com.google.gson.Gson;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.app.carton.orders.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -264,7 +262,7 @@ public class ChangePasswordFragment extends Fragment
                 } else {
                     Toast.makeText(getActivity(), "Passwords changed successfully, please login again with new password",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ConsumerLoginFragment());
+                    new MainActivity().replaceLoginFragment(new ProviderLoginFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

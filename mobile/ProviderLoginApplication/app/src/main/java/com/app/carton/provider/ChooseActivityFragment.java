@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.app.carton.provider;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.app.carton.orders.R;
 
 
 /**
@@ -22,10 +20,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.getOrderButton){
             // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ConsumerOrderListFragment());
+           MainActivity.addActionFragment(new ProviderOrderListFragment());
 
         }else if (view.getId() == R.id.getProductsButton){
-            MainActivity.addActionFragment(new ConsumerProductsListFragment());
+            MainActivity.addActionFragment(new ProviderProductsListFragment());
         }
 
     }
