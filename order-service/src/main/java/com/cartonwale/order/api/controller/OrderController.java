@@ -49,4 +49,9 @@ public class OrderController extends ControllerBase{
     	return makeResponse(orderService.edit(order), HttpStatus.ACCEPTED);
     }
     
+    @RequestMapping("/placedOrders")
+    public ResponseEntity<List<Order>> getPlacedOrder() {
+		return makeResponse(orderService.getPlacedOrders());
+    }
+    
 }

@@ -27,6 +27,8 @@ public class Order extends EntityBase{
 	private String productName;
 	
 	private int changeDimension;
+	
+	private Quote awardedQuote;
 
 	public int getQuantity() {
 		return quantity;
@@ -102,6 +104,15 @@ public class Order extends EntityBase{
 
 	public void setChangeDimension(int changeDimension) {
 		this.changeDimension = changeDimension;
+	}
+
+	public Quote getAwardedQuote() {
+		return awardedQuote;
+	}
+
+	@JsonIgnore
+	public void setAwardedQuote(Quote awardedQuote) {
+		this.awardedQuote = awardedQuote;
 	}
 	
 }
