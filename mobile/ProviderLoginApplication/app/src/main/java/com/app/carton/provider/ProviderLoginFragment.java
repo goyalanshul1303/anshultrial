@@ -160,8 +160,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "abcd18349e");
-                postDataParams.put("password", "abc123");
+                postDataParams.put("username", "abcd12245e");
+                postDataParams.put("password", "swati22");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -293,7 +293,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     JSONArray rolesArray = dbUserObj.optJSONArray("roles");
                     for (int i = 0 ; i < 1; i++){
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
-                        if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.consumer")){
+                        if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")){
                             if (null != SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD)&& SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
                                 new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                             }else{

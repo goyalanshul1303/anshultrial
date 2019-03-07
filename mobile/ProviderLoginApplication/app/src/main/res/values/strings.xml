@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CartonOrdersApplication</string>
+    <string name="app_name">CartonProvidersApplication</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="email">Email Id</string>

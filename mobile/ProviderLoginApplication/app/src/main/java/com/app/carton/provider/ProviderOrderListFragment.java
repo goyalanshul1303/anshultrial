@@ -37,7 +37,6 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
 
     private RecyclerView orderListView;
 
-    CreateOrderRequest request = new CreateOrderRequest();
     private ProgressBar progressBar;
     DataView data = new DataView();
     Button createOrderBtn;
@@ -79,7 +78,7 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDERS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_PLACED_ORDERS);
                 URL url = new URL(string.toString());
 
 
@@ -184,11 +183,11 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.createOrderBtn){
-            CreateOrderFragment fragment = new CreateOrderFragment();
-            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
+//            CreateOrderFragment fragment = new CreateOrderFragment();
+//            Bundle bundle = new Bundle();
+////            bundle.putString("consumerId", selectedId);
+//            fragment.setArguments(bundle);
+//            MainActivity.addActionFragment(fragment);
         }
     }
 }
