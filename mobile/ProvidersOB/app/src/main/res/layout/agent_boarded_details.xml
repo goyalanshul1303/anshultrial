@@ -68,7 +68,8 @@
                 android:layout_marginTop="10dp"
 
                 android:textColor="@color/course_heading_color"
-                android:textSize="16sp" /> <TextView
+                android:textSize="16sp" />
+            <TextView
             android:id="@+id/consumerTye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -122,6 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
 

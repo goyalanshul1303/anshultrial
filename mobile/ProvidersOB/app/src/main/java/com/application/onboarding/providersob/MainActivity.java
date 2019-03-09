@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Replace Login Fragment with animation
-    protected void replaceLoginFragment(Fragment fragmentName) {
+    public static void replaceLoginFragment(Fragment fragmentName) {
         fragmentManager
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)

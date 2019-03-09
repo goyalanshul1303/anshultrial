@@ -43,14 +43,14 @@
                 android:text="Types of Carts Supported:"
                 android:textSize="16sp" />
 
-            <com.app.carton.orders.FlowLayout
+            <com.app.carton.consumer.FlowLayout
                 android:id="@+id/typesCartonCheckboxLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
 
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+                android:orientation="vertical"></com.app.carton.consumer.FlowLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,13 +79,13 @@
                 android:text="Types of Boxes Supported:"
                 android:textSize="16sp" />
 
-            <com.app.carton.orders.FlowLayout
+            <com.app.carton.consumer.FlowLayout
                 android:id="@+id/typeBoxesCheckboxLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+                android:orientation="vertical"></com.app.carton.consumer.FlowLayout>
 
             <TextView
                 android:id="@+id/typeOfCorrugationTV"
@@ -96,13 +96,13 @@
                 android:text="Types of Corrugation boxes Supported:"
                 android:textSize="16sp" />
 
-            <com.app.carton.orders.FlowLayout
+            <com.app.carton.consumer.FlowLayout
                 android:id="@+id/typeOfCorrugationLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.app.carton.orders.FlowLayout>
+                android:orientation="vertical"></com.app.carton.consumer.FlowLayout>
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_quantity"
                 android:layout_width="match_parent"
