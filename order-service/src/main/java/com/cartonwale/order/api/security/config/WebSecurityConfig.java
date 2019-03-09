@@ -41,18 +41,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                
+
+				.antMatchers(HttpMethod.GET, "/orders/placedOrders").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.POST, "/orders/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
 				.antMatchers(HttpMethod.PUT, "/orders/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
-				.antMatchers(HttpMethod.GET, "/orders/placedOrders").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
-				
-				.antMatchers(HttpMethod.GET, "/quotes/**").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN, Permission.USER_CONSUMER)
+
 				.antMatchers(HttpMethod.GET, "/quotes/provider").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.GET, "/quotes/order/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
+				.antMatchers(HttpMethod.POST, "/quotes/award").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
+				.antMatchers(HttpMethod.GET, "/quotes/**").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN, Permission.USER_CONSUMER)
                 .antMatchers(HttpMethod.POST, "/quotes/**").hasAnyRole(Permission.USER_PROVIDER)
 				.antMatchers(HttpMethod.PUT, "/quotes/**").hasAnyRole(Permission.USER_PROVIDER)
-				.antMatchers(HttpMethod.POST, "/quotes/award").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
                 
                 //authenticated requests
                 .anyRequest().authenticated();
