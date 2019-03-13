@@ -3,6 +3,8 @@ package com.cartonwale.order.api.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,11 @@ public class QuoteServiceImpl extends GenericServiceImpl<Quote> implements Quote
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@PostConstruct
+	void init() {
+		init(Quote.class, quoteDao);
+	}
 
 	@Override
 	public Quote add(Quote quote) {
