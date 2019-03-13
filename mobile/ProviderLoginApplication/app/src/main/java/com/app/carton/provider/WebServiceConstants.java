@@ -10,7 +10,7 @@ public class WebServiceConstants {
             + "/auth-service/auth";
     public static final String CHANGE_PASSWORD = BASE_URL
             + "/auth-service/users/changePassword";
-    public static final String GET_PLACED_ORDERS = BASE_URL + "/order-service/placedorders";
+    public static final String GET_PLACED_ORDERS = BASE_URL + "/order-service/orders/placedOrders";
     public static final String GET_ORDERS = BASE_URL + "/order-service/orders";
     public static final String PERMISSION = BASE_URL +"/auth-service/auth/current";
     public static final String GET_ALL_PRODUCTS = BASE_URL + "/product-service/product";
