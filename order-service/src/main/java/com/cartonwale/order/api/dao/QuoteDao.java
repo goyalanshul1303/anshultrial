@@ -10,4 +10,6 @@ public interface QuoteDao extends GenericDao<Quote> {
 	List<Quote> getAllByProvider(String providerId);
 
 	List<Quote> getAllByOrder(String orderId);
+	
+	Quote getByOrderIdAndProviderId(String orderId, String providerId);
 }

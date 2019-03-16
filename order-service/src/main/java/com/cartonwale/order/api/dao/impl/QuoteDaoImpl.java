@@ -42,4 +42,17 @@ public class QuoteDaoImpl extends GenericDaoImpl<Quote> implements QuoteDao {
 		return null;
 	}
 
+	@Override
+	public Quote getByOrderIdAndProviderId(String orderId, String providerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("orderId").is(orderId).and("providerId").is(providerId));
+			List<Quote> quotes = super.getAll(query);
+			return quotes.isEmpty() ? null : quotes.get(0);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
