@@ -167,7 +167,20 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 orderListView.setVisibility(View.VISIBLE);
-//                adapter.SetOnItemClickListener();
+                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Fragment newFragment = new OrderDetailFragment();
+                        Bundle bundle = new Bundle();
+                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+                        bundle.putString("orderId", item.id);
+                        bundle.putString("productId", item.productId);
+                        newFragment.setArguments(bundle);
+                        MainActivity.addActionFragment(newFragment);
+
+                    }
+                });
 
             }else{
                 // no consumers added . please add consumer first
@@ -183,9 +196,9 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.createOrderBtn){
-//            CreateOrderFragment fragment = new CreateOrderFragment();
+//            OrderDetailFragment fragment = new OrderDetailFragment();
 //            Bundle bundle = new Bundle();
-////            bundle.putString("consumerId", selectedId);
+//            bundle.putString("consumerId", selectedId);
 //            fragment.setArguments(bundle);
 //            MainActivity.addActionFragment(fragment);
         }
