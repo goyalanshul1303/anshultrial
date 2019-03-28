@@ -23,7 +23,7 @@ public enum OrderStatus {
 		return this.value;
 	}
 	
-	public static OrderStatus getCorrugationType(int value){
+	public static OrderStatus getOrderStatus(int value){
 		
 		for(OrderStatus type : values()){
 			if(type.getValue() == value){

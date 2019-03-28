@@ -2,9 +2,7 @@ package com.cartonwale.order.api.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
+import com.cartonwale.common.exception.OrderProcessNotFoundException;
 import com.cartonwale.common.exception.ProductNotFoundException;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
@@ -25,7 +24,6 @@ import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.order.api.dao.OrderDao;
 import com.cartonwale.order.api.model.Order;
 import com.cartonwale.order.api.model.OrderStatus;
-import com.cartonwale.order.api.model.Quote;
 import com.cartonwale.order.api.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -104,5 +102,21 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	public List<Order> getPlacedOrders() {
 		
 		return orderDao.getPlacedOrders();
+	}
+
+	@Override
+	public Order changeStatus(String orderId, int statusId) {
+		Order order = super.getById(orderId);
+		
+		if(order == null){
+			throw new OrderProcessNotFoundException();
+		}
+		
+		if(order.getOrderStatus() == statusId)
+			throw new BadRequestException("Order is currently at stated status only");
+		
+		order.setOrderStatus(OrderStatus.getOrderStatus(statusId));
+		super.edit(order);
+		return order;
 	}
 }

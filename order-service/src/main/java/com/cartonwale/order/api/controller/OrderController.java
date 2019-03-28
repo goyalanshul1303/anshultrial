@@ -54,4 +54,9 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.getPlacedOrders());
     }
     
+    @RequestMapping(value="/changeOrderStatus/{orderId}/{statusId}", method = RequestMethod.PUT)
+    public ResponseEntity<Order> changeOrderStatus(@PathVariable("orderId") String orderId, @PathVariable("statusId") int statusId) {
+		return makeResponse(orderService.changeStatus(orderId, statusId), HttpStatus.ACCEPTED);
+    }
+    
 }
