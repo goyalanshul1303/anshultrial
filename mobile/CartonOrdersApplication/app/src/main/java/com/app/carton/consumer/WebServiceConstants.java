@@ -17,6 +17,7 @@ public class WebServiceConstants {
     public static final String GET_SINGLE_PRODUCT = BASE_URL + "/product-service/product/";
     public static final String ADD_PRODUCT = BASE_URL +"/product-service/product";
 
+    public static final String GET_ORDER_QUOTATIONS = BASE_URL +"/order-service/quotes/order/";
 
 
 }

@@ -2,6 +2,7 @@ package com.app.carton.consumer;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -29,48 +31,51 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by aggarwal.swati on 2/8/19.
+ * Created by aggarwal.swati on 2/12/19.
  */
 
-public class ConsumerOrderListFragment extends Fragment implements View.OnClickListener  {
+public class QuotationListingFragment extends Fragment implements View.OnClickListener {
 
     private static View view;
 
-    private RecyclerView orderListView;
+    private RecyclerView quotationListView;
 
-    CreateOrderRequest request = new CreateOrderRequest();
     private ProgressBar progressBar;
     DataView data = new DataView();
-    Button createOrderBtn;
-    private OrderItemAdapter adapter;
-    View viewNoOrdersAdded;
-    private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
+    private QuotationItemsAdapter adapter;
+    View viewNoQuationsAdded;
+    private ArrayList<QuotationData> quotationDataArrayList;
+    String orderId;
+    public QuotationListingFragment() {
 
-    public ConsumerOrderListFragment() {
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.order_list, container, false);
+        view = inflater.inflate(R.layout.quotation_list, container, false);
         initViews();
         return view;
     }
 
+
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
+        viewNoQuationsAdded = (View)view.findViewById(R.id.viewNoQuotationAdded);
+        quotationListView = (RecyclerView)view.findViewById(R.id.quotationRecyclerView);
+        new FetchDetailsTask().execute();
 
-        viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
-        createOrderBtn.setOnClickListener(this);
-
-        new GetAllProductsAsyncTask().execute();
     }
-
-    public class GetAllProductsAsyncTask extends AsyncTask<String, Void, String> {
+    public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
@@ -79,8 +84,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         protected String doInBackground(String... arg0) {
 
             try {
-
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDERS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDER_QUOTATIONS);
+                string.append(orderId);
                 URL url = new URL(string.toString());
 
 
@@ -121,12 +126,10 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-
-//
             if (null != result) {
                 if(result.trim().charAt(0) == '[') {
                     Log.e("Response is : " , "JSONArray");
-                    parseListingData(result);
+                    parseDetailsData(result);
                 } else if(result.trim().charAt(0) == '{') {
                     try {
                         object = new JSONObject(result);
@@ -154,55 +157,60 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         }
     }
 
-    private void parseListingData(String result) {
+    private void parseDetailsData(String result) {
         try {
             JSONArray list = new JSONArray(result);
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
-                orderListDetailsItems = new ArrayList<>();
+                quotationDataArrayList = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
-                    OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
-                    orderListDetailsItems.add(item);
+                    QuotationData item=gson.fromJson(String.valueOf((list.optJSONObject(i))),QuotationData.class);
+                    quotationDataArrayList.add(item);
                 }
-                adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
-                orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                orderListView.setAdapter(adapter);
-                viewNoOrdersAdded.setVisibility(View.GONE);
-                orderListView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Fragment newFragment = new QuotationListingFragment();
-                        Bundle bundle = new Bundle();
-                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-                        bundle.putString("orderId", item.id);
-                        newFragment.setArguments(bundle);
-                        MainActivity.addActionFragment(newFragment);
-
-                    }
-                });
+                adapter = new QuotationItemsAdapter(getActivity(), quotationDataArrayList);
+                quotationListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                quotationListView.setAdapter(adapter);
+                viewNoQuationsAdded.setVisibility(View.GONE);
+                quotationListView.setVisibility(View.VISIBLE);
+//                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
+//
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        Fragment newFragment = new QuotationListingFragment();
+//                        Bundle bundle = new Bundle();
+//                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+//                        bundle.putString("orderId", item.id);
+//                        newFragment.setArguments(bundle);
+//                        MainActivity.addActionFragment(newFragment);
+//
+//                    }
+//                });
 
 
             }else{
                 // no consumers added . please add consumer first
-                viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                orderListView.setVisibility(View.GONE);
+                viewNoQuationsAdded.setVisibility(View.VISIBLE);
+                quotationListView.setVisibility(View.GONE);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
 
+
+
+
+    }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.createOrderBtn){
-            CreateOrderFragment fragment = new CreateOrderFragment();
-            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
-        }
+//        if (view.getId() == R.id.addProductBtn){
+//            AddProductFragment fragment = new AddProductFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putString("consumerId", consumerId);
+//            fragment.setArguments(bundle);
+//            MainActivity.addActionFragment(fragment);
+//        }
+
     }
 }
