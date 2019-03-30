@@ -216,9 +216,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         protected String doInBackground(String... arg0) {
 
             try {
-                URL url = new URL(WebServiceConstants.AWARD_QUOTATION);
-                JSONObject object = new JSONObject();
-                object.put("quoteId", quoteId);
+                URL url = new URL(WebServiceConstants.AWARD_QUOTATION+quoteId);
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -231,7 +230,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(object.toString());
+//                writer.write(object.toString());
 
                 writer.flush();
                 writer.close();

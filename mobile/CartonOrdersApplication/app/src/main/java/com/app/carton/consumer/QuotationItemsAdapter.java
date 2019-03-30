@@ -44,7 +44,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
         Utils.setDetailsTextField("Quotation Amount", context, customViewHolder.quotationAmount,String.valueOf(testObjtem.quoteAmount));
         Utils.setDetailsTextField("Quotation Start Date", context, customViewHolder.quotationStartDate, Utils.getDate(testObjtem.orderStartDate));
         Utils.setDetailsTextField("Quotation End Date", context, customViewHolder.quotationEndDate, Utils.getDate(testObjtem.orderFulfillmentDate));
-        Utils.setDetailsTextField("Quotation Placed Date", context, customViewHolder.quotationPlacedDate, Utils.getDate(testObjtem.orderPlacedDate));
+        Utils.setDetailsTextField("Quotation Placed Date", context, customViewHolder.quotationPlacedDate, Utils.getDate(testObjtem.quoteDate));
         customViewHolder.awardQuotationBtn.setTag(i);
         customViewHolder.awardQuotationBtn.setOnClickListener(this);
         if (testObjtem.isAwarded()){

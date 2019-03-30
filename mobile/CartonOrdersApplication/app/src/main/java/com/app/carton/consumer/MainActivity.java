@@ -18,9 +18,11 @@ public class MainActivity extends AppCompatActivity {
 
         // If savedinstnacestate is null then replace login fragment
         if (savedInstanceState == null) {
-            if (SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
+            if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
                     replaceLoginFragment(new ConsumerLoginFragment());
-                }else{
+                }else  if (null == SharedPreferences.getString(this, SharedPreferences.KEY_CHANGED_PASSWORD) ||  SharedPreferences.getString(this, SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("0")){
+                replaceLoginFragment(new ChangePasswordFragment());
+            }else{
                     replaceLoginFragment(new ChooseActivityFragment());
             }
             }

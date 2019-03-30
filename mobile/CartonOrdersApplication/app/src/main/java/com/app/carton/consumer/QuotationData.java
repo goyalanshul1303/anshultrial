@@ -68,15 +68,15 @@ public class QuotationData {
     long orderFulfillmentDate;
     long orderStartDate;
 
-    public long getOrderPlacedDate() {
-        return orderPlacedDate;
+    public long getQouteDate() {
+        return quoteDate;
     }
 
-    public void setOrderPlacedDate(long orderPlacedDate) {
-        this.orderPlacedDate = orderPlacedDate;
+    public void setQouteDate(long qouteDate) {
+        this.quoteDate = qouteDate;
     }
 
-    long orderPlacedDate;
+    long quoteDate;
 
     public void setAwarded(boolean awarded) {
         this.awarded = awarded;
