@@ -1,7 +1,8 @@
 package com.cartonwale.order.api.service.impl;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
@@ -38,7 +39,7 @@ public class QuoteServiceImpl extends GenericServiceImpl<Quote> implements Quote
 		if (isQuoteExists(quote))
 			throw new DuplicateQuoteException();
 
-		quote.setQuoteDate(new Date());
+		quote.setQuoteDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		quote.setProviderId(SecurityUtil.getAuthUserDetails().getEntityId());
 		return super.add(quote);
 	}
