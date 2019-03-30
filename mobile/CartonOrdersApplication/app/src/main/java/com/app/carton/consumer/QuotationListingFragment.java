@@ -49,6 +49,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     View viewNoQuationsAdded;
     private ArrayList<QuotationData> quotationDataArrayList;
     String orderId,quoteId;
+    private int awardPosition;
+
     public QuotationListingFragment() {
 
     }
@@ -137,7 +139,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                     try {
                         object = new JSONObject(result);
                         if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
 
@@ -180,6 +183,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 @Override
                 public void onItemClick(View view, int position) {
                     QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
+                    awardPosition = position;
                     quoteId = testObjtem.id;
                     new AwardQuotationTask().execute();
 
@@ -273,11 +277,15 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 }
                 if (null!=object) {
                     if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
                     } else {
 //                        parseListingData(object);
+                        QuotationData testObjtem = quotationDataArrayList.get((Integer) awardPosition);
+                        testObjtem.setAwarded(true);
+                        adapter.notifyDataSetChanged();
 
                     }
                 }

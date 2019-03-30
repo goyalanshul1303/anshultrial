@@ -94,12 +94,11 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.awardQuotationBtn){
-            QuotationData testObjtem = data.get((Integer) view.getTag());
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClick(view, (Integer) view.getTag());
             }
-            testObjtem.setAwarded(true);
-            notifyDataSetChanged();
+//            testObjtem.setAwarded(true);
+//            notifyDataSetChanged();
         }
     }
 }
