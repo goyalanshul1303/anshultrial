@@ -24,8 +24,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     private QuotationItemsAdapter adapter;
     View viewNoQuationsAdded;
     private ArrayList<QuotationData> quotationDataArrayList;
-    String orderId;
+    String orderId,quoteId;
     public QuotationListingFragment() {
 
     }
@@ -172,19 +175,16 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 quotationListView.setAdapter(adapter);
                 viewNoQuationsAdded.setVisibility(View.GONE);
                 quotationListView.setVisibility(View.VISIBLE);
-//                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
-//
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        Fragment newFragment = new QuotationListingFragment();
-//                        Bundle bundle = new Bundle();
-//                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-//                        bundle.putString("orderId", item.id);
-//                        newFragment.setArguments(bundle);
-//                        MainActivity.addActionFragment(newFragment);
-//
-//                    }
-//                });
+               adapter.SetOnItemClickListener(new QuotationItemsAdapter.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(View view, int position) {
+                    QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
+                    quoteId = testObjtem.id;
+                    new AwardQuotationTask().execute();
+
+                }
+            });
 
 
             }else{
@@ -204,13 +204,90 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-//        if (view.getId() == R.id.addProductBtn){
-//            AddProductFragment fragment = new AddProductFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", consumerId);
-//            fragment.setArguments(bundle);
-//            MainActivity.addActionFragment(fragment);
-//        }
 
+    }
+
+    public class AwardQuotationTask extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+                URL url = new URL(WebServiceConstants.AWARD_QUOTATION);
+                JSONObject object = new JSONObject();
+                object.put("quoteId", quoteId);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(object.toString());
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+
+                InputStream inputStream;
+
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
+
+
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject object = null;
+
+            progressBar.setVisibility(View.GONE);
+            if (null != result) {
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (null!=object) {
+                    if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+//                        parseListingData(object);
+
+                    }
+                }
+            }else  {
+                Toast.makeText(getActivity(), "Something went wrong please try again",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+        }
     }
 }

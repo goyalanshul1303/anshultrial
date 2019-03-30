@@ -140,14 +140,20 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                         e.printStackTrace();
                     }
                 }else  {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    if (null!= getActivity()){
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
+                        MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                    }
+
                 }
 
 
             }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+                if (null!= getActivity()) {
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
+                }
             }
 
 

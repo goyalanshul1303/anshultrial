@@ -8,6 +8,16 @@ public class QuotationData {
     String orderId ;
     String providerId;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id ;
+
     public boolean isAwarded() {
         return awarded;
     }
