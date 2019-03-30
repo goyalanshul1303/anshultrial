@@ -45,8 +45,8 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
-//        customViewHolder.textLL.setOnClickListener(this);
-//        customViewHolder.textLL.setTag(i);
+        customViewHolder.textLL.setOnClickListener(this);
+        customViewHolder.textLL.setTag(i);
 
     }
 
@@ -66,6 +66,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
+            textLL =(LinearLayout)view.findViewById(R.id.textLL);
 
 
         }

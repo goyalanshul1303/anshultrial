@@ -12,5 +12,5 @@ public class OrdersListDetailsItem {
     int changeDimension;
     String productId;
     String quantity;
-    DimensionClass dimensionClass;
+    DimensionClass dimension;
 }

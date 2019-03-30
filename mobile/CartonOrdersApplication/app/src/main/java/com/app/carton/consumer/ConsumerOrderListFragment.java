@@ -140,14 +140,20 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                         e.printStackTrace();
                     }
                 }else  {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    if (null!= getActivity()){
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
+                        MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                    }
+
                 }
 
 
             }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+                if (null!= getActivity()) {
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
+                }
             }
 
 
@@ -169,7 +175,20 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 orderListView.setVisibility(View.VISIBLE);
-//                adapter.SetOnItemClickListener();
+                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Fragment newFragment = new QuotationListingFragment();
+                        Bundle bundle = new Bundle();
+                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+                        bundle.putString("orderId", item.id);
+                        newFragment.setArguments(bundle);
+                        MainActivity.addActionFragment(newFragment);
+
+                    }
+                });
+
 
             }else{
                 // no consumers added . please add consumer first

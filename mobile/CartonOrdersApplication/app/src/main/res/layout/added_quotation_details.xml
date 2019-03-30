@@ -3,94 +3,75 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/details_bg">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingRight="10dp"
-            android:id="@+id/parentLL"
-            android:visibility="gone">
+            android:paddingRight="10dp">
             <TextView
-                android:id="@+id/productName"
+                android:id="@+id/quotationAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Folder name here."
+                android:text="Amount"
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/cartonType"
+                android:id="@+id/quotationStartDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
 
-                android:text="Folder name here."
+                android:text="Start date"
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/corrugationType"
+                android:id="@+id/quotationEndDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
 
-                android:textColor="@color/course_heading_color"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/sheetLayerType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Folder name here."
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
+
             <TextView
-                android:id="@+id/printingType"
+                android:id="@+id/quotationPlacedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Folder name here."
+                android:text="Quotation Placed Date"
                 android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/expectedQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
 
 
             <Button
-                android:id="@+id/addProductBtn"
-                android:layout_width="match_parent"
+                android:id="@+id/awardQuotationBtn"
+                android:layout_width="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
                 android:background="@color/background_color"
                 android:padding="3dp"
-                android:text="Add Product"
-                android:visibility="gone"
+                android:text="Award Quotation"
                 android:textColor="@color/white"
-                android:textSize="17sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </ScrollView>
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/textLL"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#000000" />
+</LinearLayout>
 </RelativeLayout>
