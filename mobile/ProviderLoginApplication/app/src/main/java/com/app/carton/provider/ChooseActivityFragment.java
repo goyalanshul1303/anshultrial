@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
-    private Button getProductsButton, getOrderButton;
+    private Button getAwardedOrders, getOrderButton;
 
     @Override
     public void onClick(View view) {
@@ -22,8 +22,8 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
             // Get FragmentManager and FragmentTransaction object.
            MainActivity.addActionFragment(new ProviderOrderListFragment());
 
-        }else if (view.getId() == R.id.getProductsButton){
-            MainActivity.addActionFragment(new ProviderProductsListFragment());
+        }else if (view.getId() == R.id.getAwardedOrders){
+            MainActivity.addActionFragment(new AwardedOrdersListFragment());
         }
 
     }
@@ -37,10 +37,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     }
 
     private void inflateViews() {
-        getProductsButton = (Button)view.findViewById(R.id.getProductsButton);
+        getAwardedOrders = (Button)view.findViewById(R.id.getAwardedOrders);
         getOrderButton =(Button) view.findViewById(R.id.getOrderButton);
         getOrderButton.setOnClickListener(this);
-        getProductsButton.setOnClickListener(this);
+        getAwardedOrders.setOnClickListener(this);
 
     }
 }

@@ -134,7 +134,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                                 || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
-
+                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.app.carton.provider.OrderItemAdapter.OnItemClickListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,24 +34,22 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/12/19.
  */
 
-public class ProviderProductsListFragment extends Fragment implements View.OnClickListener {
+public class AwardedOrdersListFragment extends Fragment implements View.OnClickListener {
 
     private static View view;
 
-    private RecyclerView productsRecyclerView;
+    private RecyclerView ordersRecyclerView;
 
     private ProgressBar progressBar;
     private String urlType;
     DataView data = new DataView();
-    private ProductsItemAdapter adapter;
-    View viewNoProductAdded;
-    ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
+    private OrderItemAdapter adapter;
+    View viewNoOrdersAdded;
+    ArrayList<OrdersListDetailsItem> ordersListDetailsItems = new ArrayList<>();
     private Button addProductBtn;
     String customerType = "";
-    private String selectedId = "";
-    private String consumerId;
 
-    public ProviderProductsListFragment() {
+    public AwardedOrdersListFragment() {
 
     }
 
@@ -59,8 +58,7 @@ public class ProviderProductsListFragment extends Fragment implements View.OnCli
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null){
-            customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
-            selectedId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
+
         }
 
     }
@@ -68,7 +66,7 @@ public class ProviderProductsListFragment extends Fragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.products_list, container, false);
+        view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
         return view;
     }
@@ -77,10 +75,10 @@ public class ProviderProductsListFragment extends Fragment implements View.OnCli
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
-        viewNoProductAdded = (View)view.findViewById(R.id.viewNoProductAdded);
-        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
-        addProductBtn.setOnClickListener(this);
+        ordersRecyclerView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
+        viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
+//        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
+//        addProductBtn.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
     }
@@ -95,7 +93,7 @@ public class ProviderProductsListFragment extends Fragment implements View.OnCli
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_AWARDED_ORDERS);
                 URL url = new URL(string.toString());
 
 
@@ -174,36 +172,34 @@ public class ProviderProductsListFragment extends Fragment implements View.OnCli
             JSONArray list = new JSONArray(result);
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
-                productDetailsItems = new ArrayList<>();
+                ordersListDetailsItems = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
-                    ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
-                    productDetailsItems.add(item);
-                    consumerId = item.consumerId;
+                    OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
+                    ordersListDetailsItems.add(item);
                 }
-                adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
-                productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                productsRecyclerView.setAdapter(adapter);
-                viewNoProductAdded.setVisibility(View.GONE);
-                productsRecyclerView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new ProductsItemAdapter.OnItemClickListener() {
+                adapter = new OrderItemAdapter(getActivity(), ordersListDetailsItems);
+                ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                ordersRecyclerView.setAdapter(adapter);
+                viewNoOrdersAdded.setVisibility(View.GONE);
+                ordersRecyclerView.setVisibility(View.VISIBLE);
+                adapter.SetOnItemClickListener(new OnItemClickListener() {
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new ProductDetailsFragment();
+                        Fragment newFragment = new OrderDetailFragment();
                         Bundle bundle = new Bundle();
-                        ProductsDetailsItem item = productDetailsItems.get(position);
-                        bundle.putString("selectedId", item.consumerId);
-                        bundle.putString("productId", item.id);
+                        OrdersListDetailsItem item = ordersListDetailsItems.get(position);
+                        bundle.putString("orderId", item.id);
+                        bundle.putString("productId", item.productId);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 
                     }
                 });
-
             }else{
                 // no consumers added . please add consumer first
-                viewNoProductAdded.setVisibility(View.VISIBLE);
-                productsRecyclerView.setVisibility(View.GONE);
+                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                ordersRecyclerView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

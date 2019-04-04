@@ -286,6 +286,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                         QuotationData testObjtem = quotationDataArrayList.get((Integer) awardPosition);
                         testObjtem.setAwarded(true);
                         adapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "Quotation awarded successfully",
+                                Toast.LENGTH_LONG).show();
 
                     }
                 }

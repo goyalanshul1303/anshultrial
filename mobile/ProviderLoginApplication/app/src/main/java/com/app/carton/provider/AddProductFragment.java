@@ -306,7 +306,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
                 } else {
                     Toast.makeText(getActivity(), "Product Created successfully",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ProviderProductsListFragment());
+//                    new MainActivity().replaceLoginFragment(new ProviderProductsListFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
