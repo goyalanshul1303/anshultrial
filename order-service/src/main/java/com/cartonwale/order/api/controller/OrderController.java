@@ -34,6 +34,11 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.getAll());
     }
 	
+	@RequestMapping("/provider")
+    public ResponseEntity<List<Order>> getAllByProvider() {
+		return makeResponse(orderService.getAll());
+    }
+	
 	@RequestMapping("/{id}")
     public ResponseEntity<Order> getById(@PathVariable("id") String id) {
 		return makeResponse(orderService.getById(id));

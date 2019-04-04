@@ -121,4 +121,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		super.edit(order);
 		return order;
 	}
+
+	@Override
+	public List<Order> getAllByProvider() {
+		
+		return orderDao.getAllByProvider(SecurityUtil.getAuthUserDetails().getEntityId());
+	}
 }

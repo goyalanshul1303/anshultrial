@@ -45,4 +45,17 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 		
 		return null;
 	}
+
+	@Override
+	public List<Order> getAllByProvider(String providerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("providerId").is(providerId));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
