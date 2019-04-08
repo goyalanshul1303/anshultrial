@@ -70,15 +70,14 @@
 
 
             <Button
-                android:id="@+id/addProductBtn"
+                android:id="@+id/addOrderBtn"
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:background="@color/background_color"
                 android:padding="3dp"
-                android:text="Add Product"
-                android:visibility="gone"
+                android:text="Create Order"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />

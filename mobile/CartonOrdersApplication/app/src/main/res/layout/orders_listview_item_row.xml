@@ -32,6 +32,14 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/course_heading_color"
             android:textSize="16sp" />
+        <TextView
+            android:id="@+id/awardedStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/quantity"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/background_color"
+            android:textSize="15sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

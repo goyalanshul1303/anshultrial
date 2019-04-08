@@ -13,11 +13,10 @@ public class WebServiceConstants {
     public static final String GET_PLACED_ORDERS = BASE_URL + "/order-service/orders/placedOrders";
     public static final String GET_ORDERS = BASE_URL + "/order-service/orders";
     public static final String PERMISSION = BASE_URL +"/auth-service/auth/current";
-    public static final String GET_ALL_PRODUCTS = BASE_URL + "/product-service/product";
     public static final String GET_SINGLE_PRODUCT = BASE_URL + "/product-service/product/";
     public static final String ADD_PRODUCT = BASE_URL +"/product-service/product";
     public static final String ADD_QUOTATION = BASE_URL + "/order-service/quotes";
-    public static final String GET_ALL_AWARDED_ORDERS = BASE_URL + "/order-service/provider";
+    public static final String GET_ALL_AWARDED_ORDERS = BASE_URL + "/order-service/orders/provider";
 
 
 

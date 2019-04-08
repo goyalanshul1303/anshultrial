@@ -288,7 +288,7 @@ String id;
                 Utils.setDetailsTextField("Customer Name", getActivity(), custmerName, item.companyName);
                 Utils.setDetailsTextField("Corrugation Type ", getActivity(), corrugationType, corrugationSTring);
                 Utils.setDetailsTextField("Supported Sheet Layers Type ", getActivity(), supportedSheetLayers, sheetLayerSTring);
-                Utils.setDetailsTextField("Printing Type", getActivity(), printingType, item.printingType);
+//                Utils.setDetailsTextField("Printing Type", getActivity(), printingType, item.printingType);
                 Utils.setDetailsTextField("Operating Hours  ", getActivity(), operatingHours, item.operatingHours);
                 Utils.setDetailsTextField("Factory Capacity ", getActivity(), factoryCapacity, String.valueOf(item.factoryCapacity));
                 Utils.setDetailsTextField("Credit Limit  ", getActivity(), creditLimit, String.valueOf(item.creditLimit));

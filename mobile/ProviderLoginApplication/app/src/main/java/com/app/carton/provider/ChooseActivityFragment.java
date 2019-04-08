@@ -20,7 +20,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.getOrderButton){
             // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ProviderOrderListFragment());
+           MainActivity.addActionFragment(new PlacedOrderListFragment());
 
         }else if (view.getId() == R.id.getAwardedOrders){
             MainActivity.addActionFragment(new AwardedOrdersListFragment());
@@ -41,6 +41,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         getOrderButton =(Button) view.findViewById(R.id.getOrderButton);
         getOrderButton.setOnClickListener(this);
         getAwardedOrders.setOnClickListener(this);
+        // see if any ongoing orders present else take to list of requirements. placed orders screen
 
     }
 }

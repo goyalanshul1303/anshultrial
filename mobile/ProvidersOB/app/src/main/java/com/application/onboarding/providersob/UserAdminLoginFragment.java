@@ -316,7 +316,7 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
                         for (int i = 0 ; i < 1; i++){
                            JSONObject rolesObj = rolesArray.optJSONObject(i);
                            if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.seller.admin")){
-                               if (null!= SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD)&& SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
+                               if (object.optBoolean("enabled")){
                                    new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
                                }else{
                                    new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

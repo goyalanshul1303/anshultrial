@@ -47,6 +47,13 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
+        if (testObjtem.orderStatus == 2){
+            // order alread MANUFACTURER_ASSIGNED
+            customViewHolder.awardStatus.setText("Already Awarded Manufature Assigned");
+        }else{
+            customViewHolder.awardStatus.setText("Order placed");
+
+        }
         customViewHolder.textLL.setOnClickListener(this);
         customViewHolder.textLL.setTag(i);
 
@@ -60,7 +67,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textView, quantity;
+        TextView textView, quantity, awardStatus;
         LinearLayout textLL;
 
 
@@ -69,6 +76,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
             textLL = (LinearLayout)view.findViewById(R.id.textLL);
+            awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
 
 
         }

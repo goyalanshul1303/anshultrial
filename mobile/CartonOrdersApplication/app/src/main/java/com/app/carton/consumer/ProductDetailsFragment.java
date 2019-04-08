@@ -33,7 +33,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private static View view;
 
     private ProgressBar progressBar;
-    private Button addProductBtn;
+    private Button addOrderBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     public ProductDetailsFragment() {
@@ -61,14 +61,14 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
+        addOrderBtn = (Button)view.findViewById(R.id.addOrderBtn);
         quantity = (TextView)view.findViewById(R.id.expectedQuantity);
         sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
         productName = (TextView)view.findViewById(R.id.productName);
         printingType = (TextView)view.findViewById(R.id.printingType);
         corrugationType = (TextView)view.findViewById(R.id.corrugationType);
         cartonType = (TextView)view.findViewById(R.id.cartonType);
-        addProductBtn.setOnClickListener(this);
+        addOrderBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
 
     }
@@ -82,6 +82,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
             try {
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_SINGLE_PRODUCT);
+                string.append(consumerId);
+                string.append("/");
                 string.append(productId);
                 URL url = new URL(string.toString());
 
@@ -163,10 +165,10 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.addProductBtn){
-            AddProductFragment fragment = new AddProductFragment();
+        if (view.getId() == R.id.addOrderBtn){
+            CreateOrderFragment fragment = new CreateOrderFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("consumerId", consumerId);
+            bundle.putString("productId", productId);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }

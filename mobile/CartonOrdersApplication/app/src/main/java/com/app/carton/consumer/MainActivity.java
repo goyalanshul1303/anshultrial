@@ -20,10 +20,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
                     replaceLoginFragment(new ConsumerLoginFragment());
-                }else  if (null == SharedPreferences.getString(this, SharedPreferences.KEY_CHANGED_PASSWORD) ||  SharedPreferences.getString(this, SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("0")){
-                replaceLoginFragment(new ChangePasswordFragment());
-            }else{
-                    replaceLoginFragment(new ChooseActivityFragment());
+                }else{
+                    replaceLoginFragment(new ConsumerOrderListFragment());
             }
             }
 

@@ -147,6 +147,9 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
                                 || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
+                          if( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
+                           MainActivity.replaceLoginFragment(new ProviderLoginFragment())   ;
+                          }
 
                         }
                     } catch (JSONException e) {
@@ -191,6 +194,7 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
                         OrdersListDetailsItem item = ordersListDetailsItems.get(position);
                         bundle.putString("orderId", item.id);
                         bundle.putString("productId", item.productId);
+                        bundle.putBoolean("isFromAwardedScreen", true);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 

@@ -36,6 +36,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String orderId,productId;
     LinearLayout parentLL;
+    boolean isFromAwarded ;
     public OrderDetailFragment() {
 
     }
@@ -44,6 +45,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
+            isFromAwarded = getArguments().containsKey("isFromAwardedScreen") ? getArguments().getBoolean("isFromAwardedScreen") : false;
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
             productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
         }
@@ -71,6 +73,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         cartonType = (TextView)view.findViewById(R.id.cartonType);
         addQuotationBtn.setOnClickListener(this);
         new FetchOrderDetailsTask().execute();
+        if (isFromAwarded){
+            addQuotationBtn.setVisibility(View.GONE);
+            // show status change button
+        }
 
     }
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {

@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/details_bg">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:text="Please select type of customer you want to add"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:padding="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="Please select type of customer you want to add"
-            />
+
         <Button
             android:id="@+id/providerButton"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="15dp"
             android:background="@color/background_color"
-            android:padding="3dp"
-            android:text="Provider On Boarding"
+            android:padding="7dp"
+            android:text="Onboarded Providers"
             android:textColor="@color/white"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
         <Button
             android:id="@+id/consumerButton"
@@ -35,10 +38,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@color/background_color"
-            android:padding="3dp"
-            android:text="Consumer On Boarding"
+            android:padding="7dp"
+            android:text="Onboarded Consumers"
             android:textColor="@color/white"
-            android:textSize="17sp"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
             android:textStyle="bold" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

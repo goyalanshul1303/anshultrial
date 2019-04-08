@@ -41,7 +41,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
     CreateOrderRequest request = new CreateOrderRequest();
     private ProgressBar progressBar;
     DataView data = new DataView();
-    Button createOrderBtn;
+    Button goToProductBtn;
     private OrderItemAdapter adapter;
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
@@ -64,8 +64,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
 
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
-        createOrderBtn.setOnClickListener(this);
+        goToProductBtn = (Button)view.findViewById(R.id.goToProductBtn);
+        goToProductBtn.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
     }
@@ -191,9 +191,10 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
 
             }else{
-                // no consumers added . please add consumer first
-                viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                orderListView.setVisibility(View.GONE);
+                // take user to open orders screen
+                // api needs to be developed
+//                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+//                orderListView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -203,8 +204,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.createOrderBtn){
-            CreateOrderFragment fragment = new CreateOrderFragment();
+        if (view.getId() == R.id.goToProductBtn){
+            ConsumerOrderListFragment fragment = new ConsumerOrderListFragment();
             Bundle bundle = new Bundle();
 //            bundle.putString("consumerId", selectedId);
             fragment.setArguments(bundle);

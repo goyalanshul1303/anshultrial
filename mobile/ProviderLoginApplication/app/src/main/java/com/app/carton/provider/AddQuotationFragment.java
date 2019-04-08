@@ -239,7 +239,7 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
                 } else {
                     Toast.makeText(getActivity(), "Quotation Created successfully",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ProviderOrderListFragment());
+                    new MainActivity().replaceLoginFragment(new PlacedOrderListFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

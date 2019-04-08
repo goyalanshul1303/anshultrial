@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:overScrollMode="never"
     android:scrollbars="none" >
 
@@ -10,10 +11,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color" >
-
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@color/white"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorPrimary" />
         <FrameLayout
             android:id="@+id/frameContainer"
             android:layout_width="fill_parent"
+            android:layout_below="@+id/toolbar"
             android:layout_height="fill_parent"/>
     </RelativeLayout>
 

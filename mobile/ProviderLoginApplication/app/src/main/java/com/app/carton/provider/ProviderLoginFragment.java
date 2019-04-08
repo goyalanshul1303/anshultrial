@@ -51,6 +51,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login, container, false);
+        getActivity().setTitle("Login");
         initViews();
         setListeners();
         return view;
@@ -160,8 +161,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "abcd12245e");
-                postDataParams.put("password", "swati22");
+                postDataParams.put("username", "abif13245e");
+                postDataParams.put("password", "abc123");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -295,8 +296,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     for (int i = 0 ; i < 1; i++){
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")){
-                            if (null != SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD)&& SharedPreferences.getString(getActivity(), SharedPreferences.KEY_CHANGED_PASSWORD).equalsIgnoreCase("1")){
-                                new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
+                            if (object.optBoolean("enabled")){
+                                new MainActivity().replaceLoginFragment(new PlacedOrderListFragment());
                             }else{
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
                             }

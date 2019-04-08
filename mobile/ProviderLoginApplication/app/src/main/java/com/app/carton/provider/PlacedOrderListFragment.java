@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/8/19.
  */
 
-public class ProviderOrderListFragment extends Fragment implements View.OnClickListener  {
+public class PlacedOrderListFragment extends Fragment implements View.OnClickListener  {
 
     private static View view;
 
@@ -44,7 +44,7 @@ public class ProviderOrderListFragment extends Fragment implements View.OnClickL
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
 
-    public ProviderOrderListFragment() {
+    public PlacedOrderListFragment() {
 
     }
 

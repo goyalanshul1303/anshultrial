@@ -23,7 +23,9 @@ public class SharedPreferences {
             edit.commit();
         }
     }
-
+    public static boolean logout(Context context) {
+        return getSharedPreferences(context).edit().clear().commit();
+    }
     public static void putBoolean(Context context, String key, boolean value) {
         if (context != null) {
             getSharedPreferences(context).edit().putBoolean(key, value).commit();

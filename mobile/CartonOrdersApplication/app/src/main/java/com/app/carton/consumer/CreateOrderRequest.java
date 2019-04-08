@@ -9,57 +9,32 @@ import java.util.List;
  */
 
 public class CreateOrderRequest {
-    List<Integer> cartonType = new ArrayList();
-    private int printingType;
-    List<Integer> corrugationType = new ArrayList();
-    List<Integer> supportedSheetLayers = new ArrayList();
-    private int consumerType;
-    private int expectedQuantity;
+  String productId;
 
-
-    public int getExpectedQuantity() {
-        return expectedQuantity;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setExpectedQuantity(int expectedQuantity) {
-        this.expectedQuantity = expectedQuantity;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public List<Integer> getCartonType() {
-        return cartonType;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCartonType(List<Integer> cartonType) {
-        this.cartonType = cartonType;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public int getPrintingType() {
-        return printingType;
+    public DimensionClass getDimension() {
+        return dimension;
     }
 
-    public void setPrintingType(int printingType) {
-        this.printingType = printingType;
-    }
-    public List<Integer> getCorrugationType() {
-        return corrugationType;
+    public void setDimension(DimensionClass dimension) {
+        this.dimension = dimension;
     }
 
-    public void setCorrugationType(List<Integer> corrugationType) {
-        this.corrugationType = corrugationType;
-    }
-
-    public List<Integer> getSupportedSheetLayers() {
-        return supportedSheetLayers;
-    }
-
-    public void setSupportedSheetLayers(List<Integer> supportedSheetLayers) {
-        this.supportedSheetLayers = supportedSheetLayers;
-    }
-    public int getConsumerType() {
-        return consumerType;
-    }
-
-    public void setConsumerType(int consumerType) {
-        this.consumerType = consumerType;
-    }
+    int quantity;
+    DimensionClass dimension;
 }
