@@ -14,5 +14,9 @@ public interface OrderService extends GenericService<Order>{
 	Order changeStatus(String orderId, int statusId);
 	
 	List<Order> getAllByProvider();
+	
+	List<Order> getCompletedByProvider();
+	
+	List<Order> getRequirementsByConsumer();
 
 }

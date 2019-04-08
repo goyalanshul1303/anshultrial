@@ -44,6 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.antMatchers(HttpMethod.GET, "/orders/placedOrders").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
 				.antMatchers(HttpMethod.GET, "/orders/provider").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
+				.antMatchers(HttpMethod.GET, "/orders/consumer/requirements").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
+				.antMatchers(HttpMethod.GET, "/orders/provider/completed").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN, Permission.USER_PROVIDER)
                 .antMatchers(HttpMethod.POST, "/orders/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/orders/changeOrderStatus").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)

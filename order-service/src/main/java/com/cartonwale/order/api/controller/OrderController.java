@@ -34,9 +34,19 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.getAll());
     }
 	
+	@RequestMapping("/consumer/requirements")
+    public ResponseEntity<List<Order>> getRequirementsByConsumer() {
+		return makeResponse(orderService.getRequirementsByConsumer());
+    }
+	
 	@RequestMapping("/provider")
     public ResponseEntity<List<Order>> getAllByProvider() {
 		return makeResponse(orderService.getAllByProvider());
+    }
+	
+	@RequestMapping("/provider/completed")
+    public ResponseEntity<List<Order>> getCompletedByProvider() {
+		return makeResponse(orderService.getCompletedByProvider());
     }
 	
 	@RequestMapping("/{id}")
