@@ -9,6 +9,9 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,7 +58,14 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
         view = inflater.inflate(R.layout.login, container, false);
         initViews();
         setListeners();
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Login");
     }
 
     // Initiate Views
@@ -297,7 +307,7 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.consumer")){
                             if (object.optBoolean("enabled")){
-                                new MainActivity().replaceLoginFragment(new ConsumerOrderListFragment());
+                                new MainActivity().replaceLoginFragment(new ConsumerRequirementsListFragment());
                             }else{
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
                             }
@@ -317,6 +327,15 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
 
 
     }
-
-
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

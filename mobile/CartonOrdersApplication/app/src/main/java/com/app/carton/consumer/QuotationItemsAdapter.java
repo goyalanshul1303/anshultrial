@@ -24,6 +24,12 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
     private ArrayList<QuotationData> data = new ArrayList();
     Context context;
 
+    public void setFromOpenOrders(boolean fromOpenOrders) {
+        isFromOpenOrders = fromOpenOrders;
+    }
+
+    private boolean isFromOpenOrders;
+
     public QuotationItemsAdapter(Context mContext, ArrayList<QuotationData> data){
         context = mContext;
         this.data = data;
@@ -47,6 +53,12 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
         Utils.setDetailsTextField("Quotation Placed Date", context, customViewHolder.quotationPlacedDate, Utils.getDate(testObjtem.quoteDate));
         customViewHolder.awardQuotationBtn.setTag(i);
         customViewHolder.awardQuotationBtn.setOnClickListener(this);
+        if (isFromOpenOrders){
+            customViewHolder.awardQuotationBtn.setVisibility(View.GONE);
+        }else{
+            customViewHolder.awardQuotationBtn.setVisibility(View.VISIBLE);
+
+        }
         if (testObjtem.isAwarded()){
             customViewHolder.awardQuotationBtn.setText("Awarded Quotation");
             customViewHolder.awardQuotationBtn.setEnabled(false);

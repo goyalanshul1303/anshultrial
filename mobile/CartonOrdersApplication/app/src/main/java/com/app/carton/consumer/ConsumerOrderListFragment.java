@@ -55,6 +55,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
+        getActivity().setTitle("Open Orders");
+
         return view;
     }
 
@@ -67,10 +69,10 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         goToProductBtn = (Button)view.findViewById(R.id.goToProductBtn);
         goToProductBtn.setOnClickListener(this);
 
-        new GetAllProductsAsyncTask().execute();
+        new GetAllOpenOrdersAsyncTask().execute();
     }
 
-    public class GetAllProductsAsyncTask extends AsyncTask<String, Void, String> {
+    public class GetAllOpenOrdersAsyncTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
@@ -181,8 +183,10 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                     public void onItemClick(View view, int position) {
                         Fragment newFragment = new QuotationListingFragment();
                         Bundle bundle = new Bundle();
+
                         OrdersListDetailsItem item = orderListDetailsItems.get(position);
                         bundle.putString("orderId", item.id);
+                        bundle.putBoolean("isFromOpenOrders", true);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 
@@ -191,8 +195,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
 
             }else{
-                // take user to open orders screen
-                // api needs to be developed
+                // take user to open products  screen
+              MainActivity.replaceLoginFragment(new ConsumerProductsListFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                orderListView.setVisibility(View.GONE);
             }

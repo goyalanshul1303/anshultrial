@@ -52,6 +52,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.added_product_details, container, false);
         initViews();
+        getActivity().setTitle("Placed Orders");
+
         return view;
     }
 

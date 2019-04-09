@@ -160,7 +160,6 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
         Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
 
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
 
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
@@ -230,7 +229,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
-            progressBar.setVisibility(View.GONE);
+
             if (null != result) {
                 try {
                     object = new JSONObject(result);
@@ -244,11 +243,16 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
                     } else {
-//                        new FetchDetailsTask().execute();
+
+                        new FetchDetailsTask().execute();
                         parseOrderListingData(object);
 
 
                     }
+                }else{
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
                 }
             }else  {
                 progressBar.setVisibility(View.GONE);
@@ -260,7 +264,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         }
     }
     void  parseOrderListingData(JSONObject object){
-            Utils.setDetailsTextField("Product Name", getActivity(), productName, object.optString("productName"));
+//            Utils.setDetailsTextField("Product Name", getActivity(), productName, object.optString("productName"));
             Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
             orderId = object.optString("id");
             productId = object.optString("productId");

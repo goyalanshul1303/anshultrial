@@ -19,6 +19,6 @@ public class WebServiceConstants {
 
     public static final String GET_ORDER_QUOTATIONS = BASE_URL +"/order-service/quotes/order/";
     public static final String AWARD_QUOTATION = BASE_URL +"/order-service/quotes/award/";
-
+    public static final String GET_CONSUMER_REQUIREMENTS_LIST = BASE_URL + "/order-service/orders/consumer/requirements";
 
 }

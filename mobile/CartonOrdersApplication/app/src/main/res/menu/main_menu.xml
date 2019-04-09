@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_create_order"
+        android:title=""
+        android:icon="@drawable/add_product"
+        app:showAsAction="always">
+
+    </item>
+
+    <item
+        android:id="@+id/over_flow_item"
+        android:icon="@drawable/material_overflow"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:title="Logout"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/product"
+                android:title="Product List"
+                app:showAsAction="never|withText" />
+        </menu>
+    </item>
+
+</menu>

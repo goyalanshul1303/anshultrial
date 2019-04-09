@@ -168,6 +168,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         if (view.getId() == R.id.addOrderBtn){
             CreateOrderFragment fragment = new CreateOrderFragment();
             Bundle bundle = new Bundle();
+            bundle.putBoolean("isFromProductDetail", false);
             bundle.putString("productId", productId);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);

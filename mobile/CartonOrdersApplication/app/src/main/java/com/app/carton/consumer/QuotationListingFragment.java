@@ -50,6 +50,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     private ArrayList<QuotationData> quotationDataArrayList;
     String orderId,quoteId;
     private int awardPosition;
+    private boolean isFromOpenOrders;
 
     public QuotationListingFragment() {
 
@@ -60,6 +61,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
+            isFromOpenOrders = getArguments().containsKey("isFromOpenOrders") ? getArguments().getBoolean("isFromOpenOrders") : false;
         }
     }
 
@@ -176,6 +178,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 adapter = new QuotationItemsAdapter(getActivity(), quotationDataArrayList);
                 quotationListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 quotationListView.setAdapter(adapter);
+                adapter.setFromOpenOrders(isFromOpenOrders);
                 viewNoQuationsAdded.setVisibility(View.GONE);
                 quotationListView.setVisibility(View.VISIBLE);
                adapter.SetOnItemClickListener(new QuotationItemsAdapter.OnItemClickListener() {

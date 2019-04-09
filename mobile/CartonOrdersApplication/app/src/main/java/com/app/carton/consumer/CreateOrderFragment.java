@@ -52,6 +52,10 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     private Button createOrderBtn;
     private EditText height, width,length;
     String productId;
+    Spinner productsSpinner;
+    boolean isFromProductDetail = false;
+    private ArrayList<ProductsDetailsItem> productList = new ArrayList<>();
+
     public CreateOrderFragment() {
 
     }
@@ -61,8 +65,12 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_order, container, false);
         initViews();
-        productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
 
+        isFromProductDetail = getArguments().containsKey("isFromProductDetail") ? getArguments().getBoolean("isFromProductDetail") : false;
+       if (!isFromProductDetail){
+           productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
+
+       }
         return view;
     }
 
@@ -73,13 +81,41 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);
-
+         productsSpinner = (Spinner) view.findViewById(R.id.productsSpinner);
         createOrderBtn.setOnClickListener(this);
         height = (EditText) view.findViewById(R.id.height);
         width = (EditText) view.findViewById(R.id.width);
         length = (EditText)view.findViewById(R.id.length);
+        if (isFromProductDetail){
+            productsSpinner.setVisibility(View.GONE);
+        }else{
+            productsSpinner.setVisibility(View.VISIBLE);
+        }
+        List<String> productListString = new ArrayList<String>();
+       for (int i= 0 ; i< productList.size() ; i ++){
+           productListString.add(productList.get(i).name);
+       }
 
 
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapterProducts = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, productListString);
+
+        // Drop down layout style - list view with radio button
+        dataAdapterProducts.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        productsSpinner.setAdapter(dataAdapterProducts);
+
+        productsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                productId = (productList.get(i).id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
@@ -116,15 +152,17 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             request.setDimension(dimensionClass);
             request.setProductId(productId);
 
-
-
-
             new SendPostRequest().execute();
 
 //            postDataToServer();
 
 
         }
+    }
+
+    public void setProductList(ArrayList<ProductsDetailsItem> productList) {
+        this.productList = productList;
+
     }
 
 
@@ -190,8 +228,23 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), result,
-                    Toast.LENGTH_LONG).show();
+            try {
+                JSONObject object = new JSONObject(result);
+                if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                        || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_FORBIDDEN) {
+                    Toast.makeText(getActivity(), object.optString("message"),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Order Created successfully",
+                            Toast.LENGTH_LONG).show();
+                    new MainActivity().replaceLoginFragment(new ConsumerRequirementsListFragment ());
+                }
+
+//                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

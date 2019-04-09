@@ -297,7 +297,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")){
                             if (object.optBoolean("enabled")){
-                                new MainActivity().replaceLoginFragment(new PlacedOrderListFragment());
+                                new MainActivity().replaceLoginFragment(new AwardedOrdersListFragment());
                             }else{
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
                             }

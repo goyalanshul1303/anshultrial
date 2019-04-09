@@ -9,10 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -71,6 +75,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.products_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -210,16 +215,39 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
             e.printStackTrace();
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Product List");
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.action_create_order);
+        if(item!=null)
+            item.setVisible(true);
+    }
 
     @Override
     public void onClick(View view) {
-//        if (view.getId() == R.id.addProductBtn){
-//            AddProductFragment fragment = new AddProductFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", consumerId);
-//            fragment.setArguments(bundle);
-//            new MainActivity().replaceLoginFragment(fragment);
-//        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_create_order:
+                // create order
+                CreateOrderFragment fragment = new CreateOrderFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isFromProductDetail", true);
+                fragment.setProductList(productDetailsItems);
+                fragment.setArguments(bundle);
+                MainActivity.addActionFragment(fragment);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
