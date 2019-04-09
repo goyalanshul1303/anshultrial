@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceLoginFragment(new ConsumerLoginFragment());
                 return true;
 
-                case R.id.product:
+                case R.id.product_list:
                 addActionFragment(new ConsumerProductsListFragment());
                     return true;
             default:

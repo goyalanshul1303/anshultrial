@@ -225,6 +225,9 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
         MenuItem item=menu.findItem(R.id.action_create_order);
         if(item!=null)
             item.setVisible(true);
+        MenuItem item2=menu.findItem(R.id.product_list);
+        if(item2!=null)
+            item2.setVisible(false);
     }
 
     @Override

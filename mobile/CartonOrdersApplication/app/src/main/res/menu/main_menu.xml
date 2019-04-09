@@ -20,7 +20,7 @@
                 android:title="Logout"
                 app:showAsAction="never|withText" />
             <item
-                android:id="@+id/product"
+                android:id="@+id/product_list"
                 android:title="Product List"
                 app:showAsAction="never|withText" />
         </menu>
