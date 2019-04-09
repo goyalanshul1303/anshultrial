@@ -23,7 +23,20 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	public List<Order> getAllByConsumer(String consumerId) {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("consumerId").is(consumerId));
+			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("orderStatus").gt(OrderStatus.ORDER_PLACED.getValue()).lt(OrderStatus.ORDER_COMPLETED.getValue()));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Order> getRequirementsByConsumer(String consumerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("orderStatus").is(OrderStatus.ORDER_PLACED.getValue()));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
@@ -50,7 +63,20 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	public List<Order> getAllByProvider(String providerId) {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("providerId").is(providerId));
+			query.addCriteria(Criteria.where("providerId").is(providerId).and("orderStatus").gt(OrderStatus.ORDER_PLACED.getValue()).lt(OrderStatus.ORDER_COMPLETED.getValue()));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Order> getCompletedByProvider(String providerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("providerId").is(providerId).and("orderStatus").is(OrderStatus.ORDER_COMPLETED.getValue()));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block

@@ -11,6 +11,10 @@ public interface OrderDao extends GenericDao<Order> {
 	
 	List<Order> getAllByProvider(String providerId);
 	
+	List<Order> getCompletedByProvider(String providerId);
+	
 	List<Order> getPlacedOrders();
+
+	List<Order> getRequirementsByConsumer(String consumerId);
 
 }
