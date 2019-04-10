@@ -11,6 +11,11 @@
             android:id="@+id/logout"
             android:title="Logout"
             app:showAsAction="never|withText" />
+        <item
+        android:id="@+id/completed_list"
+        android:title="Completed Order List"
+        app:showAsAction="never|withText" />
+
     </menu>
     </item>
 </menu>

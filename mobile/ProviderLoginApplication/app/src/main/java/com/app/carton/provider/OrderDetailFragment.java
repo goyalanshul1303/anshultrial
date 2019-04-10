@@ -74,7 +74,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         addQuotationBtn.setOnClickListener(this);
         new FetchOrderDetailsTask().execute();
         if (isFromAwarded){
-            addQuotationBtn.setVisibility(View.GONE);
+            addQuotationBtn.setText("Update Order Status");
             // show status change button
         }
 
@@ -169,14 +169,23 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.addQuotationBtn){
-            AddQuotationFragment fragment = new AddQuotationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("orderId", orderId);
-            bundle.putString("productId", productId);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
+            if (!isFromAwarded){
+                AddQuotationFragment fragment = new AddQuotationFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("orderId", orderId);
+                bundle.putString("productId", productId);
+                fragment.setArguments(bundle);
+                MainActivity.addActionFragment(fragment);
+            }
+
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Order Details");
     }
 
     public class FetchOrderDetailsTask extends AsyncTask<String, Void, String> {

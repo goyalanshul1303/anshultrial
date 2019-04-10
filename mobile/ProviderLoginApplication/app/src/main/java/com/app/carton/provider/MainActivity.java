@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.logout(this);
                replaceLoginFragment(new ProviderLoginFragment());
                 return true;
+            case R.id.completed_list:
+
+                addActionFragment(new CompletedOrderListFragment());
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

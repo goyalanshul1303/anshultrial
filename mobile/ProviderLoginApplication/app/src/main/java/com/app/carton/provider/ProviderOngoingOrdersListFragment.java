@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/12/19.
  */
 
-public class AwardedOrdersListFragment extends Fragment implements View.OnClickListener {
+public class ProviderOngoingOrdersListFragment extends Fragment implements View.OnClickListener {
 
     private static View view;
 
@@ -49,7 +49,7 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
     private Button addProductBtn;
     String customerType = "";
 
-    public AwardedOrdersListFragment() {
+    public ProviderOngoingOrdersListFragment() {
 
     }
 
@@ -68,10 +68,15 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-        getActivity().setTitle("Ongoing Orders");
+
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Ongoing Orders");
+    }
 
     // Initiate Views
     private void initViews() {
@@ -94,7 +99,7 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_AWARDED_ORDERS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_IN_PROGRESS_ORDERS);
                 URL url = new URL(string.toString());
 
 
@@ -149,6 +154,7 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
                           if( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
+                              SharedPreferences.logout(getActivity());
                            MainActivity.replaceLoginFragment(new ProviderLoginFragment())   ;
                           }
 
@@ -203,7 +209,7 @@ public class AwardedOrdersListFragment extends Fragment implements View.OnClickL
                 });
             }else{
               // no ongoing order. show list of placedorders
-                MainActivity.replaceLoginFragment(new AwardedOrdersListFragment());
+                MainActivity.replaceLoginFragment(new ProviderOngoingOrdersListFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                ordersRecyclerView.setVisibility(View.GONE);
             }

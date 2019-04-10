@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/8/19.
  */
 
-public class PlacedOrderListFragment extends Fragment implements View.OnClickListener  {
+public class CompletedOrderListFragment extends Fragment implements View.OnClickListener  {
 
     private static View view;
 
@@ -44,7 +46,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
 
-    public PlacedOrderListFragment() {
+    public CompletedOrderListFragment() {
 
     }
 
@@ -59,7 +61,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Placed Orders");
+        getActivity().setTitle("Completed Orders");
     }
 
     // Initiate Views
@@ -84,7 +86,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_PLACED_ORDERS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_COMPLETED_ORDERS);
                 URL url = new URL(string.toString());
 
 
@@ -177,13 +179,13 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new OrderDetailFragment();
-                        Bundle bundle = new Bundle();
-                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-                        bundle.putString("orderId", item.id);
-                        bundle.putString("productId", item.productId);
-                        newFragment.setArguments(bundle);
-                        MainActivity.addActionFragment(newFragment);
+//                        Fragment newFragment = new OrderDetailFragment();
+//                        Bundle bundle = new Bundle();
+//                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+//                        bundle.putString("orderId", item.id);
+//                        bundle.putString("productId", item.productId);
+//                        newFragment.setArguments(bundle);
+//                        MainActivity.addActionFragment(newFragment);
 
                     }
                 });
@@ -208,5 +210,13 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
 //            fragment.setArguments(bundle);
 //            MainActivity.addActionFragment(fragment);
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem item=menu.findItem(R.id.completed_list);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

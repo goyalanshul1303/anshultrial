@@ -23,7 +23,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
            MainActivity.addActionFragment(new PlacedOrderListFragment());
 
         }else if (view.getId() == R.id.getAwardedOrders){
-            MainActivity.addActionFragment(new AwardedOrdersListFragment());
+            MainActivity.addActionFragment(new ProviderOngoingOrdersListFragment());
         }
 
     }
