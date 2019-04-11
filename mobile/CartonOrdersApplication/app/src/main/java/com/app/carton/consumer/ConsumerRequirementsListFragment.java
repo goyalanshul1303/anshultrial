@@ -172,6 +172,8 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                     orderListDetailsItems.add(item);
                 }
                 adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
+//                orderListView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+
                 orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
