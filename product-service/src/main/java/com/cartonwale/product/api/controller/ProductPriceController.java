@@ -28,13 +28,13 @@ public class ProductPriceController extends ControllerBase {
 		return makeResponse(priceService.getById(productId));
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path = "/startAcceptingOffers")
+	@RequestMapping(method = RequestMethod.PUT, path = "/startAcceptingOffers")
 	public ResponseEntity<Boolean> startAcceptingOffers(@RequestBody List<String> productIds) {
 		priceService.startAcceptingOffers(productIds);
 		return makeResponse(Boolean.TRUE, HttpStatus.ACCEPTED);
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path = "/stopAcceptingOffers")
+	@RequestMapping(method = RequestMethod.PUT, path = "/stopAcceptingOffers")
 	public ResponseEntity<Boolean> stopAcceptingOffers(@RequestBody List<String> productIds) {
 		priceService.stopAcceptingOffers(productIds);
 		return makeResponse(Boolean.TRUE, HttpStatus.ACCEPTED);
