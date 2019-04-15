@@ -54,6 +54,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     String customerType = "";
     private String selectedId = "";
     private String consumerId;
+    private String productName;
 
     public ConsumerProductsListFragment() {
 
@@ -200,6 +201,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                         ProductsDetailsItem item = productDetailsItems.get(position);
                         bundle.putString("selectedId", item.consumerId);
                         bundle.putString("productId", item.id);
+                        productName = item.name;
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 
@@ -243,8 +245,9 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 // create order
                 CreateOrderFragment fragment = new CreateOrderFragment();
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isFromProductDetail", true);
+                bundle.putBoolean("isFromProductDetail", false);
                 fragment.setProductList(productDetailsItems);
+
                 fragment.setArguments(bundle);
                 MainActivity.addActionFragment(fragment);
 

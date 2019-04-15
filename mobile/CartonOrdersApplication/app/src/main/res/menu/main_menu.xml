@@ -15,13 +15,18 @@
         android:title=""
         app:showAsAction="always">
         <menu>
-            <item
-                android:id="@+id/logout"
-                android:title="Logout"
-                app:showAsAction="never|withText" />
+
             <item
                 android:id="@+id/product_list"
                 android:title="Product List"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/open_orders_list"
+                android:title="Open Orders List"
+                app:showAsAction="never|withText" />
+            <item
+                android:id="@+id/logout"
+                android:title="Logout"
                 app:showAsAction="never|withText" />
         </menu>
     </item>

@@ -2,7 +2,7 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     >
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,6 +17,15 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="18sp" />
             <Spinner
                 android:id="@+id/productsSpinner"
                 style="@style/Widget.AppCompat.Spinner.Underlined"
@@ -56,10 +65,11 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/width"
+                    android:id="@+id/widthLL"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="W"
+                    android:enabled="false"
                     android:textSize="13sp"
                     android:gravity="center"
                     android:inputType="number" />
@@ -72,12 +82,13 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/height"
+                    android:id="@+id/heightLL"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="H"
                     android:gravity="center"
                     android:textSize="13sp"
+                    android:enabled="false"
                     android:inputType="number" />
 
                 <TextView
@@ -87,12 +98,13 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/length"
+                    android:id="@+id/lengthLL"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="L"
                     android:gravity="center"
                     android:textSize="13sp"
+                    android:enabled="false"
                     android:inputType="number" />
 
                 <TextView

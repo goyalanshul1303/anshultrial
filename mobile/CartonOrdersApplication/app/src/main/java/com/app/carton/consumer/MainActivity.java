@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.logout(this);
                 replaceLoginFragment(new ConsumerLoginFragment());
                 return true;
+            case R.id.open_orders_list:
+                addActionFragment(new ConsumerOrderListFragment());
+                return  true;
 
                 case R.id.product_list:
                 addActionFragment(new ConsumerProductsListFragment());

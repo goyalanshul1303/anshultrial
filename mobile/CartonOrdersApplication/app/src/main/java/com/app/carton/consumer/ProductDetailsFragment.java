@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private Button addOrderBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
+    private String productNameString;
+    DimensionClass dimensionClass = new DimensionClass();
     public ProductDetailsFragment() {
 
     }
@@ -151,15 +154,18 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     }
 
     private void parseListingData(JSONObject result) {
-        Utils.setDetailsTextField("Customer Name", getActivity(), productName, result.optString("name"));
+        productNameString = result.optString("name");
+        Utils.setDetailsTextField("Name", getActivity(), productName, result.optString("name"));
 
         Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
         Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
+            quantity.setVisibility(View.GONE);
+//        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
 
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        Gson gson = new Gson();
+         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
     }
 
@@ -168,8 +174,10 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         if (view.getId() == R.id.addOrderBtn){
             CreateOrderFragment fragment = new CreateOrderFragment();
             Bundle bundle = new Bundle();
-            bundle.putBoolean("isFromProductDetail", false);
+            bundle.putBoolean("isFromProductDetail", true);
             bundle.putString("productId", productId);
+            fragment.setDimension(dimensionClass);
+            fragment.setProductName(productNameString);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }
