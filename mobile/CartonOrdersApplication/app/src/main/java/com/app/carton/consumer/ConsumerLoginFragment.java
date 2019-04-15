@@ -145,10 +145,12 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
             Toast.makeText(getActivity(),
                     "Enter both credentials.", Toast.LENGTH_SHORT).show();
 
-        } else
-            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
-                    .show();
-        new SendPostRequest().execute();
+        } else{
+            new SendPostRequest().execute();
+        }
+//            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
+//                    .show();
+
 
 //        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
@@ -172,8 +174,8 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "abcd18349e");
-                postDataParams.put("password", "abc123");
+                postDataParams.put("username", emailid.getText().toString());
+                postDataParams.put("password", password.getText().toString());
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -301,6 +303,7 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
                         Toast.LENGTH_LONG).show();
             }else if (null!=object && null!=object.optJSONObject("dbUser")) {
                 JSONObject dbUserObj = object.optJSONObject("dbUser");
+                SharedPreferences.putString(getActivity(),"entityId", dbUserObj.optString("entityId"));
                 if (null!=dbUserObj.optJSONArray("roles")){
                     JSONArray rolesArray = dbUserObj.optJSONArray("roles");
                     for (int i = 0 ; i < 1; i++){

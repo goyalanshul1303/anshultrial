@@ -51,6 +51,9 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     String orderId,quoteId;
     private int awardPosition;
     private boolean isFromOpenOrders;
+    private TextView quantity, productName;
+    private String productId;
+    private TextView productDetailLInk;
 
     public QuotationListingFragment() {
 
@@ -79,7 +82,11 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         viewNoQuationsAdded = (View)view.findViewById(R.id.viewNoQuotationAdded);
         quotationListView = (RecyclerView)view.findViewById(R.id.quotationRecyclerView);
-        new FetchDetailsTask().execute();
+        productName = (TextView)view.findViewById(R.id.productName);
+        quantity = (TextView)view.findViewById(R.id.quantityOrder);
+        productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
+        productName.setOnClickListener(this);
+        new FetchOrderDetailsTask().execute();
 
     }
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
@@ -211,6 +218,14 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == R.id.productName){
+            Fragment newFragment = new ProductDetailsFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("selectedId", SharedPreferences.getString(getActivity(), "entityId"));
+            bundle.putString("productId", productId);
+            newFragment.setArguments(bundle);
+            MainActivity.addActionFragment(newFragment);
+        }
 
     }
 
@@ -301,5 +316,96 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
 
         }
+    }
+    public class FetchOrderDetailsTask extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDERS);
+                string.append("/");
+                string.append(orderId);
+                URL url = new URL(string.toString());
+
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+
+                InputStream inputStream;
+
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
+
+
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject object = null;
+
+            if (null != result) {
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (null!=object) {
+                    if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                            || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) ==  HttpURLConnection.HTTP_FORBIDDEN))) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+
+                        new FetchDetailsTask().execute();
+                        parseOrderListingData(object);
+
+
+                    }
+                }else{
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
+                }
+            }else  {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "Something went wrong please try again",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+        }
+    }
+    void  parseOrderListingData(JSONObject object){
+            Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
+        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+        orderId = object.optString("id");
+        productId = object.optString("productId");
+
     }
 }

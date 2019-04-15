@@ -209,7 +209,7 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                 });
             }else{
               // no ongoing order. show list of placedorders
-                MainActivity.replaceLoginFragment(new ProviderOngoingOrdersListFragment());
+                MainActivity.replaceLoginFragment(new PlacedOrderListFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                ordersRecyclerView.setVisibility(View.GONE);
             }

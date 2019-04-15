@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/textLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="10dp"
+        android:background="@drawable/item_selector"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
@@ -33,12 +38,6 @@
             android:textColor="@color/course_heading_color"
             android:textSize="16sp" />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/textLL"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#000000" />
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

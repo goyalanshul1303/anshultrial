@@ -39,7 +39,8 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
     public QuotationItemsAdapter.CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.added_quotation_details, null);
-
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         QuotationItemsAdapter.CustomViewHolder viewHolder = new QuotationItemsAdapter.CustomViewHolder(view);
         return viewHolder;
     }
@@ -91,6 +92,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
             awardQuotationBtn = (Button) view.findViewById(R.id.awardQuotationBtn);
 
         }
+
 
     }
 

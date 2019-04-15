@@ -2,6 +2,7 @@ package com.app.carton.consumer;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 
 public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapter.CustomViewHolder>
-        implements View.OnClickListener {
+        {
     OnItemClickListener mItemClickListener;
 
     private ArrayList<ProductsDetailsItem> data = new ArrayList();
@@ -32,7 +33,8 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.listview_item_row, null);
-
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
@@ -47,7 +49,7 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
 //        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
-        customViewHolder.textLL.setOnClickListener(this);
+
         customViewHolder.textLL.setTag(i);
 
     }
@@ -58,10 +60,11 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView, customerEmail;
         LinearLayout textLL;
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
 
         public CustomViewHolder(View view) {
@@ -69,9 +72,23 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
             this.textView = (TextView) view.findViewById(R.id.productName);
             customerEmail= (TextView)view.findViewById(R.id.customerEmail);
             textLL = (LinearLayout)view.findViewById(R.id.textLL);
-
+            textLL.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            if (selectedItems.get(getAdapterPosition(), false)) {
+                selectedItems.delete(getAdapterPosition());
+                view.setSelected(false);
+            }
+            else {
+                selectedItems.put(getAdapterPosition(), true);
+                view.setSelected(true);
+            }
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view, (Integer) view.getTag());
+            }
+        }
     }
 
     public interface OnItemClickListener {
@@ -83,10 +100,5 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
         this.mItemClickListener = mItemClickListener;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (mItemClickListener != null) {
-            mItemClickListener.onItemClick(view, (Integer) view.getTag());
-        }
-    }
+
 }

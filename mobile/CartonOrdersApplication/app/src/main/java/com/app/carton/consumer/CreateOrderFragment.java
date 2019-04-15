@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -54,7 +55,10 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     String productId;
     Spinner productsSpinner;
     boolean isFromProductDetail = false;
+    TextView productName;
     private ArrayList<ProductsDetailsItem> productList = new ArrayList<>();
+    private String productNameString;
+    private DimensionClass dimension;
 
     public CreateOrderFragment() {
 
@@ -64,31 +68,41 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_order, container, false);
-        initViews();
+
 
         isFromProductDetail = getArguments().containsKey("isFromProductDetail") ? getArguments().getBoolean("isFromProductDetail") : false;
-       if (!isFromProductDetail){
            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
 
-       }
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initViews();
+        getActivity().setTitle("Place Order");
     }
 
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
-
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);
          productsSpinner = (Spinner) view.findViewById(R.id.productsSpinner);
         createOrderBtn.setOnClickListener(this);
-        height = (EditText) view.findViewById(R.id.height);
-        width = (EditText) view.findViewById(R.id.width);
-        length = (EditText)view.findViewById(R.id.length);
+        height = (EditText) view.findViewById(R.id.heightLL);
+        width = (EditText) view.findViewById(R.id.widthLL);
+        length = (EditText)view.findViewById(R.id.lengthLL);
+        productName = (TextView) view.findViewById(R.id.productName);
         if (isFromProductDetail){
             productsSpinner.setVisibility(View.GONE);
+            height.setText(dimension.getHeight() + "");
+            width.setText(dimension.getWidth() + "");
+            length.setText(dimension.getLength() + "");
+            productName.setText(productNameString);
         }else{
+            productName.setVisibility(View.GONE);
             productsSpinner.setVisibility(View.VISIBLE);
         }
         List<String> productListString = new ArrayList<String>();
@@ -163,6 +177,14 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     public void setProductList(ArrayList<ProductsDetailsItem> productList) {
         this.productList = productList;
 
+    }
+
+    public void setProductName(String productName) {
+        this.productNameString = productName;
+    }
+
+    public void setDimension(DimensionClass dimension) {
+        this.dimension = dimension;
     }
 
 

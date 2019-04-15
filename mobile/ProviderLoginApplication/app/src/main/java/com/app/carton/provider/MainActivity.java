@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
                 addActionFragment(new CompletedOrderListFragment());
                 return true;
-
-            default:
+            case R.id.placed_order:
+                addActionFragment(new PlacedOrderListFragment());
+return  true;
+default:
                 return super.onOptionsItemSelected(item);
         }
     }

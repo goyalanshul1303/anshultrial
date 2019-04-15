@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,9 +57,15 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-        getActivity().setTitle("Open Orders");
 
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Open Orders");
     }
 
     // Initiate Views
@@ -215,5 +223,12 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.open_orders_list);
+        if(item!=null)
+            item.setVisible(false);
+
     }
 }

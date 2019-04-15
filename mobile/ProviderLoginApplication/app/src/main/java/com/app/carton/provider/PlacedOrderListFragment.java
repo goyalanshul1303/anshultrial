@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -198,7 +200,13 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
 
+        MenuItem item=menu.findItem(R.id.placed_order);
+        if(item!=null)
+            item.setVisible(false);
+    }
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.createOrderBtn){

@@ -2,6 +2,7 @@ package com.app.carton.consumer;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  */
 
 public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.CustomViewHolder>
-        implements View.OnClickListener {
+         {
     OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
@@ -32,6 +33,8 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.orders_listview_item_row, null);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        view.setLayoutParams(lp);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
@@ -54,7 +57,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             customViewHolder.awardStatus.setText("Order placed");
 
         }
-        customViewHolder.textLL.setOnClickListener(this);
+
         customViewHolder.textLL.setTag(i);
 
     }
@@ -65,7 +68,8 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
         TextView textView, quantity, awardStatus;
         LinearLayout textLL;
@@ -77,10 +81,24 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             this.quantity = (TextView) view.findViewById(R.id.quantity);
             textLL = (LinearLayout)view.findViewById(R.id.textLL);
             awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
-
+            textLL.setOnClickListener(this);
 
         }
 
+        @Override
+        public void onClick(View view) {
+            if (selectedItems.get(getAdapterPosition(), false)) {
+                selectedItems.delete(getAdapterPosition());
+                view.setSelected(false);
+            }
+            else {
+                selectedItems.put(getAdapterPosition(), true);
+                view.setSelected(true);
+            }
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view, (Integer) view.getTag());
+            }
+        }
     }
 
     public interface OnItemClickListener {
@@ -92,10 +110,5 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         this.mItemClickListener = mItemClickListener;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (mItemClickListener != null) {
-            mItemClickListener.onItemClick(view, (Integer) view.getTag());
-        }
-    }
+
 }

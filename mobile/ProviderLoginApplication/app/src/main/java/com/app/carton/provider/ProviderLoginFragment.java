@@ -137,10 +137,10 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             Toast.makeText(getActivity(),
                     "Enter both credentials.", Toast.LENGTH_SHORT).show();
 
-        } else
-            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
-                    .show();
-        new SendPostRequest().execute();
+        } else{
+            new SendPostRequest().execute();
+        }
+
 
 //        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
@@ -164,8 +164,10 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "abif13245e");
-                postDataParams.put("password", "abc123");
+                postDataParams.put("username",emailid.getText().toString());
+                postDataParams.put("password", password.getText().toString());
+//                postDataParams.put("username", "abif13245e");
+//                postDataParams.put("password", "abc123");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -320,6 +322,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
 
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item=menu.findItem(R.id.over_flow_item);
