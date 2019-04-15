@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class OrderServiceImpl extends GenericServiceImpl<Order> implements OrderService {
-	
+
 	private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Autowired
@@ -53,7 +53,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		}
 
 		checkIfProductExists(order, authToken);
-		
+
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		order.setOrderDate(new Date());
 		order.setOrderStatus(OrderStatus.ORDER_PLACED);
@@ -61,7 +61,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 
 	private void checkIfProductExists(Order order, String authToken) {
-		
+
 		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.GET,
 				authToken, null, null, "http://PRODUCT-SERVICE/product/"
 						+ SecurityUtil.getAuthUserDetails().getEntityId() + "/" + order.getProductId(),
@@ -69,23 +69,22 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 		String jsonProductDetails = responseEntity.getBody();
 		ObjectMapper objectMapper = new ObjectMapper();
-    	JsonNode root;
+		JsonNode root;
 		try {
 			root = objectMapper.readTree(jsonProductDetails);
-			//System.out.println("abc");
 			String productId = root.get("id").asText();
-			
-			if(StringUtils.isEmpty(productId))
+
+			if (StringUtils.isEmpty(productId))
 				throw new ProductNotFoundException();
-			
+
 			order.setProductName(root.get("name").asText());
-			
+
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage());
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		
+
 	}
 
 	@Override
@@ -102,21 +101,21 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	@Override
 	public List<Order> getPlacedOrders() {
-		
+
 		return orderDao.getPlacedOrders();
 	}
 
 	@Override
 	public Order changeStatus(String orderId, int statusId) {
 		Order order = super.getById(orderId);
-		
-		if(order == null){
+
+		if (order == null) {
 			throw new OrderProcessNotFoundException();
 		}
-		
-		if(order.getOrderStatus() == statusId)
+
+		if (order.getOrderStatus() == statusId)
 			throw new BadRequestException("Order is currently at stated status only");
-		
+
 		order.setOrderStatus(OrderStatus.getOrderStatus(statusId));
 		super.edit(order);
 		return order;
@@ -124,13 +123,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	@Override
 	public List<Order> getAllByProvider() {
-		
+
 		return orderDao.getAllByProvider(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
 
 	@Override
 	public List<Order> getCompletedByProvider() {
-		
+
 		return orderDao.getCompletedByProvider(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
 

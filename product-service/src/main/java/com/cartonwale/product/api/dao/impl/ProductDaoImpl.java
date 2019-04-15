@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.product.api.dao.ProductDao;
+import com.cartonwale.product.api.exception.ProductException;
 import com.cartonwale.product.api.model.Product;
 
 @Repository
@@ -25,10 +26,8 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 			query.addCriteria(Criteria.where("consumerId").is(consumerId));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ProductException(e.getMessage());
 		}
-		return null;
 	}
 
 	@Override
@@ -39,9 +38,19 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 			query.addCriteria(Criteria.where("_id").is(id));
 			return super.getAll(query).get(0);
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ProductException(e.getMessage());
 		}
-		return null;
+	}
+
+	@Override
+	public List<Product> getByProductIds(List<String> productIds) {
+		
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("_id").in(productIds));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			throw new ProductException(e.getMessage());
+		}
 	}
 }

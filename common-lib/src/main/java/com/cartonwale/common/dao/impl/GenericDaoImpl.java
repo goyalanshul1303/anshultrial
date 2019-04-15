@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import com.cartonwale.common.dao.GenericDao;
 import com.cartonwale.common.exception.DataAccessException;
@@ -113,6 +114,17 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 		try {
 			
 			return mongoOperations.find(query, type);
+		} catch (Exception e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
+	public void findAndUpdateAll(Query query, Update update) throws DataAccessException {
+		if (logger.isDebugEnabled())
+			logger.debug("type {} getAllByUser", type);
+		try {
+			mongoOperations.findAndModify(query, update, type);
+			
 		} catch (Exception e) {
 			throw new DataAccessException(e);
 		}

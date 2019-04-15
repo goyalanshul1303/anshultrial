@@ -11,4 +11,6 @@ public interface ProductService extends GenericService<Product>{
 
 	List<Product> getAll(String consumerId);
 
+	List<Product> getProductsAcceptingOffers();
+
 }

@@ -53,4 +53,9 @@ public class ProductController extends ControllerBase{
     	return makeResponse(productService.edit(product), HttpStatus.ACCEPTED);
     }
     
+    @RequestMapping("/acceptingOffers")
+	public ResponseEntity<List<Product>> productsAcceptingOffers() {
+		return makeResponse(productService.getProductsAcceptingOffers());
+	}
+    
 }
