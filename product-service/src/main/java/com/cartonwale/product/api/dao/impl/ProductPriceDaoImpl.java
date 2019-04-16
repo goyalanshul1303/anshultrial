@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 
 import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
@@ -14,6 +15,7 @@ import com.cartonwale.product.api.exception.ProductPriceException;
 import com.cartonwale.product.api.model.Offer;
 import com.cartonwale.product.api.model.ProductPrice;
 
+@Repository
 public class ProductPriceDaoImpl  extends GenericDaoImpl<ProductPrice> implements ProductPriceDao {
 
 	public ProductPriceDaoImpl() {

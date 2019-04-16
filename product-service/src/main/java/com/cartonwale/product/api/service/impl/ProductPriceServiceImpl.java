@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.product.api.dao.ProductPriceDao;
@@ -12,6 +13,7 @@ import com.cartonwale.product.api.model.Offer;
 import com.cartonwale.product.api.model.ProductPrice;
 import com.cartonwale.product.api.service.ProductPriceService;
 
+@Service
 public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> implements ProductPriceService{
 	
 	@Autowired
