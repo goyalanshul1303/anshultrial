@@ -77,7 +77,6 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	public List<Product> getProductsAcceptingOffers() {
 		
 		List<String> productIds = productPriceService.getProductsAcceptingOffers();
-		productDao.getByProductIds(productIds);
-		return null;
+		return productDao.getByProductIds(productIds);
 	}
 }
