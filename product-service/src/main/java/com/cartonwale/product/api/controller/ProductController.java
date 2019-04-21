@@ -2,6 +2,8 @@ package com.cartonwale.product.api.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import com.cartonwale.product.api.service.ProductService;
 @RestController
 @RequestMapping("/product")
 public class ProductController extends ControllerBase{
+	
+	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
 	private ProductService productService;
@@ -35,6 +39,9 @@ public class ProductController extends ControllerBase{
 	
 	@RequestMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable("id") String id) {
+		logger.info("Fetching Product Details for: " + id);
+		logger.debug("Fetching Product Details for: " + id);
+		logger.error("Fetching Product Details for: " + id);
 		return makeResponse(productService.getById(id));
     }
 	
