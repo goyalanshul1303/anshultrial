@@ -22,7 +22,7 @@ import com.cartonwale.product.api.service.ProductService;
 @RequestMapping("/product")
 public class ProductController extends ControllerBase{
 	
-	private Logger logger = LoggerFactory.getLogger(ProductController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
 	private ProductService productService;
