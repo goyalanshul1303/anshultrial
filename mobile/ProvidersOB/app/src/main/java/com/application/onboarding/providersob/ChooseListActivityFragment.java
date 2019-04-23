@@ -29,7 +29,14 @@ public class ChooseListActivityFragment extends Fragment implements View.OnClick
         newFragment.setArguments(bundle);
         MainActivity.addActionFragment(newFragment);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        getActivity().setTitle("Choose Action");
+
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

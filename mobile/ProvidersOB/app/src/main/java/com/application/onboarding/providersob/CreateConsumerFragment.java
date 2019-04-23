@@ -122,6 +122,12 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
         vendorET = (EditText) view.findViewById(R.id.vendorET);
         otherVendorET= (EditText)view.findViewById(R.id.otherVendorET);
         inflateDataView();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getActivity().setTitle("Create Consumer");
 
 
     }

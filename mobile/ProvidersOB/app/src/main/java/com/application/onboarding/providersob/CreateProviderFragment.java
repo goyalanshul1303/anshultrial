@@ -786,6 +786,13 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
 
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        getActivity().setTitle("Create Provider");
+
+
+    }
 
 }

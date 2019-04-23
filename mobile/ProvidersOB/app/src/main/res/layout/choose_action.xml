@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
+        android:weightSum="2"
         android:padding="10dp">
 
 
@@ -28,18 +29,20 @@
             android:layout_marginTop="15dp"
             android:background="@color/background_color"
             android:padding="7dp"
-            android:text="Onboarded Providers"
+            android:layout_weight="1"
+            android:text=" Providers"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
         <Button
             android:id="@+id/consumerButton"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@color/background_color"
             android:padding="7dp"
-            android:text="Onboarded Consumers"
+            android:layout_weight="1"
+            android:text=" Consumers"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:layout_marginLeft="10dp"

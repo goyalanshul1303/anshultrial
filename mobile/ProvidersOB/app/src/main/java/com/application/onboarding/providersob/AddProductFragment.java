@@ -76,7 +76,14 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             consumerId = getArguments().containsKey("consumerId") ? getArguments().getString("consumerId") : "";
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        getActivity().setTitle("Add Product");
+
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

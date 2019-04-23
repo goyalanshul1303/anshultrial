@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_add_agent"
+        android:title=""
+        android:icon="@drawable/add_product"
+        app:showAsAction="always">
+
+    </item>
+    <item
         android:id="@+id/over_flow_item"
         android:icon="@drawable/material_overflow"
         android:title=""

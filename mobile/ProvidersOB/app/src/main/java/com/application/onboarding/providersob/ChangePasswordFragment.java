@@ -250,6 +250,7 @@ public class ChangePasswordFragment extends Fragment
 
         }
 
+
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);

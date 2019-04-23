@@ -86,4 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
             super.onBackPressed();
         }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem item=menu.findItem(R.id.action_add_agent);
+        if(item!=null)
+            item.setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
     }
+
+}
+
+

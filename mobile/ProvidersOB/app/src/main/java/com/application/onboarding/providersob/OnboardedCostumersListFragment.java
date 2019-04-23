@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,6 +60,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if (getArguments() != null){
             customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
@@ -68,7 +71,16 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
             urlType = WebServiceConstants.CREATE_PROVIDER;
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (customerType.equalsIgnoreCase("consumers")){
+            getActivity().setTitle("Consumers List");
+        }else{
+            getActivity().setTitle("Providers List");
+        }
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -245,6 +257,25 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
     public void onClick(View view) {
         if (view.getId() == R.id.addAgent || view.getId() == R.id.addAgentNew){
             MainActivity.addActionFragment(new ChooseActivityFragment());
+        }
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.action_add_agent);
+        if(item!=null)
+            item.setVisible(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_add_agent:
+                MainActivity.addActionFragment(new ChooseActivityFragment());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

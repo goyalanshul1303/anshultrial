@@ -88,6 +88,7 @@ String productName;
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle("Product List");
         new GetAllProductsAsyncTask().execute();
     }
 
