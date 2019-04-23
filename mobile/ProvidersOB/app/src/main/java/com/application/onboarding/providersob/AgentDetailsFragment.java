@@ -280,16 +280,43 @@ String id;
                 e.printStackTrace();
             }
         }
+            if (null == cartonTypeString ||cartonTypeString.isEmpty() ){
+                    cartonType.setVisibility(View.GONE);
+            }else{
+                cartonType.setVisibility(View.VISIBLE);
+                Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
 
+            }
 
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         if (urlType.contains("providers")){
                 ProviderDetailsItem item=gson.fromJson(String.valueOf(result),ProviderDetailsItem.class);
                 Utils.setDetailsTextField("Customer Name", getActivity(), custmerName, item.companyName);
+            if (null == corrugationSTring ||corrugationSTring.isEmpty() ){
+                corrugationType.setVisibility(View.GONE);
+            }else{
+                corrugationType.setVisibility(View.VISIBLE);
                 Utils.setDetailsTextField("Corrugation Type ", getActivity(), corrugationType, corrugationSTring);
+
+            }
+            if (null == sheetLayerSTring ||sheetLayerSTring.isEmpty() ){
+                supportedSheetLayers.setVisibility(View.GONE);
+            }else{
+                supportedSheetLayers.setVisibility(View.VISIBLE);
                 Utils.setDetailsTextField("Supported Sheet Layers Type ", getActivity(), supportedSheetLayers, sheetLayerSTring);
-//                Utils.setDetailsTextField("Printing Type", getActivity(), printingType, item.printingType);
-                Utils.setDetailsTextField("Operating Hours  ", getActivity(), operatingHours, item.operatingHours);
+
+            }
+                if (null!=item.printingType){
+                                    Utils.setDetailsTextField("Printing Type", getActivity(), printingType, item.printingType);
+
+                }else{
+                    printingType.setVisibility(View.GONE);
+                }
+                if(null!=item.operatingHours){
+                    Utils.setDetailsTextField("Operating Hours  ", getActivity(), operatingHours, item.operatingHours);
+
+                }else{
+                operatingHours.setVisibility(View.GONE);
+            }
                 Utils.setDetailsTextField("Factory Capacity ", getActivity(), factoryCapacity, String.valueOf(item.factoryCapacity));
                 Utils.setDetailsTextField("Credit Limit  ", getActivity(), creditLimit, String.valueOf(item.creditLimit));
                 Utils.setDetailsTextField("Client Count  ", getActivity(), clientCount, String.valueOf(item.clientCount));

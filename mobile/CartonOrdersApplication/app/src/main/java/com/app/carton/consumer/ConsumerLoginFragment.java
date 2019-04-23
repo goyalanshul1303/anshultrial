@@ -178,7 +178,7 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
                 postDataParams.put("password", password.getText().toString());
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setReadTimeout(35000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);

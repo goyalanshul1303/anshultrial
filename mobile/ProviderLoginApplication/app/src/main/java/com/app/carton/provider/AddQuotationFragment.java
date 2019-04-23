@@ -110,6 +110,10 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         orderFulDate = (EditText)view.findViewById(R.id.orderFullFillET);
         orderStartDate = (EditText)view.findViewById(R.id.orderStartDateET);
+        orderFulDate.setFocusable(false);
+        orderFulDate.setKeyListener(null);
+        orderStartDate.setFocusable(false);
+        orderStartDate.setKeyListener(null);
         createQuotationBtn = (Button)view.findViewById(R.id.createQuotationBtn);
         orderQuotation = (EditText) view.findViewById(R.id.amountET);
         createQuotationBtn.setOnClickListener(this);

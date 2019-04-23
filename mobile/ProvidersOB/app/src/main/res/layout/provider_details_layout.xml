@@ -105,7 +105,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Folder name here."
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
 

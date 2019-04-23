@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.app.carton.orders.R;
 import com.google.gson.Gson;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPGService;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +35,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by aggarwal.swati on 2/12/19.
@@ -195,8 +200,40 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                     QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
                     awardPosition = position;
                     quoteId = testObjtem.id;
-                    new AwardQuotationTask().execute();
+//                    new AwardQuotationTask().execute();
 
+                    HashMap<String, String> paramMap = new HashMap<String,String>();
+                    paramMap.put( "MID" , "FPKfWX03151357461470");
+// Key in your staging and production MID available in your dashboard
+                    paramMap.put( "ORDER_ID" , "order1");
+                    paramMap.put( "CUST_ID" , "cust123");
+                    paramMap.put( "MOBILE_NO" , "7777777777");
+                    paramMap.put( "EMAIL" , "username@emailprovider.com");
+                    paramMap.put( "CHANNEL_ID" , "WAP");
+                    paramMap.put( "TXN_AMOUNT" , "100.12");
+                    paramMap.put( "WEBSITE" , "WEBSTAGING");
+// This is the staging value. Production value is available in your dashboard
+                    paramMap.put( "INDUSTRY_TYPE_ID" , "Retail");
+// This is the staging value. Production value is available in your dashboard
+                    paramMap.put( "CALLBACK_URL", "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=order1");
+                    paramMap.put( "CHECKSUMHASH" , "w2QDRMgp1234567JEAPCIOmNgQvsi+BhpqijfM9KvFfRiPmGSt3Ddzw+oTaGCLneJwxFFq5mqTMwJXdQE2EzK4px2xruDqKZjHupz9yXev4=");
+                    PaytmOrder order = new PaytmOrder(paramMap);
+                    PaytmPGService Service = PaytmPGService.getStagingService();
+
+                    Service.initialize(order, null);
+                    Service.startPaymentTransaction(getActivity(), true, true, new PaytmPaymentTransactionCallback() {
+                        /*Call Backs*/
+                        public void someUIErrorOccurred(String inErrorMessage) {}
+                        public void onTransactionResponse(Bundle inResponse) {
+                            Toast.makeText(getActivity(), "Payment Transaction response " + inResponse.toString(), Toast.LENGTH_LONG).show();
+
+                        }
+                        public void networkNotAvailable() {}
+                        public void clientAuthenticationFailed(String inErrorMessage) {}
+                        public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {}
+                        public void onBackPressedCancelTransaction() {}
+                        public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {}
+                    });
                 }
             });
 
@@ -408,4 +445,5 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         productId = object.optString("productId");
 
     }
+
 }

@@ -18,6 +18,8 @@ public class WebServiceConstants {
     public static final String ADD_QUOTATION = BASE_URL + "/order-service/quotes";
     public static final String GET_ALL_IN_PROGRESS_ORDERS = BASE_URL + "/order-service/orders/provider";
     public static final String GET_COMPLETED_ORDERS = BASE_URL + "/order-service/orders/provider/completed";
+    public static final String UPDATE_ORDER_STATUS = BASE_URL + "/order-service/orders/changeOrderStatus";
+
 
 
 

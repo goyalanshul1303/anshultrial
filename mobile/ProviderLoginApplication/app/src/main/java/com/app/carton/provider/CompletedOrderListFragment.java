@@ -55,6 +55,7 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 

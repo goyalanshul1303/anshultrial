@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // If savedinstnacestate is null then replace login fragment
         if (savedInstanceState == null) {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frameContainer, new ProviderLoginFragment(),
-                            "").commit();
+            if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
+                replaceLoginFragment(new ProviderLoginFragment());
+            }else{
+                replaceLoginFragment(new ProviderOngoingOrdersListFragment());
+            }
+
         }
 
 
