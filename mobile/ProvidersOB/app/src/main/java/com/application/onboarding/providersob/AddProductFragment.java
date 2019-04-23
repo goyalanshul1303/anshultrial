@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -299,21 +300,27 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         @Override
         protected void onPostExecute(String result) {
             progressBar.setVisibility(View.GONE);
-            try {
-                JSONObject object = new JSONObject(result);
-                if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                    Toast.makeText(getActivity(), object.optString("message"),
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Product Created successfully",
-                            Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
-                }
+            if (isVisible()) {
+                try {
+                    JSONObject object = new JSONObject(result);
+                    if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                        Toast.makeText(getActivity(), object.optString("message"),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Product Created successfully",
+                                Toast.LENGTH_LONG).show();
+                        new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
+                    }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
+
             }
 
         }

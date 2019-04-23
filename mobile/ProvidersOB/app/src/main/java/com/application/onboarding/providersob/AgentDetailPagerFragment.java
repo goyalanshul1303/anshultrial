@@ -4,10 +4,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +60,7 @@ public class AgentDetailPagerFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(new AgentDetailsFragment(), "Details");
         adapter.addFragment(new AgentProductsListFragment(), "Products Added");
         viewPager.setAdapter(adapter);
@@ -75,6 +73,23 @@ public class AgentDetailPagerFragment extends Fragment {
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
+
+//        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//            if (mFragmentList.size() > position) {
+//                Fragment f = mFragmentList.get(position);
+//                if (f != null) {
+//                    if (mCurTransaction == null) {
+//                        mCurTransaction = mFragmentManager.beginTransaction();
+//                    }
+//
+//                    mCurTransaction.detach(f);
+//                    mCurTransaction.attach(f);
+//
+//                    return f;
+//                }
+//            }
+//        }
 
         @Override
         public Fragment getItem(int position) {

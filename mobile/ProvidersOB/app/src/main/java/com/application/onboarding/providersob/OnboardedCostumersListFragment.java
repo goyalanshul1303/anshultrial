@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -141,41 +142,42 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
 
             progressBar.setVisibility(View.GONE);
 
-//
-            if (null != result) {
-                if (result.trim().charAt(0) == '[') {
-                    Log.e("Response is : ", "JSONArray");
-                    parseListingData(result);
-                } else if (result.trim().charAt(0) == '{') {
-                    try {
+            if(isVisible()) {
+                if (null != result) {
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
+                        parseListingData(result);
+                    } else if (result.trim().charAt(0) == '{') {
+                        try {
 
-                        object = new JSONObject(result);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            object = new JSONObject(result);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                // logout user and take him to login screen again
+                                SharedPreferences.logout(getActivity());
+                                MainActivity.replaceLoginFragment(new UserAdminLoginFragment());
+
+                            }
+                        }
+                    } else {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
-                        if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
-                            // logout user and take him to login screen again
-                            SharedPreferences.logout(getActivity());
-                            MainActivity.replaceLoginFragment(new UserAdminLoginFragment());
-
-                        }
-//                if (getFragmentManager().getBackStackEntryCount() > 0) {
-//                    getFragmentManager().popBackStackImmediate();
-//                }
                     }
+
+
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-
-
-            } else {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
         }
     }
@@ -217,7 +219,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
                             bundle.putString("selectedId", item.id);
 
                         }else{
-                           ProviderDetailsItem item = providerDetailsItems.get(position);
+                            ProviderDetailsItem item = providerDetailsItems.get(position);
                             bundle.putString("selectedId", item.id);
                         }
 

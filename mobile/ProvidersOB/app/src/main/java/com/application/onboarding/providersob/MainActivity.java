@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +23,21 @@ public class MainActivity extends AppCompatActivity {
         //placing toolbar in place of actionbar
         setSupportActionBar(toolbar);
         // If savedinstnacestate is null then replace login fragment
-        if (savedInstanceState == null ) {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frameContainer, new UserAdminLoginFragment(),
-                            Utils.Login_Fragment).commit();
+        if (savedInstanceState == null) {
+            if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
+                replaceLoginFragment(new UserAdminLoginFragment());
+            }else{
+                replaceLoginFragment(new ChooseListActivityFragment());
+            }
+
         }
+
+//        if (savedInstanceState == null ) {
+//            fragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.frameContainer, new UserAdminLoginFragment(),
+//                            Utils.Login_Fragment).commit();
+//        }
 
 
     }

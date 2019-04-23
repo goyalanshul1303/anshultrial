@@ -1,11 +1,14 @@
 package com.application.onboarding.providersob;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,8 +48,9 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
 //        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
-//        customViewHolder.textLL.setOnClickListener(this);
-//        customViewHolder.textLL.setTag(i);
+        customViewHolder.textLL.setTag(i);
+        customViewHolder.textLL.setOnClickListener(this);
+
 
     }
 
@@ -59,14 +63,16 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView, customerEmail;
-        LinearLayout textLL;
+        RelativeLayout textLL;
+        AppCompatCheckBox checkBox;
 
 
         public CustomViewHolder(View view) {
             super(view);
             this.textView = (TextView) view.findViewById(R.id.customerName);
             customerEmail= (TextView)view.findViewById(R.id.customerEmail);
-            textLL = (LinearLayout)view.findViewById(R.id.textLL);
+            textLL = (RelativeLayout) view.findViewById(R.id.textLL);
+            checkBox = (AppCompatCheckBox) view.findViewById(R.id.checkbox);
 
         }
 

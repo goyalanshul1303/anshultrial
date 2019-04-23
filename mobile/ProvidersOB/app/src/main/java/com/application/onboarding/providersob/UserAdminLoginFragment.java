@@ -155,10 +155,12 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
             Toast.makeText(getActivity(),
                     "Enter both credentials.", Toast.LENGTH_SHORT).show();
 
-        } else
-            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
-                    .show();
-        new SendPostRequest().execute();
+        } else{
+            new SendPostRequest().execute();
+
+        }
+//            Toast.makeText(getActivity(), "Do Login.", Toast.LENGTH_SHORT)
+//                    .show();
 
 
 
@@ -182,8 +184,10 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username", "goyalanshul1303");
-                postDataParams.put("password", "abc123");
+//                postDataParams.put("username", "goyalanshul1303");
+//                postDataParams.put("password", "abc123");
+                postDataParams.put("username", emailid.getText().toString());
+                postDataParams.put("password", password.getText().toString());
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);

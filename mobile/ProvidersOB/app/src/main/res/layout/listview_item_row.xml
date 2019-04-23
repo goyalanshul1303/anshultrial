@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/textLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="10dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:id="@+id/textInputLL"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/customerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:text="Folder name here."
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="18sp" />
@@ -33,6 +39,15 @@
             android:textColor="@color/course_heading_color"
             android:textSize="16sp" />
     </LinearLayout>
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/checkbox"
+        android:visibility="gone"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content" android:layout_alignParentRight="true"
+   />
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -41,4 +56,4 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="#000000" />
-</LinearLayout>
+</RelativeLayout>

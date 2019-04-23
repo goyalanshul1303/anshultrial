@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -48,7 +49,7 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
     private Button addProductBtn;
     String customerType = "";
     private String selectedId = "";
-
+String productName;
     public AgentProductsListFragment() {
 
     }
@@ -81,6 +82,12 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
         addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
         addProductBtn.setOnClickListener(this);
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         new GetAllProductsAsyncTask().execute();
     }
 
@@ -136,36 +143,39 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-
-//
-            if (null != result) {
-                if(result.trim().charAt(0) == '[') {
-                    Log.e("Response is : " , "JSONArray");
+            if (isVisible()) {
+                if (null != result) {
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
                         parseListingData(result);
-                } else if(result.trim().charAt(0) == '{') {
-                    try {
-                        object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
+                    } else if (result.trim().charAt(0) == '{') {
+                        try {
+                            object = new JSONObject(result);
+                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                                Toast.makeText(getActivity(), "Something went wrong please try again",
+                                        Toast.LENGTH_LONG).show();
 
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
                     }
-                }else  {
+
+
+                } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
 
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
 
-            }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
 
@@ -184,7 +194,19 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);
                 productsRecyclerView.setVisibility(View.VISIBLE);
-//                adapter.SetOnItemClickListener();
+                adapter.SetOnItemClickListener(new ProductsItemAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Fragment newFragment = new ProductDetailsFragment();
+                        Bundle bundle = new Bundle();
+                        ProductsDetailsItem item = productDetailsItems.get(position);
+                        bundle.putString("selectedId", item.consumerId);
+                        bundle.putString("productId", item.id);
+                        productName = item.name;
+                        newFragment.setArguments(bundle);
+                        MainActivity.addActionFragment(newFragment);
+                    }
+                });
 
             }else{
                 // no consumers added . please add consumer first
