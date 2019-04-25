@@ -31,30 +31,30 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by aggarwal.swati on 2/8/19.
+ * Created by aggarwal.swati on 4/25/19.
  */
 
-public class PlacedOrderListFragment extends Fragment implements View.OnClickListener  {
+public class ProductListOpenForPrice extends Fragment implements View.OnClickListener  {
 
     private static View view;
 
-    private RecyclerView orderListView;
+    private RecyclerView productsRecyclerView;
 
     private ProgressBar progressBar;
     DataView data = new DataView();
     Button createOrderBtn;
-    private OrderItemAdapter adapter;
+    private ProductsItemAdapter adapter;
     View viewNoOrdersAdded;
-    private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
+    private ArrayList<ProductsDetailsItem> productListItem;
 
-    public PlacedOrderListFragment() {
+    public ProductListOpenForPrice() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.order_list, container, false);
+        view = inflater.inflate(R.layout.products_list, container, false);
         initViews();
         return view;
     }
@@ -62,17 +62,15 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Placed Orders");
+        getActivity().setTitle("Products For Offers");
     }
 
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
+        productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
 
-        viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
-        createOrderBtn.setOnClickListener(this);
+        viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoProductAdded);
 
         new GetAllProductsAsyncTask().execute();
     }
@@ -87,7 +85,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_PLACED_ORDERS);
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.OPEN_PRODUCT_ACCEPTING_OFFERS);
                 URL url = new URL(string.toString());
 
 
@@ -128,41 +126,41 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-        if (isVisible()){
-            if (null != result) {
-                if(result.trim().charAt(0) == '[') {
-                    Log.e("Response is : " , "JSONArray");
-                    parseListingData(result);
-                } else if(result.trim().charAt(0) == '{') {
-                    try {
-                        object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
+            if (isVisible()){
+                if (null != result) {
+                    if(result.trim().charAt(0) == '[') {
+                        Log.e("Response is : " , "JSONArray");
+                        parseListingData(result);
+                    } else if(result.trim().charAt(0) == '{') {
+                        try {
+                            object = new JSONObject(result);
+                            if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                                Toast.makeText(getActivity(), "Something went wrong please try again",
+                                        Toast.LENGTH_LONG).show();
 
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    }else  {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
                     }
+
+
                 }else  {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-
-
-            }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
-        }else{
-            FragmentManager fragmentManager = MainActivity.fragmentManager;
-            fragmentManager.popBackStackImmediate();
+
+
+
         }
-
-
-
-    }
     }
 
     private void parseListingData(String result) {
@@ -170,25 +168,24 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
             JSONArray list = new JSONArray(result);
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
-                orderListDetailsItems = new ArrayList<>();
+                productListItem = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
-                    OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
-                    orderListDetailsItems.add(item);
+                    ProductsDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),ProductsDetailsItem.class);
+                    productListItem.add(item);
                 }
-                adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
-                orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                orderListView.setAdapter(adapter);
+                adapter = new ProductsItemAdapter(getActivity(), productListItem);
+                productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                productsRecyclerView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
-                orderListView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
-
+                productsRecyclerView.setVisibility(View.VISIBLE);
+                adapter.SetOnItemClickListener(new ProductsItemAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new OrderDetailFragment();
+                        Fragment newFragment = new ProductDetailsFragment();
                         Bundle bundle = new Bundle();
-                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-                        bundle.putString("orderId", item.id);
-                        bundle.putString("productId", item.productId);
+                        ProductsDetailsItem item = productListItem.get(position);
+                        bundle.putString("selectedId", item.consumerId);
+                        bundle.putString("productId", item.id);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
 
@@ -198,7 +195,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
             }else{
                 // no orders added . please add consumer first
                 viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                orderListView.setVisibility(View.GONE);
+                productsRecyclerView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

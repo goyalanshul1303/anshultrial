@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    private static FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.placed_order:
                 addActionFragment(new PlacedOrderListFragment());
-return  true;
+                    return  true;
+            case R.id.productForOffers:
+                addActionFragment(new ProductListOpenForPrice());
+                return  true;
 default:
                 return super.onOptionsItemSelected(item);
         }

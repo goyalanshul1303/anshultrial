@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -141,7 +142,7 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
 
             progressBar.setVisibility(View.GONE);
 
-//
+    if(isVisible()){
             if (null != result) {
                 if(result.trim().charAt(0) == '[') {
                     Log.e("Response is : " , "JSONArray");
@@ -172,6 +173,10 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
             }
+        }else{
+            FragmentManager fragmentManager = MainActivity.fragmentManager;
+            fragmentManager.popBackStackImmediate();
+        }
 
 
         }

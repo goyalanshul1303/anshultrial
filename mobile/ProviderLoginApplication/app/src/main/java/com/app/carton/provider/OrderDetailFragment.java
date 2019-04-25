@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,6 +136,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
+            if (isVisible()){
             if (null != result) {
                 try {
                     object = new JSONObject(result);
@@ -156,6 +158,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                         Toast.LENGTH_LONG).show();
             }
 
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
+            }
 
         }
     }
