@@ -1,5 +1,6 @@
 package com.cartonwale.product.api.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ProductPrice extends EntityBase {
 	}
 
 	public List<Offer> getOffers() {
-		return offers;
+		return offers!= null? offers : new ArrayList<>(1);
 	}
 
 	public void setOffers(List<Offer> offers) {
