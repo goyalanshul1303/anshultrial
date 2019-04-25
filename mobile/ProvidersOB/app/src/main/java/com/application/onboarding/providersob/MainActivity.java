@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.logout(this);
                 replaceLoginFragment(new UserAdminLoginFragment());
                 return true;
+            case R.id.offerPrice:
+                addActionFragment(new OfferPriceProductList());
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item=menu.findItem(R.id.action_add_agent);
         if(item!=null)
             item.setVisible(false);
+
         return super.onPrepareOptionsMenu(menu);
     }
 

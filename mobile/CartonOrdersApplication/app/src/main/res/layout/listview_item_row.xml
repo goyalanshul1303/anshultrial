@@ -9,15 +9,72 @@
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dateLL"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="2019"
+                    android:textColor="@color/button_selectorcolor"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="26"
+                    android:textColor="@color/background_color"
+                    android:textSize="15sp" /> <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Dec"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="14sp" />
+
+            </LinearLayout>
     <LinearLayout
         android:id="@+id/textLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/dateLL"
         android:background="@drawable/item_selector"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="10dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView
+                android:id="@+id/order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+
+                android:text="Order:"
+                android:textColor="@color/button_selectorcolor"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/orderId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:text="#23456789000000200320303223232233"
+                android:textColor="@color/background_color"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/productName"
@@ -28,7 +85,6 @@
             android:text="Folder name here."
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="18sp" />
-
         <TextView
             android:id="@+id/customerEmail"
             android:layout_width="wrap_content"
@@ -37,7 +93,8 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/course_heading_color"
             android:textSize="16sp" />
-    </LinearLayout>
+    </LinearLayout></RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

@@ -15,6 +15,8 @@ import com.app.carton.orders.R;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -57,6 +59,13 @@ public class Utils {
         return date;
     }
 
+    public static  Calendar getCalenderFromTime(long time){
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time );
+        DateFormat.format("dd-MMM-yyyy", cal);
+        return  cal;
+    }
+
     public static  String getPostDataString(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();
@@ -80,6 +89,17 @@ public class Utils {
 
         }
         return result.toString();
+    }
+
+   public static String getDateofOdrerPlaced(int dayOfMonth){
+       String date= "";
+       if (dayOfMonth < 10) {
+           NumberFormat f = new DecimalFormat("00");
+         date = String.valueOf(f.format(dayOfMonth));
+       }else{
+           return dayOfMonth + "";
+       }
+       return  date;
     }
 
     public static void setDetailsTextField(String preText,

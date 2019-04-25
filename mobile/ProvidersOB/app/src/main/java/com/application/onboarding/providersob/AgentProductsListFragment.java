@@ -207,6 +207,11 @@ String productName;
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
                     }
+
+                    @Override
+                    public void getSelectedProductIdsforOffer(ArrayList<String> ids) {
+
+                    }
                 });
 
             }else{

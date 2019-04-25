@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,25 +129,30 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        parseListingData(object);
-
+            if (isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    if (null != object) {
+                        if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            parseListingData(object);
+
+                        }
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
                 }
-            }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
 
 

@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import com.app.carton.orders.R;
 
 public class MainActivity extends AppCompatActivity {
-    private static FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

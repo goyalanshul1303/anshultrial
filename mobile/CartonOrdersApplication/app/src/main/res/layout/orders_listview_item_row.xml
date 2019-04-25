@@ -7,26 +7,84 @@
     >
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content" android:layout_margin="10dp">
-    <LinearLayout
-        android:id="@+id/textLL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/item_selector"
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/mainLayo"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/dateLL"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/yearText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="2019"
+                android:textColor="@color/button_selectorcolor"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="26"
+                android:textColor="@color/background_color"
+                android:textSize="17sp" /> <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Dec"
+            android:textColor="@color/button_selectorcolor"
+            android:textSize="14sp" />
 
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="10dp">
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/textLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/dateLL"
+            android:background="@drawable/item_selector"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/awardedStatus"
+            android:layout_marginRight="5dp"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content" android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Order:"
+                    android:textColor="@color/button_selectorcolor"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/orderId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:textColor="@color/background_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
         <TextView
             android:id="@+id/productName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:text="Folder name here."
+            android:textStyle="bold"
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="18sp" />
 
@@ -35,17 +93,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/productName"
-            android:layout_marginLeft="10dp"
+            android:text="1"
             android:textColor="@color/course_heading_color"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/awardedStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/quantity"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/background_color"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
+
     </LinearLayout>
+            <TextView
+                android:id="@+id/awardedStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="in progress"
+                android:layout_centerVertical="true"
+                android:textColor="@color/background_color"
+                android:textSize="13sp" />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

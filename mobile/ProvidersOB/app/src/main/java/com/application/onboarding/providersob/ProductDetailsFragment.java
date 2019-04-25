@@ -155,6 +155,12 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Product Details");
+    }
+
     private void parseListingData(JSONObject result) {
         productNameString = result.optString("name");
         Utils.setDetailsTextField("Name", getActivity(), productName, result.optString("name"));

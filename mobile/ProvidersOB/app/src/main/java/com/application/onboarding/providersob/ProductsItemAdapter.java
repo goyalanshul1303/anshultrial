@@ -23,12 +23,15 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
 
     private ArrayList<ProductsDetailsItem> data = new ArrayList();
     Context context;
+    private boolean isFromOfferListing;
+    private ArrayList<String> selectedIds = new ArrayList<>();
 
     public ProductsItemAdapter(Context mContext, ArrayList<ProductsDetailsItem> data){
         context = mContext;
         this.data = data;
 
 }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
@@ -50,6 +53,31 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
 //        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
         customViewHolder.textLL.setTag(i);
         customViewHolder.textLL.setOnClickListener(this);
+        customViewHolder.checkBox.setTag(i);
+        if (isFromOfferListing)
+                customViewHolder.checkBox.setVisibility(View.VISIBLE);
+        else{
+            customViewHolder.checkBox.setVisibility(View.GONE);
+        }
+        customViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProductsDetailsItem testObjtem =   data.get((Integer) view.getTag());
+                if(((AppCompatCheckBox) view).isChecked()){
+                    System.out.println("Checked");
+                    selectedIds.add(testObjtem.id);
+
+                } else {
+                    System.out.println("Un-Checked");
+                    selectedIds.remove(testObjtem.id);
+                }
+                if (null!=mItemClickListener){
+                    mItemClickListener.getSelectedProductIdsforOffer(selectedIds);
+                }
+            }
+        });
+
+
 
 
     }
@@ -57,6 +85,11 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     @Override
     public int getItemCount() {
         return (null != data ? data.size() : 0);
+    }
+
+    public void setIsFromOfferListing(boolean isFromOfferListing) 
+    {
+        this.isFromOfferListing = isFromOfferListing;
     }
 
 
@@ -81,6 +114,7 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     public interface OnItemClickListener {
 
         public void onItemClick(View view, int position);
+        public void getSelectedProductIdsforOffer(ArrayList<String> ids);
     }
 
     public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {

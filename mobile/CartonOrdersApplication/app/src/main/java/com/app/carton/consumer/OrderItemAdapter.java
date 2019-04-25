@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.app.carton.orders.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by aggarwal.swati on 2/8/19.
@@ -48,6 +52,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         }else{
             customViewHolder.textView.setText(testObjtem.productName);
         }
+        customViewHolder.orderId.setText(testObjtem.id);
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
         if (testObjtem.orderStatus == 2){
@@ -57,7 +62,9 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             customViewHolder.awardStatus.setText("Order placed");
 
         }
-
+        customViewHolder.year.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.YEAR));
+        customViewHolder.month.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()));
+        customViewHolder.date.setText(Utils.getDateofOdrerPlaced(Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.DATE)));
         customViewHolder.textLL.setTag(i);
 
     }
@@ -71,7 +78,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
-        TextView textView, quantity, awardStatus;
+        TextView textView, quantity, awardStatus,orderId, year, month, date;
         LinearLayout textLL;
 
 
@@ -81,7 +88,11 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             this.quantity = (TextView) view.findViewById(R.id.quantity);
             textLL = (LinearLayout)view.findViewById(R.id.textLL);
             awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
+            orderId = (TextView) view.findViewById(R.id.orderId);
             textLL.setOnClickListener(this);
+            date = (TextView)view.findViewById(R.id.date);
+            year = (TextView)view.findViewById(R.id.yearText);
+            month = (TextView)view.findViewById(R.id.month);
 
         }
 
