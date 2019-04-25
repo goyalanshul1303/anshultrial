@@ -13,7 +13,7 @@ public class ProductPrice extends EntityBase {
 
 	private String productId;
 	
-	private List<Offer> offers;
+	private List<Offer> offers = new ArrayList<>();
 	
 	private double price;
 	
@@ -39,7 +39,7 @@ public class ProductPrice extends EntityBase {
 	}
 
 	public List<Offer> getOffers() {
-		return offers!= null? offers : new ArrayList<>(1);
+		return offers;
 	}
 
 	public void setOffers(List<Offer> offers) {
