@@ -90,16 +90,14 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	@Override
 	public List<Order> getRecentOrders(List<String> productIds, String consumerId) {
 		try {
-			Query query = new Query();
-			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds));
 			
 			Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds))
 					, Aggregation.sort(Direction.DESC, "productId", "orderDate")
 					, Aggregation.group("consumerId", "productId").first("orderDate").as("lastOrderDate")
 					, Aggregation.project("lastOrderDate").and("consumerId"));
-			return super.getAll(query);
+			return super.getAll(agg);
 		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;
