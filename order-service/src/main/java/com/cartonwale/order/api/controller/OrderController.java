@@ -74,4 +74,9 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.changeStatus(orderId, statusId), HttpStatus.ACCEPTED);
     }
     
+    @RequestMapping(value="/recentOrders")
+    public ResponseEntity<List<Order>> recentOrders(@RequestBody List<String> productIds) {
+		return makeResponse(orderService.recentOrders(productIds));
+    }
+    
 }

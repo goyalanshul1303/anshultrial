@@ -2,6 +2,8 @@ package com.cartonwale.order.api.dao.impl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -77,6 +79,24 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("providerId").is(providerId).and("orderStatus").is(OrderStatus.ORDER_COMPLETED.getValue()));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Order> getRecentOrders(List<String> productIds, String consumerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds));
+			
+			Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds))
+					, Aggregation.sort(Direction.DESC, "productId", "orderDate")
+					, Aggregation.group("consumerId", "productId").first("orderDate").as("lastOrderDate")
+					, Aggregation.project("lastOrderDate").and("consumerId"));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block

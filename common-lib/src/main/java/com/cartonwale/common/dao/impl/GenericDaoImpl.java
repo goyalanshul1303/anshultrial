@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -114,6 +115,19 @@ public class GenericDaoImpl<T> implements GenericDao<T> {
 		try {
 			
 			return mongoOperations.find(query, type);
+		} catch (Exception e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
+	@Override
+	@Cacheable(cacheResolver="secondaryCacheResolver" ,unless="#result == null")
+	public List<T> getAll(Aggregation agg) throws DataAccessException {
+		if (logger.isDebugEnabled())
+			logger.debug("type {} getAllUsingAggregation", type);
+		try {
+			
+			return mongoOperations.aggregate(agg, type, type).getMappedResults();
 		} catch (Exception e) {
 			throw new DataAccessException(e);
 		}
