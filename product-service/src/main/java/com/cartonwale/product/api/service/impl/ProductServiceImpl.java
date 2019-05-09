@@ -1,6 +1,7 @@
 package com.cartonwale.product.api.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -70,7 +71,10 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 
 	@Override
 	public List<Product> getAll(String consumerId) {
-		return productDao.getAllByConsumer(consumerId);
+		List<Product> products = productDao.getAllByConsumer(consumerId);
+		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
+		
+		return products ;
 	}
 
 	@Override

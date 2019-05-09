@@ -1,8 +1,10 @@
 package com.cartonwale.order.api.service.impl;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
@@ -55,7 +57,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		checkIfProductExists(order, authToken);
 
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
-		order.setOrderDate(new Date());
+		order.setOrderDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.setOrderStatus(OrderStatus.ORDER_PLACED);
 		return super.add(order);
 	}
@@ -137,5 +139,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	public List<Order> getRequirementsByConsumer() {
 
 		return orderDao.getRequirementsByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+	}
+
+	@Override
+	public List<Order> recentOrders(List<String> productIds) {
+		
+		return orderDao.getRecentOrders(productIds, SecurityUtil.getAuthUserDetails().getEntityId());
 	}
 }

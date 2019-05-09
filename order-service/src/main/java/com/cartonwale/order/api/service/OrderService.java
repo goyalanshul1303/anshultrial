@@ -19,4 +19,6 @@ public interface OrderService extends GenericService<Order>{
 	
 	List<Order> getRequirementsByConsumer();
 
+	List<Order> recentOrders(List<String> productIds);
+
 }

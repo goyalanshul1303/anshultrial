@@ -1,12 +1,15 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.product.api.dao.ProductPriceDao;
 import com.cartonwale.product.api.model.Offer;
@@ -38,7 +41,8 @@ public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> im
 
 	@Override
 	public void addPriceOffer(String productId, Offer offer) {
-		
+		offer.setProviderId(SecurityUtil.getAuthUserDetails().getEntityId());
+		offer.setOfferDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		priceDao.addOffer(productId, offer);
 	}
 

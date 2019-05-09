@@ -126,6 +126,12 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 		</dependency>
+		
+		<dependency>
+		  <groupId>com.google.cloud</groupId>
+		  <artifactId>google-cloud-logging-logback</artifactId>
+		  <version>0.88.0-alpha</version>
+		</dependency>
 		<!-- Logger -->
 
 		<!-- common-lib -->
@@ -147,6 +153,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
+		
+		
+		<dependency>
+	      <groupId>com.google.guava</groupId>
+	      <artifactId>guava</artifactId>
+	      <version>23.6-jre</version>
+	    </dependency>
 
 	</dependencies>
 	
