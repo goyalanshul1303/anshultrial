@@ -100,7 +100,6 @@ public class Product extends EntityBase{
 		return 100.0;
 	}
 
-	@JsonIgnore
 	public void setPrice(Double price) {
 		this.price = price;
 	}
@@ -125,7 +124,6 @@ public class Product extends EntityBase{
 		return lastOrder;
 	}
 
-	@JsonIgnore
 	public void setLastOrder(Order lastOrder) {
 		this.lastOrder = lastOrder;
 	}
