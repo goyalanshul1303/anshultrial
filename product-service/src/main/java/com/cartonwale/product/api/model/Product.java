@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
 import com.cartonwale.common.model.SheetLayerType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{
@@ -23,6 +24,8 @@ public class Product extends EntityBase{
 	private String consumerId;
 	
 	private Dimension dimension;
+	
+	private Double price;
 
 	public String getName() {
 		return name;
@@ -86,6 +89,15 @@ public class Product extends EntityBase{
 
 	public void setDimension(Dimension dimension) {
 		this.dimension = dimension;
+	}
+
+	public Double getPrice() {
+		return 100.0;
+	}
+
+	@JsonIgnore
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 	
 }
