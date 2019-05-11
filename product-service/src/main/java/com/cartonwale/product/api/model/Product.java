@@ -1,5 +1,8 @@
 package com.cartonwale.product.api.model;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
@@ -26,6 +29,8 @@ public class Product extends EntityBase{
 	private Dimension dimension;
 	
 	private Double price;
+	
+	private Order lastOrder;
 
 	public String getName() {
 		return name;
@@ -98,6 +103,31 @@ public class Product extends EntityBase{
 	@JsonIgnore
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Order getLastOrder() {
+		lastOrder = new Order();
+		if(this.getId() == "5cd6bfebad0cf20001abcfef"){
+			lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
+			lastOrder.setQuantity(200);
+			Calendar cal = Calendar.getInstance();
+			cal.set(2019, 3, 21);
+			lastOrder.setOrderDate(cal.getTime());
+		}
+		else if (this.getId() == "5cd6bf28ad0cf20001abcfed"){
+			lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
+			lastOrder.setQuantity(300);
+			Calendar cal = Calendar.getInstance();
+			cal.set(2019, 4, 28);
+			lastOrder.setOrderDate(cal.getTime());
+		}
+		
+		return lastOrder;
+	}
+
+	@JsonIgnore
+	public void setLastOrder(Order lastOrder) {
+		this.lastOrder = lastOrder;
 	}
 	
 }
