@@ -100,11 +100,14 @@
     </LinearLayout>
             <TextView
                 android:id="@+id/awardedStatus"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:layout_toRightOf="@id/textLL"
+                android:layout_marginLeft="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:text="in progress"
+                android:text="in progress dhcdhvhdch2cdg2 3dc2d33dyf23"
                 android:layout_centerVertical="true"
                 android:textColor="@color/background_color"
                 android:textSize="13sp" />

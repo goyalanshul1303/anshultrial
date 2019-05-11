@@ -300,13 +300,16 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
             progressBar.setVisibility(View.GONE);
             if (isVisible()) {
                 if (null != result && result.equalsIgnoreCase("true")) {
-                    Toast.makeText(getActivity(), "Products opened for offers successfully", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(), "Offer added successfully", Toast.LENGTH_LONG).show();
+                    FragmentManager fragmentManager = MainActivity.fragmentManager;
+                    fragmentManager.popBackStackImmediate();
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
 
             }else{
+
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
 

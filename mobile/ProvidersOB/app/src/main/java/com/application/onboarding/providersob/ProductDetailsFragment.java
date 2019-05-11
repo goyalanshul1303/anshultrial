@@ -32,6 +32,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -44,12 +45,13 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private static View view;
 
     private ProgressBar progressBar;
-    private Button addOrderBtn;
+    private Button addOrderBtn, viewOffersBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
     private String price;
+    ArrayList<OffersData> offersList = new ArrayList<>();
 
     public ProductDetailsFragment() {
 
@@ -77,6 +79,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         addOrderBtn = (Button)view.findViewById(R.id.addOrderBtn);
+        viewOffersBtn = (Button)view.findViewById(R.id.viewOffersBtn);
         quantity = (TextView)view.findViewById(R.id.expectedQuantity);
         sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
         productName = (TextView)view.findViewById(R.id.productName);
@@ -85,6 +88,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         cartonType = (TextView)view.findViewById(R.id.cartonType);
         addOrderBtn.setVisibility(View.VISIBLE);
         addOrderBtn.setOnClickListener(this);
+        viewOffersBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
 
     }
@@ -154,14 +158,14 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                                 Toast.LENGTH_LONG).show();
                     } else {
                         progressBar.setVisibility(View.VISIBLE);
-                       new FetchOffersTask().execute();
+                        new FetchOffersTask().execute();
                         parseListingData(object);
 
                     }
                 }
             }else  {
-                    FragmentManager fragmentManager = MainActivity.fragmentManager;
-                    fragmentManager.popBackStackImmediate();
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
 
 
@@ -180,13 +184,13 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
         Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
         Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-            quantity.setVisibility(View.GONE);
+        quantity.setVisibility(View.GONE);
 //        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
 
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
         Gson gson = new Gson();
-         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
+        dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
     }
     public class FetchOffersTask extends AsyncTask<String, Void, String> {
@@ -254,7 +258,20 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                                 Toast.LENGTH_LONG).show();
                     } else {
                         // show offers strip
-
+                        if (object.has("offers")){
+                            try {
+                                Gson gson=new Gson();
+                                for (int i =0 ; i< object.getJSONArray("offers").length(); i ++){
+                                    OffersData item=gson.fromJson(String.valueOf(object.getJSONArray("offers").getJSONObject(i)),OffersData.class);
+                                    offersList.add(item);
+                                }
+                                if (offersList.size()>0){
+                                    viewOffersBtn.setVisibility(View.VISIBLE);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
                     }
                 }
@@ -273,6 +290,14 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     public void onClick(View view) {
         if (view.getId() == R.id.addOrderBtn){
             showAddpriceDialog();
+        }
+       else if (view.getId() == R.id.viewOffersBtn){
+            AddedOffersListFragment fragment = new AddedOffersListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("productId",productId);
+            fragment.setOfferList (offersList);
+            fragment.setArguments(bundle);
+            MainActivity.addActionFragment(fragment);
         }
 
     }
@@ -361,15 +386,17 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
             progressBar.setVisibility(View.GONE);
             if (isVisible()) {
                 if (null != result && result.equalsIgnoreCase("true")) {
-                    Toast.makeText(getActivity(), "Products opened for offers successfully", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(), "Price Added Successfully",
+                            Toast.LENGTH_LONG).show();
+                    FragmentManager fragmentManager = MainActivity.fragmentManager;
+                    fragmentManager.popBackStackImmediate();
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
 
             }else{
-                Toast.makeText(getActivity(), "Price Added Successfully",
-                        Toast.LENGTH_LONG).show();
+
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
 

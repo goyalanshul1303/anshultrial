@@ -102,7 +102,7 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
             this.textView = (TextView) view.findViewById(R.id.customerName);
             customerEmail= (TextView)view.findViewById(R.id.customerEmail);
             textLL = (RelativeLayout)view.findViewById(R.id.textLL);
-checkbox = (AppCompatCheckBox)view.findViewById(R.id.checkbox);
+            checkbox = (AppCompatCheckBox)view.findViewById(R.id.checkbox);
         }
 
     }

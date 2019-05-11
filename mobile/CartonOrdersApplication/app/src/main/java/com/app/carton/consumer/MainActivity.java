@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
                     replaceLoginFragment(new ConsumerLoginFragment());
                 }else{
-                    replaceLoginFragment(new ConsumerRequirementsListFragment());
+                    replaceLoginFragment(new ConsumerProductsListFragment());
             }
             }
 

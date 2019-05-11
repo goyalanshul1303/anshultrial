@@ -48,7 +48,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     private ProgressBar progressBar;
     private String urlType;
     DataView data = new DataView();
-    private ProductsItemAdapter adapter;
+    private MyProductsListAdapter adapter;
     View viewNoProductAdded;
     ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
     private Button addProductBtn;
@@ -105,8 +105,6 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
                 URL url = new URL(string.toString());
-
-
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -144,8 +142,6 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-
-//
             if (isVisible()){
             if (null != result) {
                 if (result.trim().charAt(0) == '[') {
@@ -158,6 +154,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                                 || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
+                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
                         }
                     } catch (JSONException e) {
@@ -193,7 +190,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                     productDetailsItems.add(item);
                     consumerId = item.consumerId;
                 }
-                adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
+                adapter = new MyProductsListAdapter(getActivity(), productDetailsItems);
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);
@@ -202,14 +199,28 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new ProductDetailsFragment();
-                        Bundle bundle = new Bundle();
                         ProductsDetailsItem item = productDetailsItems.get(position);
-                        bundle.putString("selectedId", item.consumerId);
-                        bundle.putString("productId", item.id);
-                        productName = item.name;
-                        newFragment.setArguments(bundle);
-                        MainActivity.addActionFragment(newFragment);
+                        if (view.getId() == R.id.textLL){
+                            Bundle bundle = new Bundle();
+                            Fragment newFragment = new ProductDetailsFragment();
+
+                            bundle.putString("selectedId", item.consumerId);
+                            bundle.putString("productId", item.id);
+                            productName = item.name;
+                            newFragment.setArguments(bundle);
+                            MainActivity.addActionFragment(newFragment);
+                        }else  if(view.getId()== R.id.noOrderll){
+                            CreateOrderFragment fragment = new CreateOrderFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("isFromProductDetail", true);
+                            bundle.putString("productId", item.id);
+                            fragment.setDimension(item.dimension);
+                            fragment.setProductName(item.name);
+
+                            fragment.setArguments(bundle);
+                            MainActivity.addActionFragment(fragment);
+                        }
+
 
                     }
                 });
