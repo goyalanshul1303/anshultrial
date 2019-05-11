@@ -3,6 +3,8 @@ package com.cartonwale.product.api.dao.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -18,6 +20,8 @@ import com.cartonwale.product.api.model.ProductPrice;
 
 @Repository
 public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements ProductPriceDao {
+	
+	private final Logger logger = LoggerFactory.getLogger(ProductPriceDaoImpl.class);
 
 	public ProductPriceDaoImpl() {
 		super(ProductPrice.class);
@@ -47,8 +51,12 @@ public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements
 		query.addCriteria(Criteria.where("productId").is(productId));
 		try {
 			ProductPrice price = super.getAll(query).get(0);
-			price.getOffers().add(offer);
-			super.modify(price);
+			if(price.getOffers().stream().noneMatch(o -> o.getProviderId().equals(offer.getProviderId()))) {
+				price.getOffers().add(offer);
+				super.modify(price);
+			} else {
+				throw new ProductPriceException("Product Price already exists for this provider");
+			}
 		} catch (DataAccessException e) {
 
 			throw new ProductPriceException(e.getMessage());
@@ -93,6 +101,21 @@ public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements
 					.filter(p -> !p.getOffers().stream()
 							.filter(o -> o.getProviderId().equals(SecurityUtil.getAuthUserDetails().getEntityId())).findFirst().isPresent())
 					.map(p -> p.getProductId()).collect(Collectors.toList());
+		} catch (DataAccessException e) {
+
+			throw new ProductPriceException(e.getMessage());
+		}
+	}
+
+	@Override
+	public ProductPrice getByProductId(String productId) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("productId").is(productId));
+		logger.info("Finding ProductPrice by productId:" + productId);
+		try {
+			ProductPrice productPrice = super.getAll(query).get(0);
+			return productPrice;
 		} catch (DataAccessException e) {
 
 			throw new ProductPriceException(e.getMessage());

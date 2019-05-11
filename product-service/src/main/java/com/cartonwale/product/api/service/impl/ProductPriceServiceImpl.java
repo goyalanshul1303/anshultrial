@@ -63,4 +63,10 @@ public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> im
 		
 		return priceDao.getProductsAcceptingOffers();
 	}
+
+	@Override
+	public ProductPrice getByProductId(String productId) {
+		
+		return priceDao.getByProductId(productId);
+	}
 }
