@@ -15,11 +15,11 @@ public class AddOfferRequest {
 
 
     public String getPriceOffer() {
-        return priceOffer;
+        return offerPrice;
     }
 
     public void setPriceOffer(String priceOffer) {
-        this.priceOffer = priceOffer;
+        this.offerPrice = priceOffer;
     }
 
     String providerId;
@@ -33,5 +33,5 @@ public class AddOfferRequest {
     }
 
     String offerDate;
-    String priceOffer;
+    String offerPrice;
 }

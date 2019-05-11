@@ -20,7 +20,7 @@ public class WebServiceConstants {
     public static final String GET_COMPLETED_ORDERS = BASE_URL + "/order-service/orders/provider/completed";
     public static final String UPDATE_ORDER_STATUS = BASE_URL + "/order-service/orders/changeOrderStatus";
     public static final String OPEN_PRODUCT_ACCEPTING_OFFERS = BASE_URL +"/product-service/product/acceptingOffers";
-    public static final String ADD_PRODUCT_OFFER = BASE_URL +"/product-service/product/addOffer/";
+    public static final String ADD_PRODUCT_OFFER = BASE_URL +"/product-service/price/addOffer/";
 
 
 

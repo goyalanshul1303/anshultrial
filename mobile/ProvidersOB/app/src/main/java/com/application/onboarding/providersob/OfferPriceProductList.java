@@ -206,14 +206,14 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
                 adapter.SetOnItemClickListener(new ProductsItemAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new ProductDetailsFragment();
-                        Bundle bundle = new Bundle();
-                        ProductsDetailsItem item = productDetailsItems.get(position);
-                        bundle.putString("selectedId", item.consumerId);
-                        bundle.putString("productId", item.id);
-                        productName = item.name;
-                        newFragment.setArguments(bundle);
-                        MainActivity.addActionFragment(newFragment);
+//                        Fragment newFragment = new ProductDetailsFragment();
+//                        Bundle bundle = new Bundle();
+//                        ProductsDetailsItem item = productDetailsItems.get(position);
+//                        bundle.putString("selectedId", item.consumerId);
+//                        bundle.putString("productId", item.id);
+//                        productName = item.name;
+//                        newFragment.setArguments(bundle);
+//                        MainActivity.addActionFragment(newFragment);
                     }
 
                     @Override

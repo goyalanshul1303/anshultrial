@@ -1,15 +1,19 @@
 package com.app.carton.provider;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +48,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private Button offerPriceBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
+    private String price = "";
+
     public ProductDetailsFragment() {
 
     }
@@ -185,9 +191,40 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.offerPriceBtn){
-           new AddPriceTask().execute();
+            showAddpriceDialog();
         }
 
+    }
+
+    private void showAddpriceDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        final EditText edittext = new EditText(getActivity());
+        alert.setTitle("Enter Your Offer Price");
+
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //What ever you want to do with the value
+                Editable textValue = edittext.getText();
+                if (textValue.toString().isEmpty()){
+                    Toast.makeText(getActivity(), "Please input price ", Toast.LENGTH_LONG);
+                }else{
+                    price= textValue.toString();
+                    new AddPriceTask().execute();
+                }
+
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // what ever you want to do with No option.
+                dialog.dismiss();
+            }
+        });
+
+        alert.show();
     }
 
     public class AddPriceTask extends AsyncTask<String, Void, String> {
@@ -217,7 +254,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                 JSONObject object = new JSONObject();
                 AddOfferRequest request = new AddOfferRequest();
                 request.setProviderId(SharedPreferences.getString(getActivity(), "entityId"));
-                request.setPriceOffer("2500");
+                request.setPriceOffer(price);
                 request.setOfferDate(sdf.format(cal.getTime()));
 
                 Gson gson = new Gson();
