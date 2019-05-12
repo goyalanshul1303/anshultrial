@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:text="#23456789000000200320303223232233"
+                android:text=""
                 android:textColor="@color/background_color"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -88,9 +88,12 @@
         <TextView
             android:id="@+id/customerEmail"
             android:layout_width="wrap_content"
+            android:maxLines="3"
             android:layout_height="wrap_content"
             android:layout_below="@id/productName"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:text="order jwejfwnefknwkfkwbfjbwjf wbfugjf4bj234b"
             android:textColor="@color/course_heading_color"
             android:textSize="16sp" />
     </LinearLayout></RelativeLayout>

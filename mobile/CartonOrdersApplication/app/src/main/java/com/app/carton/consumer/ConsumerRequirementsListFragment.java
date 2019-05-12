@@ -56,7 +56,7 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-        getActivity().setTitle("Requirements");
+        getActivity().setTitle("My Products");
         return view;
     }
 
