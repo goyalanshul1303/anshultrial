@@ -88,6 +88,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 				Calendar cal = Calendar.getInstance();
 				cal.set(2019, 3, 21);
 				lastOrder.setOrderDate(cal.getTime());
+				product.setLastOrder(lastOrder);
 			}
 			else if (product.getId().equals("5cd6bf28ad0cf20001abcfed")){
 				lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
@@ -95,8 +96,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 				Calendar cal = Calendar.getInstance();
 				cal.set(2019, 4, 28);
 				lastOrder.setOrderDate(cal.getTime());
+				product.setLastOrder(lastOrder);
 			}
-			product.setLastOrder(lastOrder);
+			
 			return product;			
 		});
 		
