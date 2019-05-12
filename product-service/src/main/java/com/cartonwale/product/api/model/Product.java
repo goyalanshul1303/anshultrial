@@ -105,8 +105,9 @@ public class Product extends EntityBase{
 	}
 
 	public Order getLastOrder() {
-		lastOrder = new Order();
+		
 		if(this.getId().equals("5cd6bfebad0cf20001abcfef")){
+			lastOrder = new Order();
 			lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
 			lastOrder.setQuantity(200);
 			Calendar cal = Calendar.getInstance();
@@ -114,6 +115,7 @@ public class Product extends EntityBase{
 			lastOrder.setOrderDate(cal.getTime());
 		}
 		else if (this.getId().equals("5cd6bf28ad0cf20001abcfed")){
+			lastOrder = new Order();
 			lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
 			lastOrder.setQuantity(300);
 			Calendar cal = Calendar.getInstance();
