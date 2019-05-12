@@ -82,14 +82,14 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		products.stream().map(product -> {
 			product.setPrice(100.0);
 			Order lastOrder = new Order();
-			if(product.getId() == "5cd6bfebad0cf20001abcfef"){
+			if(product.getId().equals("5cd6bfebad0cf20001abcfef")){
 				lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
 				lastOrder.setQuantity(200);
 				Calendar cal = Calendar.getInstance();
 				cal.set(2019, 3, 21);
 				lastOrder.setOrderDate(cal.getTime());
 			}
-			else if (product.getId() == "5cd6bf28ad0cf20001abcfed"){
+			else if (product.getId().equals("5cd6bf28ad0cf20001abcfed")){
 				lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
 				lastOrder.setQuantity(300);
 				Calendar cal = Calendar.getInstance();
