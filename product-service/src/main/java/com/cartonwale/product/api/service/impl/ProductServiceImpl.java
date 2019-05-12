@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ import com.cartonwale.product.api.service.ProductService;
 @Service
 public class ProductServiceImpl extends GenericServiceImpl<Product> implements ProductService {
 	
+	private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
 	@Autowired
 	private ProductDao productDao;
 	
@@ -72,6 +76,12 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public List<Product> getAll(String consumerId) {
 		List<Product> products = productDao.getAllByConsumer(consumerId);
+		products.stream().map(product -> {
+			product.setPrice(100.0);
+			return product;			
+		});
+		
+		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
 		
 		return products ;
