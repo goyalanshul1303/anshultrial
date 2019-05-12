@@ -1,5 +1,6 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.product.api.dao.ProductDao;
+import com.cartonwale.product.api.model.Order;
+import com.cartonwale.product.api.model.OrderStatus;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductPrice;
 import com.cartonwale.product.api.service.ProductPriceService;
@@ -78,6 +81,22 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		List<Product> products = productDao.getAllByConsumer(consumerId);
 		products.stream().map(product -> {
 			product.setPrice(100.0);
+			Order lastOrder = new Order();
+			if(product.getId() == "5cd6bfebad0cf20001abcfef"){
+				lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
+				lastOrder.setQuantity(200);
+				Calendar cal = Calendar.getInstance();
+				cal.set(2019, 3, 21);
+				lastOrder.setOrderDate(cal.getTime());
+			}
+			else if (product.getId() == "5cd6bf28ad0cf20001abcfed"){
+				lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
+				lastOrder.setQuantity(300);
+				Calendar cal = Calendar.getInstance();
+				cal.set(2019, 4, 28);
+				lastOrder.setOrderDate(cal.getTime());
+			}
+			product.setLastOrder(lastOrder);
 			return product;			
 		});
 		
