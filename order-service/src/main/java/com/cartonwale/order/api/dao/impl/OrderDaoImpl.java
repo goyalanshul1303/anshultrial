@@ -93,9 +93,10 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 			
 			Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds))
 					, Aggregation.sort(Direction.DESC, "productId", "orderDate")
-					, Aggregation.group("consumerId", "productId").first("orderDate").as("lastOrderDate")
-					, Aggregation.project("orderDate","orderStatus","quantity"));
-			return super.getAll(agg);
+					, Aggregation.group("consumerId", "productId").first("orderDate").as("orderDate")
+					, Aggregation.project("orderStatus","quantity").and("orderDate").previousOperation());
+			List<Order> orders = super.getAll(agg);
+			return orders;
 		} catch (DataAccessException e) {
 			
 			e.printStackTrace();
