@@ -1,8 +1,10 @@
 package com.app.carton.consumer;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -65,6 +67,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
     @Override
     public void onResume() {
         super.onResume();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+
         getActivity().setTitle("Open Orders");
     }
 
@@ -189,9 +193,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        Fragment newFragment = new QuotationListingFragment();
+                        Fragment newFragment = new OpenOrdersDetailFragment();
                         Bundle bundle = new Bundle();
-
                         OrdersListDetailsItem item = orderListDetailsItems.get(position);
                         bundle.putString("orderId", item.id);
                         bundle.putBoolean("isFromOpenOrders", true);
@@ -231,4 +234,5 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
             item.setVisible(false);
 
     }
+
 }

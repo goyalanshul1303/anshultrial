@@ -1,14 +1,17 @@
 package com.app.carton.consumer;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -57,6 +60,9 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
         getActivity().setTitle("My Products");
+        setHasOptionsMenu(true);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+
         return view;
     }
 
@@ -222,4 +228,5 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
             MainActivity.addActionFragment(fragment);
         }
     }
+
 }

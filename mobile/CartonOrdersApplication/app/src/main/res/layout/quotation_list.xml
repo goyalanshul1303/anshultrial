@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/productName"
                 android:layout_marginLeft="10dp"
+                android:paddingBottom="10dp"
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
             <TextView

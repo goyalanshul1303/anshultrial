@@ -2,10 +2,12 @@ package com.app.carton.consumer;
 
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -203,13 +205,12 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                         if (view.getId() == R.id.textLL){
                             Bundle bundle = new Bundle();
                             Fragment newFragment = new ProductDetailsFragment();
-
                             bundle.putString("selectedId", item.consumerId);
                             bundle.putString("productId", item.id);
                             productName = item.name;
                             newFragment.setArguments(bundle);
                             MainActivity.addActionFragment(newFragment);
-                        }else  if(view.getId()== R.id.noOrderll){
+                        }else  if(view.getId()== R.id.noOrderll || view.getId() == R.id.reorder){
                             CreateOrderFragment fragment = new CreateOrderFragment();
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("isFromProductDetail", true);
@@ -219,6 +220,10 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
                             fragment.setArguments(bundle);
                             MainActivity.addActionFragment(fragment);
+                        }
+                        else  if(view.getId()== R.id.detailsLink){
+                         // create order details link
+
                         }
 
 
@@ -238,15 +243,16 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Product List");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+
     }
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item=menu.findItem(R.id.action_create_order);
         if(item!=null)
-            item.setVisible(true);
-        MenuItem item2=menu.findItem(R.id.product_list);
-        if(item2!=null)
-            item2.setVisible(false);
+            item.setVisible(false);
+
+
     }
 
     @Override

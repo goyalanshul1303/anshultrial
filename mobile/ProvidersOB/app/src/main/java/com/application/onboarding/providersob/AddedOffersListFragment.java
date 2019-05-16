@@ -211,7 +211,7 @@ public class AddedOffersListFragment extends Fragment implements View.OnClickLis
                             Toast.LENGTH_LONG).show();
                     FragmentManager fragmentManager = MainActivity.fragmentManager;
                     fragmentManager.popBackStackImmediate();
-                    
+
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();

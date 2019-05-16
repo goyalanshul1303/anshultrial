@@ -2,8 +2,10 @@ package com.app.carton.consumer;
 
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +83,8 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
         initViews();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+
         getActivity().setTitle("Place Order");
     }
 
@@ -260,7 +264,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                 } else {
                     Toast.makeText(getActivity(), "Order Created successfully",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ConsumerRequirementsListFragment ());
+                    new MainActivity().replaceLoginFragment(new ConsumerProductsListFragment ());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

@@ -17,5 +17,6 @@
     <color name="White">#ffffff</color>
     <color name="color_dashboard_papers_text">#212121</color>
     <color name="course_heading_color">#8c8d94</color>
+    <color name="view">#e6e6e6</color>
 
 </resources>

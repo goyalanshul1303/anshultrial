@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.app.carton.orders.R;
@@ -65,7 +66,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         customViewHolder.year.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.YEAR));
         customViewHolder.month.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()));
         customViewHolder.date.setText(Utils.getDateofOdrerPlaced(Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.DATE)));
-        customViewHolder.textLL.setTag(i);
+        customViewHolder.mainLayout.setTag(i);
 
     }
 
@@ -80,6 +81,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
 
         TextView textView, quantity, awardStatus,orderId, year, month, date;
         LinearLayout textLL;
+        RelativeLayout mainLayout;
 
 
         public CustomViewHolder(View view) {
@@ -89,7 +91,8 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             textLL = (LinearLayout)view.findViewById(R.id.textLL);
             awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
             orderId = (TextView) view.findViewById(R.id.orderId);
-            textLL.setOnClickListener(this);
+            mainLayout =(RelativeLayout)view.findViewById(R.id.mainLayout);
+            mainLayout.setOnClickListener(this);
             date = (TextView)view.findViewById(R.id.date);
             year = (TextView)view.findViewById(R.id.yearText);
             month = (TextView)view.findViewById(R.id.month);

@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
         MenuItem item=menu.findItem(R.id.action_create_order);
         if(item!=null)
             item.setVisible(false);
@@ -71,10 +70,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.open_orders_list:
                 addActionFragment(new ConsumerOrderListFragment());
                 return  true;
-
                 case R.id.product_list:
-                addActionFragment(new ConsumerProductsListFragment());
+                addActionFragment(new ConsumerRequirementsListFragment());
                     return true;
+            case android.R.id.home:
+                onBackPressed();
+                fragmentManager.popBackStackImmediate();
             default:
                 return super.onOptionsItemSelected(item);
         }

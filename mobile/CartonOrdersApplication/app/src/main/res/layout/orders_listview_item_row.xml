@@ -10,100 +10,99 @@
         android:layout_height="wrap_content" android:layout_margin="10dp">
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:id="@+id/mainLayo"
+            android:id="@+id/mainLayout"
             android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/dateLL"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/yearText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="2019"
-                android:textColor="@color/button_selectorcolor"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="26"
-                android:textColor="@color/background_color"
-                android:textSize="17sp" /> <TextView
-            android:id="@+id/month"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Dec"
-            android:textColor="@color/button_selectorcolor"
-            android:textSize="14sp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/textLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/dateLL"
-            android:background="@drawable/item_selector"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/awardedStatus"
-            android:layout_marginRight="5dp"
-            android:padding="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content" android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:id="@+id/dateLL"
+                android:layout_marginTop="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/order"
+                    android:id="@+id/yearText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Order:"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="2019"
                     android:textColor="@color/button_selectorcolor"
                     android:textSize="14sp" />
                 <TextView
-                    android:id="@+id/orderId"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="26"
                     android:textColor="@color/background_color"
+                    android:textSize="17sp" />
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Dec"
+                    android:textColor="@color/button_selectorcolor"
                     android:textSize="14sp" />
+
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/textLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dateLL"
+                android:background="@drawable/item_selector"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_toLeftOf="@+id/awardedStatus"
+                android:layout_marginRight="5dp"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content" android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order:"
+                        android:textColor="@color/button_selectorcolor"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/orderId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:textColor="@color/background_color"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/productName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Folder name here."
-            android:textStyle="bold"
-            android:textColor="@color/color_dashboard_papers_text"
-            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Folder name here."
+                    android:textStyle="bold"
+                    android:textColor="@color/color_dashboard_papers_text"
+                    android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/productName"
-            android:text="1"
-            android:textColor="@color/course_heading_color"
-            android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/productName"
+                    android:text="1"
+                    android:textColor="@color/course_heading_color"
+                    android:textSize="14sp" />
 
-    </LinearLayout>
+            </LinearLayout>
             <TextView
                 android:id="@+id/awardedStatus"
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:maxLines="3"
-                android:layout_toRightOf="@id/textLL"
                 android:layout_marginLeft="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
