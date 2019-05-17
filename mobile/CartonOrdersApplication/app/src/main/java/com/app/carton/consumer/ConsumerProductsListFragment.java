@@ -163,12 +163,16 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                         e.printStackTrace();
                     }
                 } else {
+                    MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
 
 
             } else {
+                MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
             }
@@ -183,12 +187,22 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
     private void parseListingData(String result) {
         try {
-            JSONArray list = new JSONArray(result);
+            JSONArray list = null;
+            try {
+                list = new JSONArray(result);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
             if (null!= list && list.length() > 0 ){
                 Gson gson=new Gson();
                 productDetailsItems = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
-                    ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
+                    ProductsDetailsItem item= null;
+                    try {
+                        item = gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                     productDetailsItems.add(item);
                     consumerId = item.consumerId;
                 }
@@ -224,8 +238,21 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                         else  if(view.getId()== R.id.detailsLink){
                          // create order details link
 
-                        }
+                              Bundle bundle = new Bundle();
+                              bundle.putString("orderId", item.getLastOrder().getId());
+                            if(item.getLastOrder().getOrderStatus() == 1) {
+                                Fragment newFragment = new QuotationListingFragment();
+                                bundle.putBoolean("isFromOpenOrders", false);
+                                newFragment.setArguments(bundle);
+                                MainActivity.addActionFragment(newFragment);
+                            }else {
+                                Fragment newFragment = new OpenOrdersDetailFragment();
+                                bundle.putBoolean("isFromOpenOrders", true);
+                                newFragment.setArguments(bundle);
+                                MainActivity.addActionFragment(newFragment);
+                            }
 
+                            }
 
                     }
                 });
@@ -235,7 +262,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 viewNoProductAdded.setVisibility(View.VISIBLE);
                 productsRecyclerView.setVisibility(View.GONE);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

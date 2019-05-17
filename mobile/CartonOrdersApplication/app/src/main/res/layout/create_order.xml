@@ -124,7 +124,20 @@
                 android:layout_marginTop="7dp"
                 android:background="@color/background_color"
                 android:padding="3dp"
+                android:layout_margin="10dp"
                 android:text="Create Order"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/inviteQuotations"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@color/background_color"
+                android:padding="3dp"
+                android:text="Invite Quotations"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />

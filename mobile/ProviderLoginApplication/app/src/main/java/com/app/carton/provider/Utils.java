@@ -103,4 +103,31 @@ public class Utils {
     }
         return result;
     }
+    public static String getOrderStatusText(int orderStatus)
+    {
+        switch (orderStatus){
+            case 1:
+                return  "Order Placed";
+            case 2:
+                return  "Manufacturer Assigned";
+            case 3:
+                return  "Manufacturing Initiated";
+
+            case 4:
+                return  "Manufacturing Completed";
+            case 5:
+                return  "Quality Inspection Initiated";
+            case 6:
+                return  "Quality Inspection Completed";
+            case 7:
+                return  "Order Dispatched";
+
+            case 8:
+                return  "Order Delivered";
+            case 9:
+                return  "Order Completed";
+            default:
+                return  "Order Placed";
+        }
+    }
 }

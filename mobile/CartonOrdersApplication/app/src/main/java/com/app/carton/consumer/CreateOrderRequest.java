@@ -36,5 +36,15 @@ public class CreateOrderRequest {
     }
 
     int quantity;
+
+    public boolean isQuotesInvited() {
+        return quotesInvited;
+    }
+
+    public void setQuotesInvited(boolean quotesInvited) {
+        this.quotesInvited = quotesInvited;
+    }
+
+    boolean quotesInvited;
     DimensionClass dimension;
 }

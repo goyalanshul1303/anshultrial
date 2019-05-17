@@ -77,7 +77,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         createOrderBtn.setOnClickListener(this);
-
+createOrderBtn.setVisibility(View.GONE);
         new GetAllProductsAsyncTask().execute();
     }
 
@@ -93,8 +93,6 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
 
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_PLACED_ORDERS);
                 URL url = new URL(string.toString());
-
-
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);

@@ -1,5 +1,6 @@
 package com.app.carton.provider;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -43,8 +45,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     private Button addQuotationBtn;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String orderId,productId;
-    LinearLayout parentLL;
+    LinearLayout parentLL,statuLL;
     boolean isFromAwarded ;
+    private int orderStatus;
+
     public OrderDetailFragment() {
 
     }
@@ -82,7 +86,8 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         addQuotationBtn.setOnClickListener(this);
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
-        if (!isFromAwarded){
+        statuLL = (LinearLayout) view.findViewById(R.id.statuLL);
+        if (isFromAwarded){
             addQuotationBtn.setText("Update Order Status");
             // show status change button
         }
@@ -170,6 +175,20 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private void parseListingData(JSONObject result) {
         addQuotationBtn.setVisibility(View.VISIBLE);
+        if ( isFromAwarded) {
+            if (orderStatus >= 4)
+                addQuotationBtn.setVisibility(View.GONE);
+            else if (orderStatus == 2) {
+                addQuotationBtn.setText("Initiate Manufacturing");
+            }else  if(orderStatus == 3){
+                addQuotationBtn.setText("Complete Manufacturing");
+
+            }
+        }
+        if (isFromAwarded)
+        addOrderStatus(orderStatus);
+        else
+            statuLL.setVisibility(View.GONE);
         Utils.setDetailsTextField("Product Name", getActivity(), productName, result.optString("name"));
         Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
         Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
@@ -294,7 +313,9 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 //            Utils.setDetailsTextField("Product Name", getActivity(), productName, object.optString("productName"));
             Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
             orderId = object.optString("id");
+            orderStatus = object.optInt("orderStatus");
             productId = object.optString("productId");
+
 
     }
 
@@ -311,7 +332,8 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                 string.append("/");
                 string.append(orderId);
                 string.append("/");
-                string.append(String.valueOf(2));
+                orderStatus += 1;
+                string.append(String.valueOf(orderStatus));
                 URL url = new URL(string.toString());
 
 //                URL url = new URL(WebServiceConstants.UPDATE_ORDER_STATUS);
@@ -362,35 +384,59 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         protected void onPostExecute(String result) {
             JSONObject object = null;
             progressBar.setVisibility(View.GONE);
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
-                            || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) ==  HttpURLConnection.HTTP_FORBIDDEN))) {
+            if (isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != object) {
+                        if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
 
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Order status update Successfully",
+                                    Toast.LENGTH_LONG).show();
+                            FragmentManager fragmentManager = MainActivity.fragmentManager;
+                            fragmentManager.popBackStackImmediate();
+
+                        }
                     } else {
-                        Toast.makeText(getActivity(), "Order status update Successfully",
-                                Toast.LENGTH_LONG).show();
-
-
+                        progressBar.setVisibility(View.GONE);
 
                     }
-                }else{
+                } else {
                     progressBar.setVisibility(View.GONE);
-
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
                 }
-            }else  {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
 
+
+        }
+    }
+    private void addOrderStatus(int status) {
+        LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        for (int i = 1 ; i<=9 ; i++){
+            View v = vi.inflate(R.layout.order_status, null);
+
+// fill in any details dynamically here
+            TextView textView = (TextView) v.findViewById(R.id.statusText);
+            textView.setText(Utils.getOrderStatusText(i));
+            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
+            if (status >= i)
+                view.setBackgroundResource(R.drawable.thumbsup);
+            else{
+                view.setBackgroundResource(R.drawable.undelivered);
+            }
+            statuLL.addView(v);
 
         }
     }

@@ -52,7 +52,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     CreateOrderRequest request = new CreateOrderRequest();
     private ProgressBar progressBar;
     DataView data = new DataView();
-    private Button createOrderBtn;
+    private Button createOrderBtn, inviteQuotations;
     private EditText height, width,length;
     String productId;
     Spinner productsSpinner;
@@ -99,6 +99,8 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         width = (EditText) view.findViewById(R.id.widthLL);
         length = (EditText)view.findViewById(R.id.lengthLL);
         productName = (TextView) view.findViewById(R.id.productName);
+        inviteQuotations = (Button)view.findViewById(R.id.inviteQuotations);
+        inviteQuotations.setOnClickListener(this);
         if (isFromProductDetail){
             productsSpinner.setVisibility(View.GONE);
             height.setText(dimension.getHeight() + "");
@@ -140,7 +142,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
        
-        if (view.getId() == R.id.createOrderBtn) {
+        if (view.getId() == R.id.createOrderBtn || view.getId() == R.id.inviteQuotations) {
             // move to next screen
 
             if (!TextUtils.isEmpty(quantityET.getText())) {
@@ -168,6 +170,9 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             dimensionClass.setLength(Integer.parseInt(length.getText().toString()));
 
             request.setDimension(dimensionClass);
+            if (view.getId() == R.id.inviteQuotations){
+                request.setQuotesInvited(true);
+            }
             request.setProductId(productId);
 
             new SendPostRequest().execute();

@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAdapter.CustomViewHolder>
-    implements View.OnClickListener
+
 {
     ProductsItemAdapter.OnItemClickListener mItemClickListener;
 
@@ -73,7 +73,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
 
             int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
             customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
-            customViewHolder.detailsLink.setOnClickListener(this);
+
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
             if (orderObj.getOrderStatus() != 9){
                 customViewHolder.reorder.setVisibility(View.GONE);
@@ -108,11 +108,6 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         return (null != data ? data.size() : 0);
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
 
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -142,6 +137,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             priceProduct = (TextView)view.findViewById(R.id.priceProduct);
             reorder = (ImageView) view.findViewById(R.id.reorder);
             reorder.setOnClickListener(this);
+            detailsLink.setOnClickListener(this);
         }
 
         @Override
