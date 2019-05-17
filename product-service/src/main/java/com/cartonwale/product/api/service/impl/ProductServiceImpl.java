@@ -81,24 +81,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		List<Product> products = productDao.getAllByConsumer(consumerId);
 		products.stream().map(product -> {
 			product.setPrice(100.0);
-			Order lastOrder = new Order();
-			if(product.getId().equals("5cd6bfebad0cf20001abcfef")){
-				lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
-				lastOrder.setQuantity(200);
-				Calendar cal = Calendar.getInstance();
-				cal.set(2019, 3, 21);
-				lastOrder.setOrderDate(cal.getTime());
-				product.setLastOrder(lastOrder);
-			}
-			else if (product.getId().equals("5cd6bf28ad0cf20001abcfed")){
-				lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
-				lastOrder.setQuantity(300);
-				Calendar cal = Calendar.getInstance();
-				cal.set(2019, 4, 28);
-				lastOrder.setOrderDate(cal.getTime());
-				product.setLastOrder(lastOrder);
-			}
-			
+			Order lastOrder = new Order();			
 			return product;			
 		});
 		

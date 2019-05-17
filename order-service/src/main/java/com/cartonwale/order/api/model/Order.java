@@ -1,6 +1,8 @@
 package com.cartonwale.order.api.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -30,6 +32,22 @@ public class Order extends EntityBase{
 	private int changeDimension;
 	
 	private Quote awardedQuote;
+	
+	private boolean quotesInvited;
+	
+	private List<OrderStatus> statuses = new ArrayList<>();
+
+	public boolean isQuotesInvited() {
+		return quotesInvited;
+	}
+
+	public void setQuotesInvited(boolean quotesInvited) {
+		this.quotesInvited = quotesInvited;
+	}
+
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 
 	public int getQuantity() {
 		return quantity;
@@ -115,6 +133,16 @@ public class Order extends EntityBase{
 	@JsonIgnore
 	public void setAwardedQuote(Quote awardedQuote) {
 		this.awardedQuote = awardedQuote;
+	}
+
+	@JsonProperty
+	public List<OrderStatus> getStatuses() {
+		return statuses;
+	}
+
+	@JsonIgnore
+	public void setStatuses(List<OrderStatus> statuses) {
+		this.statuses = statuses;
 	}
 	
 }

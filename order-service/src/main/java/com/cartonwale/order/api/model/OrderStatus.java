@@ -1,5 +1,7 @@
 package com.cartonwale.order.api.model;
 
+import java.util.Date;
+
 public enum OrderStatus {
 
 	ORDER_PLACED(1),
@@ -10,9 +12,12 @@ public enum OrderStatus {
 	QUALITY_INSPECTION_COMPLETED(6),
 	ORDER_DISPATCHED(7),
 	ORDER_DELIVERED(8),
-	ORDER_COMPLETED(9);
+	ORDER_COMPLETED(9),
+	AWAITING_MANUFACTURER(10);
 	
 	private int value;
+	
+	private Date statusDate;
 	
 	private OrderStatus(int value){
 		
@@ -23,6 +28,14 @@ public enum OrderStatus {
 		return this.value;
 	}
 	
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
 	public static OrderStatus getOrderStatus(int value){
 		
 		for(OrderStatus type : values()){
@@ -30,6 +43,7 @@ public enum OrderStatus {
 				return type;
 			}
 		}
+		
 		
 		throw new IllegalArgumentException("Illegal integer value");
 	}
