@@ -30,6 +30,20 @@ public class Order extends EntityBase{
 	private int changeDimension;
 	
 	private Quote awardedQuote;
+	
+	private boolean isQuotesInvited;
+
+	public boolean isQuotesInvited() {
+		return isQuotesInvited;
+	}
+
+	public void setQuotesInvited(boolean isQuotesInvited) {
+		this.isQuotesInvited = isQuotesInvited;
+	}
+
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = orderStatus;
+	}
 
 	public int getQuantity() {
 		return quantity;

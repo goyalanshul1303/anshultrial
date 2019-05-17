@@ -58,7 +58,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		order.setOrderDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
-		order.setOrderStatus(OrderStatus.ORDER_PLACED);
+		if(order.isQuotesInvited())
+			order.setOrderStatus(OrderStatus.ORDER_PLACED);
+		else
+			order.setOrderStatus(OrderStatus.AWAITING_MANUFACTURER);
 		return super.add(order);
 	}
 
