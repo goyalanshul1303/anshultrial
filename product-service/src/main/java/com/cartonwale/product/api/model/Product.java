@@ -107,6 +107,7 @@ public class Product extends EntityBase{
 	public Order getLastOrder() {
 		
 		if (this.getId().equals("5cd6bfebad0cf20001abcfef")) {
+			lastOrder = new Order();
 			lastOrder.setId("5cd79d5ead0cf2000108f136");
 			lastOrder.setOrderStatus(OrderStatus.ORDER_COMPLETED);
 			lastOrder.setQuantity(200);
@@ -114,6 +115,7 @@ public class Product extends EntityBase{
 			cal.set(2019, 3, 21);
 			lastOrder.setOrderDate(cal.getTime());
 		} else if (this.getId().equals("5cd6bf28ad0cf20001abcfed")) {
+			lastOrder = new Order();
 			lastOrder.setId("5ccde9309943f200016d31dc");
 			lastOrder.setOrderStatus(OrderStatus.MANUFACTURING_INITIATED);
 			lastOrder.setQuantity(300);
@@ -121,11 +123,12 @@ public class Product extends EntityBase{
 			cal.set(2019, 4, 28);
 			lastOrder.setOrderDate(cal.getTime());
 		} else if (this.getId().equals("5c6f02eaa675f200016db0a6")) {
+			lastOrder = new Order();
 			lastOrder.setId("5cb08bd39943f200019ae959");
 			lastOrder.setOrderStatus(OrderStatus.ORDER_PLACED);
 			lastOrder.setQuantity(300);
 			Calendar cal = Calendar.getInstance();
-			cal.set(2019, 5, 11);
+			cal.set(2019, 4, 28);
 			lastOrder.setOrderDate(cal.getTime());
 		}
 		
