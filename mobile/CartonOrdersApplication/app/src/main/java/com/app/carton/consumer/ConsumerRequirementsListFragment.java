@@ -59,7 +59,7 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-        getActivity().setTitle("My Products");
+        getActivity().setTitle("My Requirements");
         setHasOptionsMenu(true);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 

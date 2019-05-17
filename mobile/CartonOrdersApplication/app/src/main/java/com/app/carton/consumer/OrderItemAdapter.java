@@ -56,13 +56,10 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         customViewHolder.orderId.setText(testObjtem.id);
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
-        if (testObjtem.orderStatus == 2){
-            // order alread MANUFACTURER_ASSIGNED
-            customViewHolder.awardStatus.setText("Already Awarded Manufature Assigned");
-        }else{
-            customViewHolder.awardStatus.setText("Order placed");
 
-        }
+            customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
+
+
         customViewHolder.year.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.YEAR));
         customViewHolder.month.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()));
         customViewHolder.date.setText(Utils.getDateofOdrerPlaced(Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.DATE)));

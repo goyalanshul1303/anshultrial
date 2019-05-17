@@ -1,6 +1,7 @@
 package com.app.carton.consumer;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
     @Override
     public void onBindViewHolder(QuotationItemsAdapter.CustomViewHolder customViewHolder, int i) {
         QuotationData testObjtem = data.get(i);
-        Utils.setDetailsTextField("Quotation Amount", context, customViewHolder.quotationAmount,String.valueOf(testObjtem.quoteAmount));
+        Utils.setDetailsTextField("Quotation Amount   \u20B9", context, customViewHolder.quotationAmount,String.valueOf(testObjtem.quoteAmount));
         Utils.setDetailsTextField("Quotation Start Date", context, customViewHolder.quotationStartDate, Utils.getDate(testObjtem.orderStartDate));
         Utils.setDetailsTextField("Quotation End Date", context, customViewHolder.quotationEndDate, Utils.getDate(testObjtem.orderFulfillmentDate));
         Utils.setDetailsTextField("Quotation Placed Date", context, customViewHolder.quotationPlacedDate, Utils.getDate(testObjtem.quoteDate));
@@ -61,10 +62,15 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
 
         }
         if (testObjtem.isAwarded()){
+            Drawable img = context.getResources().getDrawable( R.drawable.award );
+            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+
             customViewHolder.awardQuotationBtn.setText("Awarded Quotation");
             customViewHolder.awardQuotationBtn.setEnabled(false);
         }else{
             customViewHolder.awardQuotationBtn.setText("Award Quotation");
+            Drawable img = context.getResources().getDrawable( R.drawable.already_awarded );
+            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
             customViewHolder.awardQuotationBtn.setEnabled(true);
         }
 

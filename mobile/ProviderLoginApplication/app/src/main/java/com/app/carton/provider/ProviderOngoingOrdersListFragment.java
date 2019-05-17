@@ -2,10 +2,12 @@ package com.app.carton.provider;
 
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -76,6 +78,8 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     @Override
     public void onResume() {
         super.onResume();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+
         getActivity().setTitle("Ongoing Orders");
     }
 
