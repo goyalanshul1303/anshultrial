@@ -1,5 +1,6 @@
 package com.app.carton.consumer;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,15 +51,13 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     private ProgressBar progressBar;
     DataView data = new DataView();
     private QuotationItemsAdapter adapter;
-    View viewNoQuationsAdded;
     private ArrayList<QuotationData> quotationDataArrayList;
     String orderId,quoteId;
     private int awardPosition;
     private boolean isFromOpenOrders;
     private TextView quantity, productName;
     private String productId;
-    private TextView productDetailLInk;
-
+LinearLayout orderStatusLL;
     public OpenOrdersDetailFragment() {
 
     }
@@ -85,125 +86,138 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
 
         productName = (TextView)view.findViewById(R.id.productName);
         quantity = (TextView)view.findViewById(R.id.quantityOrder);
-        productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
+//        productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
         productName.setOnClickListener(this);
         quotationPlacedDate = (TextView)view.findViewById(R.id.quotationPlacedDate);
         quotationStartDate = (TextView)view.findViewById(R.id.quotationStartDate);
         quotationEndDate = (TextView)view.findViewById(R.id.quotationEndDate);
         quotationAmount = (TextView)view.findViewById(R.id.quotationAmount);
+        orderStatusLL = (LinearLayout)view.findViewById(R.id.statuLL);
+
         new FetchOrderDetailsTask().execute();
 
     }
-    public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
-        protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+    private void addOrderStatus() {
+        LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        protected String doInBackground(String... arg0) {
+        for (int i = 0 ; i< 7 ; i++){
+            View v = vi.inflate(R.layout.order_status, null);
 
-            try {
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDER_QUOTATIONS);
-                string.append(orderId);
-                URL url = new URL(string.toString());
-
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                conn.setRequestMethod("GET");
-//                conn.setDoInput(true);
-//                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
-
-                InputStream inputStream;
-
-                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                    inputStream = conn.getInputStream();
-                } else {
-                    inputStream = conn.getErrorStream();
-                }
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String temp, response = "";
-                while ((temp = bufferedReader.readLine()) != null) {
-                    response += temp;
-                }
-
-                return response.toString();
-
-
-            } catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            JSONObject object = null;
-
-            progressBar.setVisibility(View.GONE);
-            if (isVisible()){
-                if (null != result) {
-                    if (result.trim().charAt(0) == '[') {
-                        Log.e("Response is : ", "JSONArray");
-                        parseDetailsData(result);
-                    } else if (result.trim().charAt(0) == '{') {
-                        try {
-                            object = new JSONObject(result);
-                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
-                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
-                                Toast.makeText(getActivity(), "Something went wrong please try again",
-                                        Toast.LENGTH_LONG).show();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
-                    }
-
-
-                } else {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-            else{
-                FragmentManager fragmentManager = MainActivity.fragmentManager;
-                fragmentManager.popBackStackImmediate();
-            }
-
+// fill in any details dynamically here
+            TextView textView = (TextView) v.findViewById(R.id.statusText);
+            textView.setText(Utils.getOrderStatusText(3));
+            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
+            view.setBackgroundResource(R.drawable.undelivered);
+            orderStatusLL.addView(v);
 
         }
     }
-
-    private void parseDetailsData(String result) {
-        try {
-            JSONArray list = new JSONArray(result);
-            if (null!= list && list.length() > 0 ){
-                Gson gson=new Gson();
-                quotationDataArrayList = new ArrayList<>();
-                for (int i = 0 ; i < list.length() ;i ++){
-                    QuotationData item=gson.fromJson(String.valueOf((list.optJSONObject(i))),QuotationData.class);
-                    quotationDataArrayList.add(item);
-                }
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-    }
+//    public class FetchDetailsTask extends AsyncTask<String, Void, String> {
+//
+//        protected void onPreExecute() {
+//            progressBar.setVisibility(View.VISIBLE);
+//        }
+//
+//        protected String doInBackground(String... arg0) {
+//
+//            try {
+//                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDER_QUOTATIONS);
+//                string.append(orderId);
+//                URL url = new URL(string.toString());
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(15000 /* milliseconds */);
+//                conn.setConnectTimeout(15000 /* milliseconds */);
+//                conn.setRequestMethod("GET");
+////                conn.setDoInput(true);
+////                conn.setDoOutput(true);
+//                conn.setRequestProperty("Content-Type", "application/json");
+//                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+//
+//                InputStream inputStream;
+//
+//                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+//                    inputStream = conn.getInputStream();
+//                } else {
+//                    inputStream = conn.getErrorStream();
+//                }
+//
+//                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//                String temp, response = "";
+//                while ((temp = bufferedReader.readLine()) != null) {
+//                    response += temp;
+//                }
+//
+//                return response.toString();
+//
+//
+//            } catch (Exception e) {
+//                return new String("Exception: " + e.getMessage());
+//            }
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            JSONObject object = null;
+//
+//            progressBar.setVisibility(View.GONE);
+//            if (isVisible()){
+//                if (null != result) {
+//                    if (result.trim().charAt(0) == '[') {
+//                        Log.e("Response is : ", "JSONArray");
+//                        parseDetailsData(result);
+//                    } else if (result.trim().charAt(0) == '{') {
+//                        try {
+//                            object = new JSONObject(result);
+//                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+//                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+//                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
+//                                Toast.makeText(getActivity(), "Something went wrong please try again",
+//                                        Toast.LENGTH_LONG).show();
+//
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else {
+//                        Toast.makeText(getActivity(), "Something went wrong please try again",
+//                                Toast.LENGTH_LONG).show();
+//                    }
+//
+//
+//                } else {
+//                    Toast.makeText(getActivity(), "Something went wrong please try again",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//            }
+//            else{
+//                FragmentManager fragmentManager = MainActivity.fragmentManager;
+//                fragmentManager.popBackStackImmediate();
+//            }
+//
+//
+//        }
+//    }
+//
+//    private void parseDetailsData(String result) {
+//        try {
+//            JSONArray list = new JSONArray(result);
+//            if (null!= list && list.length() > 0 ){
+//                Gson gson=new Gson();
+//                quotationDataArrayList = new ArrayList<>();
+//                for (int i = 0 ; i < list.length() ;i ++){
+//                    QuotationData item=gson.fromJson(String.valueOf((list.optJSONObject(i))),QuotationData.class);
+//                    quotationDataArrayList.add(item);
+//                }
+//
+//            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     @Override
     public void onClick(View view) {
@@ -268,7 +282,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
-
+            progressBar.setVisibility(View.GONE);
             if (null != result) {
                 try {
                     object = new JSONObject(result);
@@ -283,7 +297,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
                                 Toast.LENGTH_LONG).show();
                     } else {
 
-                        new FetchDetailsTask().execute();
+//                        new FetchDetailsTask().execute();
                         parseOrderListingData(object);
 
 
@@ -307,6 +321,15 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
         Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
         orderId = object.optString("id");
         productId = object.optString("productId");
+        if (null!= object.optJSONObject("awardedQuote")){
+            Gson gson = new Gson();
+            QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
+            Utils.setDetailsTextField("Quotation Amount   \u20B9", getActivity(), quotationAmount,String.valueOf(data.quoteAmount));
+            Utils.setDetailsTextField("Quotation Start Date", getActivity(), quotationStartDate, Utils.getDate(data.orderStartDate));
+            Utils.setDetailsTextField("Quotation End Date", getActivity(), quotationEndDate, Utils.getDate(data.orderFulfillmentDate));
+            Utils.setDetailsTextField("Quotation Placed Date", getActivity(), quotationPlacedDate, Utils.getDate(data.quoteDate));
+        }
+        addOrderStatus();
 
     }
 
@@ -314,6 +337,6 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
-        getActivity().setTitle("Quotations");
+        getActivity().setTitle("Order Details");
     }
 }

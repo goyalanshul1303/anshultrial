@@ -53,7 +53,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         } else {
             customViewHolder.productName.setText(testObjtem.name);
         }
-        customViewHolder.priceProduct.setText("Rs. " + testObjtem.price);
+        customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.price);
         if (null != testObjtem.dimension) {
         StringBuilder builder = new StringBuilder();
         builder.append( testObjtem.dimension.getWidth());
@@ -72,7 +72,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             customViewHolder.detailsLink.setTag(i);
 
             int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
-            customViewHolder.price.setText("Rs. "+ String.valueOf(totalPrice));
+            customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
             customViewHolder.detailsLink.setOnClickListener(this);
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
             if (orderObj.getOrderStatus() != 9){
