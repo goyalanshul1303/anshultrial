@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "Order")
 public class Order extends EntityBase{
@@ -106,6 +107,7 @@ public class Order extends EntityBase{
 		this.changeDimension = changeDimension;
 	}
 
+	@JsonProperty
 	public Quote getAwardedQuote() {
 		return awardedQuote;
 	}
