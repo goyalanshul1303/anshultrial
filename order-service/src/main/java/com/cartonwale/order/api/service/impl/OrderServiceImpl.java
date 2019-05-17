@@ -58,10 +58,16 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		order.setOrderDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
-		if(order.isQuotesInvited())
-			order.setOrderStatus(OrderStatus.ORDER_PLACED);
-		else
-			order.setOrderStatus(OrderStatus.AWAITING_MANUFACTURER);
+		if(order.isQuotesInvited()){
+			OrderStatus status = OrderStatus.ORDER_PLACED;
+			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+			order.getStatuses().add(status);
+		}
+		else {
+			OrderStatus status = OrderStatus.AWAITING_MANUFACTURER;
+			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+			order.getStatuses().add(status);
+		}
 		return super.add(order);
 	}
 
@@ -118,10 +124,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			throw new OrderProcessNotFoundException();
 		}
 
-		if (order.getOrderStatus() == statusId)
+		int statusSize = order.getStatuses().size();
+
+		if (order.getStatuses().get(statusSize-1).getValue() == statusId)
 			throw new BadRequestException("Order is currently at stated status only");
 
-		order.setOrderStatus(OrderStatus.getOrderStatus(statusId));
+		OrderStatus status = OrderStatus.getOrderStatus(statusId);
+		status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+		order.getStatuses().add(status);
 		super.edit(order);
 		return order;
 	}

@@ -1,6 +1,8 @@
 package com.cartonwale.order.api.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,7 +15,7 @@ public class Order extends EntityBase{
 	
 	private int quantity;
 	
-	private int orderStatus;
+	//private int orderStatus;
 	
 	private String consumerId;
 	
@@ -32,6 +34,8 @@ public class Order extends EntityBase{
 	private Quote awardedQuote;
 	
 	private boolean quotesInvited;
+	
+	private List<OrderStatus> statuses = new ArrayList<>();
 
 	public boolean isQuotesInvited() {
 		return quotesInvited;
@@ -41,9 +45,9 @@ public class Order extends EntityBase{
 		this.quotesInvited = quotesInvited;
 	}
 
-	public void setOrderStatus(int orderStatus) {
+	/*public void setOrderStatus(int orderStatus) {
 		this.orderStatus = orderStatus;
-	}
+	}*/
 
 	public int getQuantity() {
 		return quantity;
@@ -53,13 +57,13 @@ public class Order extends EntityBase{
 		this.quantity = quantity;
 	}
 
-	public int getOrderStatus() {
+	/*public int getOrderStatus() {
 		return this.orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus.getValue();
-	}
+	}*/
 
 	@JsonIgnore
 	public String getConsumerId() {
@@ -129,6 +133,16 @@ public class Order extends EntityBase{
 	@JsonIgnore
 	public void setAwardedQuote(Quote awardedQuote) {
 		this.awardedQuote = awardedQuote;
+	}
+
+	@JsonProperty
+	public List<OrderStatus> getStatuses() {
+		return statuses;
+	}
+
+	@JsonIgnore
+	public void setStatuses(List<OrderStatus> statuses) {
+		this.statuses = statuses;
 	}
 	
 }

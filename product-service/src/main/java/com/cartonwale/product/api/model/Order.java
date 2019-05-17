@@ -1,6 +1,8 @@
 package com.cartonwale.product.api.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.cartonwale.common.model.EntityBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,7 +11,7 @@ public class Order extends EntityBase{
 	
 	private int quantity;
 	
-	private int orderStatus;
+	//private int orderStatus;
 	
 	private String consumerId;
 	
@@ -24,6 +26,8 @@ public class Order extends EntityBase{
 	private String productName;
 	
 	private int changeDimension;
+	
+	private List<OrderStatus> statuses = new ArrayList<>();
 
 	public int getQuantity() {
 		return quantity;
@@ -33,13 +37,13 @@ public class Order extends EntityBase{
 		this.quantity = quantity;
 	}
 
-	public int getOrderStatus() {
+	/*public int getOrderStatus() {
 		return this.orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus.getValue();
-	}
+	}*/
 
 	@JsonIgnore
 	public String getConsumerId() {
@@ -99,6 +103,14 @@ public class Order extends EntityBase{
 
 	public void setChangeDimension(int changeDimension) {
 		this.changeDimension = changeDimension;
+	}
+
+	public List<OrderStatus> getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(List<OrderStatus> statuses) {
+		this.statuses = statuses;
 	}
 	
 }
