@@ -1,5 +1,7 @@
 package com.cartonwale.order.api.model;
 
+import java.util.Date;
+
 public enum OrderStatus {
 
 	ORDER_PLACED(1),
@@ -15,6 +17,8 @@ public enum OrderStatus {
 	
 	private int value;
 	
+	private Date statusDate;
+	
 	private OrderStatus(int value){
 		
 		this.value = value;
@@ -24,6 +28,14 @@ public enum OrderStatus {
 		return this.value;
 	}
 	
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
 	public static OrderStatus getOrderStatus(int value){
 		
 		for(OrderStatus type : values()){

@@ -31,14 +31,14 @@ public class Order extends EntityBase{
 	
 	private Quote awardedQuote;
 	
-	private boolean isQuotesInvited;
+	private boolean quotesInvited;
 
 	public boolean isQuotesInvited() {
-		return isQuotesInvited;
+		return quotesInvited;
 	}
 
-	public void setQuotesInvited(boolean isQuotesInvited) {
-		this.isQuotesInvited = isQuotesInvited;
+	public void setQuotesInvited(boolean quotesInvited) {
+		this.quotesInvited = quotesInvited;
 	}
 
 	public void setOrderStatus(int orderStatus) {
