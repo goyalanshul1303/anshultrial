@@ -44,6 +44,7 @@ public enum OrderStatus {
 			}
 		}
 		
+		
 		throw new IllegalArgumentException("Illegal integer value");
 	}
 }

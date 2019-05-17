@@ -51,7 +51,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	public List<Order> getPlacedOrders() {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("orderStatus").is(OrderStatus.ORDER_PLACED.getValue()).orOperator(Criteria.where("orderStatus").is(OrderStatus.AWAITING_MANUFACTURER.getValue())));
+			query.addCriteria(Criteria.where("orderStatus").is(OrderStatus.ORDER_PLACED.getValue()));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
