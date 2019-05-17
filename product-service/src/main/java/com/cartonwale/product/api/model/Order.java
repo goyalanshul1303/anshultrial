@@ -11,7 +11,7 @@ public class Order extends EntityBase{
 	
 	private int quantity;
 	
-	//private int orderStatus;
+	private int orderStatus;
 	
 	private String consumerId;
 	
@@ -37,13 +37,13 @@ public class Order extends EntityBase{
 		this.quantity = quantity;
 	}
 
-	/*public int getOrderStatus() {
+	public int getOrderStatus() {
 		return this.orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus.getValue();
-	}*/
+	}
 
 	@JsonIgnore
 	public String getConsumerId() {

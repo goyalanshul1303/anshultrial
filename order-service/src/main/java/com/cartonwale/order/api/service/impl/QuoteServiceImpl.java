@@ -70,6 +70,7 @@ public class QuoteServiceImpl extends GenericServiceImpl<Quote> implements Quote
 		OrderStatus status = OrderStatus.MANUFACTURER_ASSIGNED;
 		status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.getStatuses().add(status);
+		order.setOrderStatus(OrderStatus.MANUFACTURER_ASSIGNED);
 		order.setAwardedQuote(quote);
 
 		return orderService.edit(order);

@@ -62,11 +62,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			OrderStatus status = OrderStatus.ORDER_PLACED;
 			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 			order.getStatuses().add(status);
+			order.setOrderStatus(OrderStatus.ORDER_PLACED);
 		}
 		else {
 			OrderStatus status = OrderStatus.AWAITING_MANUFACTURER;
 			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 			order.getStatuses().add(status);
+			order.setOrderStatus(OrderStatus.AWAITING_MANUFACTURER);
 		}
 		return super.add(order);
 	}
@@ -132,6 +134,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		OrderStatus status = OrderStatus.getOrderStatus(statusId);
 		status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.getStatuses().add(status);
+		order.setOrderStatus(OrderStatus.getOrderStatus(statusId));
 		super.edit(order);
 		return order;
 	}
