@@ -67,10 +67,9 @@ public class QuoteServiceImpl extends GenericServiceImpl<Quote> implements Quote
 		Order order = orderService.getById(quote.getOrderId());
 
 		order.setProviderId(quote.getProviderId());
-		OrderStatus status = OrderStatus.MANUFACTURER_ASSIGNED;
-		status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+		OrderStatus status = new OrderStatus(OrderStatus.Status.MANUFACTURER_ASSIGNED, Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.getStatuses().add(status);
-		order.setOrderStatus(OrderStatus.MANUFACTURER_ASSIGNED);
+		order.setOrderStatus(OrderStatus.Status.MANUFACTURER_ASSIGNED.getValue());
 		order.setAwardedQuote(quote);
 
 		return orderService.edit(order);

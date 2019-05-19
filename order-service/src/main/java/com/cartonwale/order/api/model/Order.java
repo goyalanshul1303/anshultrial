@@ -62,7 +62,7 @@ public class Order extends EntityBase{
 	}
 
 	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus.getValue();
+		this.orderStatus = orderStatus.getStatus();
 	}
 
 	@JsonIgnore

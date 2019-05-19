@@ -1,13 +1,11 @@
 package com.cartonwale.product.api.model;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
 import com.cartonwale.common.model.SheetLayerType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{

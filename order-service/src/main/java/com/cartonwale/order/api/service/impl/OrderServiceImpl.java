@@ -2,7 +2,6 @@ package com.cartonwale.order.api.service.impl;
 
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -59,16 +58,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		order.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
 		order.setOrderDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		if(order.isQuotesInvited()){
-			OrderStatus status = OrderStatus.ORDER_PLACED;
-			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+			OrderStatus status = new OrderStatus(OrderStatus.Status.ORDER_PLACED, Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 			order.getStatuses().add(status);
-			order.setOrderStatus(OrderStatus.ORDER_PLACED);
+			order.setOrderStatus(OrderStatus.Status.ORDER_PLACED.getValue());
 		}
 		else {
-			OrderStatus status = OrderStatus.AWAITING_MANUFACTURER;
-			status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+			OrderStatus status = new OrderStatus(OrderStatus.Status.ORDER_PLACED, Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 			order.getStatuses().add(status);
-			order.setOrderStatus(OrderStatus.AWAITING_MANUFACTURER);
+			order.setOrderStatus(OrderStatus.Status.AWAITING_MANUFACTURER.getValue());
 		}
 		return super.add(order);
 	}
@@ -126,15 +123,12 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			throw new OrderProcessNotFoundException();
 		}
 
-		int statusSize = order.getStatuses().size();
-
-		if (order.getStatuses().get(statusSize-1).getValue() == statusId)
+		if (order.getOrderStatus() <= statusId)
 			throw new BadRequestException("Order is currently at stated status only");
 
-		OrderStatus status = OrderStatus.getOrderStatus(statusId);
-		status.setStatusDate(Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+		OrderStatus status = new OrderStatus(OrderStatus.Status.getStatus(statusId), Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.getStatuses().add(status);
-		order.setOrderStatus(OrderStatus.getOrderStatus(statusId));
+		order.setOrderStatus(statusId);
 		super.edit(order);
 		return order;
 	}
