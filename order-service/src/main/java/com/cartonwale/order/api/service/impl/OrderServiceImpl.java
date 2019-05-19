@@ -63,7 +63,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			order.setOrderStatus(OrderStatus.Status.ORDER_PLACED.getValue());
 		}
 		else {
-			OrderStatus status = new OrderStatus(OrderStatus.Status.ORDER_PLACED, Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
+			OrderStatus status = new OrderStatus(OrderStatus.Status.AWAITING_MANUFACTURER, Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 			order.getStatuses().add(status);
 			order.setOrderStatus(OrderStatus.Status.AWAITING_MANUFACTURER.getValue());
 		}
