@@ -98,17 +98,21 @@ LinearLayout orderStatusLL;
 
     }
 
-    private void addOrderStatus() {
+    private void addOrderStatus(int status) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for (int i = 0 ; i< 7 ; i++){
+        for (int i = 1 ; i<=9 ; i++){
             View v = vi.inflate(R.layout.order_status, null);
 
 // fill in any details dynamically here
             TextView textView = (TextView) v.findViewById(R.id.statusText);
-            textView.setText(Utils.getOrderStatusText(3));
+            textView.setText(Utils.getOrderStatusText(i));
             ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.undelivered);
+            if (status >= i)
+            view.setBackgroundResource(R.drawable.thumbsup);
+            else{
+                view.setBackgroundResource(R.drawable.undelivered);
+            }
             orderStatusLL.addView(v);
 
         }
@@ -329,7 +333,10 @@ LinearLayout orderStatusLL;
             Utils.setDetailsTextField("Quotation End Date", getActivity(), quotationEndDate, Utils.getDate(data.orderFulfillmentDate));
             Utils.setDetailsTextField("Quotation Placed Date", getActivity(), quotationPlacedDate, Utils.getDate(data.quoteDate));
         }
-        addOrderStatus();
+        if (null!= object.optJSONArray("statuses")){
+
+        }
+        addOrderStatus(object.optInt("orderStatus"));
 
     }
 

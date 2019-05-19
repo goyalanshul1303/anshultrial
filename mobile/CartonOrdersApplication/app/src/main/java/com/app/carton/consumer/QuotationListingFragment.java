@@ -1,10 +1,12 @@
 package com.app.carton.consumer;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -54,7 +56,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     private QuotationItemsAdapter adapter;
     View viewNoQuationsAdded;
     private ArrayList<QuotationData> quotationDataArrayList;
-    String orderId,quoteId;
+    String orderId, quoteId;
     private int awardPosition;
     private boolean isFromOpenOrders;
     private TextView quantity, productName;
@@ -68,7 +70,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
             isFromOpenOrders = getArguments().containsKey("isFromOpenOrders") ? getArguments().getBoolean("isFromOpenOrders") : false;
         }
@@ -86,15 +88,16 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        viewNoQuationsAdded = (View)view.findViewById(R.id.viewNoQuotationAdded);
-        quotationListView = (RecyclerView)view.findViewById(R.id.quotationRecyclerView);
-        productName = (TextView)view.findViewById(R.id.productName);
-        quantity = (TextView)view.findViewById(R.id.quantityOrder);
+        viewNoQuationsAdded = (View) view.findViewById(R.id.viewNoQuotationAdded);
+        quotationListView = (RecyclerView) view.findViewById(R.id.quotationRecyclerView);
+        productName = (TextView) view.findViewById(R.id.productName);
+        quantity = (TextView) view.findViewById(R.id.quantityOrder);
         productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
         productName.setOnClickListener(this);
         new FetchOrderDetailsTask().execute();
 
     }
+
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -146,36 +149,35 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-            if (isVisible()){
-            if (null != result) {
-                if (result.trim().charAt(0) == '[') {
-                    Log.e("Response is : ", "JSONArray");
-                    parseDetailsData(result);
-                } else if (result.trim().charAt(0) == '{') {
-                    try {
-                        object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
+            if (isVisible()) {
+                if (null != result) {
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
+                        parseDetailsData(result);
+                    } else if (result.trim().charAt(0) == '{') {
+                        try {
+                            object = new JSONObject(result);
+                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
+                                Toast.makeText(getActivity(), "Something went wrong please try again",
+                                        Toast.LENGTH_LONG).show();
 
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
                     }
+
+
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-
-
             } else {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-            else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -187,11 +189,11 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     private void parseDetailsData(String result) {
         try {
             JSONArray list = new JSONArray(result);
-            if (null!= list && list.length() > 0 ){
-                Gson gson=new Gson();
+            if (null != list && list.length() > 0) {
+                Gson gson = new Gson();
                 quotationDataArrayList = new ArrayList<>();
-                for (int i = 0 ; i < list.length() ;i ++){
-                    QuotationData item=gson.fromJson(String.valueOf((list.optJSONObject(i))),QuotationData.class);
+                for (int i = 0; i < list.length(); i++) {
+                    QuotationData item = gson.fromJson(String.valueOf((list.optJSONObject(i))), QuotationData.class);
                     quotationDataArrayList.add(item);
                 }
                 adapter = new QuotationItemsAdapter(getActivity(), quotationDataArrayList);
@@ -200,19 +202,19 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 adapter.setFromOpenOrders(isFromOpenOrders);
                 viewNoQuationsAdded.setVisibility(View.GONE);
                 quotationListView.setVisibility(View.VISIBLE);
-               adapter.SetOnItemClickListener(new QuotationItemsAdapter.OnItemClickListener() {
+                adapter.SetOnItemClickListener(new QuotationItemsAdapter.OnItemClickListener() {
 
-                @Override
-                public void onItemClick(View view, int position) {
-                    QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
-                    awardPosition = position;
-                    quoteId = testObjtem.id;
-                    new AwardQuotationTask().execute();
-                }
-            });
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
+                        awardPosition = position;
+                        quoteId = testObjtem.id;
+                        new AwardQuotationTask().execute();
+                    }
+                });
 
 
-            }else{
+            } else {
                 // no consumers added . please add consumer first
                 viewNoQuationsAdded.setVisibility(View.VISIBLE);
                 quotationListView.setVisibility(View.GONE);
@@ -223,13 +225,11 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         }
 
 
-
-
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.productName){
+        if (view.getId() == R.id.productName) {
             Fragment newFragment = new ProductDetailsFragment();
             Bundle bundle = new Bundle();
             bundle.putString("selectedId", SharedPreferences.getString(getActivity(), "entityId"));
@@ -249,7 +249,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         protected String doInBackground(String... arg0) {
 
             try {
-                URL url = new URL(WebServiceConstants.AWARD_QUOTATION+quoteId);
+                URL url = new URL(WebServiceConstants.AWARD_QUOTATION + quoteId);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
@@ -304,7 +304,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (null!=object) {
+                if (null != object) {
                     if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                             || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
                             || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
@@ -320,7 +320,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
                     }
                 }
-            }else  {
+            } else {
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
             }
@@ -328,6 +328,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
         }
     }
+
     public class FetchOrderDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -378,42 +379,47 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
+            if (isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != object) {
+                        if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
 
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
-                            || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) ==  HttpURLConnection.HTTP_FORBIDDEN))) {
+                            new FetchDetailsTask().execute();
+                            parseOrderListingData(object);
+
+
+                        }
+                    } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
-                    } else {
-
-                        new FetchDetailsTask().execute();
-                        parseOrderListingData(object);
-
-
                     }
-                }else{
+                } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-            }else  {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            } else {
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
 
 
         }
     }
-    void  parseOrderListingData(JSONObject object){
-            Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
+
+    void parseOrderListingData(JSONObject object) {
+        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
         Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
         orderId = object.optString("id");
         productId = object.optString("productId");
@@ -424,5 +430,9 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Quotations");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 }

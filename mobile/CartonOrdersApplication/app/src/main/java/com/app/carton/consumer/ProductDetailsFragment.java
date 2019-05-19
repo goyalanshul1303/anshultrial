@@ -37,7 +37,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private static View view;
 
     private ProgressBar progressBar;
-    private Button addOrderBtn;
+    private Button addOrderBtn,inviteQuotations;
     TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     private String productNameString;
