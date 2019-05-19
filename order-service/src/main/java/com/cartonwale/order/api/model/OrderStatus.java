@@ -21,7 +21,7 @@ public class OrderStatus {
 		ORDER_COMPLETED(9), 
 		AWAITING_MANUFACTURER(10);
 
-		protected int value;
+		private int value;
 
 		private Status(int value) {
 

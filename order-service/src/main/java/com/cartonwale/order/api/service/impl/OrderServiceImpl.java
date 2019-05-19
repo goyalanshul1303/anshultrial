@@ -123,8 +123,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			throw new OrderProcessNotFoundException();
 		}
 
-		if (order.getOrderStatus() <= statusId)
-			throw new BadRequestException("Order is currently at stated status only");
+		if (order.getOrderStatus() >= statusId)
+			throw new BadRequestException("Order is currently at stated or forward status");
 
 		OrderStatus status = new OrderStatus(OrderStatus.Status.getStatus(statusId), Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime());
 		order.getStatuses().add(status);
