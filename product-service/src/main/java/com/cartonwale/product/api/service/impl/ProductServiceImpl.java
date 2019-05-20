@@ -1,6 +1,5 @@
 package com.cartonwale.product.api.service.impl;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.product.api.dao.ProductDao;
 import com.cartonwale.product.api.model.Order;
-import com.cartonwale.product.api.model.OrderStatus;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductPrice;
 import com.cartonwale.product.api.service.ProductPriceService;
@@ -37,13 +35,6 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		init(Product.class, productDao);
 	}
 	
-	/*@Override
-	public Product add(Product product) {
-		
-		product.setConsumerId(SecurityUtil.getAuthUserDetails().getEntityId());
-		return super.add(product);
-	}*/
-	
 	@Override
 	public Product add(Product product) {
 		Product productNew = super.add(product);
@@ -64,11 +55,6 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		return productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
 
-	/*@Override
-	public Product getById(String id) {
-		
-		return productDao.getById(id);
-	}*/
 	
 	@Override
 	public Product getById(String consumerId, String id) {

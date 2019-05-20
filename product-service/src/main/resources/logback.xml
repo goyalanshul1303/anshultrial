@@ -21,17 +21,17 @@
 	<appender name="CLOUD"	class="com.google.cloud.logging.logback.LoggingAppender">
 		<!-- Optional : filter logs at or above a level -->
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<level>INFO</level>
+			<level>ERROR</level>
 		</filter>
 		<log>application.log</log> <!-- Optional : default java.log -->
 		<resourceType>gae_app</resourceType> <!-- Optional : default: auto-detected, fallback: global -->
 		<!-- <enhancer>com.example.logging.logback.enhancers.ExampleEnhancer	</enhancer> --> <!-- Optional -->
-		<flushLevel>WARN</flushLevel> <!-- Optional : default ERROR -->
+		<flushLevel>ERROR</flushLevel> <!-- Optional : default ERROR -->
 	</appender>
 
   
 
-	<root level="info">
+	<root level="error">
 		<!-- <appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE-AUDIT" /> -->
 		<appender-ref ref="CLOUD" />
