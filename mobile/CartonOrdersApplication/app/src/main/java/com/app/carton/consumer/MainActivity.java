@@ -110,5 +110,6 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy() {
 //        stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
+        fragmentManager = null;
     }
 }
