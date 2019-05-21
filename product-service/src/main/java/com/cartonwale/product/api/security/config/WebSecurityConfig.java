@@ -57,6 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/price/consumer/**").hasAnyRole(Permission.USER_CONSUMER)
                 .antMatchers(HttpMethod.GET, "/price/**").hasAnyRole(Permission.USER_ADMIN)
                 
+                .antMatchers(HttpMethod.GET, "/batch/**").permitAll()
+                
                 //authenticated requests
                 .anyRequest().authenticated();
 
