@@ -100,7 +100,6 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 					, Aggregation.replaceRoot("doc"));
 			List<Order> orders = super.getAll(agg);
 			
-			Map<String, Date> productLatestDates = orders.stream().collect(Collectors.toMap(Order::getProductId, Order::getOrderDate));
 			return orders;
 		} catch (DataAccessException e) {
 			logger.error(e.getStackTrace().toString());

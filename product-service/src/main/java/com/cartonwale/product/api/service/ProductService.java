@@ -9,7 +9,7 @@ public interface ProductService extends GenericService<Product>{
 
 	Product getById(String consumerId, String id);
 
-	List<Product> getAll(String consumerId);
+	List<Product> getAll(String consumerId, String authToken);
 
 	List<Product> getProductsAcceptingOffers();
 

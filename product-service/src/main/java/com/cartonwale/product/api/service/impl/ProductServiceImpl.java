@@ -8,10 +8,15 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
+import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.product.api.dao.ProductDao;
 import com.cartonwale.product.api.model.Order;
 import com.cartonwale.product.api.model.Product;
@@ -29,6 +34,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	
 	@Autowired
 	private ProductPriceService productPriceService;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@PostConstruct
 	void init() {
@@ -63,7 +71,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	}
 
 	@Override
-	public List<Product> getAll(String consumerId) {
+	public List<Product> getAll(String consumerId, String authToken) {
 		List<Product> products = productDao.getAllByConsumer(consumerId);
 		products.stream().map(product -> {
 			product.setPrice(100.0);
@@ -73,6 +81,12 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
+		
+		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.GET,
+				authToken, null, null, "http://ORDER-SERVICE/orders/abc/recentOrders",
+				productIds.stream().collect(Collectors.joining(",")), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
+		
+		List<Order> orders = responseEntity.getBody();
 		
 		return products ;
 	}
