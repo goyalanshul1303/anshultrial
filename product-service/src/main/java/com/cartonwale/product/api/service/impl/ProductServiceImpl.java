@@ -3,6 +3,7 @@ package com.cartonwale.product.api.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cartonwale.common.model.User;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
@@ -26,6 +28,8 @@ import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductPrice;
 import com.cartonwale.product.api.service.ProductPriceService;
 import com.cartonwale.product.api.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProductServiceImpl extends GenericServiceImpl<Product> implements ProductService {
@@ -93,7 +97,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		List<ProductPrice> productPrices = productPriceService.getByProductIds(productIds);
 		Map<String, ProductPrice> productPriceMap = productPrices.stream().collect(Collectors.toMap(ProductPrice::getProductId, pp -> pp));
 		
-		products.stream().forEach(p -> p.setPrice(productPriceMap.get(p.getId()).getPrice()));
+		products.stream().forEach(p -> p.setPrice(productPriceMap.getOrDefault(p.getId(), new ProductPrice()).getPrice()));
 		
 	}
 
@@ -103,13 +107,25 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
 				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://ORDER-SERVICE/orders/abc/recentOrders",
-				productIds.stream().collect(Collectors.joining(",")), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
+				getProviderUserAsString(productIds.stream().collect(Collectors.joining(","))), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
 		
 		List<Order> orders = responseEntity.getBody();
 		
 		Map<String, Order> recentOrderProductMap = orders.stream().collect(Collectors.toMap(Order::getProductId, o -> o));
 		products.stream().forEach(p -> p.setLastOrder(recentOrderProductMap.get(p.getId())));
 		
+	}
+	
+	private String getProviderUserAsString(String productIds) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(productIds);
+		} catch (JsonProcessingException e) {
+			System.out.println(e);
+		}
+		return json;
 	}
 
 	@Override
