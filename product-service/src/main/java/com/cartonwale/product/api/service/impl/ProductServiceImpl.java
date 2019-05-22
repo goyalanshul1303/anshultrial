@@ -105,15 +105,20 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
 		
-		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
+		/*ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
 				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "https://cartonwale-api-gateway.appspot.com/api/order-service/orders/abc/recentOrders",
 				getProviderUserAsString(productIds), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
 		
 		List<Order> orders = responseEntity.getBody();
 		
 		Map<String, Order> recentOrderProductMap = orders.stream().collect(Collectors.toMap(Order::getProductId, o -> o));
-		products.stream().forEach(p -> p.setLastOrder(recentOrderProductMap.get(p.getId())));
+		products.stream().forEach(p -> p.setLastOrder(recentOrderProductMap.get(p.getId())));*/
 		
+		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.PUT,
+				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://ORDER-SERVICE/orders/abc/recentOrders",
+				getProviderUserAsString(productIds), restTemplate);
+		
+		logger.error(responseEntity.getBody());
 	}
 	
 	private String getProviderUserAsString(List<String> productIds) {
@@ -125,7 +130,6 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		} catch (JsonProcessingException e) {
 			System.out.println(e);
 		}
-		logger.error(json);
 		return json;
 	}
 
