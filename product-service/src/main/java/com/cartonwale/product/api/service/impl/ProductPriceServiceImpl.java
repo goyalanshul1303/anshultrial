@@ -71,7 +71,7 @@ public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> im
 		
 		List<ProductPrice> productPrices = getByProductIds(Arrays.asList(productId));
 		
-		if(CollectionUtils.isNotEmpty(productPrices))
+		if(productPrices != null && productPrices.size() > 0)
 			return productPrices.get(0);
 		else
 			return null;
