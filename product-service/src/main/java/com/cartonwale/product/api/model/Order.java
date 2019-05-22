@@ -105,10 +105,12 @@ public class Order extends EntityBase{
 		this.changeDimension = changeDimension;
 	}
 
+	@JsonIgnore
 	public List<OrderStatus> getStatuses() {
 		return statuses;
 	}
 
+	@JsonIgnore
 	public void setStatuses(List<OrderStatus> statuses) {
 		this.statuses = statuses;
 	}
