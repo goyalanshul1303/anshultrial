@@ -1,5 +1,6 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -77,7 +79,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		
-		addRecentOrdersToProducts(products, authToken);
+		//addRecentOrdersToProducts(products, authToken);
 		
 		addPriceToProducts(products);
 		
@@ -100,7 +102,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
 		
 		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
-				authToken, null, null, "http://ORDER-SERVICE/orders/abc/recentOrders",
+				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://ORDER-SERVICE/orders/abc/recentOrders",
 				productIds.stream().collect(Collectors.joining(",")), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
 		
 		List<Order> orders = responseEntity.getBody();
