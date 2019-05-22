@@ -83,7 +83,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		
-		//addRecentOrdersToProducts(products, authToken);
+		addRecentOrdersToProducts(products, authToken);
 		
 		addPriceToProducts(products);
 		
