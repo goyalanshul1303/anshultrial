@@ -107,7 +107,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
 				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://ORDER-SERVICE/orders/abc/recentOrders",
-				getProviderUserAsString(productIds.stream().collect(Collectors.joining(","))), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
+				getProviderUserAsString(productIds), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
 		
 		List<Order> orders = responseEntity.getBody();
 		
@@ -116,7 +116,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 	}
 	
-	private String getProviderUserAsString(String productIds) {
+	private String getProviderUserAsString(List<String> productIds) {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String json = null;
@@ -125,6 +125,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		} catch (JsonProcessingException e) {
 			System.out.println(e);
 		}
+		logger.error(json);
 		return json;
 	}
 
