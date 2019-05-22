@@ -1,6 +1,7 @@
 package com.cartonwale.product.api.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -73,22 +74,40 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public List<Product> getAll(String consumerId, String authToken) {
 		List<Product> products = productDao.getAllByConsumer(consumerId);
-		products.stream().map(product -> {
-			product.setPrice(100.0);
-			Order lastOrder = new Order();			
-			return product;			
-		});
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
+		
+		addRecentOrdersToProducts(products, authToken);
+		
+		addPriceToProducts(products);
+		
+		return products ;
+	}
+
+	private void addPriceToProducts(List<Product> products) {
+		
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
 		
-		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.GET,
+		List<ProductPrice> productPrices = productPriceService.getByProductIds(productIds);
+		Map<String, ProductPrice> productPriceMap = productPrices.stream().collect(Collectors.toMap(ProductPrice::getProductId, pp -> pp));
+		
+		products.stream().forEach(p -> p.setPrice(productPriceMap.get(p.getId()).getPrice()));
+		
+	}
+
+	private void addRecentOrdersToProducts(List<Product> products, String authToken) {
+		
+		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
+		
+		ResponseEntity<List<Order>> responseEntity = (ResponseEntity<List<Order>>) ServiceUtil.callByType(HttpMethod.PUT,
 				authToken, null, null, "http://ORDER-SERVICE/orders/abc/recentOrders",
 				productIds.stream().collect(Collectors.joining(",")), restTemplate, new ParameterizedTypeReference<List<Order>>() {});
 		
 		List<Order> orders = responseEntity.getBody();
 		
-		return products ;
+		Map<String, Order> recentOrderProductMap = orders.stream().collect(Collectors.toMap(Order::getProductId, o -> o));
+		products.stream().forEach(p -> p.setLastOrder(recentOrderProductMap.get(p.getId())));
+		
 	}
 
 	@Override

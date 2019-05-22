@@ -1,8 +1,10 @@
 package com.cartonwale.product.api.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -106,16 +108,16 @@ public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements
 			throw new ProductPriceException(e.getMessage());
 		}
 	}
-
+	
 	@Override
-	public ProductPrice getByProductId(String productId) {
+	public List<ProductPrice> getByProductIds(List<String> productId) {
 		
 		Query query = new Query();
 		query.addCriteria(Criteria.where("productId").is(productId));
 		logger.info("Finding ProductPrice by productId:" + productId);
 		try {
-			ProductPrice productPrice = super.getAll(query).get(0);
-			return productPrice;
+			List<ProductPrice> productPrices = super.getAll(query);
+			return productPrices;
 		} catch (DataAccessException e) {
 
 			throw new ProductPriceException(e.getMessage());

@@ -1,11 +1,13 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +69,17 @@ public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> im
 	@Override
 	public ProductPrice getByProductId(String productId) {
 		
-		return priceDao.getByProductId(productId);
+		List<ProductPrice> productPrices = getByProductIds(Arrays.asList(productId));
+		
+		if(CollectionUtils.isNotEmpty(productPrices))
+			return productPrices.get(0);
+		else
+			return null;
+	}
+	
+	@Override
+	public List<ProductPrice> getByProductIds(List<String> productIds) {
+		
+		return priceDao.getByProductIds(productIds);
 	}
 }

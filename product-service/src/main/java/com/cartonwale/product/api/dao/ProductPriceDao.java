@@ -18,6 +18,6 @@ public interface ProductPriceDao  extends GenericDao<ProductPrice> {
 
 	List<String> getProductsAcceptingOffers();
 
-	ProductPrice getByProductId(String productId);
+	List<ProductPrice> getByProductIds(List<String> productId);
 
 }
