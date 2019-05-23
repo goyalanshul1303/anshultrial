@@ -108,11 +108,11 @@ public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements
 	}
 	
 	@Override
-	public List<ProductPrice> getByProductIds(List<String> productId) {
+	public List<ProductPrice> getByProductIds(List<String> productIds) {
 		
 		Query query = new Query();
-		query.addCriteria(Criteria.where("productId").is(productId));
-		logger.info("Finding ProductPrice by productId:" + productId);
+		query.addCriteria(Criteria.where("productId").in(productIds));
+		logger.info("Finding ProductPrice by productId:" + productIds);
 		try {
 			List<ProductPrice> productPrices = super.getAll(query);
 			return productPrices;
