@@ -34,13 +34,13 @@ public class ProductController extends ControllerBase{
 	private ProductService productService;
 	
 	@RequestMapping
-    public ResponseEntity<List<Product>> getAll() {
-		return makeResponse(productService.getAll());
+    public ResponseEntity<List<Product>> getAll(HttpServletRequest request) {
+		return makeResponse(productService.getAll(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/consumer/{consumerId}")
-    public ResponseEntity<List<Product>> getAll(@PathVariable("consumerId") String consumerId, HttpServletRequest request) {
-		return makeResponse(productService.getAll(consumerId, request.getHeader(tokenHeader)));
+    public ResponseEntity<List<Product>> getAll(@PathVariable("consumerId") String consumerId) {
+		return makeResponse(productService.getAllByConsumer(consumerId));
     }
 	
 	@RequestMapping("/{id}")

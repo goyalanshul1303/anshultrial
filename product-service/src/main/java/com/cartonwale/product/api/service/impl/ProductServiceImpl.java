@@ -65,9 +65,17 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	}
 	
 	@Override
-	public List<Product> getAll(){
+	public List<Product> getAll(String authToken){
 		
-		return productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Product> products = productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
+		
+		addRecentOrdersToProducts(products, authToken);
+		
+		addPriceToProducts(products);
+		
+		return products ;
 	}
 
 	
@@ -78,14 +86,8 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	}
 
 	@Override
-	public List<Product> getAll(String consumerId, String authToken) {
+	public List<Product> getAllByConsumer(String consumerId) {
 		List<Product> products = productDao.getAllByConsumer(consumerId);
-		
-		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
-		
-		addRecentOrdersToProducts(products, authToken);
-		
-		addPriceToProducts(products);
 		
 		return products ;
 	}
