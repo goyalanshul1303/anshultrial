@@ -28,6 +28,8 @@ public class Order extends EntityBase{
 	private int changeDimension;
 	
 	private List<OrderStatus> statuses = new ArrayList<>();
+	
+	private double orderAmount;
 
 	public int getQuantity() {
 		return quantity;
@@ -113,6 +115,14 @@ public class Order extends EntityBase{
 	@JsonIgnore
 	public void setStatuses(List<OrderStatus> statuses) {
 		this.statuses = statuses;
+	}
+
+	public double getOrderAmount() {
+		return orderAmount;
+	}
+
+	public void setOrderAmount(double orderAmount) {
+		this.orderAmount = orderAmount;
 	}
 	
 }

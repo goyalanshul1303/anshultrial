@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
 import com.cartonwale.common.model.SheetLayerType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "Product")
 public class Product extends EntityBase{
@@ -102,11 +104,13 @@ public class Product extends EntityBase{
 		this.price = price;
 	}
 
+	@JsonProperty
 	public Order getLastOrder() {
 		
 		return lastOrder;
 	}
 
+	@JsonIgnore
 	public void setLastOrder(Order lastOrder) {
 		this.lastOrder = lastOrder;
 	}
