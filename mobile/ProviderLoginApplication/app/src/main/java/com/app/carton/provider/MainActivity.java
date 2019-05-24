@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 addActionFragment(new ProductListOpenForPrice());
                 return  true;
             case android.R.id.home:
-                onBackPressed();
+//                onBackPressed();
                 fragmentManager.popBackStackImmediate();
             default:
                 return super.onOptionsItemSelected(item);

@@ -139,6 +139,8 @@ public class Utils {
        switch (orderStatus){
            case 1:
                return  "Order Placed";
+           case 10:
+               return  "Order Placed";
            case 2:
                return  "Manufacturer Assigned";
            case 3:

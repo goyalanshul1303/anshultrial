@@ -30,6 +30,12 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/course_heading_color"
                 android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/quantityOrder"
+
+                android:orientation="vertical" android:id="@+id/quotationLL">
             <TextView
                 android:id="@+id/quotationAmount"
                 android:layout_width="wrap_content"
@@ -37,7 +43,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Amount"
-                android:layout_below="@id/quantityOrder"
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
 
@@ -73,6 +78,16 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="16sp" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_below="@id/quantityOrder"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content" android:id="@+id/noQuoteText"
+                android:text="No Quotation awarded for this order yet"/>
         </RelativeLayout>
 
     <ProgressBar

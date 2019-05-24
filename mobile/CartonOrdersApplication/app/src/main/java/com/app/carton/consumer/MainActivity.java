@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 addActionFragment(new ConsumerRequirementsListFragment());
                     return true;
             case android.R.id.home:
-                onBackPressed();
+//                onBackPressed();
                 fragmentManager.popBackStackImmediate();
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed () {
-
         super.onBackPressed();
     }
     @Override

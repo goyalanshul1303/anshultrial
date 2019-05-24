@@ -53,7 +53,12 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         } else {
             customViewHolder.productName.setText(testObjtem.name);
         }
-        customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.price);
+        if (null!=testObjtem.price ){
+            customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.price);
+            customViewHolder.priceProduct.setVisibility(View.VISIBLE);
+
+        }
+        else customViewHolder.priceProduct.setVisibility(View.GONE);
         if (null != testObjtem.dimension) {
         StringBuilder builder = new StringBuilder();
         builder.append( testObjtem.dimension.getWidth());
@@ -71,8 +76,14 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             customViewHolder.date.setText("Placed on : "+ Utils.getDate(orderObj.getOrderDate()));
             customViewHolder.detailsLink.setTag(i);
 
-            int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
-            customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
+            if (null!=testObjtem.price){
+                int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
+                customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
+                customViewHolder.price.setVisibility(View.VISIBLE);
+            }else{
+                customViewHolder.price.setVisibility(View.GONE);
+            }
+
 
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
             if (orderObj.getOrderStatus() != 9){

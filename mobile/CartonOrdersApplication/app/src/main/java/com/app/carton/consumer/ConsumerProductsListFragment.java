@@ -93,6 +93,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
         addProductBtn.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
+
     }
 
     public class GetAllProductsAsyncTask extends AsyncTask<String, Void, String> {
@@ -180,7 +181,6 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
-
 
         }
     }
@@ -297,7 +297,6 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFromProductDetail", false);
                 fragment.setProductList(productDetailsItems);
-
                 fragment.setArguments(bundle);
                 MainActivity.addActionFragment(fragment);
 

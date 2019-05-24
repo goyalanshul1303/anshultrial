@@ -32,6 +32,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by aggarwal.swati on 3/14/19.
@@ -48,6 +49,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     LinearLayout parentLL,statuLL;
     boolean isFromAwarded ;
     private int orderStatus;
+    private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
 
     public OrderDetailFragment() {
 
@@ -185,8 +187,9 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
             }
         }
+
         if (isFromAwarded)
-        addOrderStatus(orderStatus);
+        addOrderStatus(orderStatus, statusarrayList);
         else
             statuLL.setVisibility(View.GONE);
         Utils.setDetailsTextField("Product Name", getActivity(), productName, result.optString("name"));
@@ -315,6 +318,14 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             orderId = object.optString("id");
             orderStatus = object.optInt("orderStatus");
             productId = object.optString("productId");
+            Gson gson = new Gson();
+         if (null!= object.optJSONArray("statuses")){
+            for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){
+                OrderStatus orderStatus = gson.fromJson(String.valueOf(object.optJSONArray("statuses").opt(i)), OrderStatus.class);
+                statusarrayList.add( orderStatus);
+            }
+
+        }
 
 
     }
@@ -421,21 +432,37 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
         }
     }
-    private void addOrderStatus(int status) {
+    private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        for (int i = 1 ; i<=9 ; i++){
+        int i =0;
+        for ( i = 0 ; i < arrayList.size() ; i++){
             View v = vi.inflate(R.layout.order_status, null);
-
-// fill in any details dynamically here
+            // fill in any details dynamically here
             TextView textView = (TextView) v.findViewById(R.id.statusText);
-            textView.setText(Utils.getOrderStatusText(i));
+            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+            TextView onText = (TextView)v.findViewById(R.id.onText);
+            OrderStatus statusObj = arrayList.get(i);
+            onText.setVisibility(View.VISIBLE);
+            textDateView.setVisibility(View.VISIBLE);
+            textDateView.setText(Utils.getDate(statusObj.statusDate));
+            textView.setText(Utils.getOrderStatusText(statusObj.status));
             ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            if (status >= i)
-                view.setBackgroundResource(R.drawable.thumbsup);
-            else{
-                view.setBackgroundResource(R.drawable.undelivered);
-            }
+            view.setBackgroundResource(R.drawable.thumbsup);
+//            else{
+//                view.setBackgroundResource(R.drawable.undelivered);
+//            }
+            statuLL.addView(v);
+        }
+        for ( int j = i+1  ; j <= 9 ; j++){
+            View v = vi.inflate(R.layout.order_status, null);
+            TextView textView = (TextView) v.findViewById(R.id.statusText);
+            textView.setText(Utils.getOrderStatusText(j));
+            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
+            view.setBackgroundResource(R.drawable.undelivered);
+            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+            TextView onText = (TextView)v.findViewById(R.id.onText);
+            onText.setVisibility(View.GONE);
+            textDateView.setVisibility(View.GONE);
             statuLL.addView(v);
 
         }
