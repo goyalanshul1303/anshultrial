@@ -35,6 +35,8 @@ public class Order extends EntityBase{
 	
 	private boolean quotesInvited;
 	
+	private double orderAmount;
+	
 	private List<OrderStatus> statuses = new ArrayList<>();
 
 	public boolean isQuotesInvited() {
@@ -139,6 +141,16 @@ public class Order extends EntityBase{
 	@JsonIgnore
 	public void setStatuses(List<OrderStatus> statuses) {
 		this.statuses = statuses;
+	}
+
+	@JsonProperty
+	public double getOrderAmount() {
+		return this.awardedQuote != null ? this.awardedQuote.getQuoteAmount() : 0.0;
+	}
+
+	@JsonIgnore
+	public void setOrderAmount(double orderAmount) {
+		this.orderAmount = orderAmount;
 	}
 	
 }

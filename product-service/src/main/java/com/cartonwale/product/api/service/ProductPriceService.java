@@ -22,4 +22,6 @@ public interface ProductPriceService extends GenericService<ProductPrice>{
 
 	public ProductPrice getByProductId(String productId);
 
+	List<ProductPrice> getByProductIds(List<String> productIds);
+
 }

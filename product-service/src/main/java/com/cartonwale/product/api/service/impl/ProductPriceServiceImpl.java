@@ -1,5 +1,6 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -67,6 +68,17 @@ public class ProductPriceServiceImpl extends GenericServiceImpl<ProductPrice> im
 	@Override
 	public ProductPrice getByProductId(String productId) {
 		
-		return priceDao.getByProductId(productId);
+		List<ProductPrice> productPrices = getByProductIds(Arrays.asList(productId));
+		
+		if(productPrices != null && productPrices.size() > 0)
+			return productPrices.get(0);
+		else
+			return null;
+	}
+	
+	@Override
+	public List<ProductPrice> getByProductIds(List<String> productIds) {
+		
+		return priceDao.getByProductIds(productIds);
 	}
 }

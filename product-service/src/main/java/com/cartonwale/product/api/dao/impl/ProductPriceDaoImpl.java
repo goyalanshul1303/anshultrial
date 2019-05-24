@@ -106,16 +106,16 @@ public class ProductPriceDaoImpl extends GenericDaoImpl<ProductPrice> implements
 			throw new ProductPriceException(e.getMessage());
 		}
 	}
-
+	
 	@Override
-	public ProductPrice getByProductId(String productId) {
+	public List<ProductPrice> getByProductIds(List<String> productIds) {
 		
 		Query query = new Query();
-		query.addCriteria(Criteria.where("productId").is(productId));
-		logger.info("Finding ProductPrice by productId:" + productId);
+		query.addCriteria(Criteria.where("productId").in(productIds));
+		logger.info("Finding ProductPrice by productId:" + productIds);
 		try {
-			ProductPrice productPrice = super.getAll(query).get(0);
-			return productPrice;
+			List<ProductPrice> productPrices = super.getAll(query);
+			return productPrices;
 		} catch (DataAccessException e) {
 
 			throw new ProductPriceException(e.getMessage());

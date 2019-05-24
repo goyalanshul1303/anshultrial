@@ -2,9 +2,12 @@ package com.cartonwale.product.api.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,18 +26,21 @@ import com.cartonwale.product.api.service.ProductService;
 public class ProductController extends ControllerBase{
 	
 	private final Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
+	@Value("${jwt.header}")
+    private String tokenHeader;
 
 	@Autowired
 	private ProductService productService;
 	
 	@RequestMapping
-    public ResponseEntity<List<Product>> getAll() {
-		return makeResponse(productService.getAll());
+    public ResponseEntity<List<Product>> getAll(HttpServletRequest request) {
+		return makeResponse(productService.getAll(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/consumer/{consumerId}")
     public ResponseEntity<List<Product>> getAll(@PathVariable("consumerId") String consumerId) {
-		return makeResponse(productService.getAll(consumerId));
+		return makeResponse(productService.getAllByConsumer(consumerId));
     }
 	
 	@RequestMapping("/{id}")

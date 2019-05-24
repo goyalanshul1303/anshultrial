@@ -1,6 +1,9 @@
 package com.cartonwale.order.api.dao.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,9 +96,10 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 			
 			Aggregation agg = Aggregation.newAggregation(Aggregation.match(Criteria.where("consumerId").is(consumerId).and("productId").in(productIds))
 					, Aggregation.sort(Direction.DESC, "productId", "orderDate")
-					, Aggregation.group(Aggregation.fields()).first("orderDate").as("orderDate")					
-					);
+					, Aggregation.group("productId").first("orderDate").as("orderDate").first(Aggregation.ROOT).as("doc")			
+					, Aggregation.replaceRoot("doc"));
 			List<Order> orders = super.getAll(agg);
+			
 			return orders;
 		} catch (DataAccessException e) {
 			logger.error(e.getStackTrace().toString());

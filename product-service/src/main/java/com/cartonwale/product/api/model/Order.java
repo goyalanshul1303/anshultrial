@@ -11,7 +11,7 @@ public class Order extends EntityBase{
 	
 	private int quantity;
 	
-	private int orderStatus;
+	private OrderStatus orderStatus;
 	
 	private String consumerId;
 	
@@ -28,6 +28,8 @@ public class Order extends EntityBase{
 	private int changeDimension;
 	
 	private List<OrderStatus> statuses = new ArrayList<>();
+	
+	private double orderAmount;
 
 	public int getQuantity() {
 		return quantity;
@@ -38,11 +40,11 @@ public class Order extends EntityBase{
 	}
 
 	public int getOrderStatus() {
-		return this.orderStatus;
+		return orderStatus.getValue();
 	}
 
-	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus.getValue();
+	public void setOrderStatus(int orderStatus) {
+		this.orderStatus = OrderStatus.getOrderStatus(orderStatus);
 	}
 
 	@JsonIgnore
@@ -105,12 +107,22 @@ public class Order extends EntityBase{
 		this.changeDimension = changeDimension;
 	}
 
+	@JsonIgnore
 	public List<OrderStatus> getStatuses() {
 		return statuses;
 	}
 
+	@JsonIgnore
 	public void setStatuses(List<OrderStatus> statuses) {
 		this.statuses = statuses;
+	}
+
+	public double getOrderAmount() {
+		return orderAmount;
+	}
+
+	public void setOrderAmount(double orderAmount) {
+		this.orderAmount = orderAmount;
 	}
 	
 }

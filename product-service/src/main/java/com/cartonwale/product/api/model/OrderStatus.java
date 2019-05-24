@@ -10,7 +10,8 @@ public enum OrderStatus {
 	QUALITY_INSPECTION_COMPLETED(6),
 	ORDER_DISPATCHED(7),
 	ORDER_DELIVERED(8),
-	ORDER_COMPLETED(9);
+	ORDER_COMPLETED(9), 
+	AWAITING_MANUFACTURER(10);
 	
 	private int value;
 	
@@ -23,7 +24,7 @@ public enum OrderStatus {
 		return this.value;
 	}
 	
-	public static OrderStatus getCorrugationType(int value){
+	public static OrderStatus getOrderStatus(int value){
 		
 		for(OrderStatus type : values()){
 			if(type.getValue() == value){
