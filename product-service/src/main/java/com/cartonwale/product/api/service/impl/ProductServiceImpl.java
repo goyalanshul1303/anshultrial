@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
@@ -65,7 +66,15 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public List<Product> getAll(String authToken){
 		
-		List<Product> products = productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Product> products = null;
+		if(SecurityUtil.getAuthUserDetails().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER_ADMIN")))
+			try {
+				products = productDao.getAll();
+			} catch (DataAccessException e) {
+				logger.error(e.getMessage());
+			}
+		else
+			products = productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		
