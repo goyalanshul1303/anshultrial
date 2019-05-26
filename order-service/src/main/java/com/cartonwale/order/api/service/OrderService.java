@@ -21,4 +21,6 @@ public interface OrderService extends GenericService<Order>{
 
 	List<Order> recentOrders(List<String> productIds);
 
+	List<Order> getAllToUpdate();
+
 }

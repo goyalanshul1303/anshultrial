@@ -167,4 +167,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		
 		return orderDao.getRecentOrders(productIds, SecurityUtil.getAuthUserDetails().getEntityId());
 	}
+
+	@Override
+	public List<Order> getAllToUpdate() {
+		
+		return orderDao.getAllToBeUpdated();
+	}
 }

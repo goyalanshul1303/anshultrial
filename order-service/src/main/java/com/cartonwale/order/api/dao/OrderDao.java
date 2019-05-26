@@ -19,6 +19,6 @@ public interface OrderDao extends GenericDao<Order> {
 
 	List<Order> getRecentOrders(List<String> productIds, String consumerId);
 
-	List<Order> getAllToBeUpdatedByAdmin();
+	List<Order> getAllToBeUpdated();
 
 }

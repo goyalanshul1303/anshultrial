@@ -34,6 +34,11 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.getAll());
     }
 	
+	@RequestMapping("/toUpdate")
+    public ResponseEntity<List<Order>> getAllToUpdate() {
+		return makeResponse(orderService.getAllToUpdate());
+    }
+	
 	@RequestMapping("/consumer/requirements")
     public ResponseEntity<List<Order>> getRequirementsByConsumer() {
 		return makeResponse(orderService.getRequirementsByConsumer());

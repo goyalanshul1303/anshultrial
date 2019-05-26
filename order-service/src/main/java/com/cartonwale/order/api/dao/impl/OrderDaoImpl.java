@@ -105,7 +105,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	}
 
 	@Override
-	public List<Order> getAllToBeUpdatedByAdmin() {
+	public List<Order> getAllToBeUpdated() {
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("orderStatus").gt(OrderStatus.Status.MANUFACTURING_COMPLETED.getValue()).lt(OrderStatus.Status.ORDER_COMPLETED.getValue()));
