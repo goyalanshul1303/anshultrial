@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cartonwale.common.dao.SequenceDao;
 import com.cartonwale.common.exception.BadRequestException;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.exception.OrderProcessNotFoundException;
@@ -41,6 +42,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private SequenceDao sequenceDao;
 
 	@PostConstruct
 	void init() {
@@ -68,7 +72,15 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			order.getStatuses().add(status);
 			order.setOrderStatus(OrderStatus.Status.AWAITING_MANUFACTURER.getValue());
 		}
-		return super.add(order);
+		
+		try {
+			order.setId(sequenceDao.getNextSequenceId("order") + "");
+			return super.add(order);
+		} catch (DataAccessException e) {
+			logger.error(e.getMessage());
+		}
+		
+		return null;
 	}
 
 	private void checkIfProductExists(Order order, String authToken) {
