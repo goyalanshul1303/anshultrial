@@ -17,6 +17,8 @@ public class ProductsDetailsItem {
     String corrugationType;
     String printingType;
 
+
+
     public String getId() {
         return id;
     }

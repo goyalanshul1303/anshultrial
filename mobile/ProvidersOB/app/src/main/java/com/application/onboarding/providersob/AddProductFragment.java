@@ -1,10 +1,12 @@
 package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +81,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         getActivity().setTitle("Add Product");
 

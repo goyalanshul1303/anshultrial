@@ -58,7 +58,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.offerPrice:
                 addActionFragment(new OfferPriceProductList());
-
+                return  true;
+            case android.R.id.home:
+//                onBackPressed();
+                fragmentManager.popBackStackImmediate();
             default:
                 return super.onOptionsItemSelected(item);
         }

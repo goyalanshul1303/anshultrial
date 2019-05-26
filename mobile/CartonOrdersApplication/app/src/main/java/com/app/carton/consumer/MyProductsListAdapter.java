@@ -75,14 +75,22 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             customViewHolder.noOfBoxes.setText("Quantity : " + orderObj.quantity);
             customViewHolder.date.setText("Placed on : "+ Utils.getDate(orderObj.getOrderDate()));
             customViewHolder.detailsLink.setTag(i);
+            int totalPrice = orderObj.orderAmount;
+            StringBuilder builder1 = new StringBuilder();
 
-            if (null!=testObjtem.price){
-                int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
-                customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
-                customViewHolder.price.setVisibility(View.VISIBLE);
+            if (orderObj.getOrderStatus() == 1 || orderObj.getOrderStatus() == 10){
+                if (orderObj.getOrderStatus() == 1){
+                    builder1.append(" Approx ");
+                }
+                 totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
+                builder1.append("\u20B9 "+ String.valueOf(totalPrice));
+                customViewHolder.price.setText(builder1.toString());
+
             }else{
-                customViewHolder.price.setVisibility(View.GONE);
+                customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
+
             }
+            customViewHolder.price.setVisibility(View.VISIBLE);
 
 
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
