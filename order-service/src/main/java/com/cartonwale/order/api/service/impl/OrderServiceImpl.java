@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
+import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.exception.OrderProcessNotFoundException;
 import com.cartonwale.common.exception.ProductNotFoundException;
 import com.cartonwale.common.security.SecurityUtil;
@@ -106,7 +107,17 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	@Override
 	public List<Order> getAll() {
 
-		return orderDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Order> orders = null;
+		
+		if(SecurityUtil.getAuthUserDetails().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER_ADMIN")))
+			try {
+				orders = orderDao.getAll();
+			} catch (DataAccessException e) {
+				logger.error(e.getMessage());
+			}
+		else
+			orders = orderDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		return orders;
 	}
 
 	@Override

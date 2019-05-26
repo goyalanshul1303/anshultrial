@@ -1,9 +1,6 @@
 package com.cartonwale.order.api.dao.impl;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +98,18 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 			List<Order> orders = super.getAll(agg);
 			
 			return orders;
+		} catch (DataAccessException e) {
+			logger.error(e.getStackTrace().toString());
+		}
+		return null;
+	}
+
+	@Override
+	public List<Order> getAllToBeUpdatedByAdmin() {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("orderStatus").gt(OrderStatus.Status.MANUFACTURING_COMPLETED.getValue()).lt(OrderStatus.Status.ORDER_COMPLETED.getValue()));
+			return super.getAll(query);
 		} catch (DataAccessException e) {
 			logger.error(e.getStackTrace().toString());
 		}
