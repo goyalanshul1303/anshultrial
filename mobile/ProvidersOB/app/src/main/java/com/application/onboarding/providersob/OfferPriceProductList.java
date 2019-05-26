@@ -1,10 +1,12 @@
 package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -88,14 +90,14 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
         offerpriceBtn =(Button)view.findViewById(R.id.offerpriceBtn);
         offerpriceBtn.setOnClickListener(this);
         offerpriceBtn.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Product List");
+        getActivity().setTitle("Product List for Offers");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+
         new GetAllProductsAsyncTask().execute();
     }
 

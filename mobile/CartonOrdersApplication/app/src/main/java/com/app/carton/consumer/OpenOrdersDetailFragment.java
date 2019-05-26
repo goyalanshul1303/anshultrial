@@ -46,7 +46,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
 
     private static View view;
 
-    TextView quotationPlacedDate, quotationEndDate,quotationStartDate, quotationAmount;
+    TextView quotationPlacedDate, quotationEndDate,quotationStartDate, quotationAmount,noQuoteText;
 
     private ProgressBar progressBar;
     DataView data = new DataView();
@@ -57,7 +57,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     private boolean isFromOpenOrders;
     private TextView quantity, productName;
     private String productId;
-LinearLayout orderStatusLL;
+LinearLayout orderStatusLL, quotationDataLL;
     public OpenOrdersDetailFragment() {
 
     }
@@ -92,27 +92,45 @@ LinearLayout orderStatusLL;
         quotationStartDate = (TextView)view.findViewById(R.id.quotationStartDate);
         quotationEndDate = (TextView)view.findViewById(R.id.quotationEndDate);
         quotationAmount = (TextView)view.findViewById(R.id.quotationAmount);
+        noQuoteText =(TextView) view.findViewById(R.id.noQuoteText);
+        quotationDataLL = (LinearLayout)view.findViewById(R.id.quotationLL);
         orderStatusLL = (LinearLayout)view.findViewById(R.id.statuLL);
 
         new FetchOrderDetailsTask().execute();
 
     }
 
-    private void addOrderStatus(int status) {
+    private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        for (int i = 1 ; i<=9 ; i++){
+        int i = 0;
+        for ( i = 0 ; i < arrayList.size() ; i++){
             View v = vi.inflate(R.layout.order_status, null);
-
-// fill in any details dynamically here
+            // fill in any details dynamically here
             TextView textView = (TextView) v.findViewById(R.id.statusText);
-            textView.setText(Utils.getOrderStatusText(i));
+            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+            TextView onText = (TextView)v.findViewById(R.id.onText);
+            OrderStatus statusObj = arrayList.get(i);
+            onText.setVisibility(View.VISIBLE);
+            textDateView.setVisibility(View.VISIBLE);
+            textDateView.setText(Utils.getDate(statusObj.statusDate));
+            textView.setText(Utils.getOrderStatusText(statusObj.status));
             ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            if (status >= i)
             view.setBackgroundResource(R.drawable.thumbsup);
-            else{
-                view.setBackgroundResource(R.drawable.undelivered);
-            }
+//            else{
+//                view.setBackgroundResource(R.drawable.undelivered);
+//            }
+            orderStatusLL.addView(v);
+        }
+        for ( int j = i+1  ; j <= 9 ; j++){
+            View v = vi.inflate(R.layout.order_status, null);
+            TextView textView = (TextView) v.findViewById(R.id.statusText);
+            textView.setText(Utils.getOrderStatusText(j));
+            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
+            view.setBackgroundResource(R.drawable.undelivered);
+            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+            TextView onText = (TextView)v.findViewById(R.id.onText);
+            onText.setVisibility(View.GONE);
+            textDateView.setVisibility(View.GONE);
             orderStatusLL.addView(v);
 
         }
@@ -287,36 +305,37 @@ LinearLayout orderStatusLL;
         protected void onPostExecute(String result) {
             JSONObject object = null;
             progressBar.setVisibility(View.GONE);
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
-                            || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) ==  HttpURLConnection.HTTP_FORBIDDEN))) {
+            if(isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != object) {
+                        if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+
+//                        new FetchDetailsTask().execute();
+                            parseOrderListingData(object);
+
+
+                        }
+                    } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
-                    } else {
-
-//                        new FetchDetailsTask().execute();
-                        parseOrderListingData(object);
-
-
                     }
-                }else{
+                } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-            }else  {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
             }
-
 
         }
     }
@@ -325,18 +344,29 @@ LinearLayout orderStatusLL;
         Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
         orderId = object.optString("id");
         productId = object.optString("productId");
+        Gson gson = new Gson();
         if (null!= object.optJSONObject("awardedQuote")){
-            Gson gson = new Gson();
+            quotationDataLL.setVisibility(View.VISIBLE);
+            noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
             Utils.setDetailsTextField("Quotation Amount   \u20B9", getActivity(), quotationAmount,String.valueOf(data.quoteAmount));
             Utils.setDetailsTextField("Quotation Start Date", getActivity(), quotationStartDate, Utils.getDate(data.orderStartDate));
             Utils.setDetailsTextField("Quotation End Date", getActivity(), quotationEndDate, Utils.getDate(data.orderFulfillmentDate));
             Utils.setDetailsTextField("Quotation Placed Date", getActivity(), quotationPlacedDate, Utils.getDate(data.quoteDate));
+        }else{
+            quotationDataLL.setVisibility(View.GONE);
+            noQuoteText.setVisibility(View.VISIBLE);
         }
+        ArrayList<OrderStatus> arrayList = new ArrayList<>();
+
         if (null!= object.optJSONArray("statuses")){
+            for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){
+                OrderStatus orderStatus = gson.fromJson(String.valueOf(object.optJSONArray("statuses").opt(i)), OrderStatus.class);
+                arrayList.add( orderStatus);
+            }
 
         }
-        addOrderStatus(object.optInt("orderStatus"));
+        addOrderStatus(object.optInt("orderStatus"), arrayList);
 
     }
 

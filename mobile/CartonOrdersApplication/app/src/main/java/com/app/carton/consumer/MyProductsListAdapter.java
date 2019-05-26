@@ -53,7 +53,12 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         } else {
             customViewHolder.productName.setText(testObjtem.name);
         }
-        customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.price);
+        if (null!=testObjtem.price ){
+            customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.price);
+            customViewHolder.priceProduct.setVisibility(View.VISIBLE);
+
+        }
+        else customViewHolder.priceProduct.setVisibility(View.GONE);
         if (null != testObjtem.dimension) {
         StringBuilder builder = new StringBuilder();
         builder.append( testObjtem.dimension.getWidth());
@@ -70,9 +75,23 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             customViewHolder.noOfBoxes.setText("Quantity : " + orderObj.quantity);
             customViewHolder.date.setText("Placed on : "+ Utils.getDate(orderObj.getOrderDate()));
             customViewHolder.detailsLink.setTag(i);
+            int totalPrice = orderObj.orderAmount;
+            StringBuilder builder1 = new StringBuilder();
 
-            int totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
-            customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
+            if (orderObj.getOrderStatus() == 1 || orderObj.getOrderStatus() == 10){
+                if (orderObj.getOrderStatus() == 1){
+                    builder1.append(" Approx ");
+                }
+                 totalPrice = orderObj.getQuantity() * Integer.valueOf(testObjtem.price);
+                builder1.append("\u20B9 "+ String.valueOf(totalPrice));
+                customViewHolder.price.setText(builder1.toString());
+
+            }else{
+                customViewHolder.price.setText("\u20B9 "+ String.valueOf(totalPrice));
+
+            }
+            customViewHolder.price.setVisibility(View.VISIBLE);
+
 
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
             if (orderObj.getOrderStatus() != 9){

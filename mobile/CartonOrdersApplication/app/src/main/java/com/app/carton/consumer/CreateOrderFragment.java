@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,6 +92,8 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
     // Initiate Views
     private void initViews() {
+        ScrollView mainScrollView= (ScrollView) view.findViewById(R.id.mainScrollView);
+        mainScrollView.smoothScrollTo(0,0);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);

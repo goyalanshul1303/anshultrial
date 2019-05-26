@@ -5,6 +5,15 @@ package com.app.carton.consumer;
  */
 
 public class LastOrderObject {
+    public int getOrderAmount() {
+        return orderAmount;
+    }
+
+    public void setOrderAmount(int orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    int orderAmount;
     public int getQuantity() {
         return quantity;
     }

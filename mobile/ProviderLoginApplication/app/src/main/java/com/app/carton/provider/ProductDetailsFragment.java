@@ -3,10 +3,12 @@ package com.app.carton.provider;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
@@ -57,6 +59,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
         getActivity().setTitle("Product Details");
     }
 
