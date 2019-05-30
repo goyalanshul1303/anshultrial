@@ -1,6 +1,8 @@
 package com.app.carton.consumer;
 
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,10 +16,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -45,8 +50,9 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
 
     private static EditText emailid, password;
     private static Button loginButton;
-    private static CheckBox show_hide_password;
+    private static ImageButton show_hide_password;
     private static ProgressBar progressBar;
+    private boolean isChecked = true;
 
     public ConsumerLoginFragment() {
 
@@ -75,8 +81,8 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        show_hide_password = (CheckBox) view
-                .findViewById(R.id.show_hide_password);
+        show_hide_password = (ImageButton) view
+                .findViewById(R.id.showHidePassword);
 
     }
 
@@ -86,44 +92,45 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
 
 
         // Set check listener over checkbox for showing and hiding password
-        show_hide_password
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        show_hide_password.setOnClickListener(new View.OnClickListener() {
 
                     @Override
-                    public void onCheckedChanged(CompoundButton button,
-                                                 boolean isChecked) {
-
-                        // If it is checkec then show password else hide
-                        // password
+                    public void onClick(View view) {
                         if (isChecked) {
+                            Drawable tempImage = getResources().getDrawable(R.drawable.group_black);
 
-                            show_hide_password.setText(R.string.hide_pwd);// change
+                            show_hide_password.setImageDrawable(tempImage);// change
                             // checkbox
                             // text
 
                             password.setInputType(InputType.TYPE_CLASS_TEXT);
                             password.setTransformationMethod(HideReturnsTransformationMethod
                                     .getInstance());// show password
+                            isChecked = false;
                         } else {
-                            show_hide_password.setText(R.string.show_pwd);// change
+//                            show_hide_password.setText(R.string.show_pwd);// change
                             // checkbox
                             // text
+                            Drawable tempImage = getResources().getDrawable(R.drawable.group_2);
 
+                            show_hide_password.setImageDrawable(tempImage);
                             password.setInputType(InputType.TYPE_CLASS_TEXT
                                     | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             password.setTransformationMethod(PasswordTransformationMethod
                                     .getInstance());// hide password
+                            isChecked = true;
 
                         }
-
                     }
                 });
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.loginBtn:
+                hideKeyboard();
                 checkValidation();
                 break;
 
@@ -131,7 +138,14 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
         }
 
     }
-
+    public void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
     // Check Validation before login
     private void checkValidation() {
         // Get email id and password

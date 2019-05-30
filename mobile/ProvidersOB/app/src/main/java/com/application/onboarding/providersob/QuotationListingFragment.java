@@ -1,4 +1,4 @@
-package com.app.carton.consumer;
+package com.application.onboarding.providersob;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,20 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.carton.orders.R;
 import com.google.gson.Gson;
-import com.paytm.pgsdk.PaytmOrder;
-import com.paytm.pgsdk.PaytmPGService;
-import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,8 +34,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by aggarwal.swati on 2/12/19.
@@ -72,7 +66,6 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
-            isFromOpenOrders = getArguments().containsKey("isFromOpenOrders") ? getArguments().getBoolean("isFromOpenOrders") : false;
         }
     }
 
@@ -148,7 +141,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
             progressBar.setVisibility(View.GONE);
             if (isVisible()) {
-                if (null != result) {
+                if (null != result && !TextUtils.isEmpty(result)) {
                     if (result.trim().charAt(0) == '[') {
                         Log.e("Response is : ", "JSONArray");
                         parseDetailsData(result);

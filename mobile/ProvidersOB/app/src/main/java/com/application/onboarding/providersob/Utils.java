@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.format.DateFormat;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,10 +13,14 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -35,6 +40,22 @@ public class Utils {
             }
         }
         return null;
+    }
+    public static String getDateofOdrerPlaced(int dayOfMonth){
+        String date= "";
+        if (dayOfMonth < 10) {
+            NumberFormat f = new DecimalFormat("00");
+            date = String.valueOf(f.format(dayOfMonth));
+        }else{
+            return dayOfMonth + "";
+        }
+        return  date;
+    }
+    public static  Calendar getCalenderFromTime(long time){
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time );
+        DateFormat.format("dd-MMM-yyyy", cal);
+        return  cal;
     }
     public static Object getElementByIndex(LinkedHashMap map, int index) {
         return (map.keySet().toArray())[index];
@@ -106,5 +127,39 @@ public class Utils {
         }
         return result;
     }
+    public static String getDate(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time );
+        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        return date;
+    }
+    public static String getOrderStatusText(int orderStatus)
+    {
+        switch (orderStatus){
+            case 1:
+                return  "Order Placed";
+            case 10:
+                return "Order Placed";
+            case 2:
+                return  "Manufacturer Assigned";
+            case 3:
+                return  "Manufacturing Initiated";
 
+            case 4:
+                return  "Manufacturing Completed";
+            case 5:
+                return  "Quality Inspection Initiated";
+            case 6:
+                return  "Quality Inspection Completed";
+            case 7:
+                return  "Order Dispatched";
+
+            case 8:
+                return  "Order Delivered";
+            case 9:
+                return  "Order Completed";
+            default:
+                return  "Order Placed";
+        }
+    }
 }
