@@ -53,7 +53,9 @@ public class QuoteServiceImpl extends GenericServiceImpl<Quote> implements Quote
 	public List<Quote> getAllByOrder(String orderId) {
 
 		Order order = orderService.getById(orderId);
-		if (order == null || !order.getConsumerId().equals(SecurityUtil.getAuthUserDetails().getEntityId())) {
+		if ((order == null || !order.getConsumerId().equals(SecurityUtil.getAuthUserDetails().getEntityId()))
+				&& SecurityUtil.getAuthUserDetails().getAuthorities().stream()
+						.noneMatch(a -> a.getAuthority().equals("ROLE_USER_ADMIN"))) {
 			return null;
 		}
 
