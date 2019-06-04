@@ -68,7 +68,6 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         addOrderBtn = (Button)view.findViewById(R.id.addOrderBtn);
-        quantity = (TextView)view.findViewById(R.id.expectedQuantity);
         sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
         productName = (TextView)view.findViewById(R.id.productName);
         printingType = (TextView)view.findViewById(R.id.printingType);
@@ -163,15 +162,11 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private void parseListingData(JSONObject result) {
         productNameString = result.optString("name");
-        Utils.setDetailsTextField("Name", getActivity(), productName, result.optString("name"));
-
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
-        Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-            quantity.setVisibility(View.GONE);
-//        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
-
-        Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
-        Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        productName.setText(result.optString("name"));
+       cartonType.setText(result.optString("cartonType"));
+        sheetLayerType.setText(result.optString("sheetLayerType"));
+       corrugationType.setText(String.valueOf(result.optString("corrugationType")));
+        printingType.setText(String.valueOf(result.optString("printingType")));
         Gson gson = new Gson();
          dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
