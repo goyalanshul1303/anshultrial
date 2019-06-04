@@ -17,8 +17,8 @@
     <color name="button_bg_blue">#048DD2</color>
     <color name="White">#ffffff</color>
     <color name="color_dashboard_papers_text">#060819</color>
-    <color name="course_heading_color">#8c8d94</color>
-    <color name="view">#e6e6e6</color>
+    <color name="course_heading_color">#878787</color>
+    <color name="view">#d4d7ef</color>
     <color name="login_bg">#0d0f2c</color>
     <color name="button_login">#3a2cff</color>
     <color name="heading_color">#878787</color>
