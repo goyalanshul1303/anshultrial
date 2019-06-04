@@ -43,7 +43,6 @@
                         android:id="@+id/productName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:text="Folder name here."
                         android:textColor="@color/color_dashboard_papers_text"
                         android:textSize="23sp" />

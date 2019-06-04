@@ -224,7 +224,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                             productName = item.name;
                             newFragment.setArguments(bundle);
                             MainActivity.addActionFragment(newFragment);
-                        }else  if(view.getId()== R.id.noOrderll || view.getId() == R.id.reorder){
+                        }else  if(view.getId()== R.id.noOrderll ){
                             CreateOrderFragment fragment = new CreateOrderFragment();
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("isFromProductDetail", true);
@@ -235,7 +235,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                             fragment.setArguments(bundle);
                             MainActivity.addActionFragment(fragment);
                         }
-                        else  if(view.getId()== R.id.detailsLink){
+                        else  if(view.getId()== R.id.detailsLink || view.getId() == R.id.reorder){
                          // create order details link
 
                               Bundle bundle = new Bundle();
