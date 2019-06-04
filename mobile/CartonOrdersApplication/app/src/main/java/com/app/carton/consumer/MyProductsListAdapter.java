@@ -70,10 +70,10 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         if (null != testObjtem.lastOrder ) {
             customViewHolder.noOrderll.setVisibility(View.GONE);
             customViewHolder.orderPlacedLL.setVisibility(View.VISIBLE);
-            customViewHolder.orderStatusLL.setVisibility(View.VISIBLE);
+//            customViewHolder.orderStatusLL.setVisibility(View.VISIBLE);
             LastOrderObject orderObj = testObjtem.getLastOrder();
-            customViewHolder.noOfBoxes.setText("Quantity : " + orderObj.quantity);
-            customViewHolder.date.setText("Placed on : "+ Utils.getDate(orderObj.getOrderDate()));
+            customViewHolder.noOfBoxes.setText( orderObj.quantity +" Nos");
+            customViewHolder.date.setText(Utils.getDate(orderObj.getOrderDate()));
             customViewHolder.detailsLink.setTag(i);
             int totalPrice = orderObj.orderAmount;
             StringBuilder builder1 = new StringBuilder();
@@ -91,20 +91,18 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
 
             }
             customViewHolder.price.setVisibility(View.VISIBLE);
-
-
             customViewHolder.orderStatus.setText(Utils.getOrderStatusText(orderObj.orderStatus));
-            if (orderObj.getOrderStatus() != 9){
-                customViewHolder.reorder.setVisibility(View.GONE);
-            }else{
+//            if (orderObj.getOrderStatus() != 9){
+//                customViewHolder.reorder.setVisibility(View.GONE);
+//            }else{
                 customViewHolder.reorder.setVisibility(View.VISIBLE);
-            }
+//            }
 
 
         } else {
             customViewHolder.noOrderll.setVisibility(View.VISIBLE);
             customViewHolder.orderPlacedLL.setVisibility(View.GONE);
-            customViewHolder.orderStatusLL.setVisibility(View.GONE);
+//            customViewHolder.orderStatusLL.setVisibility(View.GONE);
 
         }
             customViewHolder.dimensions.setVisibility(View.VISIBLE);
@@ -146,7 +144,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             noOrderll = (LinearLayout) view.findViewById(R.id.noOrderll);
             boxDetails = (LinearLayout)view.findViewById(R.id.boxDetails);
             detailsLink = (TextView)view.findViewById(R.id.detailsLink);
-            orderStatusLL = (RelativeLayout) view.findViewById(R.id.orderStatusLL);
+//            orderStatusLL = (RelativeLayout) view.findViewById(R.id.orderStatusLL);
             orderStatus = (TextView)view.findViewById(R.id.orderStatus);
             date = (TextView)view.findViewById(R.id.date);
             price = (TextView)view.findViewById(R.id.price);
