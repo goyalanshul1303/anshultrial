@@ -53,8 +53,21 @@
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="14sp"
             android:visibility="visible"
-            />
 
+            />
+        <Button
+            android:id="@+id/tryAgain"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:padding="3dp"
+            android:text="Try Again "
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:background="@drawable/loginbutton_selector"
+            android:visibility="gone"
+            android:textStyle="bold" />
     </LinearLayout>
     <Button
         android:id="@+id/addProductBtn"

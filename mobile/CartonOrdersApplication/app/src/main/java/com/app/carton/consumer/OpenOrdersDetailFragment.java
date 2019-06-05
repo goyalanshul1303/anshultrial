@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,8 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     private boolean isFromOpenOrders;
     private TextView quantity, productName;
     private String productId;
-LinearLayout orderStatusLL, quotationDataLL;
+LinearLayout orderStatusLL;
+TableLayout quotationDataLL;
     public OpenOrdersDetailFragment() {
 
     }
@@ -93,7 +95,7 @@ LinearLayout orderStatusLL, quotationDataLL;
         quotationEndDate = (TextView)view.findViewById(R.id.quotationEndDate);
         quotationAmount = (TextView)view.findViewById(R.id.quotationAmount);
         noQuoteText =(TextView) view.findViewById(R.id.noQuoteText);
-        quotationDataLL = (LinearLayout)view.findViewById(R.id.quotationLL);
+        quotationDataLL = (TableLayout) view.findViewById(R.id.quotationDataLL);
         orderStatusLL = (LinearLayout)view.findViewById(R.id.statuLL);
 
         new FetchOrderDetailsTask().execute();
@@ -115,7 +117,7 @@ LinearLayout orderStatusLL, quotationDataLL;
             textDateView.setText(Utils.getDate(statusObj.statusDate));
             textView.setText(Utils.getOrderStatusText(statusObj.status));
             ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.thumbsup);
+            view.setBackgroundResource(R.drawable.order_details);
 //            else{
 //                view.setBackgroundResource(R.drawable.undelivered);
 //            }
@@ -340,8 +342,8 @@ LinearLayout orderStatusLL, quotationDataLL;
         }
     }
     void  parseOrderListingData(JSONObject object){
-        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+        productName.setText(object.optString("productName"));
+       quantity.setText( object.optString("quantity") + "Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");
         Gson gson = new Gson();
@@ -349,16 +351,15 @@ LinearLayout orderStatusLL, quotationDataLL;
             quotationDataLL.setVisibility(View.VISIBLE);
             noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
-            Utils.setDetailsTextField("Quotation Amount   \u20B9", getActivity(), quotationAmount,String.valueOf(data.quoteAmount));
-            Utils.setDetailsTextField("Quotation Start Date", getActivity(), quotationStartDate, Utils.getDate(data.orderStartDate));
-            Utils.setDetailsTextField("Quotation End Date", getActivity(), quotationEndDate, Utils.getDate(data.orderFulfillmentDate));
-            Utils.setDetailsTextField("Quotation Placed Date", getActivity(), quotationPlacedDate, Utils.getDate(data.quoteDate));
+            quotationAmount.setText("\u20B9"+ String.valueOf(data.quoteAmount));
+           quotationStartDate.setText(Utils.getDate(data.orderStartDate));
+           quotationEndDate.setText(Utils.getDate(data.orderFulfillmentDate));
+           quotationPlacedDate.setText(Utils.getDate(data.quoteDate));
         }else{
             quotationDataLL.setVisibility(View.GONE);
             noQuoteText.setVisibility(View.VISIBLE);
         }
         ArrayList<OrderStatus> arrayList = new ArrayList<>();
-
         if (null!= object.optJSONArray("statuses")){
             for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){
                 OrderStatus orderStatus = gson.fromJson(String.valueOf(object.optJSONArray("statuses").opt(i)), OrderStatus.class);

@@ -72,7 +72,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
         TextView textView, quantity, awardStatus, orderId, year, month, date;
-        RelativeLayout textLL;
+        LinearLayout textLL;
         RelativeLayout mainLayout;
 
 
@@ -80,7 +80,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL = (RelativeLayout) view.findViewById(R.id.textLL);
+            textLL = (LinearLayout) view.findViewById(R.id.textLL);
             awardStatus = (TextView) view.findViewById(R.id.awardedStatus);
             orderId = (TextView) view.findViewById(R.id.orderId);
             mainLayout = (RelativeLayout) view.findViewById(R.id.mainLayout);

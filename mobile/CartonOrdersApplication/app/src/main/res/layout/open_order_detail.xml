@@ -2,94 +2,200 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_greyish">
+    android:background="@color/details_bg">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_margin="10dp"
-        android:id="@+id/cardView"
         android:layout_height="wrap_content">
-        <RelativeLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/productName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/background_color"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/quantityOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/productName"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/course_heading_color"
-                android:textSize="16sp" />
             <LinearLayout
+                android:id="@+id/textLL"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/quantityOrder"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
 
-                android:orientation="vertical" android:id="@+id/quotationLL">
-            <TextView
-                android:id="@+id/quotationAmount"
+            <ImageView
+                android:id="@+id/pdpImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Amount"
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/pdp_image" />
 
-            <TextView
-                android:id="@+id/quotationStartDate"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/quotationAmount"
-                android:text="Start date"
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
+                android:layout_height="fill_parent"
+                android:id="@+id/middleLL"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/quotationEndDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/quotationStartDate"
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product  name here."
+                    android:textColor="@color/color_dashboard_papers_text"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/quotationPlacedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/quotationEndDate"
-                android:text="Quotation Placed Date"
-                android:layout_marginBottom="10dp"
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/quantityOrder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:text="10dpm"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/course_heading_color"
+                    android:textSize="13sp" />
             </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:background="#ececec"
+                android:layout_height="1dp"
+                ></View>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/quotationDataLL"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Quotation Amount"
+                        android:id="@+id/amountHead"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/quotationAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/amountHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/startDateHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Quotation Start Date"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/quotationStartDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/startDateHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/endDateHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Quotation End Date"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/quotationEndDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/endDateHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/placedDateHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Quotation Placed Date"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/quotationPlacedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/placedDateHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+            </TableLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:visibility="gone"
-                android:layout_below="@id/quantityOrder"
+                android:layout_below="@id/textLL"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" android:id="@+id/noQuoteText"
                 android:text="No Quotation awarded for this order yet"/>
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/statuLL"
+                android:layout_margin="10dp"
+                android:layout_below="@+id/cardView"        android:orientation="vertical"
+                android:layout_height="wrap_content"></LinearLayout>
+        </LinearLayout>
 
+
+
+        </ScrollView>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -98,12 +204,6 @@
         android:layout_gravity="center_horizontal"
         android:visibility="visible" />
 
-
     </android.support.v7.widget.CardView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/statuLL"
-        android:layout_margin="10dp"
-android:layout_below="@+id/cardView"        android:orientation="vertical"
-        android:layout_height="wrap_content"></LinearLayout>
+
 </RelativeLayout>
