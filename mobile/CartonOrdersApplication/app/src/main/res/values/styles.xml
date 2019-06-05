@@ -7,7 +7,12 @@
         <item name="colorPrimaryDark">#000000</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">true</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
     </style>
-
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/menu</item>
+    </style>
 </resources>

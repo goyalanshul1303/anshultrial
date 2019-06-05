@@ -185,6 +185,11 @@
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" android:id="@+id/noQuoteText"
                 android:text="No Quotation awarded for this order yet"/>
+            <View
+                android:layout_width="match_parent"
+                android:background="@drawable/divider"
+                android:layout_height="2dp"
+                ></View>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:id="@+id/statuLL"
