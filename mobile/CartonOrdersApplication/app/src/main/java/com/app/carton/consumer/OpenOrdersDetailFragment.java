@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
+import com.github.vipulasri.timelineview.TimelineView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -58,8 +59,8 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     private boolean isFromOpenOrders;
     private TextView quantity, productName,pricePerUnit;
     private String productId;
-LinearLayout orderStatusLL;
-TableLayout quotationDataLL;
+        LinearLayout orderStatusLL;
+        TableLayout quotationDataLL;
     public OpenOrdersDetailFragment() {
 
     }
@@ -107,17 +108,24 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
         int i = 0;
         for ( i = 0 ; i < arrayList.size() ; i++){
             View v = vi.inflate(R.layout.order_status, null);
+            TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details ));
+
             // fill in any details dynamically here
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
             OrderStatus statusObj = arrayList.get(i);
-            onText.setVisibility(View.VISIBLE);
             textDateView.setVisibility(View.VISIBLE);
+            if (i==0){
+                timelineView.initLine(1);
+//
+            }else{
+//
+                timelineView.initLine(4);
+            }
             textDateView.setText(Utils.getDate(statusObj.statusDate));
             textView.setText(Utils.getOrderStatusText(statusObj.status));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.order_details);
+//            view.setBackgroundResource(R.drawable.order_details);
 //            else{
 //                view.setBackgroundResource(R.drawable.undelivered);
 //            }
@@ -127,12 +135,23 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             View v = vi.inflate(R.layout.order_status, null);
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             textView.setText(Utils.getOrderStatusText(j));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.order_details_grey);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
-            onText.setVisibility(View.GONE);
-            textDateView.setVisibility(View.GONE);
+            TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details_grey ));
+            textDateView.setVisibility(View.INVISIBLE);
+//            if (j== i+1){
+//                timelineView.setStartLineColor(R.color.active,0);
+//
+//            }else
+            if (j==9){
+                timelineView.setStartLineColor(R.color.inactive,2);
+            }
+            else{
+                timelineView.setStartLineColor(R.color.inactive,0);
+                timelineView.setEndLineColor(R.color.inactive,0);
+                timelineView.initLine(0);
+
+            }
             orderStatusLL.addView(v);
 
         }
