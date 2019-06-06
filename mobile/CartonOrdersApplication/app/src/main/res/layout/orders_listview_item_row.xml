@@ -64,6 +64,7 @@
                         android:layout_alignParentRight="true"
                         android:text="1ehe nos"
                         android:layout_weight="1"
+                        android:gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:textColor="#878787"

@@ -3,46 +3,57 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/details_bg"
     >
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:id="@+id/mainScrollView"
-        android:layout_height="match_parent"
-        android:background="@color/details_bg"
-        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/textLL"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/pdpImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/pdp_image" />
             <TextView
                 android:id="@+id/productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:text="bdjbwjb wdbwjdbjwd"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/color_dashboard_papers_text"
                 android:textSize="18sp" />
+        </LinearLayout>
             <Spinner
                 android:id="@+id/productsSpinner"
                 style="@style/Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"></Spinner>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_quantity"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
+                android:layout_height="2dp"
+                android:background="@drawable/divider"></View>
                 <EditText
                     android:id="@+id/quantityET"
                     android:layout_width="match_parent"
@@ -51,17 +62,20 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:singleLine="true"
                     android:textColor="#000000"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/edit_text_bg"
+                android:padding="10dp"
                     android:textColorHint="@color/hint_text_light_grey"
                     android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -70,16 +84,20 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="W"
+                    android:background="@drawable/edit_line_bg"
+                    android:layout_weight="1"
                     android:enabled="false"
-                    android:textSize="13sp"
+                    android:textSize="15sp"
                     android:gravity="center"
                     android:inputType="number" />
 
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/quotation_details_copy"
                     android:textSize="16sp" />
 
                 <EditText
@@ -87,24 +105,31 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="H"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="13sp"
+                    android:background="@drawable/edit_line_bg"
+
+                    android:textSize="15sp"
                     android:enabled="false"
                     android:inputType="number" />
 
-                <TextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="X"
-                    android:textSize="16sp" />
+                    android:src="@drawable/quotation_details_copy"
+                    android:textSize="16sp" android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"/>
 
                 <EditText
                     android:id="@+id/lengthLL"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:hint="L"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:textSize="13sp"
+                    android:background="@drawable/edit_line_bg"
+
+                    android:textSize="15sp"
                     android:enabled="false"
                     android:inputType="number" />
 
@@ -112,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="cms"
-                    android:textSize="16sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -122,10 +147,11 @@
                 android:id="@+id/createOrderBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@color/background_color"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/loginbutton_selector"
                 android:padding="3dp"
-                android:layout_margin="10dp"
                 android:text="Create Order"
                 android:textColor="@color/white"
                 android:textSize="17sp"
@@ -133,11 +159,13 @@
             <Button
                 android:id="@+id/inviteQuotations"
                 android:layout_width="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@color/background_color"
+                android:background="@drawable/invitebutton_selector"
                 android:padding="3dp"
+                android:layout_marginBottom="15dp"
                 android:text="Invite Quotations"
                 android:textColor="@color/white"
                 android:textSize="17sp"
@@ -145,7 +173,7 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </android.support.v7.widget.CardView>
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

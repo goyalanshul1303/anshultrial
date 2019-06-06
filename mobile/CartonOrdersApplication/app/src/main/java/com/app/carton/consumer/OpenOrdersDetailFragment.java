@@ -56,7 +56,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     String orderId,quoteId;
     private int awardPosition;
     private boolean isFromOpenOrders;
-    private TextView quantity, productName;
+    private TextView quantity, productName,pricePerUnit;
     private String productId;
 LinearLayout orderStatusLL;
 TableLayout quotationDataLL;
@@ -85,7 +85,7 @@ TableLayout quotationDataLL;
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
+pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
         productName = (TextView)view.findViewById(R.id.productName);
         quantity = (TextView)view.findViewById(R.id.quantityOrder);
 //        productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
@@ -128,7 +128,7 @@ TableLayout quotationDataLL;
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             textView.setText(Utils.getOrderStatusText(j));
             ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.undelivered);
+            view.setBackgroundResource(R.drawable.order_details_grey);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
             TextView onText = (TextView)v.findViewById(R.id.onText);
             onText.setVisibility(View.GONE);
@@ -343,18 +343,21 @@ TableLayout quotationDataLL;
     }
     void  parseOrderListingData(JSONObject object){
         productName.setText(object.optString("productName"));
-       quantity.setText( object.optString("quantity") + "Nos");
+       quantity.setText( object.optString("quantity") + " Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");
         Gson gson = new Gson();
         if (null!= object.optJSONObject("awardedQuote")){
+
             quotationDataLL.setVisibility(View.VISIBLE);
             noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
             quotationAmount.setText("\u20B9"+ String.valueOf(data.quoteAmount));
+            int priceUnit = Integer.valueOf(data.quoteAmount) / Integer.valueOf(object.optString("quantity"));
            quotationStartDate.setText(Utils.getDate(data.orderStartDate));
            quotationEndDate.setText(Utils.getDate(data.orderFulfillmentDate));
            quotationPlacedDate.setText(Utils.getDate(data.quoteDate));
+           pricePerUnit.setText("\u20B9"+ String.valueOf(priceUnit));
         }else{
             quotationDataLL.setVisibility(View.GONE);
             noQuoteText.setVisibility(View.VISIBLE);

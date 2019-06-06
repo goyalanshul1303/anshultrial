@@ -73,7 +73,6 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_order, container, false);
 
-
         isFromProductDetail = getArguments().containsKey("isFromProductDetail") ? getArguments().getBoolean("isFromProductDetail") : false;
            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
 
@@ -92,8 +91,6 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
     // Initiate Views
     private void initViews() {
-        ScrollView mainScrollView= (ScrollView) view.findViewById(R.id.mainScrollView);
-        mainScrollView.smoothScrollTo(0,0);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);

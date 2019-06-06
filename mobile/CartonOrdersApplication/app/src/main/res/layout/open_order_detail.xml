@@ -60,7 +60,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="#ececec"
                 android:layout_height="1dp"
                 ></View>
@@ -79,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text=" Amount"
+                        android:text="Amount"
                         android:id="@+id/amountHead"
                         android:layout_alignParentLeft="true"
                         android:textColor="@color/heading_color"
@@ -100,6 +101,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/priceUitHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Price per unit"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/priceperUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/priceUitHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/startDateHead"
@@ -126,6 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/endDateHead"
@@ -152,6 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                     <TextView
@@ -180,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_below="@id/textLL"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" android:id="@+id/noQuoteText"

@@ -12,16 +12,10 @@
             app:titleTextColor="@color/white"
             android:layout_alignParentStart="true"
             android:background="@color/login_bg" />
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:fillViewport="true"
-        android:layout_below="@+id/toolbar"
-        android:overScrollMode="never"
-        android:scrollbars="none" >
+
         <FrameLayout
             android:id="@+id/frameContainer"
+            android:layout_below="@+id/toolbar"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"/>
-    </ScrollView>
     </RelativeLayout>
