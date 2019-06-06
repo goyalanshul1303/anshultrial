@@ -66,6 +66,7 @@
         <EditText
             android:id="@+id/login_password"
             android:singleLine="true"
+            android:imeOptions="actionDone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -75,6 +76,7 @@
             android:background="@color/white"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/black"
+
             android:textColorHint="@color/hint_text_light_grey"
             android:textSize="16sp" />
             <ImageButton

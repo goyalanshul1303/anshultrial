@@ -190,8 +190,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
             if (null != list && list.length() > 0) {
                 Gson gson = new Gson();
                 quotationDataArrayList = new ArrayList<>();
-                for (int i = 0; i < list.length(); i++) {
-                    QuotationData item = gson.fromJson(String.valueOf((list.optJSONObject(i))), QuotationData.class);
+                for (int i = 0; i < 6; i++) {
+                    QuotationData item = gson.fromJson(String.valueOf((list.optJSONObject(0))), QuotationData.class);
                     quotationDataArrayList.add(item);
                 }
                 adapter = new QuotationItemsAdapter(getActivity(), quotationDataArrayList);
@@ -417,8 +417,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     }
 
     void parseOrderListingData(JSONObject object) {
-        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+       productName.setText(object.optString("productName"));
+      quantity.setText(object.optString("quantity") +" Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");
 
