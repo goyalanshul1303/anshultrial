@@ -141,4 +141,10 @@ public class Utils {
                 return  "Order Placed";
         }
     }
+    public static String getDateWithTime(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time );
+        String date = DateFormat.format("MMM dd, yyyy HH:mm:ss", cal).toString();
+        return date;
+    }
 }

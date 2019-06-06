@@ -106,27 +106,29 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
     private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int i = 0;
-        for ( i = 0 ; i < arrayList.size() ; i++){
-            View v = vi.inflate(R.layout.order_status, null);
-            TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
-            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details ));
+        if (arrayList.size() > 0) {
+            for (i = 0; i < arrayList.size(); i++) {
+                View v = vi.inflate(R.layout.order_status, null);
+                TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+                timelineView.setMarker(getActivity().getResources().getDrawable(R.drawable.order_details));
 
-            // fill in any details dynamically here
-            TextView textView = (TextView) v.findViewById(R.id.statusText);
-            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            OrderStatus statusObj = arrayList.get(0);
-            textDateView.setVisibility(View.VISIBLE);
-            if (i==0){
-                timelineView.initLine(1);
+                // fill in any details dynamically here
+                TextView textView = (TextView) v.findViewById(R.id.statusText);
+                TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+                OrderStatus statusObj = arrayList.get(i);
+                textDateView.setVisibility(View.VISIBLE);
+                if (i == 0) {
+                    timelineView.initLine(1);
 //
-            }else if(i == arrayList.size()-1){
-                timelineView.initLine(2);
-            }else{
-                timelineView.initLine(4);
+                } else if (i == 8) {
+                    timelineView.initLine(2);
+                } else {
+                    timelineView.initLine(4);
+                }
+                textDateView.setText(Utils.getDateWithTime(statusObj.statusDate));
+                textView.setText(Utils.getOrderStatusText(statusObj.status));
+                orderStatusLL.addView(v);
             }
-            textDateView.setText(Utils.getDateWithTime(statusObj.statusDate));
-            textView.setText(Utils.getOrderStatusText(statusObj.status));
-            orderStatusLL.addView(v);
         }
         for ( int j = i+1  ; j <= 9 ; j++){
             View v = vi.inflate(R.layout.order_status, null);
@@ -138,6 +140,10 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             textDateView.setVisibility(View.INVISIBLE);
             if (j==9){
                 timelineView.setStartLineColor(R.color.inactive,2);
+            }else if(j == i+1  && arrayList.size() == 0){
+                timelineView.setStartLineColor(R.color.inactive,1);
+                timelineView.setEndLineColor(R.color.inactive,1);
+                timelineView.initLine(1);
             }
             else{
                 timelineView.setStartLineColor(R.color.inactive,0);
@@ -148,6 +154,7 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             orderStatusLL.addView(v);
 
         }
+
     }
 //    public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 //

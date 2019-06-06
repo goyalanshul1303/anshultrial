@@ -1,6 +1,7 @@
 package com.app.carton.provider;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -43,7 +45,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
     private static EditText emailid, password;
     private static Button loginButton;
-    private static CheckBox show_hide_password;
+    private static ImageButton show_hide_password;
+    private boolean isChecked = true;
     private static ProgressBar progressBar;
 
     public ProviderLoginFragment() {
@@ -74,8 +77,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        show_hide_password = (CheckBox) view
-                .findViewById(R.id.show_hide_password);
+        show_hide_password = (ImageButton) view
+                .findViewById(R.id.showHidePassword);
 
     }
 
@@ -85,38 +88,37 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
 
         // Set check listener over checkbox for showing and hiding password
-        show_hide_password
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        show_hide_password.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onCheckedChanged(CompoundButton button,
-                                                 boolean isChecked) {
+            @Override
+            public void onClick(View view) {
+                if (isChecked) {
+                    Drawable tempImage = getResources().getDrawable(R.drawable.group_black);
 
-                        // If it is checkec then show password else hide
-                        // password
-                        if (isChecked) {
+                    show_hide_password.setImageDrawable(tempImage);// change
+                    // checkbox
+                    // text
 
-                            show_hide_password.setText(R.string.hide_pwd);// change
-                            // checkbox
-                            // text
+                    password.setInputType(InputType.TYPE_CLASS_TEXT);
+                    password.setTransformationMethod(HideReturnsTransformationMethod
+                            .getInstance());// show password
+                    isChecked = false;
+                } else {
+//                            show_hide_password.setText(R.string.show_pwd);// change
+                    // checkbox
+                    // text
+                    Drawable tempImage = getResources().getDrawable(R.drawable.group_2);
 
-                            password.setInputType(InputType.TYPE_CLASS_TEXT);
-                            password.setTransformationMethod(HideReturnsTransformationMethod
-                                    .getInstance());// show password
-                        } else {
-                            show_hide_password.setText(R.string.show_pwd);// change
-                            // checkbox
-                            // text
+                    show_hide_password.setImageDrawable(tempImage);
+                    password.setInputType(InputType.TYPE_CLASS_TEXT
+                            | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password.setTransformationMethod(PasswordTransformationMethod
+                            .getInstance());// hide password
+                    isChecked = true;
 
-                            password.setInputType(InputType.TYPE_CLASS_TEXT
-                                    | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            password.setTransformationMethod(PasswordTransformationMethod
-                                    .getInstance());// hide password
-
-                        }
-
-                    }
-                });
+                }
+            }
+        });
     }
 
     @Override
