@@ -114,21 +114,18 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             // fill in any details dynamically here
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            OrderStatus statusObj = arrayList.get(i);
+            OrderStatus statusObj = arrayList.get(0);
             textDateView.setVisibility(View.VISIBLE);
             if (i==0){
                 timelineView.initLine(1);
 //
+            }else if(i == arrayList.size()-1){
+                timelineView.initLine(2);
             }else{
-//
                 timelineView.initLine(4);
             }
-            textDateView.setText(Utils.getDate(statusObj.statusDate));
+            textDateView.setText(Utils.getDateWithTime(statusObj.statusDate));
             textView.setText(Utils.getOrderStatusText(statusObj.status));
-//            view.setBackgroundResource(R.drawable.order_details);
-//            else{
-//                view.setBackgroundResource(R.drawable.undelivered);
-//            }
             orderStatusLL.addView(v);
         }
         for ( int j = i+1  ; j <= 9 ; j++){
@@ -139,10 +136,6 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
             timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details_grey ));
             textDateView.setVisibility(View.INVISIBLE);
-//            if (j== i+1){
-//                timelineView.setStartLineColor(R.color.active,0);
-//
-//            }else
             if (j==9){
                 timelineView.setStartLineColor(R.color.inactive,2);
             }

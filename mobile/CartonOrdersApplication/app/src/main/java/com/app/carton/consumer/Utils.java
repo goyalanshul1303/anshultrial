@@ -58,6 +58,12 @@ public class Utils {
         String date = DateFormat.format("MMM dd, yyyy", cal).toString();
         return date;
     }
+    public static String getDateWithTime(long time) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(time );
+        String date = DateFormat.format("MMM dd, yyyy HH:mm:ss", cal).toString();
+        return date;
+    }
 
     public static  Calendar getCalenderFromTime(long time){
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
