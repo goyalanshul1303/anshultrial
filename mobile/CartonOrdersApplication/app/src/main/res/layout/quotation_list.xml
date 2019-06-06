@@ -95,8 +95,9 @@
             android:layout_marginTop="15dp"
             android:textColor="#878787"
             android:lineSpacingExtra="1.3sp"
+            android:layout_margin="10dp"
             android:gravity="center_horizontal"
-            android:text="No quotation added."
+            android:text="No quotations added yet. We are in touch with manufactureres to get you best quotations."
             />
         <ImageView
             android:id="@+id/no_item_image"
@@ -104,6 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:gravity="center"
             android:src="@drawable/no_item"
             android:visibility="visible" />

@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="Quotation Amount"
+                        android:text=" Amount"
                         android:id="@+id/amountHead"
                         android:layout_alignParentLeft="true"
                         android:textColor="@color/heading_color"
@@ -184,7 +184,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" android:id="@+id/noQuoteText"
-                android:text="No Quotation awarded for this order yet"/>
+                android:text="We are looking for best manufacturer for this order."/>
             <View
                 android:layout_width="match_parent"
                 android:background="@drawable/divider"

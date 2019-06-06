@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/over_flow_item"
-        android:icon="@drawable/material_overflow"
+        android:icon="@drawable/menu"
         android:title=""
         app:showAsAction="always">
         <menu>
