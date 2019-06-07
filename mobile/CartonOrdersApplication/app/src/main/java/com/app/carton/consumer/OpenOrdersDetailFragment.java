@@ -380,7 +380,8 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
            quotationStartDate.setText(Utils.getDate(data.orderStartDate));
            quotationEndDate.setText(Utils.getDate(data.orderFulfillmentDate));
            quotationPlacedDate.setText(Utils.getDate(data.quoteDate));
-           pricePerUnit.setText("\u20B9"+ String.valueOf(priceUnit));
+            String s = String.format("%.2f", priceUnit);
+           pricePerUnit.setText("\u20B9"+ s);
         }else{
             quotationDataLL.setVisibility(View.GONE);
             noQuoteText.setVisibility(View.VISIBLE);

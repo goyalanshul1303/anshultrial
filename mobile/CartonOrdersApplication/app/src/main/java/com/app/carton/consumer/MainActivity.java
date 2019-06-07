@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 // do logout
                 SharedPreferences.logout(this);
+                FragmentManager fm = getSupportFragmentManager();
+                int count = fm.getBackStackEntryCount();
+                for(int i = 0; i < count; ++i) {
+                    fm.popBackStackImmediate();
+                }
                 replaceLoginFragment(new ConsumerLoginFragment());
                 return true;
             case R.id.open_orders_list:
