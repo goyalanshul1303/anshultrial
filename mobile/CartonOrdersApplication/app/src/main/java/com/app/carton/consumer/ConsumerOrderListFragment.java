@@ -12,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,7 +228,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
             }else{
                 // take user to open products  screen
-              MainActivity.replaceLoginFragment(new ConsumerProductsListFragment());
+              MainActivity.replaceLoginFragment(new ChooseActivityFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                orderListView.setVisibility(View.GONE);
             }
@@ -244,12 +245,15 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         }
 
     }
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.open_orders_list);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
-
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 }

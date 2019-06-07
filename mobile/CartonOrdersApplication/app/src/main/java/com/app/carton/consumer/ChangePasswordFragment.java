@@ -7,6 +7,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -284,6 +287,15 @@ public class ChangePasswordFragment extends Fragment
 
         }
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 }

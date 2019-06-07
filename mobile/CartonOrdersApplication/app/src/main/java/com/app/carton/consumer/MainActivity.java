@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
                     replaceLoginFragment(new ConsumerLoginFragment());
                 }else{
-                    replaceLoginFragment(new ConsumerProductsListFragment());
+                    replaceLoginFragment(new ChooseActivityFragment());
             }
             }
 
@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.open_orders_list:
                 addActionFragment(new ConsumerOrderListFragment());
                 return  true;
-                case R.id.product_list:
+            case R.id.requirements_list:
                 addActionFragment(new ConsumerRequirementsListFragment());
+                return  true;
+                case R.id.product_list:
+                addActionFragment(new ConsumerProductsListFragment());
                     return true;
             case android.R.id.home:
 //                onBackPressed();

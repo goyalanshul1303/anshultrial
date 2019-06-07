@@ -324,7 +324,7 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.consumer")){
                             if (object.optBoolean("enabled")){
-                                new MainActivity().replaceLoginFragment(new ConsumerProductsListFragment());
+                                new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                             }else{
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
                             }

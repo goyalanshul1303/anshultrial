@@ -63,15 +63,15 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
 
         }
         if (testObjtem.isAwarded()){
-            Drawable img = context.getResources().getDrawable( R.drawable.award );
-            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+//            Drawable img = context.getResources().getDrawable( R.drawable.award );
+//            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
 
             customViewHolder.awardQuotationBtn.setText("Awarded Quotation");
             customViewHolder.awardQuotationBtn.setEnabled(false);
         }else{
             customViewHolder.awardQuotationBtn.setText("Award Quotation");
-            Drawable img = context.getResources().getDrawable( R.drawable.already_awarded );
-            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+//            Drawable img = context.getResources().getDrawable( R.drawable.already_awarded );
+//            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
             customViewHolder.awardQuotationBtn.setEnabled(true);
         }
 

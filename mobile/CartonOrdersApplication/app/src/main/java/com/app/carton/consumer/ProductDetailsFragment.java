@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -186,7 +189,16 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         }
 
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
     @Override
     public void onResume() {
         super.onResume();

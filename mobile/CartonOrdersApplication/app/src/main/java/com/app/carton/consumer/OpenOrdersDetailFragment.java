@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -79,6 +82,7 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.open_order_detail, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -372,7 +376,7 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
             quotationAmount.setText("\u20B9"+ String.valueOf(data.quoteAmount));
-            int priceUnit = Integer.valueOf(data.quoteAmount) / Integer.valueOf(object.optString("quantity"));
+            float priceUnit = Float.valueOf(data.quoteAmount) / Float.valueOf(object.optString("quantity"));
            quotationStartDate.setText(Utils.getDate(data.orderStartDate));
            quotationEndDate.setText(Utils.getDate(data.orderFulfillmentDate));
            quotationPlacedDate.setText(Utils.getDate(data.quoteDate));
@@ -398,5 +402,15 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
         super.onResume();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
         getActivity().setTitle("Order Details");
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

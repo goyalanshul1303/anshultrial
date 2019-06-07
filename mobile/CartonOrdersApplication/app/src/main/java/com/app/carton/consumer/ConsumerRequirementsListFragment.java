@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -240,5 +242,14 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
         }
 
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

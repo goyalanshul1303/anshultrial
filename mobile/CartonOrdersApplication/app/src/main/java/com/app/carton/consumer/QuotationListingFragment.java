@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -81,6 +84,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.quotation_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -190,8 +194,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
             if (null != list && list.length() > 0) {
                 Gson gson = new Gson();
                 quotationDataArrayList = new ArrayList<>();
-                for (int i = 0; i < 6; i++) {
-                    QuotationData item = gson.fromJson(String.valueOf((list.optJSONObject(0))), QuotationData.class);
+                for (int i = 0; i < list.length(); i++) {
+                    QuotationData item = gson.fromJson(String.valueOf((list.optJSONObject(i))), QuotationData.class);
                     quotationDataArrayList.add(item);
                 }
                 adapter = new QuotationItemsAdapter(getActivity(), quotationDataArrayList);
@@ -433,4 +437,15 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         }
 
     }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 }
