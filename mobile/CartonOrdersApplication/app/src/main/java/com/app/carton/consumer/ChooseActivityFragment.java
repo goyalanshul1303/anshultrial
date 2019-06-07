@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.app.carton.orders.R;
 
@@ -19,7 +20,7 @@ import com.app.carton.orders.R;
 
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
-    private CardView openOrdersCardView, requiremntsCardView, productListCardView;
+    private RelativeLayout openOrdersCardView, requiremntsCardView, productListCardView;
 
     @Override
     public void onClick(View view) {
@@ -52,9 +53,9 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     }
 
     private void inflateViews() {
-        openOrdersCardView = (CardView) view.findViewById(R.id.openOrdersCardView);
-        requiremntsCardView =(CardView) view.findViewById(R.id.requiremntsCardView);
-        productListCardView = (CardView)view.findViewById(R.id.productListCardView);
+        openOrdersCardView = (RelativeLayout) view.findViewById(R.id.openOrdersCardView);
+        requiremntsCardView =(RelativeLayout) view.findViewById(R.id.requiremntsCardView);
+        productListCardView = (RelativeLayout) view.findViewById(R.id.productListCardView);
         productListCardView.setOnClickListener(this);
         requiremntsCardView.setOnClickListener(this);
         openOrdersCardView.setOnClickListener(this);
