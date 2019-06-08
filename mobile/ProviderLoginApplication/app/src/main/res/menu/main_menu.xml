@@ -8,6 +8,10 @@
         app:showAsAction="always">
     <menu>
         <item
+            android:id="@+id/ongoingOrders"
+            android:title="Ongoing Orders"
+            app:showAsAction="never|withText" />
+        <item
             android:id="@+id/productForOffers"
             android:title="Product Open For Offers"
             app:showAsAction="never|withText" />
