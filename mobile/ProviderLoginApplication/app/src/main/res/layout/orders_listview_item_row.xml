@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:padding="10dp"
-                android:text="Order Placed On "
+                android:text="Completed Order On "
                 android:textColor="#11163b"
                 android:textSize="15sp" />
 

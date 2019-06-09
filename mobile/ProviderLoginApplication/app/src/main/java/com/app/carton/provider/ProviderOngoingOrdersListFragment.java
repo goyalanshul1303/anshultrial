@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.carton.provider.OrderItemAdapter.OnItemClickListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -213,7 +212,7 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                 ordersRecyclerView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 ordersRecyclerView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OngoingOrderItemAdapter.OnItemClickListener() {
+                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Fragment newFragment = new OrderDetailFragment();
@@ -224,7 +223,6 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                         bundle.putBoolean("isFromAwardedScreen", true);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
-
                     }
                 });
             }else{

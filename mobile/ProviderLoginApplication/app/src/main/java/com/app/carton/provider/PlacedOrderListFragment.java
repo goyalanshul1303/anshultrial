@@ -198,7 +198,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 orderListView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OngoingOrderItemAdapter.OnItemClickListener() {
+                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(View view, int position) {

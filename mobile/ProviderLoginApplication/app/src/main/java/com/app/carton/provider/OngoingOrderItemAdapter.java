@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderItemAdapter.CustomViewHolder>
         implements View.OnClickListener {
-    OnItemClickListener mItemClickListener;
+    OrderItemAdapter.OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
@@ -47,7 +47,6 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         }
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText( testObjtem.quantity + " Nos");
-        customViewHolder.textLL.setOnClickListener(this);
         customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
         if (null != testObjtem.awardedQuote){
             customViewHolder.targetDate.setText(Utils.getDate(testObjtem.awardedQuote.orderFulfillmentDate));
@@ -71,7 +70,7 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
                 }
             }
         }
-        customViewHolder.textLL.setTag(i);
+        customViewHolder.topRl.setTag(i);
 
     }
 
@@ -89,7 +88,7 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView textView, quantity,priceProduct,dateAssigned,initiatedDate,targetDate;
-        RelativeLayout textLL;
+        RelativeLayout topRl;
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
 
@@ -97,12 +96,12 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL =(RelativeLayout) view.findViewById(R.id.textLL);
+            topRl =(RelativeLayout) view.findViewById(R.id.topRl);
             priceProduct = (TextView)view.findViewById(R.id.priceProduct);
             dateAssigned= (TextView)view.findViewById(R.id.dateAssigned);
             initiatedDate = (TextView)view.findViewById(R.id.initiatedDate);
             targetDate = (TextView)view.findViewById(R.id.targetDate);
-            textLL.setOnClickListener(this);
+            topRl.setOnClickListener(this);
 
         }
         @Override
@@ -121,12 +120,7 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         }
     }
 
-    public interface OnItemClickListener {
-
-        public void onItemClick(View view, int position);
-    }
-
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(final OrderItemAdapter.OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 

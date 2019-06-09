@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class PlacedOrderItemAdapter extends RecyclerView.Adapter<PlacedOrderItemAdapter.CustomViewHolder>
          {
-    OngoingOrderItemAdapter.OnItemClickListener mItemClickListener;
+    OrderItemAdapter.OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
@@ -101,7 +101,7 @@ public class PlacedOrderItemAdapter extends RecyclerView.Adapter<PlacedOrderItem
         }
     }
 
-    public void SetOnItemClickListener(final OngoingOrderItemAdapter.OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(final OrderItemAdapter.OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
