@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -78,6 +80,7 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_quotation_layout, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -261,5 +264,10 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         getActivity().setTitle("Quotation Details");
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

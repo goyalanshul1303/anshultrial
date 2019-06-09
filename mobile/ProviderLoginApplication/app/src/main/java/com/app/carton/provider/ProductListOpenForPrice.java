@@ -59,6 +59,7 @@ public class ProductListOpenForPrice extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.products_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 

@@ -46,7 +46,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
     private ProgressBar progressBar;
     DataView data = new DataView();
     Button createOrderBtn;
-    private OrderItemAdapter adapter;
+    private PlacedOrderItemAdapter adapter;
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
     Button tryAgain;
@@ -60,6 +60,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -192,12 +193,12 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                     OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
                     orderListDetailsItems.add(item);
                 }
-                adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
+                adapter = new PlacedOrderItemAdapter(getActivity(), orderListDetailsItems);
                 orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 orderListView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
+                adapter.SetOnItemClickListener(new OngoingOrderItemAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(View view, int position) {
@@ -208,7 +209,6 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                         bundle.putString("productId", item.productId);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
-
                     }
                 });
 

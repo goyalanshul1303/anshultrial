@@ -51,7 +51,7 @@ public class Utils {
     public static String getDate(long time) {
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         cal.setTimeInMillis(time );
-        String date = DateFormat.format("dd-MM-yyyy", cal).toString();
+        String date = DateFormat.format("MMM dd, yyyy", cal).toString();
         return date;
     }
 

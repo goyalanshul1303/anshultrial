@@ -73,10 +73,9 @@
         <Button
             android:id="@+id/createQuotationBtn"
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:background="@color/background_color"
+            android:background="@drawable/loginbutton_selector"
             android:padding="3dp"
             android:text="Add Quotation"
             android:textColor="@color/white"

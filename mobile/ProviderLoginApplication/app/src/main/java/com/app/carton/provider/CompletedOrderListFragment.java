@@ -206,13 +206,14 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
 
                     @Override
                     public void onItemClick(View view, int position) {
-//                        Fragment newFragment = new OrderDetailFragment();
-//                        Bundle bundle = new Bundle();
-//                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-//                        bundle.putString("orderId", item.id);
-//                        bundle.putString("productId", item.productId);
-//                        newFragment.setArguments(bundle);
-//                        MainActivity.addActionFragment(newFragment);
+                        OrderDetailFragment newFragment = new OrderDetailFragment();
+                        Bundle bundle = new Bundle();
+                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+                        bundle.putString("orderId", item.id);
+                        bundle.putString("productId", item.productId);
+                        newFragment.isFromCompleted(true);
+                        newFragment.setArguments(bundle);
+                        MainActivity.addActionFragment(newFragment);
 
                     }
                 });

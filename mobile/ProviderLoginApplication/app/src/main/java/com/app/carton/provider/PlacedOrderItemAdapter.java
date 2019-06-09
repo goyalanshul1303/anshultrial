@@ -16,14 +16,14 @@ import java.util.ArrayList;
  * Created by aggarwal.swati on 2/8/19.
  */
 
-public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderItemAdapter.CustomViewHolder>
-        implements View.OnClickListener {
-    OnItemClickListener mItemClickListener;
+public class PlacedOrderItemAdapter extends RecyclerView.Adapter<PlacedOrderItemAdapter.CustomViewHolder>
+         {
+    OngoingOrderItemAdapter.OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
 
-    public OngoingOrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data){
+    public PlacedOrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data){
         context = mContext;
         this.data = data;
 
@@ -31,7 +31,7 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.ongoing_list_item, null);
+                .inflate(R.layout.order_placed_item, null);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
@@ -45,32 +45,18 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         }else{
             customViewHolder.textView.setText(testObjtem.productName);
         }
+        customViewHolder.orderId.setText(testObjtem.id);
+//        if ( testObjtem.orderAmount>0){
+//            customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
+//            customViewHolder.priceProduct.setVisibility(View.VISIBLE);
+//        }else {
+//            customViewHolder.priceProduct.setVisibility(View.GONE);
+//        }
+        customViewHolder.date.setText(Utils.getDate(testObjtem.orderDate));
+
+
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText( testObjtem.quantity + " Nos");
-        customViewHolder.textLL.setOnClickListener(this);
-        customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
-        if (null != testObjtem.awardedQuote){
-            customViewHolder.targetDate.setText(Utils.getDate(testObjtem.awardedQuote.orderFulfillmentDate));
-        }else{
-            customViewHolder.targetDate.setText("N/A");
-
-        }
-        if (null!=testObjtem.statuses){
-            for (int j = 0; j < testObjtem.statuses.size(); j++){
-                OrderStatus orderStatus = testObjtem.statuses.get(j);
-                if (orderStatus.status == 2){
-                    customViewHolder.dateAssigned.setText(Utils.getDate(orderStatus.statusDate));
-                }else {
-                    customViewHolder.dateAssigned.setText("N/A");
-
-                } if (orderStatus.status == 3){
-                    customViewHolder.initiatedDate.setText(Utils.getDate(orderStatus.statusDate));
-                }else {
-                    customViewHolder.initiatedDate.setText("N/A");
-
-                }
-            }
-        }
         customViewHolder.textLL.setTag(i);
 
     }
@@ -80,16 +66,11 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         return (null != data ? data.size() : 0);
     }
 
-    @Override
-    public void onClick(View view) {
-
-    }
-
 
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView textView, quantity,priceProduct,dateAssigned,initiatedDate,targetDate;
-        RelativeLayout textLL;
+        TextView textView, quantity,orderId,orderStatus,date;
+        LinearLayout textLL;
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
 
@@ -97,12 +78,11 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL =(RelativeLayout) view.findViewById(R.id.textLL);
-            priceProduct = (TextView)view.findViewById(R.id.priceProduct);
-            dateAssigned= (TextView)view.findViewById(R.id.dateAssigned);
-            initiatedDate = (TextView)view.findViewById(R.id.initiatedDate);
-            targetDate = (TextView)view.findViewById(R.id.targetDate);
+            textLL =(LinearLayout) view.findViewById(R.id.textLL);
             textLL.setOnClickListener(this);
+            orderId = (TextView)view.findViewById(R.id.orderId);
+            orderStatus = (TextView)view.findViewById(R.id.awardedStatus);
+            date = (TextView)view.findViewById(R.id.date);
 
         }
         @Override
@@ -121,14 +101,8 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         }
     }
 
-    public interface OnItemClickListener {
-
-        public void onItemClick(View view, int position);
-    }
-
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(final OngoingOrderItemAdapter.OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
-
 
 }

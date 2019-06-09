@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -51,6 +53,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     boolean isFromAwarded ;
     private int orderStatus;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
+    private boolean isFromCompleted;
 
     public OrderDetailFragment() {
 
@@ -71,6 +74,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.placed_order_details, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -95,7 +99,13 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             // show status change button
         }
 
+
     }
+
+    public void isFromCompleted(boolean b) {
+        isFromCompleted = b;
+    }
+
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -177,7 +187,11 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void parseListingData(JSONObject result) {
-        addQuotationBtn.setVisibility(View.VISIBLE);
+        if (isFromCompleted ){
+            addQuotationBtn.setVisibility(View.GONE);
+        }else{
+            addQuotationBtn.setVisibility(View.VISIBLE);
+        }
         if ( isFromAwarded) {
             if (orderStatus >= 4)
                 addQuotationBtn.setVisibility(View.GONE);
@@ -483,5 +497,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             statuLL.addView(v);
 
         }
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

@@ -52,7 +52,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/productName"
-                        android:layout_marginLeft="10dp"
                         android:text="123 nos"
                         android:textColor="@color/course_heading_color"
                         android:textSize="17sp" />
@@ -113,7 +112,7 @@
                             android:gravity="center"
                             android:paddingLeft="10dp"
                             android:paddingBottom="10dp"
-                            android:text="19/10/2019"
+                            android:text="N/A"
                             android:textColor="#6269a4"
                             android:textSize="14sp" />
 
@@ -141,7 +140,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="10dp"
-                            android:text="Rs 1000"
+                            android:text="N/A"
                             android:gravity="center"
                             android:textColor="#6269a4"
                             android:textSize="14sp" />
@@ -172,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingBottom="10dp"
-                        android:text="09/06/2039"
+                        android:text="N/A"
                         android:gravity="center"
                         android:textColor="#6269a4"
                         android:textSize="14sp" />

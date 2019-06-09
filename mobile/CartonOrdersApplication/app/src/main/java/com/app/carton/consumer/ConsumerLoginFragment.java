@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -71,9 +72,13 @@ public class ConsumerLoginFragment extends Fragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Login");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+    }
     // Initiate Views
     private void initViews() {
 

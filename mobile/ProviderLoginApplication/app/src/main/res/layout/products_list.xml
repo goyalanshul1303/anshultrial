@@ -49,7 +49,7 @@
             android:layout_margin="10dp"
             android:gravity="center_horizontal"
             android:lines="3"
-            android:text="No Products added by you"
+            android:text="No Products available for offers pricing, Kindly wait ."
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="14sp"
             android:visibility="visible"

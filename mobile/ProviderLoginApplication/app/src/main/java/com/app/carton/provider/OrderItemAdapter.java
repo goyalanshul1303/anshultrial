@@ -2,10 +2,12 @@ package com.app.carton.provider;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.CustomViewHolder>
-        implements View.OnClickListener {
+         {
     OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
@@ -43,9 +45,17 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         }else{
             customViewHolder.textView.setText(testObjtem.productName);
         }
+        if ( testObjtem.orderAmount>0){
+            customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
+            customViewHolder.priceProduct.setVisibility(View.VISIBLE);
+        }else {
+            customViewHolder.priceProduct.setVisibility(View.GONE);
+        }
+        customViewHolder.date.setText(Utils.getDate(testObjtem.orderDate));
+
+
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
-        customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
-        customViewHolder.textLL.setOnClickListener(this);
+        customViewHolder.quantity.setText( testObjtem.quantity + " Nos");
         customViewHolder.textLL.setTag(i);
 
     }
@@ -56,19 +66,37 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView textView, quantity;
-        LinearLayout textLL;
+        TextView textView, quantity,priceProduct,orderStatus,date;
+        RelativeLayout textLL;
+        private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
 
         public CustomViewHolder(View view) {
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL =(LinearLayout)view.findViewById(R.id.textLL);
+            textLL =(RelativeLayout) view.findViewById(R.id.textLL);
+            textLL.setOnClickListener(this);
+            priceProduct = (TextView)view.findViewById(R.id.priceProduct);
+            orderStatus = (TextView)view.findViewById(R.id.orderStatus);
+            date = (TextView)view.findViewById(R.id.date);
 
-
+        }
+        @Override
+        public void onClick(View view) {
+            if (selectedItems.get(getAdapterPosition(), false)) {
+                selectedItems.delete(getAdapterPosition());
+                view.setSelected(false);
+            }
+            else {
+                selectedItems.put(getAdapterPosition(), true);
+                view.setSelected(true);
+            }
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view, (Integer) view.getTag());
+            }
         }
 
     }
@@ -82,10 +110,4 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
         this.mItemClickListener = mItemClickListener;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (mItemClickListener != null) {
-            mItemClickListener.onItemClick(view, (Integer) view.getTag());
-        }
-    }
 }
