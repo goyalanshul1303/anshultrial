@@ -9,12 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        >
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_margin="10dp">
+
+            android:layout_margin="20dp">
 
             <TextView
                 android:id="@+id/bannerImage"
@@ -35,23 +36,28 @@
             android:layout_margin="10dp"
             android:background="@drawable/divider"></View>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
 
             <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:columnCount="2"
+                android:layout_marginTop="20dp"
                 android:rowCount="2">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    android:layout_margin="10dp">
                 <LinearLayout
                     android:id="@+id/progressCardView"
                     android:layout_width="wrap_content"
                     android:padding="10dp"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content">
 
                     <FrameLayout
@@ -104,14 +110,23 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    android:layout_margin="10dp">
                 <LinearLayout
                     android:id="@+id/completedCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:padding="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="vertical"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginTop="20dp">
                     <FrameLayout
                         android:id="@+id/completed"
                         android:layout_gravity="center"
@@ -161,13 +176,19 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    android:layout_margin="10dp">
                 <LinearLayout
                     android:id="@+id/waitingCardView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginBottom="20dp"
                     android:orientation="vertical">
 
@@ -217,13 +238,21 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="8dp"
+                    android:layout_margin="10dp">
                 <LinearLayout
                     android:id="@+id/pricingCardView"
                     android:padding="10dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
                     android:layout_height="wrap_content">
 
                     <FrameLayout
@@ -276,7 +305,7 @@
 
                     </LinearLayout>
                 </LinearLayout>
+                </android.support.v7.widget.CardView>
             </GridLayout>
-        </android.support.v7.widget.CardView>
     </LinearLayout>
 </LinearLayout>
