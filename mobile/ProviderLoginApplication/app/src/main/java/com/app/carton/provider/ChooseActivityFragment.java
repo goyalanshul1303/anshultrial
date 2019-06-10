@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,21 +19,10 @@ import android.widget.RelativeLayout;
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
     private LinearLayout completedCardView, waitingCardView, progressCardView,pricingCardView;
-
+    RecyclerView recyclerView;
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.progressCardView){
-            // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ProviderOngoingOrdersListFragment());
 
-        }else if (view.getId() == R.id.completedCardView){
-            MainActivity.addActionFragment(new CompletedOrderListFragment());
-        }else if (view.getId() == R.id.waitingCardView){
-            MainActivity.addActionFragment(new PlacedOrderListFragment());
-        }
-        else if (view.getId() == R.id.pricingCardView){
-            MainActivity.addActionFragment(new ProductListOpenForPrice());
-        }
 
 
     }
@@ -53,14 +43,29 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     }
 
     private void inflateViews() {
-        completedCardView = (LinearLayout) view.findViewById(R.id.completedCardView);
-        waitingCardView =(LinearLayout) view.findViewById(R.id.waitingCardView);
-        progressCardView = (LinearLayout) view.findViewById(R.id.progressCardView);
-        pricingCardView =(LinearLayout)view.findViewById(R.id.pricingCardView);
-        pricingCardView.setOnClickListener(this);
-        progressCardView.setOnClickListener(this);
-        waitingCardView.setOnClickListener(this);
-        completedCardView.setOnClickListener(this);
 
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        ActionAdapter adapter = new ActionAdapter(4);
+        recyclerView.setAdapter(adapter);
+        adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if ((int)view.getTag() == 0){
+                    // Get FragmentManager and FragmentTransaction object.
+                    MainActivity.addActionFragment(new ProviderOngoingOrdersListFragment());
+
+                }else if ((int)view.getTag() == 1){
+                    MainActivity.addActionFragment(new CompletedOrderListFragment());
+                }else if ((int)view.getTag() == 2){
+                    MainActivity.addActionFragment(new PlacedOrderListFragment());
+                }
+                else if ((int)view.getTag() == 3){
+                    MainActivity.addActionFragment(new ProductListOpenForPrice());
+                }
+
+            }
+        });
     }
 }
