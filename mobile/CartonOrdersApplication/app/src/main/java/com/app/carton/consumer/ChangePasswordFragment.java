@@ -7,6 +7,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -40,15 +44,16 @@ public class ChangePasswordFragment extends Fragment
 
     protected final String ID_CHANGE_PASSWORD = "change_password";
     private View view;
+    TextView oldPassError, newPassError, confirmPassError;
     Button changePassword;
     private EditText oldPasswordEditText, newPassowrdEditText,
             confirmPasswordEditText;
-    private TextInputLayout inputLayoutOldPassword, inputLayoutPassword,
-            inputLayoutConfirmPassword;
+
 
 
     private FragmentActivity mActivity;
     private ProgressBar progressBar;
+    private String oldPasswod,newPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,10 +68,9 @@ public class ChangePasswordFragment extends Fragment
         oldPasswordEditText = (EditText) view.findViewById(R.id.oldPasswordEditText);
         newPassowrdEditText = (EditText) view.findViewById(R.id.newPasswordEditText);
         confirmPasswordEditText = (EditText) view.findViewById(R.id.changeConfirmEditText);
-        inputLayoutOldPassword = (TextInputLayout) view.findViewById(R.id.input_layout_old_password);
-        inputLayoutConfirmPassword = (TextInputLayout) view.findViewById(R.id.input_layout_change_confirm_password);
-        inputLayoutPassword = (TextInputLayout) view.findViewById(R.id.input_layout_new_password);
-
+        oldPassError = (TextView)view.findViewById(R.id.oldPassError);
+        newPassError = (TextView)view.findViewById(R.id.newPassError);
+        confirmPassError = (TextView)view.findViewById(R.id.confirmPassError);
         changePassword = (Button) view.findViewById(R.id.btn_change_password);
         changePassword.setOnClickListener(this);
 
@@ -108,6 +112,8 @@ public class ChangePasswordFragment extends Fragment
         if (!validateConfirmPassword()) {
             return;
         }
+        oldPasswod = oldPasswordEditText.getText().toString();
+        newPassword = newPassowrdEditText.getText().toString();
         new SubmitPassword().execute();
     }
 
@@ -123,26 +129,33 @@ public class ChangePasswordFragment extends Fragment
 
         if (oldPasswordEditText.getText().toString().trim()
                 .isEmpty()) {
-            inputLayoutOldPassword
-                    .setError(getString(R.string.err_msg_password));
+            oldPassError
+                    .setVisibility(View.VISIBLE);
             requestFocus(oldPasswordEditText);
+
             return false;
-        } else {
-            inputLayoutOldPassword.setErrorEnabled(false);
+        }else{
+            oldPassError
+                    .setVisibility(View.GONE);
         }
 
         return true;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Reset Password");
+    }
+
 
     private boolean validatePassword() {
         if (newPassowrdEditText.getText().toString().trim()
                 .isEmpty()) {
-            inputLayoutPassword
-                    .setError(getString(R.string.err_msg_password));
+            newPassError.setVisibility(View.VISIBLE);
             requestFocus(newPassowrdEditText);
             return false;
         } else {
-            inputLayoutPassword.setErrorEnabled(false);
+            newPassError.setVisibility(View.GONE);
         }
 
         return true;
@@ -151,8 +164,7 @@ public class ChangePasswordFragment extends Fragment
     private boolean validateConfirmPassword() {
         if (confirmPasswordEditText.getText().toString().trim()
                 .isEmpty()) {
-            inputLayoutConfirmPassword
-                    .setError(getString(R.string.err_msg_confirm));
+            confirmPassError.setVisibility(View.VISIBLE);
             requestFocus(confirmPasswordEditText);
             return false;
 
@@ -163,13 +175,13 @@ public class ChangePasswordFragment extends Fragment
                 .equalsIgnoreCase(
                         newPassowrdEditText.getText().toString()
                                 .trim())) {
-            inputLayoutConfirmPassword
-                    .setError(getString(R.string.err_msg_confirm_no_match));
+            confirmPassError.setVisibility(View.VISIBLE);
+                    confirmPassError.setText("Your passwords do not match, Please try again.");
             requestFocus(confirmPasswordEditText);
             return false;
 
         } else {
-            inputLayoutConfirmPassword.setErrorEnabled(false);
+            confirmPassError.setVisibility(View.GONE);
         }
 
         return true;
@@ -205,8 +217,8 @@ public class ChangePasswordFragment extends Fragment
                 JSONObject object = null;
                 try {
                     object = new JSONObject();
-                    object.put("oldPassword", oldPasswordEditText.getText().toString());
-                    object.put("newPassword", newPassowrdEditText.getText().toString());
+                    object.put("oldPassword", oldPasswod);
+                    object.put("newPassword", newPassword);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -275,6 +287,15 @@ public class ChangePasswordFragment extends Fragment
 
         }
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 }

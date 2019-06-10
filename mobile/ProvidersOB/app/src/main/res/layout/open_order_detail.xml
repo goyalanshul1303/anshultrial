@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_greyish">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:id="@+id/cardView"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/background_color"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/quantityOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/productName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/quantityOrder"
+
+                android:orientation="vertical" android:id="@+id/quotationLL">
+            <TextView
+                android:id="@+id/quotationAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Amount"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/quotationStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/quotationAmount"
+                android:text="Start date"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/quotationEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/quotationStartDate"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/quotationPlacedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/quotationEndDate"
+                android:text="Quotation Placed Date"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_below="@id/quantityOrder"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content" android:id="@+id/noQuoteText"
+                android:text="No Quotation awarded for this order yet"/>
+        </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible" />
+
+
+    </android.support.v7.widget.CardView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/statuLL"
+        android:layout_margin="10dp"
+android:layout_below="@+id/cardView"        android:orientation="vertical"
+        android:layout_height="wrap_content"></LinearLayout>
+</RelativeLayout>

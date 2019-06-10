@@ -11,11 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -49,7 +52,8 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
     private OrderItemAdapter adapter;
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
-
+    private Button tryAgain;
+    TextView nothing_available;
     public ConsumerRequirementsListFragment() {
 
     }
@@ -78,8 +82,6 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
         orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
 
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        goToProductBtn = (Button)view.findViewById(R.id.goToProductBtn);
-        goToProductBtn.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
     }
@@ -145,30 +147,39 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                     } else if (result.trim().charAt(0) == '{') {
                         try {
                             object = new JSONObject(result);
-                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                                Toast.makeText(getActivity(), "Something went wrong please try again",
-                                        Toast.LENGTH_LONG).show();
+                            if (null != object && !object.optString("status").isEmpty()) {
+                                if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                    Toast.makeText(getActivity(), "You have been logged out",
+                                            Toast.LENGTH_LONG).show();
+                                }
                                 MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+
+                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                {
+                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                    orderListView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
+
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        if (null != getActivity()) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
-                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
-                        }
-
+                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                        orderListView.setVisibility(View.GONE);
+                        tryAgain.setVisibility(View.VISIBLE);
+                        nothing_available.setText("Something went wrong, Please try again");
                     }
-
 
                 } else {
-                    if (null != getActivity()) {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
-                    }
+                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                    orderListView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
+
+
                 }
             }else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
@@ -226,13 +237,19 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.goToProductBtn){
-            ConsumerRequirementsListFragment fragment = new ConsumerRequirementsListFragment();
-            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
+        if (view.getId()== R.id.tryAgain){
+            new GetAllProductsAsyncTask().execute();
         }
-    }
 
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }

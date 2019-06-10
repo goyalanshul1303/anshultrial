@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/details_bg">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingRight="10dp"
+            android:id="@+id/parentLL">
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Folder name here."
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/cartonType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+
+                android:text="Folder name here."
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/corrugationType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/sheetLayerType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Folder name here."
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/printingType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Folder name here."
+                android:textColor="@color/color_dashboard_papers_text"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/expectedQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/statuLL"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content"></LinearLayout>
+            <Button
+                android:id="@+id/addQuotationBtn"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@color/background_color"
+                android:padding="3dp"
+                android:text="Add Quotation"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+            <Button
+                android:id="@+id/checkQuotations"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@color/background_color"
+                android:padding="3dp"
+                android:text="Check Quotations"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+</RelativeLayout>

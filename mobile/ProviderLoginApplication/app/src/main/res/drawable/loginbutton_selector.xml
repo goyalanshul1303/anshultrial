@@ -10,9 +10,9 @@
 
     <!-- By default the background will be this item -->
     <item><shape android:shape="rectangle">
-        <corners android:radius="3dp" />
+        <corners android:radius="6dp" />
 
-        <solid android:color="@color/white_greyish" />
+        <solid android:color="@color/button_login" />
     </shape></item>
 
 </selector>

@@ -10,6 +10,10 @@
         <item name="colorControlNormal">@color/resume_btn_color</item>
 
     </style>
+    <style name="Theme.MyFancyTheme" parent="android:Theme.Holo">
+        <item name="android:homeAsUpIndicator">@drawable/back</item>
+    </style>
+
     <style name="btnActionStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

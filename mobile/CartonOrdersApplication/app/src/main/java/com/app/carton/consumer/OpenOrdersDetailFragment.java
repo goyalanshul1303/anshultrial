@@ -13,15 +13,20 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
+import com.github.vipulasri.timelineview.TimelineView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -55,9 +60,10 @@ public class OpenOrdersDetailFragment extends Fragment implements View.OnClickLi
     String orderId,quoteId;
     private int awardPosition;
     private boolean isFromOpenOrders;
-    private TextView quantity, productName;
+    private TextView quantity, productName,pricePerUnit;
     private String productId;
-LinearLayout orderStatusLL, quotationDataLL;
+        LinearLayout orderStatusLL;
+        TableLayout quotationDataLL;
     public OpenOrdersDetailFragment() {
 
     }
@@ -76,6 +82,7 @@ LinearLayout orderStatusLL, quotationDataLL;
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.open_order_detail, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -83,7 +90,7 @@ LinearLayout orderStatusLL, quotationDataLL;
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
+pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
         productName = (TextView)view.findViewById(R.id.productName);
         quantity = (TextView)view.findViewById(R.id.quantityOrder);
 //        productDetailLInk = (TextView) view.findViewById(R.id.productDetailLInk);
@@ -93,7 +100,7 @@ LinearLayout orderStatusLL, quotationDataLL;
         quotationEndDate = (TextView)view.findViewById(R.id.quotationEndDate);
         quotationAmount = (TextView)view.findViewById(R.id.quotationAmount);
         noQuoteText =(TextView) view.findViewById(R.id.noQuoteText);
-        quotationDataLL = (LinearLayout)view.findViewById(R.id.quotationLL);
+        quotationDataLL = (TableLayout) view.findViewById(R.id.quotationDataLL);
         orderStatusLL = (LinearLayout)view.findViewById(R.id.statuLL);
 
         new FetchOrderDetailsTask().execute();
@@ -103,37 +110,55 @@ LinearLayout orderStatusLL, quotationDataLL;
     private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int i = 0;
-        for ( i = 0 ; i < arrayList.size() ; i++){
-            View v = vi.inflate(R.layout.order_status, null);
-            // fill in any details dynamically here
-            TextView textView = (TextView) v.findViewById(R.id.statusText);
-            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
-            OrderStatus statusObj = arrayList.get(i);
-            onText.setVisibility(View.VISIBLE);
-            textDateView.setVisibility(View.VISIBLE);
-            textDateView.setText(Utils.getDate(statusObj.statusDate));
-            textView.setText(Utils.getOrderStatusText(statusObj.status));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.thumbsup);
-//            else{
-//                view.setBackgroundResource(R.drawable.undelivered);
-//            }
-            orderStatusLL.addView(v);
+        if (arrayList.size() > 0) {
+            for (i = 0; i < arrayList.size(); i++) {
+                View v = vi.inflate(R.layout.order_status, null);
+                TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+                timelineView.setMarker(getActivity().getResources().getDrawable(R.drawable.order_details));
+
+                // fill in any details dynamically here
+                TextView textView = (TextView) v.findViewById(R.id.statusText);
+                TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+                OrderStatus statusObj = arrayList.get(i);
+                textDateView.setVisibility(View.VISIBLE);
+                if (i == 0) {
+                    timelineView.initLine(1);
+//
+                } else if (i == 8) {
+                    timelineView.initLine(2);
+                } else {
+                    timelineView.initLine(4);
+                }
+                textDateView.setText(Utils.getDateWithTime(statusObj.statusDate));
+                textView.setText(Utils.getOrderStatusText(statusObj.status));
+                orderStatusLL.addView(v);
+            }
         }
         for ( int j = i+1  ; j <= 9 ; j++){
             View v = vi.inflate(R.layout.order_status, null);
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             textView.setText(Utils.getOrderStatusText(j));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.undelivered);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
-            onText.setVisibility(View.GONE);
-            textDateView.setVisibility(View.GONE);
+            TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details_grey ));
+            textDateView.setVisibility(View.INVISIBLE);
+            if (j==9){
+                timelineView.setStartLineColor(R.color.inactive,2);
+            }else if(j == i+1  && arrayList.size() == 0){
+                timelineView.setStartLineColor(R.color.inactive,1);
+                timelineView.setEndLineColor(R.color.inactive,1);
+                timelineView.initLine(1);
+            }
+            else{
+                timelineView.setStartLineColor(R.color.inactive,0);
+                timelineView.setEndLineColor(R.color.inactive,0);
+                timelineView.initLine(0);
+
+            }
             orderStatusLL.addView(v);
 
         }
+
     }
 //    public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 //
@@ -340,25 +365,28 @@ LinearLayout orderStatusLL, quotationDataLL;
         }
     }
     void  parseOrderListingData(JSONObject object){
-        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+        productName.setText(object.optString("productName"));
+       quantity.setText( object.optString("quantity") + " Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");
         Gson gson = new Gson();
         if (null!= object.optJSONObject("awardedQuote")){
+
             quotationDataLL.setVisibility(View.VISIBLE);
             noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
-            Utils.setDetailsTextField("Quotation Amount   \u20B9", getActivity(), quotationAmount,String.valueOf(data.quoteAmount));
-            Utils.setDetailsTextField("Quotation Start Date", getActivity(), quotationStartDate, Utils.getDate(data.orderStartDate));
-            Utils.setDetailsTextField("Quotation End Date", getActivity(), quotationEndDate, Utils.getDate(data.orderFulfillmentDate));
-            Utils.setDetailsTextField("Quotation Placed Date", getActivity(), quotationPlacedDate, Utils.getDate(data.quoteDate));
+            quotationAmount.setText("\u20B9"+ String.valueOf(data.quoteAmount));
+            float priceUnit = Float.valueOf(data.quoteAmount) / Float.valueOf(object.optString("quantity"));
+           quotationStartDate.setText(Utils.getDate(data.orderStartDate));
+           quotationEndDate.setText(Utils.getDate(data.orderFulfillmentDate));
+           quotationPlacedDate.setText(Utils.getDate(data.quoteDate));
+            String s = String.format("%.2f", priceUnit);
+           pricePerUnit.setText("\u20B9"+ s);
         }else{
             quotationDataLL.setVisibility(View.GONE);
             noQuoteText.setVisibility(View.VISIBLE);
         }
         ArrayList<OrderStatus> arrayList = new ArrayList<>();
-
         if (null!= object.optJSONArray("statuses")){
             for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){
                 OrderStatus orderStatus = gson.fromJson(String.valueOf(object.optJSONArray("statuses").opt(i)), OrderStatus.class);
@@ -375,5 +403,15 @@ LinearLayout orderStatusLL, quotationDataLL;
         super.onResume();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
         getActivity().setTitle("Order Details");
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

@@ -12,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class ProductListOpenForPrice extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.products_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -73,7 +75,6 @@ public class ProductListOpenForPrice extends Fragment implements View.OnClickLis
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
-
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoProductAdded);
 
         new GetAllProductsAsyncTask().execute();
@@ -206,22 +207,22 @@ public class ProductListOpenForPrice extends Fragment implements View.OnClickLis
         }
     }
 
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-
-        MenuItem item=menu.findItem(R.id.placed_order);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
     }
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.createOrderBtn){
-//            OrderDetailFragment fragment = new OrderDetailFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-//            fragment.setArguments(bundle);
-//            MainActivity.addActionFragment(fragment);
+        if (view.getId()== R.id.tryAgain){
+            new GetAllProductsAsyncTask().execute();
         }
+
     }
 
 }

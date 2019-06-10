@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -68,7 +71,6 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         addOrderBtn = (Button)view.findViewById(R.id.addOrderBtn);
-        quantity = (TextView)view.findViewById(R.id.expectedQuantity);
         sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
         productName = (TextView)view.findViewById(R.id.productName);
         printingType = (TextView)view.findViewById(R.id.printingType);
@@ -163,15 +165,11 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private void parseListingData(JSONObject result) {
         productNameString = result.optString("name");
-        Utils.setDetailsTextField("Name", getActivity(), productName, result.optString("name"));
-
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
-        Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-            quantity.setVisibility(View.GONE);
-//        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
-
-        Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
-        Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        productName.setText(result.optString("name"));
+       cartonType.setText(result.optString("cartonType"));
+        sheetLayerType.setText(result.optString("sheetLayerType"));
+       corrugationType.setText(String.valueOf(result.optString("corrugationType")));
+        printingType.setText(String.valueOf(result.optString("printingType")));
         Gson gson = new Gson();
          dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
@@ -191,7 +189,16 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         }
 
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
     @Override
     public void onResume() {
         super.onResume();

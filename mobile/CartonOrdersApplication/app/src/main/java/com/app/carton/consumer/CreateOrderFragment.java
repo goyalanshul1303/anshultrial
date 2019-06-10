@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -73,7 +76,6 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_order, container, false);
 
-
         isFromProductDetail = getArguments().containsKey("isFromProductDetail") ? getArguments().getBoolean("isFromProductDetail") : false;
            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
 
@@ -92,8 +94,6 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
     // Initiate Views
     private void initViews() {
-        ScrollView mainScrollView= (ScrollView) view.findViewById(R.id.mainScrollView);
-        mainScrollView.smoothScrollTo(0,0);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);
@@ -281,5 +281,15 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                 e.printStackTrace();
             }
         }
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

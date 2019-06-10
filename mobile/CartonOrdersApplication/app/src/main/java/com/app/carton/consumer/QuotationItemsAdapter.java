@@ -49,11 +49,12 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
     @Override
     public void onBindViewHolder(QuotationItemsAdapter.CustomViewHolder customViewHolder, int i) {
         QuotationData testObjtem = data.get(i);
-        Utils.setDetailsTextField("Quotation Amount   \u20B9", context, customViewHolder.quotationAmount,String.valueOf(testObjtem.quoteAmount));
-        Utils.setDetailsTextField("Quotation Start Date", context, customViewHolder.quotationStartDate, Utils.getDate(testObjtem.orderStartDate));
-        Utils.setDetailsTextField("Quotation End Date", context, customViewHolder.quotationEndDate, Utils.getDate(testObjtem.orderFulfillmentDate));
-        Utils.setDetailsTextField("Quotation Placed Date", context, customViewHolder.quotationPlacedDate, Utils.getDate(testObjtem.quoteDate));
+        customViewHolder.quotationAmount.setText("\u20B9 " +String.valueOf(testObjtem.quoteAmount));
+       customViewHolder.quotationStartDate.setText(Utils.getDate(testObjtem.orderStartDate));
+        customViewHolder.quotationEndDate.setText(Utils.getDate(testObjtem.orderFulfillmentDate));
+        customViewHolder.quotationPlacedDate.setText(Utils.getDate(testObjtem.quoteDate));
         customViewHolder.awardQuotationBtn.setTag(i);
+
         customViewHolder.awardQuotationBtn.setOnClickListener(this);
         if (isFromOpenOrders){
             customViewHolder.awardQuotationBtn.setVisibility(View.GONE);
@@ -62,15 +63,18 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
 
         }
         if (testObjtem.isAwarded()){
-            Drawable img = context.getResources().getDrawable( R.drawable.award );
-            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
 
-            customViewHolder.awardQuotationBtn.setText("Awarded Quotation");
+            Drawable img = context.getResources().getDrawable( R.drawable.quotations_awarded );
+//            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+            customViewHolder.awardQuotationBtn.setBackground(img);
+//            customViewHolder.awardQuotationBtn.setText("Awarded Quotation");
             customViewHolder.awardQuotationBtn.setEnabled(false);
         }else{
-            customViewHolder.awardQuotationBtn.setText("Award Quotation");
-            Drawable img = context.getResources().getDrawable( R.drawable.already_awarded );
-            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
+            Drawable img = context.getResources().getDrawable( R.drawable.quotations_award );
+//            customViewHolder.awardQuotationBtn.setText("Award Quotation");
+            customViewHolder.awardQuotationBtn.setBackground(img);
+//            Drawable img = context.getResources().getDrawable( R.drawable.already_awarded );
+//            customViewHolder.awardQuotationBtn.setCompoundDrawablesWithIntrinsicBounds( img, null, null, null);
             customViewHolder.awardQuotationBtn.setEnabled(true);
         }
 
@@ -84,7 +88,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        TextView quotationPlacedDate, quotationEndDate,quotationStartDate, quotationAmount;
+        TextView quotationPlacedDate, quotationEndDate,quotationStartDate, quotationAmount,pricePerUnit;
 
         Button awardQuotationBtn;
 
@@ -96,6 +100,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
             quotationEndDate = (TextView)view.findViewById(R.id.quotationEndDate);
             quotationAmount = (TextView)view.findViewById(R.id.quotationAmount);
             awardQuotationBtn = (Button) view.findViewById(R.id.awardQuotationBtn);
+            pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
 
         }
 

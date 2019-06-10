@@ -12,11 +12,13 @@ import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -50,7 +52,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
     private OrderItemAdapter adapter;
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
-
+    private Button tryAgain;
+    TextView nothing_available;
     public ConsumerOrderListFragment() {
 
     }
@@ -79,9 +82,10 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
         orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
 
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        goToProductBtn = (Button)view.findViewById(R.id.goToProductBtn);
-        goToProductBtn.setOnClickListener(this);
 
+        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        tryAgain.setOnClickListener(this);
+        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
         new GetAllOpenOrdersAsyncTask().execute();
     }
 
@@ -138,40 +142,50 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
             progressBar.setVisibility(View.GONE);
 
 //
-            if(isVisible()){
+            if(isVisible()) {
                 if (null != result) {
-                    if(result.trim().charAt(0) == '[') {
-                        Log.e("Response is : " , "JSONArray");
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
                         parseListingData(result);
-                    } else if(result.trim().charAt(0) == '{') {
+                    } else if (result.trim().charAt(0) == '{') {
                         try {
                             object = new JSONObject(result);
-                            if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                                Toast.makeText(getActivity(), "Something went wrong please try again",
-                                        Toast.LENGTH_LONG).show();
+                            if (null != object && !object.optString("status").isEmpty()) {
+                                if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                    Toast.makeText(getActivity(), "You have been logged out",
+                                            Toast.LENGTH_LONG).show();
+                                }
                                 MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+
+                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                {
+                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                    orderListView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
+
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else  {
-                        if (null!= getActivity()){
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
-                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
-                        }
-
+                    } else {
+                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                        orderListView.setVisibility(View.GONE);
+                        tryAgain.setVisibility(View.VISIBLE);
+                        nothing_available.setText("Something went wrong, Please try again");
                     }
 
+                } else {
+                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                    orderListView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
 
-                }else  {
-                    if (null!= getActivity()) {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
-                    }
+
                 }
-            }else{
+            }
+                else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -214,7 +228,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
             }else{
                 // take user to open products  screen
-              MainActivity.replaceLoginFragment(new ConsumerProductsListFragment());
+              MainActivity.replaceLoginFragment(new ChooseActivityFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                orderListView.setVisibility(View.GONE);
             }
@@ -226,20 +240,20 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.goToProductBtn){
-            ConsumerOrderListFragment fragment = new ConsumerOrderListFragment();
-            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
+        if (view.getId()== R.id.tryAgain){
+            new GetAllOpenOrdersAsyncTask().execute();
         }
+
     }
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.open_orders_list);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
-
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
 }

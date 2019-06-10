@@ -4,7 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="email">Email Id</string>
     <string name="passowrd">Password</string>
-    <string name="login">Welcome To CartonWale</string>
+    <string name="login">Sign In</string>
     <string name="show_pwd">Show Password</string>
     <string name="hide_pwd">Hide Password</string>
     <string name="forgot">Forgot password?</string>
@@ -24,7 +24,7 @@
     <string name="create_new_order">Create New Order</string>
     <string name="last_order_placed">Last Order placed</string>
     <string name="repeat_order">Repeat Order</string>
-    <string name="txt_change_password">Change Password</string>
+    <string name="txt_change_password">Reset</string>
     <string name="err_msg_password">Please fill password</string>
     <string name="err_msg_confirm">Please confirm your password</string>
     <string name="err_msg_confirm_no_match">Your passwords do not match</string>

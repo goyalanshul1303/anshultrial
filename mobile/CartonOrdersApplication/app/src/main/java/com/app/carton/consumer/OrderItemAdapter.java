@@ -22,18 +22,18 @@ import java.util.Locale;
  * Created by aggarwal.swati on 2/8/19.
  */
 
-public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.CustomViewHolder>
-         {
+public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.CustomViewHolder> {
     OnItemClickListener mItemClickListener;
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
 
-    public OrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data){
+    public OrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data) {
         context = mContext;
         this.data = data;
 
     }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
@@ -48,21 +48,16 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
         OrdersListDetailsItem testObjtem = data.get(i);
-        if (null == testObjtem.productName || testObjtem.productName.isEmpty() ){
+        if (null == testObjtem.productName || testObjtem.productName.isEmpty()) {
             customViewHolder.textView.setText("N/A");
-        }else{
+        } else {
             customViewHolder.textView.setText(testObjtem.productName);
         }
         customViewHolder.orderId.setText(testObjtem.id);
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
-        customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
-
-            customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
-
-
-        customViewHolder.year.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.YEAR));
-        customViewHolder.month.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()));
-        customViewHolder.date.setText(Utils.getDateofOdrerPlaced(Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.DATE)));
+        customViewHolder.quantity.setText( testObjtem.quantity+ " Nos");
+        customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
+        customViewHolder.date.setText("" + (Utils.getDate(testObjtem.orderDate)));
         customViewHolder.mainLayout.setTag(i);
 
     }
@@ -76,7 +71,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
-        TextView textView, quantity, awardStatus,orderId, year, month, date;
+        TextView textView, quantity, awardStatus, orderId, year, month, date;
         LinearLayout textLL;
         RelativeLayout mainLayout;
 
@@ -85,14 +80,13 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL = (LinearLayout)view.findViewById(R.id.textLL);
-            awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
+            textLL = (LinearLayout) view.findViewById(R.id.textLL);
+            awardStatus = (TextView) view.findViewById(R.id.awardedStatus);
             orderId = (TextView) view.findViewById(R.id.orderId);
-            mainLayout =(RelativeLayout)view.findViewById(R.id.mainLayout);
+            mainLayout = (RelativeLayout) view.findViewById(R.id.mainLayout);
             mainLayout.setOnClickListener(this);
-            date = (TextView)view.findViewById(R.id.date);
-            year = (TextView)view.findViewById(R.id.yearText);
-            month = (TextView)view.findViewById(R.id.month);
+            date = (TextView) view.findViewById(R.id.date);
+
 
         }
 
@@ -101,8 +95,7 @@ public class OrderItemAdapter  extends RecyclerView.Adapter<OrderItemAdapter.Cus
             if (selectedItems.get(getAdapterPosition(), false)) {
                 selectedItems.delete(getAdapterPosition());
                 view.setSelected(false);
-            }
-            else {
+            } else {
                 selectedItems.put(getAdapterPosition(), true);
                 view.setSelected(true);
             }

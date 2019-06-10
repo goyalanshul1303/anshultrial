@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.offerPrice:
                 addActionFragment(new OfferPriceProductList());
                 return  true;
+            case R.id.allOrders:
+                addActionFragment(new AllOrderListFragment());
+                return true;
             case android.R.id.home:
 //                onBackPressed();
                 fragmentManager.popBackStackImmediate();

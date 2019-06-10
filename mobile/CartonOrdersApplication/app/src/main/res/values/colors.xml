@@ -9,14 +9,19 @@
     <color name="black">#000000</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="button_selectorcolor">#9E9E9E</color>
-    <color name="details_bg">#dde6ef</color>
-    <color name="hint_text_light_grey">#c1c1c1</color>
+    <color name="details_bg">#ececec</color>
+    <color name="hint_text_light_grey">#9ba0a6</color>
     <color name="theme_accent">#3F51B5</color>
     <color name="resume_btn_color">#FFA000</color>
     <color name="button_bg_blue">#048DD2</color>
     <color name="White">#ffffff</color>
-    <color name="color_dashboard_papers_text">#212121</color>
-    <color name="course_heading_color">#8c8d94</color>
-    <color name="view">#e6e6e6</color>
+    <color name="color_dashboard_papers_text">#060819</color>
+    <color name="course_heading_color">#878787</color>
+    <color name="view">#d4d7ef</color>
+    <color name="login_bg">#0d0f2c</color>
+    <color name="button_login">#3a2cff</color>
+    <color name="heading_color">#878787</color>
+    <color name="inactive">#d4d4d4</color>
+    <color name="active">#a1d6a4</color>
 
 </resources>

@@ -46,7 +46,7 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
 
     private ProgressBar progressBar;
     DataView data = new DataView();
-    Button createOrderBtn;
+    Button tryAgain;
     private OrderItemAdapter adapter;
     View viewNoOrdersAdded;
     TextView nothing_available;
@@ -79,8 +79,9 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
         orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
         nothing_available = (TextView) view.findViewById(R.id.nothing_available);
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
-        createOrderBtn.setOnClickListener(this);
+        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        tryAgain.setOnClickListener(this);
+        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
 
         new GetAllProductsAsyncTask().execute();
     }
@@ -145,24 +146,38 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
                     } else if (result.trim().charAt(0) == '{') {
                         try {
                             object = new JSONObject(result);
-                            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                    || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                                Toast.makeText(getActivity(), "Something went wrong please try again",
-                                        Toast.LENGTH_LONG).show();
+                            if (null != object && !object.optString("status").isEmpty()) {
+                                if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                    Toast.makeText(getActivity(), "You have been logged out",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                                MainActivity.replaceLoginFragment(new ProviderLoginFragment());
 
+                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                {
+                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                    orderListView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
+
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
+                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                        orderListView.setVisibility(View.GONE);
+                        tryAgain.setVisibility(View.VISIBLE);
+                        nothing_available.setText("Something went wrong, Please try again");
                     }
 
 
                 } else {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                    orderListView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
                 }
             }else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
@@ -191,13 +206,14 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
 
                     @Override
                     public void onItemClick(View view, int position) {
-//                        Fragment newFragment = new OrderDetailFragment();
-//                        Bundle bundle = new Bundle();
-//                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
-//                        bundle.putString("orderId", item.id);
-//                        bundle.putString("productId", item.productId);
-//                        newFragment.setArguments(bundle);
-//                        MainActivity.addActionFragment(newFragment);
+                        OrderDetailFragment newFragment = new OrderDetailFragment();
+                        Bundle bundle = new Bundle();
+                        OrdersListDetailsItem item = orderListDetailsItems.get(position);
+                        bundle.putString("orderId", item.id);
+                        bundle.putString("productId", item.productId);
+                        newFragment.isFromCompleted(true);
+                        newFragment.setArguments(bundle);
+                        MainActivity.addActionFragment(newFragment);
 
                     }
                 });
@@ -205,8 +221,9 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
             }else{
                 // no orders added . please add consumer first
                 viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                nothing_available.setText("No Orders Completed");
+                nothing_available.setText("No Orders Completed by you");
                 orderListView.setVisibility(View.GONE);
+                tryAgain.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -216,19 +233,13 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.createOrderBtn){
-//            OrderDetailFragment fragment = new OrderDetailFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-//            fragment.setArguments(bundle);
-//            MainActivity.addActionFragment(fragment);
+        if (view.getId()== R.id.tryAgain){
+            new GetAllProductsAsyncTask().execute();
         }
     }
 
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-
-        MenuItem item=menu.findItem(R.id.completed_list);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
     }

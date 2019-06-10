@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -58,6 +60,13 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
 
     public OfferPriceProductList() {
 
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem item=menu.findItem(R.id.offerPrice);
+        if(item!=null)
+            item.setVisible(false);
     }
 
     @Override
@@ -111,8 +120,8 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
 
             try {
 
-                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
-                string.append("5c1a91dfa675f20001a5b794");
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.ADD_PRODUCT);
+//                string.append("5c1a91dfa675f20001a5b794");
                 URL url = new URL(string.toString());
 
 
@@ -314,7 +323,10 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
             progressBar.setVisibility(View.GONE);
             if (isVisible()) {
                     if (null != result && result.equalsIgnoreCase("true")) {
-                        Toast.makeText(getActivity(), "Products opened for offers successfully", Toast.LENGTH_LONG);
+                        Toast.makeText(getActivity(), "Products opened for offers successfully", Toast.LENGTH_LONG).show();
+                        FragmentManager fragmentManager = MainActivity.fragmentManager;
+                        fragmentManager.popBackStackImmediate();
+
                     } else {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
@@ -327,4 +339,5 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
             }
         }
     }
+
 }

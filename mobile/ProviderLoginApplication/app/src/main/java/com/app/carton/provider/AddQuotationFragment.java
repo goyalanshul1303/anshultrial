@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,9 +18,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -54,11 +58,13 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
     AddQuotationRequest request = new AddQuotationRequest();
     DataView data = new DataView();
     String orderId, productId;
-    EditText orderStartDate, orderQuotation, orderFulDate;
+    EditText orderQuotation ;
+    TextView orderStartDate , orderFulDate;
+    ImageView startImageView, fulfilImageView;
     private ProgressBar progressBar;
     final Calendar myCalendar = Calendar.getInstance();
-
-
+    DatePickerDialog.OnDateSetListener date;
+     DatePickerDialog.OnDateSetListener dateFulFill;
     public AddQuotationFragment() {
 
     }
@@ -78,12 +84,13 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_quotation_layout, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
     // Initiate Views
     private void initViews() {
-        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+         date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -92,11 +99,12 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                startImageView.setVisibility(View.GONE);
                 updateLabel(orderStartDate);
             }
 
         };
-        final DatePickerDialog.OnDateSetListener dateFulFill = new DatePickerDialog.OnDateSetListener() {
+       dateFulFill = new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -105,45 +113,27 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                fulfilImageView.setVisibility(View.GONE);
+
                 updateLabel(orderFulDate);
             }
 
         };
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        orderFulDate = (EditText)view.findViewById(R.id.orderFullFillET);
-        orderStartDate = (EditText)view.findViewById(R.id.orderStartDateET);
-        orderFulDate.setFocusable(false);
-        orderFulDate.setKeyListener(null);
-        orderStartDate.setFocusable(false);
-        orderStartDate.setKeyListener(null);
+        orderFulDate = (TextView)view.findViewById(R.id.orderFullFillET);
+        orderStartDate = (TextView)view.findViewById(R.id.orderStartDateET);
+        startImageView = (ImageView)view.findViewById(R.id.startDateImage);
+        fulfilImageView = (ImageView)view.findViewById(R.id.orderfillImage);
+
+        orderFulDate.setOnClickListener(this);
+        orderStartDate.setOnClickListener(this);
         createQuotationBtn = (Button)view.findViewById(R.id.createQuotationBtn);
         orderQuotation = (EditText) view.findViewById(R.id.amountET);
         createQuotationBtn.setOnClickListener(this);
-        orderStartDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(getActivity(), date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-        orderFulDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(getActivity(), dateFulFill, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+        startImageView.setOnClickListener(this);
+        fulfilImageView.setOnClickListener(this);
 
     }
-
-
-
 
     @Override
     public void onClick(View view) {
@@ -159,16 +149,23 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
 
             new AddQuotationAsyncTask().execute();
 
-//            postDataToServer();
-
-
+        }
+        else if (view.getId() == R.id.orderfillImage || view.getId()== R.id.orderFullFillET){
+            new DatePickerDialog(getActivity(), dateFulFill, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+        }
+        else if (view.getId() == R.id.startDateImage || view.getId()== R.id.orderStartDateET){
+            new DatePickerDialog(getActivity(), date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show();
         }
     }
 
-    private void updateLabel(EditText label) {
+    private void updateLabel(TextView label) {
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
+        label.setVisibility(View.VISIBLE);
         label.setText(sdf.format(myCalendar.getTime()));
     }
     public class AddQuotationAsyncTask extends AsyncTask<String, Void, String> {
@@ -261,5 +258,10 @@ public class AddQuotationFragment extends Fragment implements View.OnClickListen
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         getActivity().setTitle("Quotation Details");
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

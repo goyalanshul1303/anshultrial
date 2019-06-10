@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             if (null == SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN) || SharedPreferences.getString(this, SharedPreferences.KEY_AUTHTOKEN).isEmpty()) {
                 replaceLoginFragment(new ProviderLoginFragment());
             }else{
-                replaceLoginFragment(new ProviderOngoingOrdersListFragment());
+                replaceLoginFragment(new ChooseActivityFragment());
             }
 
         }
@@ -47,11 +47,20 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                // do logout
                 SharedPreferences.logout(this);
+                FragmentManager fm = getSupportFragmentManager();
+                int count = fm.getBackStackEntryCount();
+                for(int i = 0; i < count; ++i) {
+                    fm.popBackStackImmediate();
+                }
                replaceLoginFragment(new ProviderLoginFragment());
                 return true;
             case R.id.completed_list:
 
                 addActionFragment(new CompletedOrderListFragment());
+                return true;
+            case R.id.ongoingOrders:
+
+                addActionFragment(new ProviderOngoingOrdersListFragment());
                 return true;
             case R.id.placed_order:
                 addActionFragment(new PlacedOrderListFragment());

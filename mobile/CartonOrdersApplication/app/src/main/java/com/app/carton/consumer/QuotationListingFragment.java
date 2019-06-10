@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -81,6 +84,7 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.quotation_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -110,8 +114,6 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ORDER_QUOTATIONS);
                 string.append(orderId);
                 URL url = new URL(string.toString());
-
-
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000 /* milliseconds */);
                 conn.setConnectTimeout(15000 /* milliseconds */);
@@ -419,8 +421,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     }
 
     void parseOrderListingData(JSONObject object) {
-        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+       productName.setText(object.optString("productName"));
+      quantity.setText(object.optString("quantity") +" Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");
 
@@ -435,4 +437,15 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         }
 
     }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 }

@@ -49,7 +49,7 @@
             android:layout_margin="10dp"
             android:gravity="center_horizontal"
             android:lines="3"
-            android:text="No Products added by you"
+            android:text="No Products available for offers pricing, Kindly wait ."
             android:textColor="@color/color_dashboard_papers_text"
             android:textSize="14sp"
             android:visibility="visible"
@@ -57,15 +57,15 @@
 
     </LinearLayout>
     <Button
-        android:id="@+id/addProductBtn"
+        android:id="@+id/tryAgain"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:background="@color/background_color"
+        android:background="@drawable/loginbutton_selector"
         android:padding="3dp"
         android:layout_below="@id/productsRecyclerView"
-        android:text="Add Product"
+        android:text="Try Again"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:visibility="gone"

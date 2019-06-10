@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -45,10 +46,11 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
     private ProgressBar progressBar;
     DataView data = new DataView();
     Button createOrderBtn;
-    private OrderItemAdapter adapter;
+    private PlacedOrderItemAdapter adapter;
     View viewNoOrdersAdded;
     private ArrayList<OrdersListDetailsItem> orderListDetailsItems;
-
+    Button tryAgain;
+    TextView nothing_available;
     public PlacedOrderListFragment() {
 
     }
@@ -58,6 +60,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -75,9 +78,9 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
         orderListView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
 
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
-        createOrderBtn.setOnClickListener(this);
-createOrderBtn.setVisibility(View.GONE);
+        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        tryAgain.setOnClickListener(this);
+        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
         new GetAllProductsAsyncTask().execute();
     }
 
@@ -137,24 +140,38 @@ createOrderBtn.setVisibility(View.GONE);
                 } else if(result.trim().charAt(0) == '{') {
                     try {
                         object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
+                        if (null != object && !object.optString("status").isEmpty()) {
+                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                Toast.makeText(getActivity(), "You have been logged out",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            MainActivity.replaceLoginFragment(new ProviderLoginFragment());
 
+                        } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                            {
+                                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                orderListView.setVisibility(View.GONE);
+                                tryAgain.setVisibility(View.VISIBLE);
+                                nothing_available.setText("Something went wrong, Please try again");
+
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }else  {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                    orderListView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
                 }
 
 
             }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                orderListView.setVisibility(View.GONE);
+                tryAgain.setVisibility(View.VISIBLE);
+                nothing_available.setText("Something went wrong, Please try again");
             }
         }else{
             FragmentManager fragmentManager = MainActivity.fragmentManager;
@@ -176,7 +193,7 @@ createOrderBtn.setVisibility(View.GONE);
                     OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
                     orderListDetailsItems.add(item);
                 }
-                adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
+                adapter = new PlacedOrderItemAdapter(getActivity(), orderListDetailsItems);
                 orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
@@ -192,7 +209,6 @@ createOrderBtn.setVisibility(View.GONE);
                         bundle.putString("productId", item.productId);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
-
                     }
                 });
 
@@ -200,27 +216,23 @@ createOrderBtn.setVisibility(View.GONE);
                 // no orders added . please add consumer first
                 viewNoOrdersAdded.setVisibility(View.VISIBLE);
                 orderListView.setVisibility(View.GONE);
+                tryAgain.setVisibility(View.GONE);
+                nothing_available.setText("No Placed Orders yest, We are trying to get orders for you.");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-
-        MenuItem item=menu.findItem(R.id.placed_order);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
     }
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.createOrderBtn){
-//            OrderDetailFragment fragment = new OrderDetailFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", selectedId);
-//            fragment.setArguments(bundle);
-//            MainActivity.addActionFragment(fragment);
+        if (view.getId()== R.id.tryAgain){
+            new GetAllProductsAsyncTask().execute();
         }
     }
 }

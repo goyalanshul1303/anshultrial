@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -50,6 +53,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     boolean isFromAwarded ;
     private int orderStatus;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
+    private boolean isFromCompleted;
 
     public OrderDetailFragment() {
 
@@ -70,6 +74,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.placed_order_details, container, false);
         initViews();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -94,7 +99,13 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             // show status change button
         }
 
+
     }
+
+    public void isFromCompleted(boolean b) {
+        isFromCompleted = b;
+    }
+
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -176,7 +187,11 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void parseListingData(JSONObject result) {
-        addQuotationBtn.setVisibility(View.VISIBLE);
+        if (isFromCompleted ){
+            addQuotationBtn.setVisibility(View.GONE);
+        }else{
+            addQuotationBtn.setVisibility(View.VISIBLE);
+        }
         if ( isFromAwarded) {
             if (orderStatus >= 4)
                 addQuotationBtn.setVisibility(View.GONE);
@@ -192,12 +207,11 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         addOrderStatus(orderStatus, statusarrayList);
         else
             statuLL.setVisibility(View.GONE);
-        Utils.setDetailsTextField("Product Name", getActivity(), productName, result.optString("name"));
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
-        Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-
-        Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
-        Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        productName.setText(result.optString("name"));
+        cartonType.setText(result.optString("cartonType"));
+        sheetLayerType.setText(result.optString("sheetLayerType"));
+        corrugationType.setText(String.valueOf(result.optString("corrugationType")));
+        printingType.setText(String.valueOf(result.optString("printingType")));
 
     }
 
@@ -314,7 +328,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     }
     void  parseOrderListingData(JSONObject object){
 //            Utils.setDetailsTextField("Product Name", getActivity(), productName, object.optString("productName"));
-            Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+             quantity.setText(object.optString("quantity")+" Nos");
             orderId = object.optString("id");
             orderStatus = object.optInt("orderStatus");
             productId = object.optString("productId");
@@ -435,36 +449,58 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int i =0;
-        for ( i = 0 ; i < arrayList.size() ; i++){
-            View v = vi.inflate(R.layout.order_status, null);
-            // fill in any details dynamically here
-            TextView textView = (TextView) v.findViewById(R.id.statusText);
-            TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
-            OrderStatus statusObj = arrayList.get(i);
-            onText.setVisibility(View.VISIBLE);
-            textDateView.setVisibility(View.VISIBLE);
-            textDateView.setText(Utils.getDate(statusObj.statusDate));
-            textView.setText(Utils.getOrderStatusText(statusObj.status));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.thumbsup);
-//            else{
-//                view.setBackgroundResource(R.drawable.undelivered);
-//            }
-            statuLL.addView(v);
+        if (arrayList.size() > 0) {
+            for (i = 0; i < arrayList.size(); i++) {
+                View v = vi.inflate(R.layout.order_status, null);
+                TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+                timelineView.setMarker(getActivity().getResources().getDrawable(R.drawable.order_details));
+
+                // fill in any details dynamically here
+                TextView textView = (TextView) v.findViewById(R.id.statusText);
+                TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
+                OrderStatus statusObj = arrayList.get(i);
+                textDateView.setVisibility(View.VISIBLE);
+                if (i == 0) {
+                    timelineView.initLine(1);
+//
+                } else if (i == 8) {
+                    timelineView.initLine(2);
+                } else {
+                    timelineView.initLine(4);
+                }
+                textDateView.setText(Utils.getDateWithTime(statusObj.statusDate));
+                textView.setText(Utils.getOrderStatusText(statusObj.status));
+                statuLL.addView(v);
+            }
         }
         for ( int j = i+1  ; j <= 9 ; j++){
             View v = vi.inflate(R.layout.order_status, null);
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             textView.setText(Utils.getOrderStatusText(j));
-            ImageView view = (ImageView) v.findViewById(R.id.doneImage);
-            view.setBackgroundResource(R.drawable.undelivered);
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
-            TextView onText = (TextView)v.findViewById(R.id.onText);
-            onText.setVisibility(View.GONE);
-            textDateView.setVisibility(View.GONE);
+            TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
+            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details_grey ));
+            textDateView.setVisibility(View.INVISIBLE);
+            if (j==9){
+                timelineView.setStartLineColor(R.color.inactive,2);
+            }else if(j == i+1  && arrayList.size() == 0){
+                timelineView.setStartLineColor(R.color.inactive,1);
+                timelineView.setEndLineColor(R.color.inactive,1);
+                timelineView.initLine(1);
+            }
+            else{
+                timelineView.setStartLineColor(R.color.inactive,0);
+                timelineView.setEndLineColor(R.color.inactive,0);
+                timelineView.initLine(0);
+
+            }
             statuLL.addView(v);
 
         }
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
     }
 }

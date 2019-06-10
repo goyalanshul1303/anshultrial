@@ -15,12 +15,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.carton.orders.R;
@@ -48,12 +50,13 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     private RecyclerView productsRecyclerView;
 
     private ProgressBar progressBar;
+    TextView nothing_available;
     private String urlType;
     DataView data = new DataView();
     private MyProductsListAdapter adapter;
     View viewNoProductAdded;
     ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
-    private Button addProductBtn;
+    private Button tryAgain;
     String customerType = "";
     private String selectedId = "";
     private String consumerId;
@@ -86,11 +89,12 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
     // Initiate Views
     private void initViews() {
+        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
         viewNoProductAdded = (View)view.findViewById(R.id.viewNoProductAdded);
-        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
-        addProductBtn.setOnClickListener(this);
+        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        tryAgain.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
 
@@ -153,29 +157,40 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 } else if (result.trim().charAt(0) == '{') {
                     try {
                         object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
-                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                        if (null != object && !object.optString("status").isEmpty() ){
+                            if ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
+                                Toast.makeText(getActivity(), "You have been logged out",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                                MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-                        }
+                        }else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST){
+                                {
+                                    viewNoProductAdded.setVisibility(View.VISIBLE);
+                                    productsRecyclerView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
+
+                                }
+                            }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
-
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    viewNoProductAdded.setVisibility(View.VISIBLE);
+                    productsRecyclerView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
                 }
 
 
             } else {
-                MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                viewNoProductAdded.setVisibility(View.VISIBLE);
+                productsRecyclerView.setVisibility(View.GONE);
+                tryAgain.setVisibility(View.VISIBLE);
+                nothing_available.setText("Something went wrong, Please try again");
 
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+
             }
         }else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
@@ -224,7 +239,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                             productName = item.name;
                             newFragment.setArguments(bundle);
                             MainActivity.addActionFragment(newFragment);
-                        }else  if(view.getId()== R.id.noOrderll || view.getId() == R.id.reorder){
+                        }else  if(view.getId()== R.id.noOrderll ){
                             CreateOrderFragment fragment = new CreateOrderFragment();
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("isFromProductDetail", true);
@@ -235,7 +250,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                             fragment.setArguments(bundle);
                             MainActivity.addActionFragment(fragment);
                         }
-                        else  if(view.getId()== R.id.detailsLink){
+                        else  if(view.getId()== R.id.detailsLink || view.getId() == R.id.reorder){
                          // create order details link
 
                               Bundle bundle = new Bundle();
@@ -260,6 +275,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
             }else{
                 // no consumers added . please add consumer first
                 viewNoProductAdded.setVisibility(View.VISIBLE);
+                tryAgain.setVisibility(View.GONE);
                 productsRecyclerView.setVisibility(View.GONE);
             }
         } catch (Exception e) {
@@ -270,21 +286,25 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Product List");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
     }
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.action_create_order);
+        MenuItem item=menu.findItem(R.id.over_flow_item);
         if(item!=null)
             item.setVisible(false);
-
-
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onClick(View view) {
-
+if (view.getId()== R.id.tryAgain){
+    new GetAllProductsAsyncTask().execute();
+}
     }
 
     @Override

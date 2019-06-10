@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/details_bg">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ordersRecyclerView"
         android:layout_width="match_parent"
@@ -51,16 +51,17 @@
             android:visibility="visible"
             />
         <Button
-            android:id="@+id/goToProductBtn"
+            android:id="@+id/tryAgain"
             android:layout_width="match_parent"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
-            android:background="@color/background_color"
             android:padding="3dp"
-            android:text="Go to product listing page"
+            android:text="Try Again "
             android:textColor="@color/white"
             android:textSize="17sp"
+            android:background="@drawable/loginbutton_selector"
+            android:visibility="gone"
             android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

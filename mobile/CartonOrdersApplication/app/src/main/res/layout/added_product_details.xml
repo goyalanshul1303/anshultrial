@@ -3,6 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/details_bg">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,79 +15,185 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingRight="10dp">
-            <TextView
-                android:id="@+id/productName"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Folder name here."
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/pdp_image"
+                    android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/cartonType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-
-                android:text="Folder name here."
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/corrugationType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-
-                android:textColor="@color/course_heading_color"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/sheetLayerType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Folder name here."
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/printingType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Folder name here."
-                android:textColor="@color/color_dashboard_papers_text"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/expectedQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/course_heading_color"
-                android:textSize="16sp" />
-
-
-            <Button
-                android:id="@+id/addOrderBtn"
+                <Button
+                    android:id="@+id/addOrderBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/loginbutton_selector"
+                    android:text="Create Order"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+            <View
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
+                android:background="#ececec"
+                android:layout_height="1dp"
+                ></View>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content">
+            <TableRow
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@color/background_color"
-                android:padding="3dp"
-                android:text="Create Order"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:id="@+id/nameRl"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/productNameHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Product Name"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/heading_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="left"
+                    android:layout_toEndOf="@+id/productNameHead"
+                    android:text="Folder name here."
+                    android:textColor="@color/color_dashboard_papers_text"
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cartonTypeRl"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/cartonTypeHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Carton Type"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/heading_color"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cartonType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="left"
+                    android:layout_toEndOf="@+id/cartonTypeHead"
+                    android:text="Folder name here."
+                    android:textColor="@color/color_dashboard_papers_text"
+                    android:textSize="16sp" />
+            </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/corrugationTypeRl"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/corrugationTypeHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Corrugation Type"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/corrugationType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/cartonTypeHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layerTypeRl"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/layerTypeHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Sheet Layer Type"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/sheetLayerType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/cartonTypeHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/printingTypeRl"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/printingTypeHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Printing Type"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="@color/heading_color"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/printingType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="left"
+                        android:layout_toEndOf="@+id/cartonTypeHead"
+                        android:text="Folder name here."
+                        android:textColor="@color/color_dashboard_papers_text"
+                        android:textSize="16sp" />
+                </TableRow>
+            </TableLayout>
+
 
         </LinearLayout>
     </ScrollView>
+    </android.support.v7.widget.CardView>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

@@ -13,13 +13,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.app.carton.provider.OrderItemAdapter.OnItemClickListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -46,12 +48,11 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     private ProgressBar progressBar;
     private String urlType;
     DataView data = new DataView();
-    private OrderItemAdapter adapter;
+    private OngoingOrderItemAdapter adapter;
     View viewNoOrdersAdded;
     ArrayList<OrdersListDetailsItem> ordersListDetailsItems = new ArrayList<>();
-    private Button addProductBtn;
-    String customerType = "";
-
+    private Button tryAgain;
+    TextView nothing_available;
     public ProviderOngoingOrdersListFragment() {
 
     }
@@ -71,14 +72,14 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-
+        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
 
         getActivity().setTitle("Ongoing Orders");
     }
@@ -88,9 +89,9 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         ordersRecyclerView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
         viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-//        addProductBtn = (Button)view.findViewById(R.id.addProductBtn);
-//        addProductBtn.setOnClickListener(this);
-
+        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        tryAgain.setOnClickListener(this);
+        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
         new GetAllProductsAsyncTask().execute();
     }
 
@@ -154,28 +155,38 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                 } else if(result.trim().charAt(0) == '{') {
                     try {
                         object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() && ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
-                          if( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
-                              SharedPreferences.logout(getActivity());
-                           MainActivity.replaceLoginFragment(new ProviderLoginFragment())   ;
-                          }
+                        if (null != object && !object.optString("status").isEmpty()) {
+                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                Toast.makeText(getActivity(), "You have been logged out",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            MainActivity.replaceLoginFragment(new ProviderLoginFragment());
 
+                        } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                            {
+                                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                ordersRecyclerView.setVisibility(View.GONE);
+                                tryAgain.setVisibility(View.VISIBLE);
+                                nothing_available.setText("Something went wrong, Please try again");
+
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }else  {
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
+                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                    ordersRecyclerView.setVisibility(View.GONE);
+                    tryAgain.setVisibility(View.VISIBLE);
+                    nothing_available.setText("Something went wrong, Please try again");
                 }
 
 
             }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+                viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                ordersRecyclerView.setVisibility(View.GONE);
+                tryAgain.setVisibility(View.VISIBLE);
+                nothing_available.setText("Something went wrong, Please try again");
             }
         }else{
             FragmentManager fragmentManager = MainActivity.fragmentManager;
@@ -196,13 +207,12 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                     OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
                     ordersListDetailsItems.add(item);
                 }
-                adapter = new OrderItemAdapter(getActivity(), ordersListDetailsItems);
+                adapter = new OngoingOrderItemAdapter(getActivity(), ordersListDetailsItems);
                 ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 ordersRecyclerView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);
                 ordersRecyclerView.setVisibility(View.VISIBLE);
-                adapter.SetOnItemClickListener(new OnItemClickListener() {
-
+                adapter.SetOnItemClickListener(new OrderItemAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Fragment newFragment = new OrderDetailFragment();
@@ -213,7 +223,6 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                         bundle.putBoolean("isFromAwardedScreen", true);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
-
                     }
                 });
             }else{
@@ -230,12 +239,14 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
-//        if (view.getId() == R.id.addProductBtn){
-//            AddProductFragment fragment = new AddProductFragment();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("consumerId", consumerId);
-//            fragment.setArguments(bundle);
-//            new MainActivity().replaceLoginFragment(fragment);
-//        }
+        if (view.getId()== R.id.tryAgain){
+            new GetAllProductsAsyncTask().execute();
+        }
+
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
     }
 }
