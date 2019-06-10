@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
+import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
+import com.cartonwale.order.api.model.ProviderDashboard;
 import com.cartonwale.order.api.service.OrderService;
 
 
@@ -44,6 +46,16 @@ public class OrderController extends ControllerBase{
 		return makeResponse(orderService.getRequirementsByConsumer());
     }
 	
+	@RequestMapping("/consumer/dashboard")
+    public ResponseEntity<ConsumerDashboard> getConsumerDashboard() {
+		return makeResponse(orderService.getConsumerDashboard());
+    }
+	
+	@RequestMapping("/provider/dashboard")
+    public ResponseEntity<ProviderDashboard> getProviderDashboard() {
+		return makeResponse(orderService.getProviderDashboard());
+    }
+	
 	@RequestMapping("/provider")
     public ResponseEntity<List<Order>> getAllByProvider() {
 		return makeResponse(orderService.getAllByProvider());
@@ -52,6 +64,11 @@ public class OrderController extends ControllerBase{
 	@RequestMapping("/provider/completed")
     public ResponseEntity<List<Order>> getCompletedByProvider() {
 		return makeResponse(orderService.getCompletedByProvider());
+    }
+	
+	@RequestMapping("/consumer/completed")
+    public ResponseEntity<List<Order>> getCompletedByConsumer() {
+		return makeResponse(orderService.getCompletedByConsumer());
     }
 	
 	@RequestMapping("/{id}")

@@ -25,8 +25,10 @@ import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.order.api.dao.OrderDao;
+import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
 import com.cartonwale.order.api.model.OrderStatus;
+import com.cartonwale.order.api.model.ProviderDashboard;
 import com.cartonwale.order.api.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -184,5 +186,22 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	public List<Order> getAllToUpdate() {
 		
 		return orderDao.getAllToBeUpdated();
+	}
+
+	@Override
+	public ConsumerDashboard getConsumerDashboard() {
+		return new ConsumerDashboard(getRequirementsByConsumer().size(), getAll().size());
+	}
+
+	@Override
+	public ProviderDashboard getProviderDashboard() {
+		// TODO Auto-generated method stub
+		return new ProviderDashboard(getAllByProvider().size(), getPlacedOrders().size(), 0);
+	}
+
+	@Override
+	public List<Order> getCompletedByConsumer() {
+		
+		return orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
 }

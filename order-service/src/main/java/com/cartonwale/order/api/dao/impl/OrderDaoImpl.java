@@ -115,4 +115,16 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 		}
 		return null;
 	}
+
+	@Override
+	public List<Order> getCompletedByConsumer(String entityId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("consumerId").is(entityId).and("orderStatus").is(OrderStatus.Status.ORDER_COMPLETED.getValue()));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			logger.error(e.getStackTrace().toString());
+		}
+		return null;
+	}
 }

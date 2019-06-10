@@ -21,4 +21,6 @@ public interface OrderDao extends GenericDao<Order> {
 
 	List<Order> getAllToBeUpdated();
 
+	List<Order> getCompletedByConsumer(String entityId);
+
 }

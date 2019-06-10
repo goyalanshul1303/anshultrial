@@ -3,7 +3,9 @@ package com.cartonwale.order.api.service;
 import java.util.List;
 
 import com.cartonwale.common.service.GenericService;
+import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
+import com.cartonwale.order.api.model.ProviderDashboard;
 
 public interface OrderService extends GenericService<Order>{
 
@@ -22,5 +24,11 @@ public interface OrderService extends GenericService<Order>{
 	List<Order> recentOrders(List<String> productIds);
 
 	List<Order> getAllToUpdate();
+
+	ConsumerDashboard getConsumerDashboard();
+
+	ProviderDashboard getProviderDashboard();
+
+	List<Order> getCompletedByConsumer();
 
 }
