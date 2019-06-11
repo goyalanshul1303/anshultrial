@@ -124,6 +124,7 @@ public class AddedOffersListFragment extends Fragment implements View.OnClickLis
     }
 
     public void setOfferList(ArrayList<OffersData> offerList) {
+        this.offersDataArrayList = new ArrayList<>();
         this.offersDataArrayList = offerList;
 
     }
