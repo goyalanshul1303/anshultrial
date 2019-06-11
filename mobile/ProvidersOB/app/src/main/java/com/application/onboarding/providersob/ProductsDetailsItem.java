@@ -16,4 +16,14 @@ public class ProductsDetailsItem {
     String printingType;
 
     String email;
+    String price;
+    DimensionClass dimension;
+    LastOrderObject lastOrder;
+    public LastOrderObject getLastOrder() {
+        return lastOrder;
+    }
+
+    public void setLastOrder(LastOrderObject lastOrder) {
+        this.lastOrder = lastOrder;
+    }
 }

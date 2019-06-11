@@ -410,8 +410,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     }
 
     void parseOrderListingData(JSONObject object) {
-        Utils.setDetailsTextField("Name", getActivity(), productName, object.optString("productName"));
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, object.optString("quantity"));
+        productName.setText(object.optString("productName"));
+        quantity.setText(object.optString("quantity"));
         orderId = object.optString("id");
         productId = object.optString("productId");
 
