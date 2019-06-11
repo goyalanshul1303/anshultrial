@@ -3,6 +3,8 @@ package com.application.onboarding.providersob;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,7 +32,6 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-
             getActivity().setTitle("Choose Action");
 
 
@@ -40,14 +41,19 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.choose_action, container, false);
         inflateViews();
+        setHasOptionsMenu(true);
         return view;
     }
-
     private void inflateViews() {
         consumerButton = (Button)view.findViewById(R.id.consumerButton);
         providerButton =(Button) view.findViewById(R.id.providerButton);
         providerButton.setOnClickListener(this);
         consumerButton.setOnClickListener(this);
 
+    }
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(true);
     }
 }

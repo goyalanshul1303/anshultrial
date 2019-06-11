@@ -155,7 +155,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         } else{
             new SendPostRequest().execute();
         }
-        new SendPostRequest().execute();
+//        new SendPostRequest().execute();
 
 //        new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
 
@@ -179,10 +179,10 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-//                postDataParams.put("username",emailid.getText().toString());
-//                postDataParams.put("password", password.getText().toString());
-                postDataParams.put("username", "abif13245e");
-                postDataParams.put("password", "abc123");
+                postDataParams.put("username",emailid.getText().toString());
+                postDataParams.put("password", password.getText().toString());
+//                postDataParams.put("username", "abif13245e");
+//                postDataParams.put("password", "abc123");
                 Log.e("params", postDataParams.toString());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(35000 /* milliseconds */);

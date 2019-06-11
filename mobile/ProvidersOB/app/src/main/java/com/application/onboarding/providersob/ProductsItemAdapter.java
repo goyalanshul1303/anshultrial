@@ -42,7 +42,7 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
+    public void onBindViewHolder(CustomViewHolder customViewHolder, final int i) {
         ProductsDetailsItem testObjtem = data.get(i);
         if (null == testObjtem.name || testObjtem.name.isEmpty() ){
             customViewHolder.textView.setText("N/A");
@@ -53,6 +53,8 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
 //        customViewHolder.customerEmail.setText("Email : " + testObjtem.email);
         customViewHolder.textLL.setTag(i);
         customViewHolder.textLL.setOnClickListener(this);
+        customViewHolder.checkBox.setChecked(testObjtem.isSelected());
+
         customViewHolder.checkBox.setTag(i);
         if (isFromOfferListing)
                 customViewHolder.checkBox.setVisibility(View.VISIBLE);
@@ -63,8 +65,12 @@ public class ProductsItemAdapter extends RecyclerView.Adapter<ProductsItemAdapte
             @Override
             public void onClick(View view) {
                 ProductsDetailsItem testObjtem =   data.get((Integer) view.getTag());
-                if(((AppCompatCheckBox) view).isChecked()){
+                AppCompatCheckBox cb = (AppCompatCheckBox) view;
+                testObjtem.setSelected(cb.isChecked());
+                data.get(i).setSelected(cb.isChecked());
+                if(cb.isChecked()){
                     System.out.println("Checked");
+//                    data.get()
                     selectedIds.add(testObjtem.id);
 
                 } else {

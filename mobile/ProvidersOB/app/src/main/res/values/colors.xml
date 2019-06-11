@@ -9,7 +9,7 @@
     <color name="black">#000000</color>
     <color name="white_greyish">#EEEEEE</color>
     <color name="button_selectorcolor">#9E9E9E</color>
-    <color name="details_bg">#dde6ef</color>
+    <color name="details_bg">#ececec</color>
     <color name="hint_text_light_grey">#c1c1c1</color>
     <color name="theme_accent">#3F51B5</color>
     <color name="resume_btn_color">#FFA000</color>

@@ -15,6 +15,10 @@
         app:showAsAction="always">
     <menu>
         <item
+            android:id="@+id/checkQuotations"
+            android:title="Check for Quotations"
+            app:showAsAction="never|withText" />
+        <item
             android:id="@+id/offerPrice"
             android:title="Offer Price"
             app:showAsAction="never|withText" />

@@ -47,7 +47,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     TextView productName, email,contactName, quantity,printingType, cartonType, corrugationType,sheetLayerType;
     String orderId,productId;
     LinearLayout parentLL,statuLL;
-    boolean isFromAwarded ;
+    boolean isForQuotations ;
     private int orderStatus;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null){
-            isFromAwarded = getArguments().containsKey("isFromAwardedScreen") ? getArguments().getBoolean("isFromAwardedScreen") : false;
+            isForQuotations = getArguments().containsKey("isForQuotations") ? getArguments().getBoolean("isForQuotations") : false;
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
             productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
         }
@@ -90,10 +90,14 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         checkQuotations.setOnClickListener(this);
         new FetchOrderDetailsTask().execute();
         statuLL = (LinearLayout) view.findViewById(R.id.statuLL);
-//        if (isFromAwarded){
-            addQuotationBtn.setText("Update Order Status");
+        if (isForQuotations){
+            checkQuotations.setVisibility(View.VISIBLE);
+            addQuotationBtn.setVisibility(View.GONE);
             // show status change button
-//        }
+        }else{
+            checkQuotations.setVisibility(View.GONE);
+            addQuotationBtn.setVisibility(View.GONE);
+        }
 
     }
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
@@ -177,16 +181,15 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void parseListingData(JSONObject result) {
-        addQuotationBtn.setVisibility(View.VISIBLE);
+//        addQuotationBtn.setVisibility(View.VISIBLE);
 //        if ( isFromAwarded) {
-//            if (orderStatus >= 4)
-//                addQuotationBtn.setVisibility(View.GONE);
-            if (orderStatus == 2) {
-                addQuotationBtn.setText("Initiate Manufacturing");
-            }else  if(orderStatus == 3){
-                addQuotationBtn.setText("Complete Manufacturing");
-
+            if (!isForQuotations && orderStatus >=4 && orderStatus !=10){
+                addQuotationBtn.setVisibility(View.VISIBLE);
+            }else{
+                addQuotationBtn.setVisibility(View.GONE);
             }
+//                addQuotationBtn.setVisibility(View.GONE);
+
 //        }
 
         addOrderStatus(orderStatus, statusarrayList);
