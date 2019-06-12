@@ -1,0 +1,7 @@
+<resources>
+
+    <dimen name="activity_horizontal_margin">34dp</dimen>
+    <dimen name="item_margin">14dp</dimen>
+    <dimen name="column_width">300dp</dimen>
+    <dimen name="banner_height">150dp</dimen>
+</resources>

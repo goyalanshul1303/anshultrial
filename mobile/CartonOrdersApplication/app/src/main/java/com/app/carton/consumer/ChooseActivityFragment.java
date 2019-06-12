@@ -1,17 +1,31 @@
 package com.app.carton.consumer;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.app.carton.orders.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -20,20 +34,11 @@ import com.app.carton.orders.R;
 
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
-    private RelativeLayout openOrdersCardView, requiremntsCardView, productListCardView;
+    private ProgressBar progressBar;
+    private int openOrdersCount,requirementsCount;
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.openOrdersCardView){
-            // Get FragmentManager and FragmentTransaction object.
-           MainActivity.addActionFragment(new ConsumerOrderListFragment());
-
-        }else if (view.getId() == R.id.productListCardView){
-            MainActivity.addActionFragment(new ConsumerProductsListFragment());
-        }else if (view.getId() == R.id.requiremntsCardView){
-            MainActivity.addActionFragment(new ConsumerRequirementsListFragment());
-        }
-
 
     }
     @Override
@@ -53,12 +58,120 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     }
 
     private void inflateViews() {
-        openOrdersCardView = (RelativeLayout) view.findViewById(R.id.openOrdersCardView);
-        requiremntsCardView =(RelativeLayout) view.findViewById(R.id.requiremntsCardView);
-        productListCardView = (RelativeLayout) view.findViewById(R.id.productListCardView);
-        productListCardView.setOnClickListener(this);
-        requiremntsCardView.setOnClickListener(this);
-        openOrdersCardView.setOnClickListener(this);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        ActionAdapter adapter = new ActionAdapter(4);
+        recyclerView.setAdapter(adapter);
+        adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if ((int)view.getTag() == 0){
+                    // Get FragmentManager and FragmentTransaction object.
+                    MainActivity.addActionFragment(new ConsumerProductsListFragment());
 
+                }else if ((int)view.getTag() == 1){
+                    MainActivity.addActionFragment(new ConsumerRequirementsListFragment());
+                }else if ((int)view.getTag() == 2){
+                    MainActivity.addActionFragment(new ConsumerOrderListFragment());
+                }
+//                else if ((int)view.getTag() == 3){
+//                    MainActivity.addActionFragment(new ProductListOpenForPrice());
+//                }
+
+            }
+        });
+        new FetchProviderDashboard().execute();
+    }
+    public class FetchProviderDashboard extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        protected String doInBackground(String... arg0) {
+
+            try {
+                SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_DASHBOARD_DETAILS);
+                URL url = new URL(string.toString());
+
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000 /* milliseconds */);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("GET");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", SharedPreferences.getString(getActivity(), SharedPreferences.KEY_AUTHTOKEN));
+
+                InputStream inputStream;
+
+                if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    inputStream = conn.getInputStream();
+                } else {
+                    inputStream = conn.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp, response = "";
+                while ((temp = bufferedReader.readLine()) != null) {
+                    response += temp;
+                }
+
+                return response.toString();
+
+
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            JSONObject object = null;
+            progressBar.setVisibility(View.GONE);
+
+            if (null != result) {
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (null!=object) {
+                    if (!object.optString("status").isEmpty()) {
+                        if ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                                || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }else {
+
+//                        new OrderDetailFragment.FetchDetailsTask().execute();
+                        parseOrderListingData(object);
+
+
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
+                }
+            }else  {
+                Toast.makeText(getActivity(), "Something went wrong please try again",
+                        Toast.LENGTH_LONG).show();
+            }
+
+
+        }
+    }
+
+    private void parseOrderListingData(JSONObject object) {
+        requirementsCount = object.optInt("requirementsCount");
+        openOrdersCount = object.optInt("openOrdersCount");
     }
 }
