@@ -1,5 +1,6 @@
 package com.cartonwale.order.api.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class OrderDaoImpl extends GenericDaoImpl<Order> implements OrderDao{
 	public List<Order> getAllByConsumer(String consumerId) {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("orderStatus").gt(OrderStatus.Status.ORDER_PLACED.getValue()).lt(OrderStatus.Status.ORDER_COMPLETED.getValue()));
+			query.addCriteria(Criteria.where("consumerId").is(consumerId).and("orderStatus").nin(Arrays.asList(OrderStatus.Status.ORDER_PLACED.getValue(), OrderStatus.Status.ORDER_COMPLETED.getValue())));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			logger.error(e.getStackTrace().toString());
