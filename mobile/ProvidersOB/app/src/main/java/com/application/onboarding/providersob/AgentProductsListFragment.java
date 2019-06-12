@@ -43,7 +43,7 @@ public class AgentProductsListFragment extends Fragment implements View.OnClickL
     private ProgressBar progressBar;
     private String urlType;
     DataView data = new DataView();
-    private ProductsItemAdapter adapter;
+    private MyProductsListAdapter adapter;
     View viewNoProductAdded;
     ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
     private Button addProductBtn;
@@ -190,7 +190,7 @@ String productName;
                     ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
                     productDetailsItems.add(item);
                 }
-                adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
+                adapter = new MyProductsListAdapter(getActivity(), productDetailsItems);
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);

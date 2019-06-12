@@ -15,4 +15,9 @@
     <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
         <item name="android:src">@drawable/menu</item>
     </style>
+    <dimen name="activity_horizontal_margin">10dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="item_margin">3dp</dimen>
+    <dimen name="column_width">180dp</dimen>
+    <dimen name="banner_height">100dp</dimen>
 </resources>

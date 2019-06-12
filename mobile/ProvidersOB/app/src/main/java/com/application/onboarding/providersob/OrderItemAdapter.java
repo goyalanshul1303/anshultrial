@@ -44,21 +44,16 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
     @Override
     public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
         OrdersListDetailsItem testObjtem = data.get(i);
-        if (null == testObjtem.productName || testObjtem.productName.isEmpty() ){
+        if (null == testObjtem.productName || testObjtem.productName.isEmpty()) {
             customViewHolder.textView.setText("N/A");
-        }else{
+        } else {
             customViewHolder.textView.setText(testObjtem.productName);
         }
         customViewHolder.orderId.setText(testObjtem.id);
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
-        customViewHolder.quantity.setText("Quantity : " + testObjtem.quantity);
-
-            customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
-
-
-        customViewHolder.year.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.YEAR));
-        customViewHolder.month.setText(""+Utils.getCalenderFromTime(testObjtem.orderDate).getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault()));
-        customViewHolder.date.setText(Utils.getDateofOdrerPlaced(Utils.getCalenderFromTime(testObjtem.orderDate).get(Calendar.DATE)));
+        customViewHolder.quantity.setText( testObjtem.quantity+ " Nos");
+        customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
+        customViewHolder.date.setText("" + (Utils.getDate(testObjtem.orderDate)));
         customViewHolder.mainLayout.setTag(i);
 
     }
@@ -81,14 +76,12 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
             super(view);
             this.textView = (TextView) view.findViewById(R.id.productName);
             this.quantity = (TextView) view.findViewById(R.id.quantity);
-            textLL = (LinearLayout)view.findViewById(R.id.textLL);
-            awardStatus = (TextView)view.findViewById(R.id.awardedStatus);
+            textLL = (LinearLayout) view.findViewById(R.id.textLL);
+            awardStatus = (TextView) view.findViewById(R.id.awardedStatus);
             orderId = (TextView) view.findViewById(R.id.orderId);
-            mainLayout =(RelativeLayout)view.findViewById(R.id.mainLayout);
+            mainLayout = (RelativeLayout) view.findViewById(R.id.mainLayout);
             mainLayout.setOnClickListener(this);
-            date = (TextView)view.findViewById(R.id.date);
-            year = (TextView)view.findViewById(R.id.yearText);
-            month = (TextView)view.findViewById(R.id.month);
+            date = (TextView) view.findViewById(R.id.date);
 
         }
 

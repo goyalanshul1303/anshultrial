@@ -1,5 +1,6 @@
 package com.application.onboarding.providersob;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,12 +10,16 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -62,8 +67,9 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
 
     private static EditText emailid, password;
     private static Button loginButton;
-    private static CheckBox show_hide_password;
+    private static ImageButton show_hide_password;
     private static ProgressBar progressBar;
+    private boolean isChecked = true;
 
     public UserAdminLoginFragment() {
 
@@ -75,6 +81,7 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
         view = inflater.inflate(R.layout.login, container, false);
         initViews();
         setListeners();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -85,9 +92,8 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        show_hide_password = (CheckBox) view
-                .findViewById(R.id.show_hide_password);
-
+        show_hide_password = (ImageButton) view
+                .findViewById(R.id.showHidePassword);
     }
 
     // Set Listeners
@@ -96,38 +102,37 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
 
 
         // Set check listener over checkbox for showing and hiding password
-        show_hide_password
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        show_hide_password.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onCheckedChanged(CompoundButton button,
-                                                 boolean isChecked) {
+            @Override
+            public void onClick(View view) {
+                if (isChecked) {
+                    Drawable tempImage = getResources().getDrawable(R.drawable.group_black);
 
-                        // If it is checkec then show password else hide
-                        // password
-                        if (isChecked) {
+                    show_hide_password.setImageDrawable(tempImage);// change
+                    // checkbox
+                    // text
 
-                            show_hide_password.setText(R.string.hide_pwd);// change
-                            // checkbox
-                            // text
+                    password.setInputType(InputType.TYPE_CLASS_TEXT);
+                    password.setTransformationMethod(HideReturnsTransformationMethod
+                            .getInstance());// show password
+                    isChecked = false;
+                } else {
+//                            show_hide_password.setText(R.string.show_pwd);// change
+                    // checkbox
+                    // text
+                    Drawable tempImage = getResources().getDrawable(R.drawable.group_2);
 
-                            password.setInputType(InputType.TYPE_CLASS_TEXT);
-                            password.setTransformationMethod(HideReturnsTransformationMethod
-                                    .getInstance());// show password
-                        } else {
-                            show_hide_password.setText(R.string.show_pwd);// change
-                            // checkbox
-                            // text
+                    show_hide_password.setImageDrawable(tempImage);
+                    password.setInputType(InputType.TYPE_CLASS_TEXT
+                            | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password.setTransformationMethod(PasswordTransformationMethod
+                            .getInstance());// hide password
+                    isChecked = true;
 
-                            password.setInputType(InputType.TYPE_CLASS_TEXT
-                                    | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            password.setTransformationMethod(PasswordTransformationMethod
-                                    .getInstance());// hide password
-
-                        }
-
-                    }
-                });
+                }
+            }
+        });
     }
 
     @Override
@@ -347,5 +352,17 @@ public class UserAdminLoginFragment extends Fragment implements View.OnClickList
         super.onResume();
         getActivity().setTitle("Login");
     }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.over_flow_item);
+        if(item!=null)
+            item.setVisible(false);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO your code to hide item here
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 }
+
 

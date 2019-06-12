@@ -61,8 +61,13 @@ public class AgentDetailPagerFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new AgentDetailsFragment(), "Details");
-        adapter.addFragment(new AgentProductsListFragment(), "Products Added");
+        if (customerType.equalsIgnoreCase("consumers")){
+            adapter.addFragment(new AgentDetailsFragment(), "Details");
+            adapter.addFragment(new AgentProductsListFragment(), "Products Added");
+        }else{
+            adapter.addFragment(new AgentDetailsFragment(), "Details");
+        }
+
         viewPager.setAdapter(adapter);
     }
 

@@ -207,6 +207,7 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
                 for (int i = 0 ; i < list.length() ;i ++){
                     ProductsDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
                     productDetailsItems.add(item);
+
                 }
                 adapter = new ProductsItemAdapter(getActivity(), productDetailsItems);
                 adapter.setIsFromOfferListing(true);
@@ -214,6 +215,7 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);
                 productsRecyclerView.setVisibility(View.VISIBLE);
+                offerpriceBtn.setVisibility(View.VISIBLE);
                 adapter.SetOnItemClickListener(new ProductsItemAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
@@ -237,6 +239,7 @@ public class OfferPriceProductList extends Fragment implements View.OnClickListe
                 // no consumers added . please add consumer first
                 viewNoProductAdded.setVisibility(View.VISIBLE);
                 productsRecyclerView.setVisibility(View.GONE);
+                offerpriceBtn.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

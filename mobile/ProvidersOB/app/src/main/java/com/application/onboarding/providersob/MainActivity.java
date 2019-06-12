@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.logout(this);
                 replaceLoginFragment(new UserAdminLoginFragment());
                 return true;
+            case R.id.checkQuotations:
+                addActionFragment( new CheckQuotationsPagerFragment());
+                return true;
             case R.id.offerPrice:
                 addActionFragment(new OfferPriceProductList());
                 return  true;
