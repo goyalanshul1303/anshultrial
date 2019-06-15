@@ -36,7 +36,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     private static View view;
     private ProgressBar progressBar;
     private int openOrdersCount,requirementsCount;
-
+    ActionAdapter adapter;
     @Override
     public void onClick(View view) {
 
@@ -61,7 +61,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        ActionAdapter adapter = new ActionAdapter(4);
+        adapter = new ActionAdapter(4);
         recyclerView.setAdapter(adapter);
         adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
             @Override
@@ -75,9 +75,9 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                 }else if ((int)view.getTag() == 2){
                     MainActivity.addActionFragment(new ConsumerOrderListFragment());
                 }
-//                else if ((int)view.getTag() == 3){
-//                    MainActivity.addActionFragment(new ProductListOpenForPrice());
-//                }
+                else if ((int)view.getTag() == 3){
+                    MainActivity.addActionFragment(new CompletedOrderListFragment());
+                }
 
             }
         });
@@ -154,6 +154,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
 //                        new OrderDetailFragment.FetchDetailsTask().execute();
                         parseOrderListingData(object);
+                        adapter.notifyDataSetChanged();
 
 
                     }
@@ -173,5 +174,6 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     private void parseOrderListingData(JSONObject object) {
         requirementsCount = object.optInt("requirementsCount");
         openOrdersCount = object.optInt("openOrdersCount");
+        adapter.setCardCount(requirementsCount,openOrdersCount);
     }
 }
