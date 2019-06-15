@@ -89,7 +89,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public Product getById(String consumerId, String id) {
 
-		return productDao.getById(consumerId, id);
+		List<Product> products = Arrays.asList(productDao.getById(consumerId, id));
+		addPriceToProducts(products);
+		return products.get(0);
 	}
 
 	@Override
