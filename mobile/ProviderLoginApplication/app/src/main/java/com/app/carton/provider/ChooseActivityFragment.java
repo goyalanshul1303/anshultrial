@@ -33,7 +33,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     private static View view;
     private ProgressBar progressBar;
     private int inprogressCount, productPricingCount,quotationOrderCount;
-
+    ActionAdapter adapter;
     @Override
     public void onClick(View view) {
 
@@ -60,7 +60,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        ActionAdapter adapter = new ActionAdapter(4);
+         adapter = new ActionAdapter(4);
         recyclerView.setAdapter(adapter);
         adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
             @Override
@@ -153,6 +153,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
 //                        new OrderDetailFragment.FetchDetailsTask().execute();
                         parseOrderListingData(object);
+                        adapter.notifyDataSetChanged();
 
 
                     }
@@ -170,5 +171,6 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         inprogressCount = object.optInt("inProgressCount");
         quotationOrderCount = object.optInt("quotationOrderCount");
         productPricingCount = object.optInt("productPricingCount");
+        adapter.setCardCount(quotationOrderCount,productPricingCount, inprogressCount);
     }
 }
