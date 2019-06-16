@@ -1,9 +1,12 @@
 package com.cartonwale.order.api.service.impl;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -11,7 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,6 +33,7 @@ import com.cartonwale.order.api.dao.OrderDao;
 import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
 import com.cartonwale.order.api.model.OrderStatus;
+import com.cartonwale.order.api.model.ProductPrice;
 import com.cartonwale.order.api.model.ProviderDashboard;
 import com.cartonwale.order.api.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -119,7 +125,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 
 	@Override
-	public List<Order> getAll() {
+	public List<Order> getAll(String authToken) {
 
 		List<Order> orders = null;
 		
@@ -131,6 +137,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 			}
 		else
 			orders = orderDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		calculateOrderAmount(orders, authToken);
 		return orders;
 	}
 
@@ -203,5 +210,40 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	public List<Order> getCompletedByConsumer() {
 		
 		return orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+	}
+	
+	private void calculateOrderAmount(List<Order> orders, String authToken) {
+
+		List<String> productIds = orders.stream().map(order -> order.getProductId()).collect(Collectors.toList());
+
+		ResponseEntity<List<ProductPrice>> responseEntity = ServiceUtil.callByType(HttpMethod.PUT, authToken,
+				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/price",
+				getProductIdsAsString(productIds), restTemplate, new ParameterizedTypeReference<List<ProductPrice>>() {
+				});
+
+		List<ProductPrice> prices = responseEntity.getBody();
+
+		Map<String, ProductPrice> recentProductPriceMap = prices.stream()
+				.collect(Collectors.toMap(ProductPrice::getProductId, p -> p));
+		orders.stream().forEach(o -> {
+			if (!o.isQuotesInvited() || o.getOrderStatus() == OrderStatus.Status.ORDER_PLACED.getValue())
+				o.setOrderAmount(recentProductPriceMap.get(o.getId()).getPrice() * o.getQuantity());
+			else
+				o.setOrderAmount(o.getAwardedQuote().getQuoteAmount());
+		});
+
+	}
+	
+	private String getProductIdsAsString(List<String> productIds) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(productIds);
+		} catch (JsonProcessingException e) {
+			System.out.println(e);
+		}
+		logger.error(json);
+		return json;
 	}
 }

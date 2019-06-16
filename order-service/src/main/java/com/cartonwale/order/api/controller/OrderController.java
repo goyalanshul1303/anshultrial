@@ -32,8 +32,8 @@ public class OrderController extends ControllerBase{
     private String tokenHeader;
 	
 	@RequestMapping
-    public ResponseEntity<List<Order>> getAll() {
-		return makeResponse(orderService.getAll());
+    public ResponseEntity<List<Order>> getAll(HttpServletRequest request) {
+		return makeResponse(orderService.getAll(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/toUpdate")

@@ -31,4 +31,6 @@ public interface OrderService extends GenericService<Order>{
 
 	List<Order> getCompletedByConsumer();
 
+	List<Order> getAll(String authToken);
+
 }
