@@ -52,8 +52,8 @@ public class OrderController extends ControllerBase{
     }
 	
 	@RequestMapping("/provider/dashboard")
-    public ResponseEntity<ProviderDashboard> getProviderDashboard() {
-		return makeResponse(orderService.getProviderDashboard());
+    public ResponseEntity<ProviderDashboard> getProviderDashboard(HttpServletRequest request) {
+		return makeResponse(orderService.getProviderDashboard(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/provider")

@@ -145,7 +145,7 @@ public class Order extends EntityBase{
 
 	@JsonProperty
 	public double getOrderAmount() {
-		return this.awardedQuote != null ? this.awardedQuote.getQuoteAmount() : 0.0;
+		return this.orderAmount;
 	}
 
 	@JsonIgnore

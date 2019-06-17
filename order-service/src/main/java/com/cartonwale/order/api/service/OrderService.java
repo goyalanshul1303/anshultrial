@@ -27,7 +27,7 @@ public interface OrderService extends GenericService<Order>{
 
 	ConsumerDashboard getConsumerDashboard();
 
-	ProviderDashboard getProviderDashboard();
+	ProviderDashboard getProviderDashboard(String authToken);
 
 	List<Order> getCompletedByConsumer(String authToken);
 
