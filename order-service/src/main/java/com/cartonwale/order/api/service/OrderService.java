@@ -19,7 +19,7 @@ public interface OrderService extends GenericService<Order>{
 	
 	List<Order> getCompletedByProvider();
 	
-	List<Order> getRequirementsByConsumer();
+	List<Order> getRequirementsByConsumer(String authToken);
 
 	List<Order> recentOrders(List<String> productIds);
 
@@ -29,8 +29,10 @@ public interface OrderService extends GenericService<Order>{
 
 	ProviderDashboard getProviderDashboard();
 
-	List<Order> getCompletedByConsumer();
+	List<Order> getCompletedByConsumer(String authToken);
 
 	List<Order> getAll(String authToken);
+
+	Order getById(String id, String authToken);
 
 }

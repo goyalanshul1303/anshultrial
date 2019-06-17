@@ -44,6 +44,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OrderServiceImpl extends GenericServiceImpl<Order> implements OrderService {
 
 	private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	
+	public static final String DUMMY_TOKEN = "dummyToken";
 
 	@Autowired
 	private OrderDao orderDao;
@@ -178,7 +180,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 
 	@Override
-	public List<Order> getRequirementsByConsumer() {
+	public List<Order> getRequirementsByConsumer(String authToken) {
+		
+		List<Order> orders = orderDao.getRequirementsByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		calculateOrderAmount(orders, authToken);
 
 		return orderDao.getRequirementsByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
@@ -197,7 +203,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	@Override
 	public ConsumerDashboard getConsumerDashboard() {
-		return new ConsumerDashboard(getRequirementsByConsumer().size(), getAll().size());
+		return new ConsumerDashboard(getRequirementsByConsumer(DUMMY_TOKEN).size(), getAll().size());
 	}
 
 	@Override
@@ -207,12 +213,17 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 
 	@Override
-	public List<Order> getCompletedByConsumer() {
+	public List<Order> getCompletedByConsumer(String authToken) {
 		
-		return orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Order> orders = orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		calculateOrderAmount(orders, authToken);
+		return orders;
 	}
 	
 	private void calculateOrderAmount(List<Order> orders, String authToken) {
+		
+		if(DUMMY_TOKEN.equals(authToken))
+			return;
 
 		List<String> productIds = orders.stream().map(order -> order.getProductId()).collect(Collectors.toList());
 
@@ -245,5 +256,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		}
 		logger.error(json);
 		return json;
+	}
+
+	@Override
+	public Order getById(String id, String authToken) {
+		Order order = super.getById(id);
+		List<Order> orders = Arrays.asList(order);
+		calculateOrderAmount(orders, authToken);
+		return orders.get(0);
 	}
 }
