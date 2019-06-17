@@ -247,7 +247,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 				.collect(Collectors.toMap(ProductPrice::getProductId, p -> p));
 		orders.stream().forEach(o -> {
 			if (!o.isQuotesInvited() || o.getOrderStatus() == OrderStatus.Status.ORDER_PLACED.getValue())
-				o.setOrderAmount(productPriceMap.get(o.getId()).getPrice() * o.getQuantity());
+				o.setOrderAmount(productPriceMap.get(o.getProductId()).getPrice() * o.getQuantity());
 			else
 				o.setOrderAmount(o.getAwardedQuote().getQuoteAmount());
 		});
