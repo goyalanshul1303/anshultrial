@@ -27,6 +27,11 @@ public class ProductPriceController extends ControllerBase {
 	public ResponseEntity<ProductPrice> getByProductId(@PathVariable("productId") String productId) {
 		return makeResponse(priceService.getByProductId(productId));
 	}
+	
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<List<ProductPrice>> getByProductIds(@RequestBody List<String> productIds) {
+		return makeResponse(priceService.getByProductIds(productIds));
+	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/startAcceptingOffers")
 	public ResponseEntity<Boolean> startAcceptingOffers(@RequestBody List<String> productIds) {
