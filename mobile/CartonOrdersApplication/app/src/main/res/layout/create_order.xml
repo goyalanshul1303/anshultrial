@@ -49,10 +49,19 @@
                 android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"></Spinner>
-
+            <TextView
+                android:id="@+id/priceProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:text="bdjbwjb wdbwjdbjwd"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/course_heading_color"
+                android:textSize="16sp" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/divider"></View>
                 <EditText
                     android:id="@+id/quantityET"

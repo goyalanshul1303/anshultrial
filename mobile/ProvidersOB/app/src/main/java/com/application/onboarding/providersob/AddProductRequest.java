@@ -103,5 +103,14 @@ public class AddProductRequest {
         this.printingType = printingType;
     }
 
+    public String getAdditionalComments() {
+        return additionalComments;
+    }
+
+    public void setAdditionalComments(String additionalComments) {
+        this.additionalComments = additionalComments;
+    }
+
+    String additionalComments;
 
 }

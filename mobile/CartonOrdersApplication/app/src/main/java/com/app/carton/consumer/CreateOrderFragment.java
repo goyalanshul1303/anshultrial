@@ -62,10 +62,11 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     String productId;
     Spinner productsSpinner;
     boolean isFromProductDetail = false;
-    TextView productName;
+    TextView productName,priceProduct;
     private ArrayList<ProductsDetailsItem> productList = new ArrayList<>();
     private String productNameString;
     private DimensionClass dimension;
+    private String productPrice;
 
     public CreateOrderFragment() {
 
@@ -104,6 +105,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         length = (EditText)view.findViewById(R.id.lengthLL);
         productName = (TextView) view.findViewById(R.id.productName);
         inviteQuotations = (Button)view.findViewById(R.id.inviteQuotations);
+        priceProduct = (TextView)view.findViewById(R.id.priceProduct);
         inviteQuotations.setOnClickListener(this);
         if (isFromProductDetail){
             productsSpinner.setVisibility(View.GONE);
@@ -111,6 +113,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             width.setText(dimension.getWidth() + "");
             length.setText(dimension.getLength() + "");
             productName.setText(productNameString);
+            priceProduct.setText("\u20B9"+ productPrice);
         }else{
             productName.setVisibility(View.GONE);
             productsSpinner.setVisibility(View.VISIBLE);
@@ -133,6 +136,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 productId = (productList.get(i).id);
+                priceProduct.setText("\u20B9"+productList.get(i).price);
             }
 
             @Override
@@ -198,6 +202,10 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
     public void setDimension(DimensionClass dimension) {
         this.dimension = dimension;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
 

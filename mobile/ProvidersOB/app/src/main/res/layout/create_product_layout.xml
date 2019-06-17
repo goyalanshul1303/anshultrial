@@ -220,14 +220,26 @@
                     android:text="cms"
                     android:textSize="16sp" />
 
+
             </LinearLayout>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Additional Details"
+                android:minHeight="100dp"
+                android:background="@drawable/edit_text_bg"
+                android:padding="10dp"
+                android:gravity="top"
+                android:id="@+id/additionalDetails"
+                android:layout_margin="10dp"
+                android:maxLength="4000"/>
             <Button
                 android:id="@+id/nextBtn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@color/background_color"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/loginbutton_selector"
                 android:padding="3dp"
                 android:text="Submit"
                 android:textColor="@color/white"

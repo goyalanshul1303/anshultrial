@@ -45,6 +45,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     String consumerId,productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
+    private String productPrice;
+
     public ProductDetailsFragment() {
 
     }
@@ -171,6 +173,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
        corrugationType.setText(String.valueOf(result.optString("corrugationType")));
         printingType.setText(String.valueOf(result.optString("printingType")));
         Gson gson = new Gson();
+        productPrice = result.optString("price");
          dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
     }
@@ -184,6 +187,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
             bundle.putString("productId", productId);
             fragment.setDimension(dimensionClass);
             fragment.setProductName(productNameString);
+            fragment.setProductPrice(productPrice);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }

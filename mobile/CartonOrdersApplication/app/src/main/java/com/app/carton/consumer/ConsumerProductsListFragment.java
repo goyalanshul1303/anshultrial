@@ -244,6 +244,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("isFromProductDetail", true);
                             bundle.putString("productId", item.id);
+                            fragment.setProductPrice(item.price);
                             fragment.setDimension(item.dimension);
                             fragment.setProductName(item.name);
 

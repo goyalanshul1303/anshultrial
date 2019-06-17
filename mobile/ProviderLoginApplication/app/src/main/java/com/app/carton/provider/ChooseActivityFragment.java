@@ -145,6 +145,8 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                                 || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
+                            MainActivity.replaceLoginFragment(new ProviderLoginFragment());
+
                         } else {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();

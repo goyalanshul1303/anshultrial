@@ -40,7 +40,7 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
 
 
         if (position == 0){
-            holder.textView.setText("My Products List ");
+            holder.textView.setText("My Products  ");
             holder.dashboardImv.setImageResource(R.drawable.waiting);
             holder.badgeRL.setVisibility(View.GONE);
         }else if (position == 1){
