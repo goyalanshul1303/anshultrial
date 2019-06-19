@@ -154,16 +154,17 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                                 if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
                                     Toast.makeText(getActivity(), "You have been logged out",
                                             Toast.LENGTH_LONG).show();
-                                }
-                                MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                                    MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
-                                {
-                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                                    orderListView.setVisibility(View.GONE);
-                                    tryAgain.setVisibility(View.VISIBLE);
-                                    nothing_available.setText("Something went wrong, Please try again");
+                                } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                        || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                                    {
+                                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                        orderListView.setVisibility(View.GONE);
+                                        tryAgain.setVisibility(View.VISIBLE);
+                                        nothing_available.setText("Something went wrong, Please try again");
 
+                                    }
                                 }
                             }
                         } catch (JSONException e) {
@@ -206,6 +207,8 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                     orderListDetailsItems.add(item);
                 }
                 adapter = new OrderItemAdapter(getActivity(), orderListDetailsItems);
+                adapter.setIsfromOpenOrders(true);
+
                 orderListView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 orderListView.setAdapter(adapter);
                 viewNoOrdersAdded.setVisibility(View.GONE);

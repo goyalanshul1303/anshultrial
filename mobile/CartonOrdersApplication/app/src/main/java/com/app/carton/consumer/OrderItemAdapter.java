@@ -27,6 +27,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
 
     private ArrayList<OrdersListDetailsItem> data = new ArrayList();
     Context context;
+    private boolean isFromOpenOrders;
 
     public OrderItemAdapter(Context mContext, ArrayList<OrdersListDetailsItem> data) {
         context = mContext;
@@ -59,6 +60,14 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
         customViewHolder.awardStatus.setText(Utils.getOrderStatusText(testObjtem.orderStatus));
         customViewHolder.date.setText("" + (Utils.getDate(testObjtem.orderDate)));
         customViewHolder.mainLayout.setTag(i);
+        if (isFromOpenOrders){
+            customViewHolder.orderId.setVisibility(View.GONE);
+            customViewHolder.amount.setVisibility(View.VISIBLE);
+            customViewHolder.amount.setText("\u20B9"+ testObjtem.orderAmount);
+        }else{
+            customViewHolder.orderId.setVisibility(View.VISIBLE);
+            customViewHolder.amount.setVisibility(View.GONE);
+        }
 
     }
 
@@ -67,11 +76,15 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
         return (null != data ? data.size() : 0);
     }
 
+    public void setIsfromOpenOrders(boolean b) {
+        isFromOpenOrders = b;
+    }
+
 
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SparseBooleanArray selectedItems = new SparseBooleanArray();
 
-        TextView textView, quantity, awardStatus, orderId, year, month, date;
+        TextView textView, quantity, awardStatus, orderId, amount, month, date;
         RelativeLayout textLL;
         RelativeLayout mainLayout;
 
@@ -86,6 +99,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Cust
             mainLayout = (RelativeLayout) view.findViewById(R.id.mainLayout);
             mainLayout.setOnClickListener(this);
             date = (TextView) view.findViewById(R.id.date);
+            amount = (TextView)view.findViewById(R.id.amount);
 
 
         }

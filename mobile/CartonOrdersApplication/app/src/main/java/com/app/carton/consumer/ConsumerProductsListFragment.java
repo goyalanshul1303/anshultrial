@@ -157,14 +157,14 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
                 } else if (result.trim().charAt(0) == '{') {
                     try {
                         object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() ){
-                            if ( Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED){
+                        if (null != object && !object.optString("status").isEmpty() ) {
+                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
                                 Toast.makeText(getActivity(), "You have been logged out",
                                         Toast.LENGTH_LONG).show();
-                            }
                                 MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-                        }else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST){
+                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                    || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_INTERNAL_ERROR) {
                                 {
                                     viewNoProductAdded.setVisibility(View.VISIBLE);
                                     productsRecyclerView.setVisibility(View.GONE);
@@ -173,6 +173,7 @@ public class ConsumerProductsListFragment extends Fragment implements View.OnCli
 
                                 }
                             }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

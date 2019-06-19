@@ -372,7 +372,6 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
         Gson gson = new Gson();
         if (null!= object.optJSONObject("awardedQuote")){
 
-            quotationDataLL.setVisibility(View.VISIBLE);
             noQuoteText.setVisibility(View.GONE);
             QuotationData data = gson.fromJson(String.valueOf(object.optJSONObject("awardedQuote")), QuotationData.class);
             quotationAmount.setText("\u20B9"+ String.valueOf(data.quoteAmount));
@@ -383,8 +382,11 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             String s = String.format("%.2f", priceUnit);
            pricePerUnit.setText("\u20B9"+ s);
         }else{
-            quotationDataLL.setVisibility(View.GONE);
+            float priceUnit = Float.valueOf(object.optInt("orderAmount")) / Float.valueOf(object.optString("quantity"));
+            quotationAmount.setText("\u20B9"+ String.valueOf(object.optInt("orderAmount")));
             noQuoteText.setVisibility(View.VISIBLE);
+            String s = String.format("%.2f", priceUnit);
+            pricePerUnit.setText("\u20B9"+ s);
         }
         ArrayList<OrderStatus> arrayList = new ArrayList<>();
         if (null!= object.optJSONArray("statuses")){

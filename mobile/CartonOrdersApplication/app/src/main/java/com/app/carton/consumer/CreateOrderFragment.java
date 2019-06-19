@@ -106,6 +106,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         productName = (TextView) view.findViewById(R.id.productName);
         inviteQuotations = (Button)view.findViewById(R.id.inviteQuotations);
         priceProduct = (TextView)view.findViewById(R.id.priceProduct);
+        setHasOptionsMenu(true);
         inviteQuotations.setOnClickListener(this);
         if (isFromProductDetail){
             productsSpinner.setVisibility(View.GONE);

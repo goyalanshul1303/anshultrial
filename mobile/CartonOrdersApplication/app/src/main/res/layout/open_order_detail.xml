@@ -102,6 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:id="@+id/perUnitLL"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                     <TextView
@@ -130,6 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
+                    android:id="@+id/startDateLL"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/startDateHead"
@@ -157,6 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
+                    android:id="@+id/endDatell"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/endDateHead"
@@ -184,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:visibility="gone"
+                    android:id="@+id/placedDateLL"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
                     <TextView

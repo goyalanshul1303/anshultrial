@@ -14,4 +14,5 @@ public class OrdersListDetailsItem {
     long orderDate;
     String quantity;
     DimensionClass dimensionClass;
+    int orderAmount;
 }

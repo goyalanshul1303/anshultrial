@@ -31,10 +31,10 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/middleLL"
                     android:layout_toEndOf="@+id/pdpImage"
-                  android:layout_weight="1"
+                    android:layout_weight="1"
                     android:background="@drawable/item_selector"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
@@ -53,9 +53,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="3"
+                        android:visibility="gone"
                         android:layout_marginLeft="4dp"
                         android:paddingBottom="10dp"
                         android:textColor="#878787"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="3"
+                        android:layout_marginLeft="4dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/color_dashboard_papers_text"
                         android:textSize="16sp" />
 
                 </LinearLayout>
