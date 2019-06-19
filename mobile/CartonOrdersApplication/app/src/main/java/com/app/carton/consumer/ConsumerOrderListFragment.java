@@ -156,8 +156,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                                             Toast.LENGTH_LONG).show();
                                     MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-                                } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                        || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                                } else
                                     {
                                         viewNoOrdersAdded.setVisibility(View.VISIBLE);
                                         orderListView.setVisibility(View.GONE);
@@ -165,7 +164,7 @@ public class ConsumerOrderListFragment extends Fragment implements View.OnClickL
                                         nothing_available.setText("Something went wrong, Please try again");
 
                                     }
-                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

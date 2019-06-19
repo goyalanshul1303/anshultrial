@@ -155,8 +155,7 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                                     Toast.makeText(getActivity(), "You have been logged out",
                                             Toast.LENGTH_LONG).show();
                                     MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
-                                } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                                || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                                } else
                                     {
                                         viewNoOrdersAdded.setVisibility(View.VISIBLE);
                                         orderListView.setVisibility(View.GONE);
@@ -164,7 +163,7 @@ public class ConsumerRequirementsListFragment extends Fragment implements View.O
                                         nothing_available.setText("Something went wrong, Please try again");
 
                                     }
-                                }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
