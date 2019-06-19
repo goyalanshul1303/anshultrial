@@ -42,8 +42,8 @@ public class OrderController extends ControllerBase{
     }
 	
 	@RequestMapping("/consumer/requirements")
-    public ResponseEntity<List<Order>> getRequirementsByConsumer() {
-		return makeResponse(orderService.getRequirementsByConsumer());
+    public ResponseEntity<List<Order>> getRequirementsByConsumer(HttpServletRequest request) {
+		return makeResponse(orderService.getRequirementsByConsumer(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/consumer/dashboard")
@@ -52,8 +52,8 @@ public class OrderController extends ControllerBase{
     }
 	
 	@RequestMapping("/provider/dashboard")
-    public ResponseEntity<ProviderDashboard> getProviderDashboard() {
-		return makeResponse(orderService.getProviderDashboard());
+    public ResponseEntity<ProviderDashboard> getProviderDashboard(HttpServletRequest request) {
+		return makeResponse(orderService.getProviderDashboard(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/provider")
@@ -67,13 +67,13 @@ public class OrderController extends ControllerBase{
     }
 	
 	@RequestMapping("/consumer/completed")
-    public ResponseEntity<List<Order>> getCompletedByConsumer() {
-		return makeResponse(orderService.getCompletedByConsumer());
+    public ResponseEntity<List<Order>> getCompletedByConsumer(HttpServletRequest request) {
+		return makeResponse(orderService.getCompletedByConsumer(request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping("/{id}")
-    public ResponseEntity<Order> getById(@PathVariable("id") String id) {
-		return makeResponse(orderService.getById(id));
+    public ResponseEntity<Order> getById(@PathVariable("id") String id, HttpServletRequest request) {
+		return makeResponse(orderService.getById(id, request.getHeader(tokenHeader)));
     }
 	
 	@RequestMapping(method = RequestMethod.POST)

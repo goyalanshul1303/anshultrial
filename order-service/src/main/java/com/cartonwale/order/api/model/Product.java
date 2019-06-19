@@ -1,13 +1,8 @@
-package com.cartonwale.product.api.model;
-
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.cartonwale.order.api.model;
 
 import com.cartonwale.common.model.EntityBase;
 import com.cartonwale.common.model.SheetLayerType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document(collection = "Product")
 public class Product extends EntityBase{
 	
 	private String name;
@@ -27,10 +22,6 @@ public class Product extends EntityBase{
 	private Dimension dimension;
 	
 	private Double price;
-	
-	private Order lastOrder;
-	
-	private String additionalComments;
 
 	public String getName() {
 		return name;
@@ -102,25 +93,6 @@ public class Product extends EntityBase{
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	@JsonProperty
-	public Order getLastOrder() {
-		
-		return lastOrder;
-	}
-
-	@JsonIgnore
-	public void setLastOrder(Order lastOrder) {
-		this.lastOrder = lastOrder;
-	}
-
-	public String getAdditionalComments() {
-		return additionalComments;
-	}
-
-	public void setAdditionalComments(String additionalComments) {
-		this.additionalComments = additionalComments;
 	}
 	
 }

@@ -33,6 +33,7 @@ import com.cartonwale.order.api.dao.OrderDao;
 import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
 import com.cartonwale.order.api.model.OrderStatus;
+import com.cartonwale.order.api.model.Product;
 import com.cartonwale.order.api.model.ProductPrice;
 import com.cartonwale.order.api.model.ProviderDashboard;
 import com.cartonwale.order.api.service.OrderService;
@@ -44,6 +45,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OrderServiceImpl extends GenericServiceImpl<Order> implements OrderService {
 
 	private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	
+	public static final String DUMMY_TOKEN = "dummyToken";
 
 	@Autowired
 	private OrderDao orderDao;
@@ -178,7 +181,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	}
 
 	@Override
-	public List<Order> getRequirementsByConsumer() {
+	public List<Order> getRequirementsByConsumer(String authToken) {
+		
+		List<Order> orders = orderDao.getRequirementsByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		calculateOrderAmount(orders, authToken);
 
 		return orderDao.getRequirementsByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
 	}
@@ -197,24 +204,37 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 	@Override
 	public ConsumerDashboard getConsumerDashboard() {
-		return new ConsumerDashboard(getRequirementsByConsumer().size(), getAll().size());
+		return new ConsumerDashboard(getRequirementsByConsumer(DUMMY_TOKEN).size(), getAll().size());
 	}
 
 	@Override
-	public ProviderDashboard getProviderDashboard() {
-		// TODO Auto-generated method stub
-		return new ProviderDashboard(getAllByProvider().size(), getPlacedOrders().size(), 0);
+	public ProviderDashboard getProviderDashboard(String authToken) {
+		return new ProviderDashboard(getAllByProvider().size(), getPlacedOrders().size(), getProductsForPricing(authToken).size());
 	}
 
 	@Override
-	public List<Order> getCompletedByConsumer() {
+	public List<Order> getCompletedByConsumer(String authToken) {
 		
-		return orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Order> orders = orderDao.getCompletedByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+		calculateOrderAmount(orders, authToken);
+		return orders;
+	}
+	
+	private List<Product> getProductsForPricing(String authToken) {
+		ResponseEntity<List<Product>> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/product/acceptingOffers",
+				null, restTemplate, new ParameterizedTypeReference<List<Product>>() {
+				});
+		
+		return responseEntity.getBody();
 	}
 	
 	private void calculateOrderAmount(List<Order> orders, String authToken) {
+		
+		if(DUMMY_TOKEN.equals(authToken))
+			return;
 
-		List<String> productIds = orders.stream().map(order -> order.getProductId()).collect(Collectors.toList());
+		List<String> productIds = orders.stream().filter(o -> !o.isQuotesInvited()).map(order -> order.getProductId()).collect(Collectors.toList());
 
 		ResponseEntity<List<ProductPrice>> responseEntity = ServiceUtil.callByType(HttpMethod.PUT, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/price",
@@ -223,11 +243,11 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 
 		List<ProductPrice> prices = responseEntity.getBody();
 
-		Map<String, ProductPrice> recentProductPriceMap = prices.stream()
+		Map<String, ProductPrice> productPriceMap = prices.stream()
 				.collect(Collectors.toMap(ProductPrice::getProductId, p -> p));
 		orders.stream().forEach(o -> {
 			if (!o.isQuotesInvited() || o.getOrderStatus() == OrderStatus.Status.ORDER_PLACED.getValue())
-				o.setOrderAmount(recentProductPriceMap.get(o.getId()).getPrice() * o.getQuantity());
+				o.setOrderAmount(productPriceMap.get(o.getProductId()).getPrice() * o.getQuantity());
 			else
 				o.setOrderAmount(o.getAwardedQuote().getQuoteAmount());
 		});
@@ -245,5 +265,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		}
 		logger.error(json);
 		return json;
+	}
+
+	@Override
+	public Order getById(String id, String authToken) {
+		Order order = super.getById(id);
+		List<Order> orders = Arrays.asList(order);
+		calculateOrderAmount(orders, authToken);
+		return orders.get(0);
 	}
 }
