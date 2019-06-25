@@ -234,7 +234,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		if(DUMMY_TOKEN.equals(authToken))
 			return;
 
-		List<String> productIds = orders.stream().filter(o -> !o.isQuotesInvited()).map(order -> order.getProductId()).collect(Collectors.toList());
+		List<String> productIds = orders.stream()
+				.filter(o -> !o.isQuotesInvited() || o.getOrderStatus() == OrderStatus.Status.ORDER_PLACED.getValue())
+				.map(order -> order.getProductId()).collect(Collectors.toList());
 
 		ResponseEntity<List<ProductPrice>> responseEntity = ServiceUtil.callByType(HttpMethod.PUT, authToken,
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/price",
