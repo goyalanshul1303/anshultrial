@@ -40,16 +40,16 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionAdapter.ViewHolder
 
 
         if (position == 0){
-            holder.textView.setText("    My Products   \n ");
+            holder.textView.setText("My Products\n ");
             holder.dashboardImv.setImageResource(R.drawable.waiting);
             holder.badgeRL.setVisibility(View.GONE);
         }else if (position == 1){
-            holder.textView.setText("    Requirements   \n ");
+            holder.textView.setText("Requirements\n ");
             holder.dashboardImv.setImageResource(R.drawable.progress);
             holder.badgeRL.setVisibility(View.VISIBLE);
             holder.badgeTextView.setText(""+requiremntsCount);
         }else if (position == 2){
-            holder.textView.setText("     Open Orders     " );
+            holder.textView.setText("Open Orders \n" );
             holder.badgeRL.setVisibility(View.VISIBLE);
             holder.badgeTextView.setText(""+openOrderCount);
             holder.dashboardImv.setImageResource(R.drawable.pending);

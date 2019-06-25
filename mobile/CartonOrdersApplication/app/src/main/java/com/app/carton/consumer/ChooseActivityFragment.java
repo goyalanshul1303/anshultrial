@@ -219,7 +219,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             @Override
             public void onPageSelected(int position) {
-//                addBottomDots(position);
+                addBottomDots(position);
             }
 
             @Override
@@ -227,7 +227,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             }
         });
-//        addBottomDots(0);
+        addBottomDots(0);
 
         final Handler handler = new Handler();
 
@@ -248,7 +248,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
             public void run() {
                 handler.post(update);
             }
-        }, 100, 5000);
+        }, 100, 3000);
     }
     private void addBottomDots(int currentPage) {
         dots = new TextView[slider_image_list.size()];

@@ -1,11 +1,15 @@
 package com.app.carton.provider;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -23,6 +28,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -34,6 +42,12 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     private ProgressBar progressBar;
     private int inprogressCount, productPricingCount,quotationOrderCount;
     ActionAdapter adapter;
+    private ViewPager vp_slider;
+    private LinearLayout ll_dots;
+    SlidingImageAdapter sliderPagerAdapter;
+    ArrayList<Integer> slider_image_list;
+    private TextView[] dots;
+    int page_position = 0;
     @Override
     public void onClick(View view) {
 
@@ -53,6 +67,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.choose_action, container, false);
         inflateViews();
+        init(view);
         return view;
     }
 
@@ -174,5 +189,76 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         quotationOrderCount = object.optInt("quotationOrderCount");
         productPricingCount = object.optInt("productPricingCount");
         adapter.setCardCount(quotationOrderCount,productPricingCount, inprogressCount);
+    }
+    private void init(View view) {
+
+        vp_slider = (ViewPager) view.findViewById(R.id.vp_slider);
+        ll_dots = (LinearLayout) view.findViewById(R.id.ll_dots);
+
+        slider_image_list = new ArrayList<>();
+        Integer[] IMAGES= {R.drawable.image1,R.drawable.image2,R.drawable.image3,R.drawable.image4};
+
+//Add few items to slider_image_list ,this should contain url of images which should be displayed in slider
+// here i am adding few sample image links, you can add your own
+
+        for(int i=0;i<IMAGES.length;i++)
+            slider_image_list.add(IMAGES[i]);
+
+        sliderPagerAdapter = new SlidingImageAdapter(getActivity(), slider_image_list);
+        vp_slider.setAdapter(sliderPagerAdapter);
+
+        vp_slider.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                addBottomDots(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        addBottomDots(0);
+
+        final Handler handler = new Handler();
+
+        final Runnable update = new Runnable() {
+            public void run() {
+                if (page_position == slider_image_list.size()) {
+                    page_position = 0;
+                } else {
+                    page_position = page_position + 1;
+                }
+                vp_slider.setCurrentItem(page_position, true);
+            }
+        };
+
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 100, 3000);
+    }
+    private void addBottomDots(int currentPage) {
+        dots = new TextView[slider_image_list.size()];
+
+        ll_dots.removeAllViews();
+        for (int i = 0; i < dots.length; i++) {
+            dots[i] = new TextView(getActivity());
+            dots[i].setText(Html.fromHtml("&#8226;"));
+            dots[i].setTextSize(35);
+            dots[i].setTextColor(Color.parseColor("#000000"));
+            ll_dots.addView(dots[i]);
+        }
+
+        if (dots.length > 0)
+            dots[currentPage].setTextColor(Color.parseColor("#FFFFFF"));
     }
 }

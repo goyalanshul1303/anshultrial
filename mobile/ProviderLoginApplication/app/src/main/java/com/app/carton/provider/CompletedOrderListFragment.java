@@ -150,10 +150,9 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
                                 if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
                                     Toast.makeText(getActivity(), "You have been logged out",
                                             Toast.LENGTH_LONG).show();
-                                }
-                                MainActivity.replaceLoginFragment(new ProviderLoginFragment());
+                                    MainActivity.replaceLoginFragment(new ProviderLoginFragment());
 
-                            } else if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST) {
+                                } else
                                 {
                                     viewNoOrdersAdded.setVisibility(View.VISIBLE);
                                     orderListView.setVisibility(View.GONE);
@@ -161,6 +160,7 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
                                     nothing_available.setText("Something went wrong, Please try again");
 
                                 }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

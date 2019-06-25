@@ -153,13 +153,13 @@ public class CompletedOrderListFragment extends Fragment implements View.OnClick
                                     MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
                                 } else
-                                    {
-                                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                                        orderListView.setVisibility(View.GONE);
-                                        tryAgain.setVisibility(View.VISIBLE);
-                                        nothing_available.setText("Something went wrong, Please try again");
+                                {
+                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                    orderListView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
 
-                                    }
+                                }
 
                             }
                         } catch (JSONException e) {

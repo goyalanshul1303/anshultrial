@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,11 +48,12 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private ProgressBar progressBar;
     private Button addQuotationBtn;
-    TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
+    TextView productName, amountValue,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String orderId,productId;
     LinearLayout parentLL,statuLL;
     boolean isFromAwarded ;
     private int orderStatus;
+    TableRow amountRl;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
     private boolean isFromCompleted;
 
@@ -91,9 +93,11 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         parentLL= (LinearLayout)view.findViewById(R.id.parentLL);
         cartonType = (TextView)view.findViewById(R.id.cartonType);
         addQuotationBtn.setOnClickListener(this);
+        amountRl = (TableRow)view.findViewById(R.id.amountRl);
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
         statuLL = (LinearLayout) view.findViewById(R.id.statuLL);
+        amountValue = (TextView) view.findViewById(R.id.amountValue);
         if (isFromAwarded){
             addQuotationBtn.setText("Update Order Status");
             // show status change button
@@ -212,6 +216,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         sheetLayerType.setText(result.optString("sheetLayerType"));
         corrugationType.setText(String.valueOf(result.optString("corrugationType")));
         printingType.setText(String.valueOf(result.optString("printingType")));
+        amountValue.setText("\u20B9 " + result.optInt("orderAmount"));
 
     }
 

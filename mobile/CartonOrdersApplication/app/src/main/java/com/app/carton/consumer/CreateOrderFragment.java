@@ -1,6 +1,8 @@
 package com.app.carton.consumer;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -183,13 +185,34 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
                 request.setQuotesInvited(true);
             }
             request.setProductId(productId);
-
-            new SendPostRequest().execute();
+showAlertDialog();
 
 //            postDataToServer();
 
 
         }
+    }
+
+    private void showAlertDialog() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Confirm Order")
+                .setMessage("Are you sure you want to create this order? \n" +
+                        "• Product Name: "+ productNameString +"\n"+
+                        "• Order Quantity: "+request.quantity)
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        new SendPostRequest().execute();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 
     public void setProductList(ArrayList<ProductsDetailsItem> productList) {

@@ -75,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="In Progress"
+                    android:text="In Progress \n"
                     android:textAllCaps="false"
                     android:textColor="@android:color/background_dark"
                     android:textSize="17sp" />
