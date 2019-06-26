@@ -55,6 +55,14 @@ public class Utils {
         return date;
     }
 
+   public static String addDaysToDate(long time, int daysToadd){
+       Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+
+       cal.setTimeInMillis(time );
+       cal.add(Calendar.DATE, daysToadd);
+       String date = DateFormat.format("MMM dd, yyyy", cal).toString();
+       return date;
+    }
     public static  String getPostDataString(JSONObject params) throws Exception {
 
         StringBuilder result = new StringBuilder();

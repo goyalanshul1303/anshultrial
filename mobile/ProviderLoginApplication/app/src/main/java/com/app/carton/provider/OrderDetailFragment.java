@@ -56,6 +56,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     TableRow amountRl;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
     private boolean isFromCompleted;
+    private String orderAMount;
 
     public OrderDetailFragment() {
 
@@ -216,7 +217,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         sheetLayerType.setText(result.optString("sheetLayerType"));
         corrugationType.setText(String.valueOf(result.optString("corrugationType")));
         printingType.setText(String.valueOf(result.optString("printingType")));
-        amountValue.setText("\u20B9 " + result.optInt("orderAmount"));
+        amountValue.setText("\u20B9 " + orderAMount);
 
     }
 
@@ -337,6 +338,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             orderId = object.optString("id");
             orderStatus = object.optInt("orderStatus");
             productId = object.optString("productId");
+            orderAMount = object.optString("orderAmount");
             Gson gson = new Gson();
          if (null!= object.optJSONArray("statuses")){
             for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){

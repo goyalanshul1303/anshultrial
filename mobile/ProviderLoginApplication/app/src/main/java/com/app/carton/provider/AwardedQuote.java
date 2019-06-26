@@ -7,5 +7,5 @@ public class AwardedQuote {
     String providerId;
     long orderFulfillmentDate;
     long orderStartDate;
-
+int noOfDays;
 }

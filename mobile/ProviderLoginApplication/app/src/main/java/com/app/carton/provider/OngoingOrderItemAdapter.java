@@ -48,25 +48,24 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
 //        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, cartonTypeString);
         customViewHolder.quantity.setText( testObjtem.quantity + " Nos");
         customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
-        if (null != testObjtem.awardedQuote){
-            customViewHolder.targetDate.setText(Utils.getDate(testObjtem.awardedQuote.orderFulfillmentDate));
-        }else{
-            customViewHolder.targetDate.setText("N/A");
 
-        }
         if (null!=testObjtem.statuses){
             for (int j = 0; j < testObjtem.statuses.size(); j++){
                 OrderStatus orderStatus = testObjtem.statuses.get(j);
                 if (orderStatus.status == 2){
                     customViewHolder.dateAssigned.setText(Utils.getDate(orderStatus.statusDate));
                 }else {
+                    customViewHolder.targetDate.setText("--");
                     customViewHolder.dateAssigned.setText("N/A");
 
                 } if (orderStatus.status == 3){
                     customViewHolder.initiatedDate.setText(Utils.getDate(orderStatus.statusDate));
-                }else {
-                    customViewHolder.initiatedDate.setText("N/A");
+                    if (null != testObjtem.awardedQuote){
+                        customViewHolder.targetDate.setText(Utils.addDaysToDate(orderStatus.statusDate,testObjtem.awardedQuote.noOfDays));
+                    }else{
+                        customViewHolder.targetDate.setText("--");
 
+                    }
                 }
             }
         }

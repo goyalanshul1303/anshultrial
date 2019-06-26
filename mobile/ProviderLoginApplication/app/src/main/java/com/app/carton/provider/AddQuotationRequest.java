@@ -56,5 +56,15 @@ public class AddQuotationRequest {
 String orderFulfillmentDate;
 String orderStartDate;
 
+    public int getNoOfDays() {
+        return noOfDays;
+    }
+
+    public void setNoOfDays(int noOfDays) {
+        this.noOfDays = noOfDays;
+    }
+
+    int noOfDays;
+
 
 }
