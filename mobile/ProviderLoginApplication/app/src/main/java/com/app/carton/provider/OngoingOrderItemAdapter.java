@@ -58,7 +58,7 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
                     customViewHolder.targetDate.setText("--");
                     customViewHolder.dateAssigned.setText("N/A");
 
-                } if (orderStatus.status == 3){
+                } if (orderStatus.status >= 3){
                     customViewHolder.initiatedDate.setText(Utils.getDate(orderStatus.statusDate));
                     if (null != testObjtem.awardedQuote){
                         customViewHolder.targetDate.setText(Utils.addDaysToDate(orderStatus.statusDate,testObjtem.awardedQuote.noOfDays));

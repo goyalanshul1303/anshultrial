@@ -53,6 +53,7 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     ArrayList<OrdersListDetailsItem> ordersListDetailsItems = new ArrayList<>();
     private Button tryAgain;
     TextView nothing_available;
+
     public ProviderOngoingOrdersListFragment() {
 
     }
@@ -61,7 +62,7 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
 
         }
 
@@ -79,7 +80,9 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     @Override
     public void onResume() {
         super.onResume();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         getActivity().setTitle("Ongoing Orders");
     }
@@ -88,10 +91,10 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         ordersRecyclerView = (RecyclerView) view.findViewById(R.id.ordersRecyclerView);
-        viewNoOrdersAdded = (View)view.findViewById(R.id.viewNoOrdersAdded);
-        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        viewNoOrdersAdded = (View) view.findViewById(R.id.viewNoOrdersAdded);
+        tryAgain = (Button) view.findViewById(R.id.tryAgain);
         tryAgain.setOnClickListener(this);
-        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
+        nothing_available = (TextView) view.findViewById(R.id.nothing_available);
         new GetAllProductsAsyncTask().execute();
     }
 
@@ -147,51 +150,50 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
 
             progressBar.setVisibility(View.GONE);
 
-    if(isVisible()){
-            if (null != result) {
-                if(result.trim().charAt(0) == '[') {
-                    Log.e("Response is : " , "JSONArray");
+            if (isVisible()) {
+                if (null != result) {
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
                         parseListingData(result);
-                } else if(result.trim().charAt(0) == '{') {
-                    try {
-                        object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty()) {
-                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                                Toast.makeText(getActivity(), "You have been logged out",
-                                        Toast.LENGTH_LONG).show();
-                                MainActivity.replaceLoginFragment(new ProviderLoginFragment());
+                    } else if (result.trim().charAt(0) == '{') {
+                        try {
+                            object = new JSONObject(result);
+                            if (null != object && !object.optString("status").isEmpty()) {
+                                if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                    Toast.makeText(getActivity(), "You have been logged out",
+                                            Toast.LENGTH_LONG).show();
+                                    MainActivity.replaceLoginFragment(new ProviderLoginFragment());
 
-                            } else
-                            {
-                                viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                                ordersRecyclerView.setVisibility(View.GONE);
-                                tryAgain.setVisibility(View.VISIBLE);
-                                nothing_available.setText("Something went wrong, Please try again");
+                                } else {
+                                    viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                                    ordersRecyclerView.setVisibility(View.GONE);
+                                    tryAgain.setVisibility(View.VISIBLE);
+                                    nothing_available.setText("Something went wrong, Please try again");
+
+                                }
 
                             }
-
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        viewNoOrdersAdded.setVisibility(View.VISIBLE);
+                        ordersRecyclerView.setVisibility(View.GONE);
+                        tryAgain.setVisibility(View.VISIBLE);
+                        nothing_available.setText("Something went wrong, Please try again");
                     }
-                }else  {
+
+
+                } else {
                     viewNoOrdersAdded.setVisibility(View.VISIBLE);
                     ordersRecyclerView.setVisibility(View.GONE);
                     tryAgain.setVisibility(View.VISIBLE);
                     nothing_available.setText("Something went wrong, Please try again");
                 }
-
-
-            }else  {
-                viewNoOrdersAdded.setVisibility(View.VISIBLE);
-                ordersRecyclerView.setVisibility(View.GONE);
-                tryAgain.setVisibility(View.VISIBLE);
-                nothing_available.setText("Something went wrong, Please try again");
+            } else {
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
-        }else{
-            FragmentManager fragmentManager = MainActivity.fragmentManager;
-            fragmentManager.popBackStackImmediate();
-        }
 
 
         }
@@ -200,11 +202,11 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
     private void parseListingData(String result) {
         try {
             JSONArray list = new JSONArray(result);
-            if (null!= list && list.length() > 0 ){
-                Gson gson=new Gson();
+            if (null != list && list.length() > 0) {
+                Gson gson = new Gson();
                 ordersListDetailsItems = new ArrayList<>();
-                for (int i = 0 ; i < list.length() ;i ++){
-                    OrdersListDetailsItem item=gson.fromJson(String.valueOf((list.optJSONObject(i))),OrdersListDetailsItem.class);
+                for (int i = 0; i < list.length(); i++) {
+                    OrdersListDetailsItem item = gson.fromJson(String.valueOf((list.optJSONObject(i))), OrdersListDetailsItem.class);
                     ordersListDetailsItems.add(item);
                 }
                 adapter = new OngoingOrderItemAdapter(getActivity(), ordersListDetailsItems);
@@ -225,8 +227,8 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
                         MainActivity.addActionFragment(newFragment);
                     }
                 });
-            }else{
-              // no ongoing order. show list of placedorders
+            } else {
+                // no ongoing order. show list of placedorders
                 MainActivity.replaceLoginFragment(new PlacedOrderListFragment());
 //                viewNoOrdersAdded.setVisibility(View.VISIBLE);
 //                ordersRecyclerView.setVisibility(View.GONE);
@@ -239,14 +241,15 @@ public class ProviderOngoingOrdersListFragment extends Fragment implements View.
 
     @Override
     public void onClick(View view) {
-        if (view.getId()== R.id.tryAgain){
+        if (view.getId() == R.id.tryAgain) {
             new GetAllProductsAsyncTask().execute();
         }
 
     }
+
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.over_flow_item);
-        if(item!=null)
+        MenuItem item = menu.findItem(R.id.over_flow_item);
+        if (item != null)
             item.setVisible(false);
     }
 }

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +39,7 @@ import java.util.TimerTask;
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
     private ProgressBar progressBar;
-    private int inprogressCount, productPricingCount,quotationOrderCount;
+    private int inprogressCount, productPricingCount, quotationOrderCount;
     ActionAdapter adapter;
     private ViewPager vp_slider;
     private LinearLayout ll_dots;
@@ -48,17 +47,20 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     ArrayList<Integer> slider_image_list;
     private TextView[] dots;
     int page_position = 0;
+
     @Override
     public void onClick(View view) {
 
 
-
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Welcome");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
     }
 
@@ -75,21 +77,20 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-         adapter = new ActionAdapter(4);
+        adapter = new ActionAdapter(4);
         recyclerView.setAdapter(adapter);
         adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if ((int)view.getTag() == 0){
+                if ((int) view.getTag() == 0) {
                     // Get FragmentManager and FragmentTransaction object.
                     MainActivity.addActionFragment(new ProviderOngoingOrdersListFragment());
 
-                }else if ((int)view.getTag() == 1){
+                } else if ((int) view.getTag() == 1) {
                     MainActivity.addActionFragment(new CompletedOrderListFragment());
-                }else if ((int)view.getTag() == 2){
+                } else if ((int) view.getTag() == 2) {
                     MainActivity.addActionFragment(new PlacedOrderListFragment());
-                }
-                else if ((int)view.getTag() == 3){
+                } else if ((int) view.getTag() == 3) {
                     MainActivity.addActionFragment(new ProductListOpenForPrice());
                 }
 
@@ -97,6 +98,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         });
         new FetchProviderDashboard().execute();
     }
+
     public class FetchProviderDashboard extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -153,7 +155,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (null!=object) {
+                if (null != object) {
                     if (!object.optString("status").isEmpty()) {
                         if ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
                                 || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
@@ -166,7 +168,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
                         }
-                    }else {
+                    } else {
 
 //                        new OrderDetailFragment.FetchDetailsTask().execute();
                         parseOrderListingData(object);
@@ -175,7 +177,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
                     }
                 }
-            }else  {
+            } else {
                 Toast.makeText(getActivity(), "Something went wrong please try again",
                         Toast.LENGTH_LONG).show();
             }
@@ -188,20 +190,21 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         inprogressCount = object.optInt("inProgressCount");
         quotationOrderCount = object.optInt("quotationOrderCount");
         productPricingCount = object.optInt("productPricingCount");
-        adapter.setCardCount(quotationOrderCount,productPricingCount, inprogressCount);
+        adapter.setCardCount(quotationOrderCount, productPricingCount, inprogressCount);
     }
+
     private void init(View view) {
 
         vp_slider = (ViewPager) view.findViewById(R.id.vp_slider);
         ll_dots = (LinearLayout) view.findViewById(R.id.ll_dots);
 
         slider_image_list = new ArrayList<>();
-        Integer[] IMAGES= {R.drawable.image1,R.drawable.image2,R.drawable.image3,R.drawable.image4};
+        Integer[] IMAGES = {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4};
 
 //Add few items to slider_image_list ,this should contain url of images which should be displayed in slider
 // here i am adding few sample image links, you can add your own
 
-        for(int i=0;i<IMAGES.length;i++)
+        for (int i = 0; i < IMAGES.length; i++)
             slider_image_list.add(IMAGES[i]);
 
         sliderPagerAdapter = new SlidingImageAdapter(getActivity(), slider_image_list);
@@ -215,7 +218,8 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             @Override
             public void onPageSelected(int position) {
-                addBottomDots(position);
+                if (null != getActivity())
+                    addBottomDots(position);
             }
 
             @Override
@@ -223,7 +227,8 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             }
         });
-        addBottomDots(0);
+        if (null != getActivity())
+            addBottomDots(0);
 
         final Handler handler = new Handler();
 
@@ -246,6 +251,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
             }
         }, 100, 3000);
     }
+
     private void addBottomDots(int currentPage) {
         dots = new TextView[slider_image_list.size()];
 

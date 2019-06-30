@@ -6,19 +6,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +42,7 @@ import java.util.TimerTask;
 public class ChooseActivityFragment extends Fragment implements View.OnClickListener {
     private static View view;
     private ProgressBar progressBar;
-    private int openOrdersCount,requirementsCount;
+    private int openOrdersCount, requirementsCount;
     ActionAdapter adapter;
     private ViewPager vp_slider;
     private LinearLayout ll_dots;
@@ -52,15 +50,19 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     ArrayList<Integer> slider_image_list;
     private TextView[] dots;
     int page_position = 0;
+
     @Override
     public void onClick(View view) {
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Welcome");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false); }
+        getActivity().setTitle("Packify");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
     }
 
@@ -82,16 +84,15 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         adapter.SetOnItemClickListener(new ActionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if ((int)view.getTag() == 0){
+                if ((int) view.getTag() == 0) {
                     // Get FragmentManager and FragmentTransaction object.
                     MainActivity.addActionFragment(new ConsumerProductsListFragment());
 
-                }else if ((int)view.getTag() == 1){
+                } else if ((int) view.getTag() == 1) {
                     MainActivity.addActionFragment(new ConsumerRequirementsListFragment());
-                }else if ((int)view.getTag() == 2){
+                } else if ((int) view.getTag() == 2) {
                     MainActivity.addActionFragment(new ConsumerOrderListFragment());
-                }
-                else if ((int)view.getTag() == 3){
+                } else if ((int) view.getTag() == 3) {
                     MainActivity.addActionFragment(new CompletedOrderListFragment());
                 }
 
@@ -99,6 +100,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         });
         new FetchProviderDashboard().execute();
     }
+
     public class FetchProviderDashboard extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -147,44 +149,52 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
-            progressBar.setVisibility(View.GONE);
+            if (isVisible()&& null!=getActivity()) {
+                progressBar.setVisibility(View.GONE);
+                if (isVisible() && null != getActivity()) {
+                    if (null != result) {
+                        try {
+                            object = new JSONObject(result);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (null != object) {
+                            if (!object.optString("status").isEmpty()) {
+                                if ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                        || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
+                                        || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
+                                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                                            Toast.LENGTH_LONG).show();
+                                    MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if (!object.optString("status").isEmpty()) {
-                        if ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
-                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
-                                || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
-                            Toast.makeText(getActivity(), "Something went wrong please try again",
-                                    Toast.LENGTH_LONG).show();
-                            MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+                                } else {
+                                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            } else {
 
+//                        new OrderDetailFragment.FetchDetailsTask().execute();
+                                parseOrderListingData(object);
+                                adapter.notifyDataSetChanged();
+
+
+                            }
                         } else {
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
                         }
-                    }else {
-
-//                        new OrderDetailFragment.FetchDetailsTask().execute();
-                        parseOrderListingData(object);
-                        adapter.notifyDataSetChanged();
-
-
+                    } else {
+                        Toast.makeText(getActivity(), "Something went wrong please try again",
+                                Toast.LENGTH_LONG).show();
                     }
-                }else{
-                    Toast.makeText(getActivity(), "Something went wrong please try again",
-                            Toast.LENGTH_LONG).show();
-                }
-            }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
-            }
+                } else {
+                    if (null != MainActivity.fragmentManager) {
+                        FragmentManager fragmentManager = MainActivity.fragmentManager;
+                        fragmentManager.popBackStackImmediate();
+                    }
 
+                }
+            }
 
         }
     }
@@ -192,20 +202,21 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     private void parseOrderListingData(JSONObject object) {
         requirementsCount = object.optInt("requirementsCount");
         openOrdersCount = object.optInt("openOrdersCount");
-        adapter.setCardCount(requirementsCount,openOrdersCount);
+        adapter.setCardCount(requirementsCount, openOrdersCount);
     }
+
     private void init(View view) {
 
         vp_slider = (ViewPager) view.findViewById(R.id.vp_slider);
         ll_dots = (LinearLayout) view.findViewById(R.id.ll_dots);
 
         slider_image_list = new ArrayList<>();
-         Integer[] IMAGES= {R.drawable.image1,R.drawable.image2,R.drawable.image3,R.drawable.image4};
+        Integer[] IMAGES = {R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image4};
 
 //Add few items to slider_image_list ,this should contain url of images which should be displayed in slider
 // here i am adding few sample image links, you can add your own
 
-        for(int i=0;i<IMAGES.length;i++)
+        for (int i = 0; i < IMAGES.length; i++)
             slider_image_list.add(IMAGES[i]);
 
         sliderPagerAdapter = new SlidingImageAdapter(getActivity(), slider_image_list);
@@ -219,7 +230,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             @Override
             public void onPageSelected(int position) {
-                addBottomDots(position);
+                if (null!=getActivity()){
+                    addBottomDots(position);
+
+                }
             }
 
             @Override
@@ -227,6 +241,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
 
             }
         });
+        if (null!=getActivity())
         addBottomDots(0);
 
         final Handler handler = new Handler();
@@ -250,6 +265,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
             }
         }, 100, 3000);
     }
+
     private void addBottomDots(int currentPage) {
         dots = new TextView[slider_image_list.size()];
 

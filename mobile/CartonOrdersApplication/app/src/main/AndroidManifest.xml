@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme">
-        <activity android:name="com.app.carton.consumer.MainActivity">
+        <activity android:name="com.app.carton.consumer.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.app.carton.consumer.MainActivity"
+             />
     </application>
 
 </manifest>

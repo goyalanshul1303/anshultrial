@@ -1,5 +1,7 @@
 package com.app.carton.consumer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -209,9 +211,9 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                     @Override
                     public void onItemClick(View view, int position) {
                         QuotationData testObjtem = quotationDataArrayList.get((Integer) view.getTag());
-                        awardPosition = position;
-                        quoteId = testObjtem.id;
-                        new AwardQuotationTask().execute();
+
+                        showAlertDialoge(testObjtem, position);
+
                     }
                 });
 
@@ -227,6 +229,30 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
         }
 
 
+    }
+
+    private void showAlertDialoge(final QuotationData testObjtem , final int position) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Award Quotation")
+                .setMessage("Are you sure you want to award this quotation? \n" +
+                        "• Quotation Amount Name: "+ testObjtem.quoteAmount +"\n"
+                        )
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Continue with delete operation
+                        awardPosition = position;
+                        quoteId = testObjtem.id;
+                        new AwardQuotationTask().execute();
+                    }
+                })
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 
     @Override
