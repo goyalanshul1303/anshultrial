@@ -171,7 +171,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	@Override
 	public List<Order> getAllByProvider() {
 
-		return orderDao.getAllByProvider(SecurityUtil.getAuthUserDetails().getEntityId());
+		List<Order> orders = orderDao.getAllByProvider(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		orders.stream().forEach(o -> o.setOrderAmount(o.getAwardedQuote().getQuoteAmount()));
+		return orders;
 	}
 
 	@Override
