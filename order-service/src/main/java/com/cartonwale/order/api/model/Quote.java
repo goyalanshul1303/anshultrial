@@ -15,11 +15,14 @@ public class Quote  extends EntityBase {
 	
 	private double quoteAmount;
 	
+	@Deprecated
 	private Date orderFulfillmentDate;
 	
 	private Date orderStartDate;
 	
 	private Date quoteDate;
+	
+	private int noOfDays;
 
 	public String getOrderId() {
 		return orderId;
@@ -45,10 +48,12 @@ public class Quote  extends EntityBase {
 		this.quoteAmount = quoteAmount;
 	}
 
+	@Deprecated
 	public Date getOrderFulfillmentDate() {
 		return orderFulfillmentDate;
 	}
 
+	@Deprecated
 	public void setOrderFulfillmentDate(Date orderFulfillmentDate) {
 		this.orderFulfillmentDate = orderFulfillmentDate;
 	}
@@ -67,6 +72,14 @@ public class Quote  extends EntityBase {
 
 	public void setQuoteDate(Date quoteDate) {
 		this.quoteDate = quoteDate;
+	}
+
+	public int getNoOfDays() {
+		return noOfDays;
+	}
+
+	public void setNoOfDays(int noOfDays) {
+		this.noOfDays = noOfDays;
 	}
 
 }
