@@ -31,7 +31,7 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.listview_item_row, null);
+                .inflate(R.layout.consumers_item_row, null);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
@@ -62,7 +62,6 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
         {
             customViewHolder.customerEmail.setVisibility(View.VISIBLE);
         }
-        customViewHolder.checkbox.setVisibility(View.GONE);
         customViewHolder.customerEmail.setText("Email : " + email);
         customViewHolder.textLL.setOnClickListener(this);
         customViewHolder.textLL.setTag(i);
@@ -93,7 +92,7 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView, customerEmail;
-        RelativeLayout textLL;
+        LinearLayout textLL;
         AppCompatCheckBox checkbox ;
 
 
@@ -101,8 +100,7 @@ public class ConsumersItemAdapter extends RecyclerView.Adapter<ConsumersItemAdap
             super(view);
             this.textView = (TextView) view.findViewById(R.id.customerName);
             customerEmail= (TextView)view.findViewById(R.id.customerEmail);
-            textLL = (RelativeLayout)view.findViewById(R.id.textLL);
-            checkbox = (AppCompatCheckBox)view.findViewById(R.id.checkbox);
+            textLL = (LinearLayout)view.findViewById(R.id.textLL);
         }
 
     }

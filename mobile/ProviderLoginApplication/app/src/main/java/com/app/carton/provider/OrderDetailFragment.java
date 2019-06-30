@@ -9,13 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableRow;
@@ -48,10 +48,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private ProgressBar progressBar;
     private Button addQuotationBtn;
-    TextView productName, amountValue,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
-    String orderId,productId;
-    LinearLayout parentLL,statuLL;
-    boolean isFromAwarded ;
+    TextView productName, amountValue, contactName, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
+    String orderId, productId;
+    LinearLayout parentLL, statuLL;
+    boolean isFromAwarded;
     private int orderStatus;
     TableRow amountRl;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
@@ -65,10 +65,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             isFromAwarded = getArguments().containsKey("isFromAwardedScreen") ? getArguments().getBoolean("isFromAwardedScreen") : false;
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
-            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
+            productId = getArguments().containsKey("productId") ? getArguments().getString("productId") : "";
         }
     }
 
@@ -85,21 +85,21 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        addQuotationBtn = (Button)view.findViewById(R.id.addQuotationBtn);
-        quantity = (TextView)view.findViewById(R.id.expectedQuantity);
-        sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
-        productName = (TextView)view.findViewById(R.id.productName);
-        printingType = (TextView)view.findViewById(R.id.printingType);
-        corrugationType = (TextView)view.findViewById(R.id.corrugationType);
-        parentLL= (LinearLayout)view.findViewById(R.id.parentLL);
-        cartonType = (TextView)view.findViewById(R.id.cartonType);
+        addQuotationBtn = (Button) view.findViewById(R.id.addQuotationBtn);
+        quantity = (TextView) view.findViewById(R.id.expectedQuantity);
+        sheetLayerType = (TextView) view.findViewById(R.id.sheetLayerType);
+        productName = (TextView) view.findViewById(R.id.productName);
+        printingType = (TextView) view.findViewById(R.id.printingType);
+        corrugationType = (TextView) view.findViewById(R.id.corrugationType);
+        parentLL = (LinearLayout) view.findViewById(R.id.parentLL);
+        cartonType = (TextView) view.findViewById(R.id.cartonType);
         addQuotationBtn.setOnClickListener(this);
-        amountRl = (TableRow)view.findViewById(R.id.amountRl);
+        amountRl = (TableRow) view.findViewById(R.id.amountRl);
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
         statuLL = (LinearLayout) view.findViewById(R.id.statuLL);
         amountValue = (TextView) view.findViewById(R.id.amountValue);
-        if (isFromAwarded){
+        if (isFromAwarded) {
             addQuotationBtn.setText("Update Order Status");
             // show status change button
         }
@@ -161,29 +161,29 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-            if (isVisible()){
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
-                        Toast.makeText(getActivity(), "Something went wrong please try again",
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        parseListingData(object);
-
+            if (isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }
-            }else  {
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
-            }
+                    if (null != object) {
+                        if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+                                || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            parseListingData(object);
 
-            }else{
+                        }
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong please try again",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            } else {
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -192,24 +192,24 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     }
 
     private void parseListingData(JSONObject result) {
-        if (isFromCompleted ){
+        if (isFromCompleted) {
             addQuotationBtn.setVisibility(View.GONE);
-        }else{
+        } else {
             addQuotationBtn.setVisibility(View.VISIBLE);
         }
-        if ( isFromAwarded) {
+        if (isFromAwarded) {
             if (orderStatus >= 4)
                 addQuotationBtn.setVisibility(View.GONE);
             else if (orderStatus == 2) {
                 addQuotationBtn.setText("Initiate Manufacturing");
-            }else  if(orderStatus == 3){
+            } else if (orderStatus == 3) {
                 addQuotationBtn.setText("Complete Manufacturing");
 
             }
         }
 
         if (isFromAwarded)
-        addOrderStatus(orderStatus, statusarrayList);
+            addOrderStatus(orderStatus, statusarrayList);
         else
             statuLL.setVisibility(View.GONE);
         productName.setText(result.optString("name"));
@@ -217,21 +217,29 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         sheetLayerType.setText(result.optString("sheetLayerType"));
         corrugationType.setText(String.valueOf(result.optString("corrugationType")));
         printingType.setText(String.valueOf(result.optString("printingType")));
-        amountValue.setText("\u20B9 " + orderAMount);
+        if (!TextUtils.isEmpty(orderAMount)){
+            amountValue.setText("\u20B9 " + orderAMount);
+
+            amountValue.setVisibility(View.VISIBLE);
+        }
+
+        else{
+            amountValue.setVisibility(View.GONE);
+        }
 
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.addQuotationBtn){
-            if (!isFromAwarded){
+        if (view.getId() == R.id.addQuotationBtn) {
+            if (!isFromAwarded) {
                 AddQuotationFragment fragment = new AddQuotationFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("orderId", orderId);
                 bundle.putString("productId", productId);
                 fragment.setArguments(bundle);
                 MainActivity.addActionFragment(fragment);
-            }else{
+            } else {
                 // update order status
                 new UpdateOrderStatusTask().execute();
             }
@@ -243,7 +251,9 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         getActivity().setTitle("Order Details");
     }
@@ -298,52 +308,56 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(String result) {
             JSONObject object = null;
+            if (isVisible()) {
+                if (null != result) {
+                    try {
+                        object = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (null != object) {
+                        if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
+                                || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN))) {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Something went wrong please try again",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
 
-            if (null != result) {
-                try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (null!=object) {
-                    if ((!object.optString("status").isEmpty() && ((Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST)
-                            || (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED))) || ((Integer.valueOf(object.optString("status")) ==  HttpURLConnection.HTTP_FORBIDDEN))) {
+                            new FetchDetailsTask().execute();
+                            parseOrderListingData(object);
+
+
+                        }
+                    } else {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
-                    } else {
-
-                        new FetchDetailsTask().execute();
-                        parseOrderListingData(object);
-
-
                     }
-                }else{
+                } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-            }else  {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Something went wrong please try again",
-                        Toast.LENGTH_LONG).show();
+            }else{
+                FragmentManager fragmentManager = MainActivity.fragmentManager;
+                fragmentManager.popBackStackImmediate();
             }
-
 
         }
     }
-    void  parseOrderListingData(JSONObject object){
+
+    void parseOrderListingData(JSONObject object) {
 //            Utils.setDetailsTextField("Product Name", getActivity(), productName, object.optString("productName"));
-             quantity.setText(object.optString("quantity")+" Nos");
-            orderId = object.optString("id");
-            orderStatus = object.optInt("orderStatus");
-            productId = object.optString("productId");
-            orderAMount = object.optString("orderAmount");
-            Gson gson = new Gson();
-         if (null!= object.optJSONArray("statuses")){
-            for (int i = 0 ;i <   object.optJSONArray("statuses").length(); i++){
+        quantity.setText(object.optString("quantity") + " Nos");
+        orderId = object.optString("id");
+        orderStatus = object.optInt("orderStatus");
+        productId = object.optString("productId");
+        orderAMount = object.optString("orderAmount");
+        Gson gson = new Gson();
+        if (null != object.optJSONArray("statuses")) {
+            for (int i = 0; i < object.optJSONArray("statuses").length(); i++) {
                 OrderStatus orderStatus = gson.fromJson(String.valueOf(object.optJSONArray("statuses").opt(i)), OrderStatus.class);
-                statusarrayList.add( orderStatus);
+                statusarrayList.add(orderStatus);
             }
 
         }
@@ -445,7 +459,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-            }else{
+            } else {
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -453,9 +467,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
         }
     }
+
     private void addOrderStatus(int status, ArrayList<OrderStatus> arrayList) {
         LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        int i =0;
+        int i = 0;
         if (arrayList.size() > 0) {
             for (i = 0; i < arrayList.size(); i++) {
                 View v = vi.inflate(R.layout.order_status, null);
@@ -480,24 +495,23 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                 statuLL.addView(v);
             }
         }
-        for ( int j = i+1  ; j <= 9 ; j++){
+        for (int j = i + 1; j <= 9; j++) {
             View v = vi.inflate(R.layout.order_status, null);
             TextView textView = (TextView) v.findViewById(R.id.statusText);
             textView.setText(Utils.getOrderStatusText(j));
             TextView textDateView = (TextView) v.findViewById(R.id.statusDate);
             TimelineView timelineView = (TimelineView) v.findViewById(R.id.timeline);
-            timelineView.setMarker(getActivity().getResources().getDrawable( R.drawable.order_details_grey ));
+            timelineView.setMarker(getActivity().getResources().getDrawable(R.drawable.order_details_grey));
             textDateView.setVisibility(View.INVISIBLE);
-            if (j==9){
-                timelineView.setStartLineColor(R.color.inactive,2);
-            }else if(j == i+1  && arrayList.size() == 0){
-                timelineView.setStartLineColor(R.color.inactive,1);
-                timelineView.setEndLineColor(R.color.inactive,1);
+            if (j == 9) {
+                timelineView.setStartLineColor(R.color.inactive, 2);
+            } else if (j == i + 1 && arrayList.size() == 0) {
+                timelineView.setStartLineColor(R.color.inactive, 1);
+                timelineView.setEndLineColor(R.color.inactive, 1);
                 timelineView.initLine(1);
-            }
-            else{
-                timelineView.setStartLineColor(R.color.inactive,0);
-                timelineView.setEndLineColor(R.color.inactive,0);
+            } else {
+                timelineView.setStartLineColor(R.color.inactive, 0);
+                timelineView.setEndLineColor(R.color.inactive, 0);
                 timelineView.initLine(0);
 
             }
@@ -505,9 +519,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
         }
     }
+
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.over_flow_item);
-        if(item!=null)
+        MenuItem item = menu.findItem(R.id.over_flow_item);
+        if (item != null)
             item.setVisible(false);
     }
 }

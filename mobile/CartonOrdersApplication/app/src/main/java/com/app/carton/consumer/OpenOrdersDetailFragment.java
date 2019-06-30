@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -382,11 +383,17 @@ pricePerUnit =(TextView)view.findViewById(R.id.priceperUnit);
             String s = String.format("%.2f", priceUnit);
            pricePerUnit.setText("\u20B9"+ s);
         }else{
-            float priceUnit = Float.valueOf(object.optInt("orderAmount")) / Float.valueOf(object.optString("quantity"));
+            if (!TextUtils.isEmpty(object.optString("quantity"))){
+                float priceUnit = Float.valueOf(object.optInt("orderAmount")) / Float.valueOf(object.optString("quantity"));
+                String s = String.format("%.2f", priceUnit);
+                pricePerUnit.setText("\u20B9"+ s);
+                pricePerUnit.setVisibility(View.VISIBLE);
+            }else{
+                pricePerUnit.setVisibility(View.GONE);
+            }
             quotationAmount.setText("\u20B9"+ String.valueOf(object.optInt("orderAmount")));
             noQuoteText.setVisibility(View.VISIBLE);
-            String s = String.format("%.2f", priceUnit);
-            pricePerUnit.setText("\u20B9"+ s);
+
         }
         ArrayList<OrderStatus> arrayList = new ArrayList<>();
         if (null!= object.optJSONArray("statuses")){

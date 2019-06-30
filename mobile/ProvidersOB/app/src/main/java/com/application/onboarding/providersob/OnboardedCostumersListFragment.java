@@ -200,6 +200,7 @@ public class OnboardedCostumersListFragment extends Fragment implements View.OnC
                 Gson gson=new Gson();
                 adapter = new ConsumersItemAdapter(getActivity());
                 consumerDetailsItems = new ArrayList<>();
+                providerDetailsItems = new ArrayList<>();
                 for (int i = 0 ; i < list.length() ;i ++){
                     if (urlType.contains("consumers")){
                         ConsumerDetailsItem item=gson.fromJson(String.valueOf(list.getJSONObject(i)),ConsumerDetailsItem.class);

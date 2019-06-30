@@ -48,7 +48,7 @@ public class QuotationItemsAdapter extends RecyclerView.Adapter<QuotationItemsAd
         QuotationData testObjtem = data.get(i);
         customViewHolder.quotationAmount.setText("\u20B9 " +String.valueOf(testObjtem.quoteAmount));
         customViewHolder.quotationStartDate.setText(Utils.getDate(testObjtem.orderStartDate));
-        customViewHolder.quotationEndDate.setText(Utils.getDate(testObjtem.orderFulfillmentDate));
+        customViewHolder.quotationEndDate.setText(String.valueOf(testObjtem.getNoOfDays()));
         customViewHolder.quotationPlacedDate.setText(Utils.getDate(testObjtem.quoteDate));
         customViewHolder.awardQuotationBtn.setTag(i);
 

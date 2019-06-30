@@ -76,6 +76,15 @@ public class QuotationData {
         this.quoteDate = qouteDate;
     }
 
+    public int getNoOfDays() {
+        return noOfDays;
+    }
+
+    public void setNoOfDays(int noOfDays) {
+        this.noOfDays = noOfDays;
+    }
+
+    int noOfDays;
     long quoteDate;
 
     public void setAwarded(boolean awarded) {
