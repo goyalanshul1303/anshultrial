@@ -48,7 +48,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn, viewOffersBtn;
-    TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
+    TextView productName, email,additionalComments, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
@@ -88,6 +88,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         printingType = (TextView)view.findViewById(R.id.printingType);
         corrugationType = (TextView)view.findViewById(R.id.corrugationType);
         cartonType = (TextView)view.findViewById(R.id.cartonType);
+        additionalComments = (TextView)view.findViewById(R.id.additionalComments);
         addOrderBtn.setVisibility(View.VISIBLE);
         addOrderBtn.setOnClickListener(this);
         viewOffersBtn.setOnClickListener(this);
@@ -192,6 +193,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        Utils.setDetailsTextField("Additional Comments", getActivity(), additionalComments, String.valueOf(result.optString("additionalComments")));
         Gson gson = new Gson();
         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 

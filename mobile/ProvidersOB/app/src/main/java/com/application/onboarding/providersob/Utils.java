@@ -104,7 +104,7 @@ public class Utils {
 
         longDescription.append(getKeyword(preText,
                 context.getResources().getColor(R.color.course_heading_color)));
-        longDescription.append(" ");
+        longDescription.append(" : ");
         longDescription.append(getKeyword(postText,
                 context.getResources().getColor(R.color.color_dashboard_papers_text)));
         textView.setText(longDescription);
