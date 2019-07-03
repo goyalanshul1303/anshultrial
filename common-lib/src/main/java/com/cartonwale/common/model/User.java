@@ -34,6 +34,8 @@ public class User extends EntityBase{
     
     private String entityId;
     
+    private String companyName;
+    
     public String getEmail() {
         return email;
     }
@@ -130,6 +132,14 @@ public class User extends EntityBase{
 
 	public void setEntityId(String entityId) {
 		this.entityId = entityId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 }

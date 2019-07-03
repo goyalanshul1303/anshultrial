@@ -63,6 +63,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 		user.setStatus(0);
 		user.setUsername(consumer.getCompanyPAN());
 		user.setEntityId(consumer.getId());
+		user.setCompanyName(consumer.getConsumerName());
 		return user;
 	}
 

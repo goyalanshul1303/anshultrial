@@ -22,6 +22,10 @@ public class Product extends EntityBase{
 	private Dimension dimension;
 	
 	private Double price;
+	
+	private int grammage;
+	
+	private String additionalComments;
 
 	public String getName() {
 		return name;
@@ -93,6 +97,22 @@ public class Product extends EntityBase{
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public int getGrammage() {
+		return grammage;
+	}
+
+	public void setGrammage(int grammage) {
+		this.grammage = grammage;
+	}
+
+	public String getAdditionalComments() {
+		return additionalComments;
+	}
+
+	public void setAdditionalComments(String additionalComments) {
+		this.additionalComments = additionalComments;
 	}
 	
 }

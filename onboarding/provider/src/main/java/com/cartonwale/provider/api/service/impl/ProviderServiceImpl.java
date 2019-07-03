@@ -80,6 +80,7 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 		user.setStatus(0);
 		user.setUsername(provider.getCompanyPAN());
 		user.setEntityId(provider.getId());
+		user.setCompanyName(provider.getCompanyName());
 		return user;
 	}
 	

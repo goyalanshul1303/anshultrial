@@ -12,5 +12,7 @@ public interface ProductDao extends GenericDao<Product> {
 	Product getById(String entityId, String id);
 
 	List<Product> getByProductIds(List<String> productIds);
+	
+	List<Product> getByName(String name, String string);
 
 }

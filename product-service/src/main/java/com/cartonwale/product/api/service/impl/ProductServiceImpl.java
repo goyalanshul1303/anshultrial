@@ -22,6 +22,7 @@ import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.product.api.dao.ProductDao;
+import com.cartonwale.product.api.exception.DuplicateProductException;
 import com.cartonwale.product.api.model.Order;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductPrice;
@@ -51,6 +52,13 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	
 	@Override
 	public Product add(Product product) {
+		
+		List<Product> existingProduct = productDao.getByName(product.getName(), product.getConsumerId());
+		
+		if(existingProduct != null && !existingProduct.isEmpty())
+			
+			throw new DuplicateProductException("Product with this name already exists");
+		
 		Product productNew = super.add(product);
 		
 		productPriceService.add(new ProductPrice(productNew.getId()));

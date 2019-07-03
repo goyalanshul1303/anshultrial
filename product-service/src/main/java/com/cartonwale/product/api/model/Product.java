@@ -31,6 +31,8 @@ public class Product extends EntityBase{
 	private Order lastOrder;
 	
 	private String additionalComments;
+	
+	private int grammage;
 
 	public String getName() {
 		return name;
@@ -121,6 +123,14 @@ public class Product extends EntityBase{
 
 	public void setAdditionalComments(String additionalComments) {
 		this.additionalComments = additionalComments;
+	}
+
+	public int getGrammage() {
+		return grammage;
+	}
+
+	public void setGrammage(int grammage) {
+		this.grammage = grammage;
 	}
 	
 }

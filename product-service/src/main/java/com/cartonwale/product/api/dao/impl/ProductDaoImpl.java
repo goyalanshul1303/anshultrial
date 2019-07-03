@@ -53,4 +53,16 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 			throw new ProductException(e.getMessage());
 		}
 	}
+
+	@Override
+	public List<Product> getByName(String name, String consumerId) {
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("name").is(name));
+			query.addCriteria(Criteria.where("consumerId").is(consumerId));
+			return super.getAll(query);
+		} catch (DataAccessException e) {
+			throw new ProductException(e.getMessage());
+		}
+	}
 }
