@@ -12,10 +12,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.app.carton.orders.R;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int RESULT_PG_SUCCESS = 200;
+    public static final int RESULT_FAILURE = 400;
+    public static final int REQUEST_CODE = 100;
     public static FragmentManager fragmentManager;
 
     @Override
@@ -118,5 +122,24 @@ public class MainActivity extends AppCompatActivity {
 //        stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
         fragmentManager = null;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_FAILURE) {
+                if (null!=this){
+                    Toast.makeText(this, "Something went wrong please try again", Toast.LENGTH_SHORT).show();
+                }
+
+            } else if (resultCode == RESULT_PG_SUCCESS ) {
+                android.support.v4.app.Fragment f = this.getSupportFragmentManager().findFragmentById(R.id.frameContainer);
+                if(f instanceof CreateOrderFragment)
+                    // do something with f
+                    ((CreateOrderFragment) f).createOrderTask();
+               else if(f instanceof QuotationListingFragment)
+                    // do something with f
+                    ((QuotationListingFragment) f).awardQuoteMethod();
+
+        }
     }
 }

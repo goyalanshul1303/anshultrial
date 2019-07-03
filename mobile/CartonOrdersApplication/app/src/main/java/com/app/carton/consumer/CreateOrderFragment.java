@@ -3,6 +3,7 @@ package com.app.carton.consumer;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,11 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +40,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by aggarwal.swati on 12/27/18.
@@ -60,15 +56,16 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     private ProgressBar progressBar;
     DataView data = new DataView();
     private Button createOrderBtn, inviteQuotations;
-    private EditText height, width,length;
+    private EditText height, width, length;
     String productId;
     Spinner productsSpinner;
     boolean isFromProductDetail = false;
-    TextView productName,priceProduct;
+    TextView productName, priceProduct;
     private ArrayList<ProductsDetailsItem> productList = new ArrayList<>();
     private String productNameString;
     private DimensionClass dimension;
     private String productPrice;
+    private float priceSingle;
 
     public CreateOrderFragment() {
 
@@ -80,7 +77,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         view = inflater.inflate(R.layout.create_order, container, false);
 
         isFromProductDetail = getArguments().containsKey("isFromProductDetail") ? getArguments().getBoolean("isFromProductDetail") : false;
-           productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
+        productId = getArguments().containsKey("productId") ? getArguments().getString("productId") : "";
 
 
         return view;
@@ -90,7 +87,9 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         super.onResume();
         initViews();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         getActivity().setTitle("Place Order");
     }
@@ -98,33 +97,35 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        createOrderBtn = (Button)view.findViewById(R.id.createOrderBtn);
+        createOrderBtn = (Button) view.findViewById(R.id.createOrderBtn);
         quantityET = (EditText) view.findViewById(R.id.quantityET);
-         productsSpinner = (Spinner) view.findViewById(R.id.productsSpinner);
+        productsSpinner = (Spinner) view.findViewById(R.id.productsSpinner);
         createOrderBtn.setOnClickListener(this);
         height = (EditText) view.findViewById(R.id.heightLL);
         width = (EditText) view.findViewById(R.id.widthLL);
-        length = (EditText)view.findViewById(R.id.lengthLL);
+        length = (EditText) view.findViewById(R.id.lengthLL);
         productName = (TextView) view.findViewById(R.id.productName);
-        inviteQuotations = (Button)view.findViewById(R.id.inviteQuotations);
-        priceProduct = (TextView)view.findViewById(R.id.priceProduct);
+        inviteQuotations = (Button) view.findViewById(R.id.inviteQuotations);
+        priceProduct = (TextView) view.findViewById(R.id.priceProduct);
         setHasOptionsMenu(true);
         inviteQuotations.setOnClickListener(this);
-        if (isFromProductDetail){
+        if (isFromProductDetail) {
             productsSpinner.setVisibility(View.GONE);
             height.setText(dimension.getHeight() + "");
             width.setText(dimension.getWidth() + "");
             length.setText(dimension.getLength() + "");
             productName.setText(productNameString);
-            priceProduct.setText("\u20B9"+ productPrice);
-        }else{
+            priceProduct.setText("\u20B9" + productPrice);
+            priceSingle = Float.parseFloat(productPrice);
+
+        } else {
             productName.setVisibility(View.GONE);
             productsSpinner.setVisibility(View.VISIBLE);
         }
         List<String> productListString = new ArrayList<String>();
-       for (int i= 0 ; i< productList.size() ; i ++){
-           productListString.add(productList.get(i).name);
-       }
+        for (int i = 0; i < productList.size(); i++) {
+            productListString.add(productList.get(i).name);
+        }
 
 
         // Creating adapter for spinner
@@ -139,7 +140,8 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 productId = (productList.get(i).id);
-                priceProduct.setText("\u20B9"+productList.get(i).price);
+                priceProduct.setText("\u20B9" + productList.get(i).price);
+                priceSingle = Float.parseFloat(productList.get(i).price);
             }
 
             @Override
@@ -152,7 +154,7 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-       
+
         if (view.getId() == R.id.createOrderBtn || view.getId() == R.id.inviteQuotations) {
             // move to next screen
 
@@ -179,13 +181,15 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
             dimensionClass.setHeight(Integer.parseInt(height.getText().toString()));
             dimensionClass.setWidth(Integer.parseInt(width.getText().toString()));
             dimensionClass.setLength(Integer.parseInt(length.getText().toString()));
-
+            boolean isInvitequote = false;
             request.setDimension(dimensionClass);
-            if (view.getId() == R.id.inviteQuotations){
+            if (view.getId() == R.id.inviteQuotations) {
                 request.setQuotesInvited(true);
+                isInvitequote = true;
             }
             request.setProductId(productId);
-showAlertDialog();
+
+            showAlertDialog(isInvitequote);
 
 //            postDataToServer();
 
@@ -193,19 +197,29 @@ showAlertDialog();
         }
     }
 
-    private void showAlertDialog() {
+    private void showAlertDialog(final boolean isInviteQuote) {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Confirm Order")
                 .setMessage("Are you sure you want to create this order? \n" +
-                        "• Product Name: "+ productNameString +"\n"+
-                        "• Order Quantity: "+request.quantity)
+                        "• Product Name: " + productNameString + "\n" +
+                        "• Order Quantity: " + request.quantity)
 
                 // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // Continue with delete operation
-                        new SendPostRequest().execute();
+                        // call payment method
+                        if (!isInviteQuote) {
+                            Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                            intent.putExtra("productName", productNameString);
+                            intent.putExtra("price", priceSingle * request.quantity);
+                            intent.putExtra("quantity", request.quantity);
+                            startActivityForResult(intent, MainActivity.REQUEST_CODE);
+                        } else {
+                            new SendPostRequest().execute();
+                        }
+//
                     }
                 })
 
@@ -230,6 +244,10 @@ showAlertDialog();
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public void createOrderTask() {
+        new SendPostRequest().execute();
     }
 
 
@@ -299,13 +317,13 @@ showAlertDialog();
                 JSONObject object = new JSONObject(result);
                 if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                         || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)
-                        || Integer.valueOf(object.optString("status"))== HttpURLConnection.HTTP_FORBIDDEN) {
+                        || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
                     Toast.makeText(getActivity(), object.optString("message"),
                             Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Order Created successfully",
                             Toast.LENGTH_LONG).show();
-                    new MainActivity().replaceLoginFragment(new ConsumerProductsListFragment ());
+                    new MainActivity().replaceLoginFragment(new ConsumerProductsListFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
@@ -314,14 +332,17 @@ showAlertDialog();
             }
         }
     }
+
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.over_flow_item);
-        if(item!=null)
+        MenuItem item = menu.findItem(R.id.over_flow_item);
+        if (item != null)
             item.setVisible(false);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // TODO your code to hide item here
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 }

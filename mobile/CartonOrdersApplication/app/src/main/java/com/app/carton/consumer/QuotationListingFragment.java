@@ -2,6 +2,7 @@ package com.app.carton.consumer;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +68,8 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
     private TextView quantity, productName;
     private String productId;
     private TextView productDetailLInk;
+    private int quantityString;
+    private String productNameString;
 
     public QuotationListingFragment() {
 
@@ -245,7 +248,11 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
                         // Continue with delete operation
                         awardPosition = position;
                         quoteId = testObjtem.id;
-                        new AwardQuotationTask().execute();
+                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        intent.putExtra("productName", productNameString);
+                        intent.putExtra("price", testObjtem.quoteAmount);
+                        intent.putExtra("quantity", quantityString);
+                        startActivityForResult(intent, MainActivity.REQUEST_CODE);
                     }
                 })
 
@@ -266,6 +273,9 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
             MainActivity.addActionFragment(newFragment);
         }
 
+    }
+    public void awardQuoteMethod(){
+     new AwardQuotationTask().execute();
     }
 
     public class AwardQuotationTask extends AsyncTask<String, Void, String> {
@@ -448,6 +458,9 @@ public class QuotationListingFragment extends Fragment implements View.OnClickLi
 
     void parseOrderListingData(JSONObject object) {
        productName.setText(object.optString("productName"));
+       productNameString = object.optString("productName");
+       quantityString = object.optInt("quantity");
+       
       quantity.setText(object.optString("quantity") +" Nos");
         orderId = object.optString("id");
         productId = object.optString("productId");

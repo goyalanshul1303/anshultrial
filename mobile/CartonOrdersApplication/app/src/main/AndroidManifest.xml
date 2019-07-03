@@ -23,6 +23,13 @@
         <activity
             android:name="com.app.carton.consumer.MainActivity"
              />
+        <activity
+            android:name="com.app.carton.consumer.PaymentActivity"
+            />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_svasFF8QITAwW1"
+            />
     </application>
 
 </manifest>

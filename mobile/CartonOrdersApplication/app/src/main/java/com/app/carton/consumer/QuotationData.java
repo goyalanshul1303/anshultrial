@@ -40,11 +40,11 @@ public class QuotationData {
         this.providerId = providerId;
     }
 
-    public int getQuoteAmount() {
+    public float getQuoteAmount() {
         return quoteAmount;
     }
 
-    public void setQuoteAmount(int quoteAmount) {
+    public void setQuoteAmount(float quoteAmount) {
         this.quoteAmount = quoteAmount;
     }
 
@@ -64,7 +64,7 @@ public class QuotationData {
         this.orderStartDate = orderStartDate;
     }
 
-    int quoteAmount;
+    float quoteAmount;
     long orderFulfillmentDate;
     long orderStartDate;
 
