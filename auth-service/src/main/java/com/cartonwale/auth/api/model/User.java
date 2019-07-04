@@ -32,6 +32,8 @@ public class User extends EntityBase{
     private Date registeredOn;
 
     private Integer attempts;
+    
+    private String companyName;
 
     @DBRef
     private List<Role> roles = new ArrayList<>();
@@ -186,6 +188,14 @@ public class User extends EntityBase{
 
 	public void setBuyerProfile(BuyerProfile buyerProfile) {
 		this.buyerProfile = buyerProfile;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 }
