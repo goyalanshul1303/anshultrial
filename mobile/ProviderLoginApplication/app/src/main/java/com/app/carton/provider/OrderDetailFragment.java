@@ -48,7 +48,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private ProgressBar progressBar;
     private Button addQuotationBtn;
-    TextView productName, amountValue, grammage, quantity, printingType, additionalComments, cartonType, corrugationType, sheetLayerType;
+    TextView productName, amountValue, grammage, quantity, printingType, additionalComments, cartonType, corrugationType, sheetLayerType, dimensions;
     String orderId, productId;
     LinearLayout parentLL, statuLL;
     boolean isFromAwarded;
@@ -97,9 +97,10 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         cartonType = (TextView) view.findViewById(R.id.cartonType);
         addQuotationBtn.setOnClickListener(this);
         amountRl = (TableRow) view.findViewById(R.id.amountRl);
-        grammage = (TextView)view.findViewById(R.id.grammage);
-        additionalComments = (TextView)view.findViewById(R.id.additionalComments);
-        additionalCommentsRl = (TableRow)view.findViewById(R.id.additionalCommentsRl);
+        grammage = (TextView) view.findViewById(R.id.grammage);
+        additionalComments = (TextView) view.findViewById(R.id.additionalComments);
+        additionalCommentsRl = (TableRow) view.findViewById(R.id.additionalCommentsRl);
+        dimensions = (TextView) view.findViewById(R.id.dimensions);
 
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
@@ -222,6 +223,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         cartonType.setText(result.optString("cartonType"));
         sheetLayerType.setText(result.optString("sheetLayerType"));
         corrugationType.setText(String.valueOf(result.optString("corrugationType")));
+        DimensionClass dimensionClass = new Gson().fromJson(String.valueOf(result.optJSONObject("dimension")), DimensionClass.class);
         printingType.setText(String.valueOf(result.optString("printingType")));
         grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
 
@@ -229,16 +231,14 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                 !String.valueOf(result.optString("additionalComments")).equalsIgnoreCase("null")) {
             additionalCommentsRl.setVisibility(View.VISIBLE);
             additionalComments.setText(String.valueOf(result.optString("additionalComments")));
-        }else{
+        } else {
             additionalCommentsRl.setVisibility(View.GONE);
         }
-
-        if (!TextUtils.isEmpty(orderAMount) && showAmount){
+        dimensions.setText(dimensionClass.width + "\"" + " x " + dimensionClass.height + "\" x " + dimensionClass.length+"\"");
+        if (!TextUtils.isEmpty(orderAMount) && showAmount) {
             amountValue.setText("\u20B9 " + orderAMount);
             amountRl.setVisibility(View.VISIBLE);
-        }
-
-        else{
+        } else {
             amountRl.setVisibility(View.GONE);
         }
 
@@ -353,7 +353,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(), "Something went wrong please try again",
                             Toast.LENGTH_LONG).show();
                 }
-            }else{
+            } else {
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }

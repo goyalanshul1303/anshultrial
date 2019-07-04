@@ -111,9 +111,9 @@ public class CreateOrderFragment extends Fragment implements View.OnClickListene
         inviteQuotations.setOnClickListener(this);
         if (isFromProductDetail) {
             productsSpinner.setVisibility(View.GONE);
-            height.setText(dimension.getHeight() + "");
-            width.setText(dimension.getWidth() + "");
-            length.setText(dimension.getLength() + "");
+            height.setText(dimension.getHeight() + "\"");
+            width.setText(dimension.getWidth() + "\"");
+            length.setText(dimension.getLength() + "\"");
             productName.setText(productNameString);
             priceProduct.setText("\u20B9" + productPrice);
             priceSingle = Float.parseFloat(productPrice);

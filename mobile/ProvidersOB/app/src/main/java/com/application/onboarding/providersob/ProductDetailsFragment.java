@@ -44,7 +44,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn, viewOffersBtn;
-    TextView productName, email, additionalComments, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
+    TextView productName, email, additionalComments, quantity, printingType, grammage, cartonType, corrugationType, sheetLayerType,dimensions;
     String consumerId, productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
@@ -85,6 +85,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         corrugationType = (TextView) view.findViewById(R.id.corrugationType);
         cartonType = (TextView) view.findViewById(R.id.cartonType);
         additionalComments = (TextView) view.findViewById(R.id.additionalComments);
+        grammage = (TextView)view.findViewById(R.id.grammage);
+        dimensions = (TextView)view.findViewById(R.id.dimensions);
         addOrderBtn.setVisibility(View.VISIBLE);
         addOrderBtn.setOnClickListener(this);
         viewOffersBtn.setOnClickListener(this);
@@ -199,8 +201,11 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         } else {
             additionalComments.setVisibility(View.GONE);
         }
+        Utils.setDetailsTextField("Grammage", getActivity(), grammage, String.valueOf(result.optString("grammage")+ " gsm"));
         Gson gson = new Gson();
         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")), DimensionClass.class);
+        Utils.setDetailsTextField("Dimesnions", getActivity(), dimensions, dimensionClass.width + "\"" + " x " + dimensionClass.height + "\" x " + dimensionClass.length+"\"");
+
 
     }
 

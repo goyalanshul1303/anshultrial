@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -43,7 +44,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn;
-    TextView productName, additionalComments, quantity,printingType, grammage, cartonType, corrugationType,sheetLayerType;
+    TextView productName, additionalComments, quantity,printingType, grammage, cartonType, corrugationType,sheetLayerType,dimensions;
     String consumerId,productId;
     TableRow additionalCommentsRl;
     private String productNameString;
@@ -87,6 +88,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         new FetchDetailsTask().execute();
         additionalComments = (TextView) view.findViewById(R.id.additionalComments);
         additionalCommentsRl = (TableRow)view.findViewById(R.id.additionalCommentsRl);
+        dimensions = (TextView)view.findViewById(R.id.dimensions);
 
 
     }
@@ -192,6 +194,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         }
 
         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
+        dimensions.setText(dimensionClass.width + "\"" + " x " + dimensionClass.height + "\" x " + dimensionClass.length +"\"");
 
     }
 

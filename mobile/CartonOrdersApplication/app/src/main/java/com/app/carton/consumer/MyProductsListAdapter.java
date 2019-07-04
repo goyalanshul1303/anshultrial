@@ -61,11 +61,12 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
         else customViewHolder.priceProduct.setVisibility(View.GONE);
         if (null != testObjtem.dimension) {
         StringBuilder builder = new StringBuilder();
+        builder.append( testObjtem.dimension.getWidth() );
+        builder.append("\" x ");
         builder.append( testObjtem.dimension.getWidth());
-        builder.append(" x ");
-        builder.append( testObjtem.dimension.getWidth());
-        builder.append(" x ");
+        builder.append("\" x ");
         builder.append( testObjtem.dimension.getLength());
+            builder.append("\"");
         customViewHolder.dimensions.setText(builder.toString());
         if (null != testObjtem.lastOrder ) {
             customViewHolder.noOrderll.setVisibility(View.GONE);
