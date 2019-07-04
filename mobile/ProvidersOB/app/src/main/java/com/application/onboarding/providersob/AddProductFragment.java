@@ -50,7 +50,7 @@ import java.util.Map;
 public class AddProductFragment extends Fragment implements View.OnClickListener {
     private static View view;
 
-    private static EditText productName,additionalDetails;
+    private static EditText productName,additionalDetails, grammage;
     private static Button nextButton;
     private Spinner  typesPrintingSpinner;
     FlowLayout typesCartonCheckboxLL, typesOfPrinting, typeOfCorrugation;
@@ -109,6 +109,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         height = (EditText) view.findViewById(R.id.height);
         width = (EditText) view.findViewById(R.id.width);
         length = (EditText)view.findViewById(R.id.length);
+        grammage = (EditText)view.findViewById(R.id.grammage);
         additionalDetails= (EditText)view.findViewById(R.id.additionalDetails);
         
         inflateDataView();
@@ -217,6 +218,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
                 Toast.makeText(getActivity(), "Please input quantity", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             if (TextUtils.isEmpty(width.getText())) {
                 Toast.makeText(getActivity(), "Please input box width", Toast.LENGTH_SHORT).show();
                 return;
@@ -238,6 +240,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             request.setDimension(dimensionClass);
             request.setConsumerId(consumerId);
             request.setAdditionalComments(additionalDetails.getText().toString());
+            request.setGrammage(grammage.getText().toString());
 
             new AddProductAsyncTask().execute();
 

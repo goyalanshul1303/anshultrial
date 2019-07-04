@@ -48,7 +48,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private ProgressBar progressBar;
     private Button addQuotationBtn;
-    TextView productName, amountValue, contactName, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
+    TextView productName, amountValue, grammage, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
     String orderId, productId;
     LinearLayout parentLL, statuLL;
     boolean isFromAwarded;
@@ -57,6 +57,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
     private boolean isFromCompleted;
     private String orderAMount;
+    boolean showAmount;
 
     public OrderDetailFragment() {
 
@@ -69,6 +70,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
             isFromAwarded = getArguments().containsKey("isFromAwardedScreen") ? getArguments().getBoolean("isFromAwardedScreen") : false;
             orderId = getArguments().containsKey("orderId") ? getArguments().getString("orderId") : "";
             productId = getArguments().containsKey("productId") ? getArguments().getString("productId") : "";
+            showAmount = getArguments().containsKey("showAmount") ? getArguments().getBoolean("showAmount") : true;
         }
     }
 
@@ -95,6 +97,8 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         cartonType = (TextView) view.findViewById(R.id.cartonType);
         addQuotationBtn.setOnClickListener(this);
         amountRl = (TableRow) view.findViewById(R.id.amountRl);
+        grammage = (TextView)view.findViewById(R.id.grammage);
+
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
         statuLL = (LinearLayout) view.findViewById(R.id.statuLL);
@@ -217,14 +221,15 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         sheetLayerType.setText(result.optString("sheetLayerType"));
         corrugationType.setText(String.valueOf(result.optString("corrugationType")));
         printingType.setText(String.valueOf(result.optString("printingType")));
-        if (!TextUtils.isEmpty(orderAMount)){
-            amountValue.setText("\u20B9 " + orderAMount);
+        grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
 
-            amountValue.setVisibility(View.VISIBLE);
+        if (!TextUtils.isEmpty(orderAMount) && showAmount){
+            amountValue.setText("\u20B9 " + orderAMount);
+            amountRl.setVisibility(View.VISIBLE);
         }
 
         else{
-            amountValue.setVisibility(View.GONE);
+            amountRl.setVisibility(View.GONE);
         }
 
     }
