@@ -113,4 +113,14 @@ public class AddProductRequest {
 
     String additionalComments;
 
+    public String getGrammage() {
+        return grammage;
+    }
+
+    public void setGrammage(String grammage) {
+        this.grammage = grammage;
+    }
+
+    String grammage;
+
 }

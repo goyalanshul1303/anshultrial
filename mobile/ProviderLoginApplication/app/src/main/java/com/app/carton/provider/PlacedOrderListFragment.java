@@ -207,6 +207,7 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                         OrdersListDetailsItem item = orderListDetailsItems.get(position);
                         bundle.putString("orderId", item.id);
                         bundle.putString("productId", item.productId);
+                        bundle.putBoolean("showAmount", false);
                         newFragment.setArguments(bundle);
                         MainActivity.addActionFragment(newFragment);
                     }

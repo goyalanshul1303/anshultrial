@@ -48,7 +48,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button offerPriceBtn;
-    TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
+    TextView productName, email,grammage, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     private String price = "";
 
@@ -93,6 +93,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         printingType = (TextView)view.findViewById(R.id.printingType);
         corrugationType = (TextView)view.findViewById(R.id.corrugationType);
         cartonType = (TextView)view.findViewById(R.id.cartonType);
+        grammage = (TextView)view.findViewById(R.id.grammage);
+
         offerPriceBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
 
@@ -179,15 +181,16 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     }
 
     private void parseListingData(JSONObject result) {
-        Utils.setDetailsTextField("Customer Name", getActivity(), productName, result.optString("name"));
+         productName.setText(result.optString("name"));
 
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
-        Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
+        cartonType.setText(result.optString("cartonType"));
+        sheetLayerType.setText(result.optString("sheetLayerType"));
 
-        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
+       quantity.setText(result.optString("quantity"));
+        grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
 
-        Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
-        Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        corrugationType.setText(String.valueOf(result.optString("corrugationType")));
+        printingType.setText(String.valueOf(result.optString("printingType")));
 
     }
 

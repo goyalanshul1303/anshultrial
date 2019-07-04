@@ -41,7 +41,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn,inviteQuotations;
-    TextView productName, email,contactName, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
+    TextView productName, email,contactName, quantity,printingType, grammage, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
@@ -79,6 +79,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         printingType = (TextView)view.findViewById(R.id.printingType);
         corrugationType = (TextView)view.findViewById(R.id.corrugationType);
         cartonType = (TextView)view.findViewById(R.id.cartonType);
+        grammage = (TextView)view.findViewById(R.id.grammage);
         addOrderBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
 
@@ -175,6 +176,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         printingType.setText(String.valueOf(result.optString("printingType")));
         Gson gson = new Gson();
         productPrice = result.optString("price");
+        grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
          dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
     }
@@ -208,7 +210,6 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     public void onResume() {
         super.onResume();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
-
         getActivity().setTitle("Product Details");
     }
 }

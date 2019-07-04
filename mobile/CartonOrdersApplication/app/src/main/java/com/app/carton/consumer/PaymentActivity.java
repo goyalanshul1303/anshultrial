@@ -37,8 +37,8 @@ public class PaymentActivity extends Activity implements PaymentResultListener {
         topTextView = (TextView)findViewById(R.id.topTextView);
         amountText = (TextView)findViewById(R.id.amountText);
         if (!TextUtils.isEmpty(productName)){
-            topTextView.setText(productName + "\n Quantity: "+ quantity);
-            amountText.setText("₹ " + price);
+            topTextView.setText(productName + "\n "+ quantity + " Nos");
+            amountText.setText("Total Amount : ₹" + price);
         }
 
         /*
@@ -119,4 +119,10 @@ public class PaymentActivity extends Activity implements PaymentResultListener {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Checkout.clearUserData(this);
+
+    }
 }

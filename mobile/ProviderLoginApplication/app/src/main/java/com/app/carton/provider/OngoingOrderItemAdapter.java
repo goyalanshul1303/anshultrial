@@ -49,16 +49,12 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
         customViewHolder.quantity.setText( testObjtem.quantity + " Nos");
         customViewHolder.priceProduct.setText("\u20B9 " + testObjtem.orderAmount);
 
-        if (null!=testObjtem.statuses){
+        if (null!=testObjtem.statuses && testObjtem.statuses.size() > 0){
             for (int j = 0; j < testObjtem.statuses.size(); j++){
                 OrderStatus orderStatus = testObjtem.statuses.get(j);
                 if (orderStatus.status == 2){
                     customViewHolder.dateAssigned.setText(Utils.getDate(orderStatus.statusDate));
-                }else {
-                    customViewHolder.targetDate.setText("--");
-                    customViewHolder.dateAssigned.setText("N/A");
-
-                } if (orderStatus.status >= 3){
+                }else if (orderStatus.status >= 3 && orderStatus.status !=10){
                     customViewHolder.initiatedDate.setText(Utils.getDate(orderStatus.statusDate));
                     if (null != testObjtem.awardedQuote){
                         customViewHolder.targetDate.setText(Utils.addDaysToDate(orderStatus.statusDate,testObjtem.awardedQuote.noOfDays));
@@ -66,8 +62,15 @@ public class OngoingOrderItemAdapter extends RecyclerView.Adapter<OngoingOrderIt
                         customViewHolder.targetDate.setText("--");
 
                     }
+                }else {
+                    customViewHolder.dateAssigned.setText("N/A");
                 }
             }
+        }else{
+            customViewHolder.dateAssigned.setText("N/A");
+            customViewHolder.targetDate.setText("--");
+            customViewHolder.initiatedDate.setText("N/A");
+
         }
         customViewHolder.topRl.setTag(i);
 
