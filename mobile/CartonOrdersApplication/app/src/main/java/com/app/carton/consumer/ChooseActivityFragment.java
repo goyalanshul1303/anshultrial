@@ -59,7 +59,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Packify");
+        getActivity().setTitle(SharedPreferences.getString(getActivity(), "companyName"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }

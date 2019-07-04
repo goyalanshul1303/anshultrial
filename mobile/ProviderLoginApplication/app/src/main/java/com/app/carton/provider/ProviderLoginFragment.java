@@ -311,6 +311,8 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             }else if (null!=object && null!=object.optJSONObject("dbUser")) {
                 JSONObject dbUserObj = object.optJSONObject("dbUser");
                 SharedPreferences.putString(getActivity(),"entityId", dbUserObj.optString("entityId"));
+                SharedPreferences.putString(getActivity(), "companyName", dbUserObj.optString("companyName"));
+
                 if (null!=dbUserObj.optJSONArray("roles")){
                     JSONArray rolesArray = dbUserObj.optJSONArray("roles");
                     for (int i = 0 ; i < 1; i++){
