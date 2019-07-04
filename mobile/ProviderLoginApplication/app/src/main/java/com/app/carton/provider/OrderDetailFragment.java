@@ -48,12 +48,12 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
 
     private ProgressBar progressBar;
     private Button addQuotationBtn;
-    TextView productName, amountValue, grammage, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
+    TextView productName, amountValue, grammage, quantity, printingType, additionalComments, cartonType, corrugationType, sheetLayerType;
     String orderId, productId;
     LinearLayout parentLL, statuLL;
     boolean isFromAwarded;
     private int orderStatus;
-    TableRow amountRl;
+    TableRow amountRl, additionalCommentsRl;
     private ArrayList<OrderStatus> statusarrayList = new ArrayList<>();
     private boolean isFromCompleted;
     private String orderAMount;
@@ -98,6 +98,8 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         addQuotationBtn.setOnClickListener(this);
         amountRl = (TableRow) view.findViewById(R.id.amountRl);
         grammage = (TextView)view.findViewById(R.id.grammage);
+        additionalComments = (TextView)view.findViewById(R.id.additionalComments);
+        additionalCommentsRl = (TableRow)view.findViewById(R.id.additionalCommentsRl);
 
         new FetchOrderDetailsTask().execute();
         addQuotationBtn.setVisibility(View.GONE);
@@ -223,6 +225,14 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
         printingType.setText(String.valueOf(result.optString("printingType")));
         grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
 
+        if (!TextUtils.isEmpty(String.valueOf(result.optString("additionalComments"))) &&
+                !String.valueOf(result.optString("additionalComments")).equalsIgnoreCase("null")) {
+            additionalCommentsRl.setVisibility(View.VISIBLE);
+            additionalComments.setText(String.valueOf(result.optString("additionalComments")));
+        }else{
+            additionalCommentsRl.setVisibility(View.GONE);
+        }
+
         if (!TextUtils.isEmpty(orderAMount) && showAmount){
             amountValue.setText("\u20B9 " + orderAMount);
             amountRl.setVisibility(View.VISIBLE);
@@ -327,7 +337,7 @@ public class OrderDetailFragment extends Fragment implements View.OnClickListene
                             Toast.makeText(getActivity(), "Something went wrong please try again",
                                     Toast.LENGTH_LONG).show();
                         } else {
-
+                            progressBar.setVisibility(View.VISIBLE);
                             new FetchDetailsTask().execute();
                             parseOrderListingData(object);
 

@@ -11,12 +11,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,17 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by aggarwal.swati on 2/12/19.
@@ -48,8 +44,8 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn, viewOffersBtn;
-    TextView productName, email,additionalComments, quantity,printingType, consumerScale, cartonType, corrugationType,sheetLayerType;
-    String consumerId,productId;
+    TextView productName, email, additionalComments, quantity, printingType, consumerScale, cartonType, corrugationType, sheetLayerType;
+    String consumerId, productId;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
     private String price;
@@ -62,9 +58,9 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
+        if (getArguments() != null) {
             consumerId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
-            productId = getArguments().containsKey("productId")? getArguments().getString("productId") :"";
+            productId = getArguments().containsKey("productId") ? getArguments().getString("productId") : "";
         }
     }
 
@@ -80,21 +76,23 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     // Initiate Views
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        addOrderBtn = (Button)view.findViewById(R.id.addOrderBtn);
-        viewOffersBtn = (Button)view.findViewById(R.id.viewOffersBtn);
-        quantity = (TextView)view.findViewById(R.id.expectedQuantity);
-        sheetLayerType = (TextView)view.findViewById(R.id.sheetLayerType);
-        productName = (TextView)view.findViewById(R.id.productName);
-        printingType = (TextView)view.findViewById(R.id.printingType);
-        corrugationType = (TextView)view.findViewById(R.id.corrugationType);
-        cartonType = (TextView)view.findViewById(R.id.cartonType);
-        additionalComments = (TextView)view.findViewById(R.id.additionalComments);
+        addOrderBtn = (Button) view.findViewById(R.id.addOrderBtn);
+        viewOffersBtn = (Button) view.findViewById(R.id.viewOffersBtn);
+        quantity = (TextView) view.findViewById(R.id.expectedQuantity);
+        sheetLayerType = (TextView) view.findViewById(R.id.sheetLayerType);
+        productName = (TextView) view.findViewById(R.id.productName);
+        printingType = (TextView) view.findViewById(R.id.printingType);
+        corrugationType = (TextView) view.findViewById(R.id.corrugationType);
+        cartonType = (TextView) view.findViewById(R.id.cartonType);
+        additionalComments = (TextView) view.findViewById(R.id.additionalComments);
         addOrderBtn.setVisibility(View.VISIBLE);
         addOrderBtn.setOnClickListener(this);
         viewOffersBtn.setOnClickListener(this);
+
         new FetchDetailsTask().execute();
 
     }
+
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -154,7 +152,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if (null!=object) {
+                if (null != object) {
                     if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                             || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
@@ -166,7 +164,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
                     }
                 }
-            }else  {
+            } else {
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -178,7 +176,9 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         getActivity().setTitle("Product Details");
     }
 
@@ -193,11 +193,17 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
-        Utils.setDetailsTextField("Additional Comments", getActivity(), additionalComments, String.valueOf(result.optString("additionalComments")));
+        if (!TextUtils.isEmpty(String.valueOf(result.optString("additionalComments")))) {
+            Utils.setDetailsTextField("Additional Comments", getActivity(), additionalComments, String.valueOf(result.optString("additionalComments")));
+            additionalComments.setVisibility(View.VISIBLE);
+        } else {
+            additionalComments.setVisibility(View.GONE);
+        }
         Gson gson = new Gson();
-        dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
+        dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")), DimensionClass.class);
 
     }
+
     public class FetchOffersTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute() {
@@ -257,21 +263,21 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                     e.printStackTrace();
                 }
                 offersList = new ArrayList<>();
-                if (null!=object) {
+                if (null != object) {
                     if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                             || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                         Toast.makeText(getActivity(), "Something went wrong please try again",
                                 Toast.LENGTH_LONG).show();
                     } else {
                         // show offers strip
-                        if (object.has("offers")){
+                        if (object.has("offers")) {
                             try {
-                                Gson gson=new Gson();
-                                for (int i =0 ; i< object.getJSONArray("offers").length(); i ++){
-                                    OffersData item=gson.fromJson(String.valueOf(object.getJSONArray("offers").getJSONObject(i)),OffersData.class);
+                                Gson gson = new Gson();
+                                for (int i = 0; i < object.getJSONArray("offers").length(); i++) {
+                                    OffersData item = gson.fromJson(String.valueOf(object.getJSONArray("offers").getJSONObject(i)), OffersData.class);
                                     offersList.add(item);
                                 }
-                                if (offersList.size()>0){
+                                if (offersList.size() > 0) {
                                     viewOffersBtn.setVisibility(View.VISIBLE);
                                 }
                             } catch (JSONException e) {
@@ -281,7 +287,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
                     }
                 }
-            }else  {
+            } else {
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -291,17 +297,15 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.addOrderBtn){
+        if (view.getId() == R.id.addOrderBtn) {
             showAddpriceDialog();
-        }
-       else if (view.getId() == R.id.viewOffersBtn){
+        } else if (view.getId() == R.id.viewOffersBtn) {
             AddedOffersListFragment fragment = new AddedOffersListFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("productId",productId);
-            fragment.setOfferList (offersList);
+            bundle.putString("productId", productId);
+            fragment.setOfferList(offersList);
             fragment.setArguments(bundle);
             MainActivity.addActionFragment(fragment);
         }
@@ -319,10 +323,10 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
             public void onClick(DialogInterface dialog, int whichButton) {
                 //What ever you want to do with the value
                 Editable textValue = edittext.getText();
-                if (textValue.toString().isEmpty()){
+                if (textValue.toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Please input price ", Toast.LENGTH_LONG);
-                }else{
-                    price= textValue.toString();
+                } else {
+                    price = textValue.toString();
                     new AddPriceTask().execute();
                 }
 
@@ -401,7 +405,7 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
                             Toast.LENGTH_LONG).show();
                 }
 
-            }else{
+            } else {
 
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,9 +42,10 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
     private static View view;
 
     private ProgressBar progressBar;
-    private Button addOrderBtn,inviteQuotations;
-    TextView productName, email,contactName, quantity,printingType, grammage, cartonType, corrugationType,sheetLayerType;
+    private Button addOrderBtn;
+    TextView productName, additionalComments, quantity,printingType, grammage, cartonType, corrugationType,sheetLayerType;
     String consumerId,productId;
+    TableRow additionalCommentsRl;
     private String productNameString;
     DimensionClass dimensionClass = new DimensionClass();
     private String productPrice;
@@ -82,6 +85,9 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         grammage = (TextView)view.findViewById(R.id.grammage);
         addOrderBtn.setOnClickListener(this);
         new FetchDetailsTask().execute();
+        additionalComments = (TextView) view.findViewById(R.id.additionalComments);
+        additionalCommentsRl = (TableRow)view.findViewById(R.id.additionalCommentsRl);
+
 
     }
     public class FetchDetailsTask extends AsyncTask<String, Void, String> {
@@ -177,7 +183,15 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         Gson gson = new Gson();
         productPrice = result.optString("price");
         grammage.setText(String.valueOf(result.optString("grammage") + " gsm"));
-         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
+        if (!TextUtils.isEmpty(String.valueOf(result.optString("additionalComments")))
+                && !String.valueOf(result.optString("additionalComments")).equalsIgnoreCase("null")) {
+            additionalCommentsRl.setVisibility(View.VISIBLE);
+            additionalComments.setText(String.valueOf(result.optString("additionalComments")));
+        }else{
+            additionalCommentsRl.setVisibility(View.GONE);
+        }
+
+        dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")),DimensionClass.class);
 
     }
 
