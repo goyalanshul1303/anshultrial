@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -67,11 +68,11 @@ public class ProductController extends ControllerBase{
     }
 	
 	@RequestMapping(value="/raw", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<Product> add(String product) {
+    public ResponseEntity<Product> add(@RequestBody HttpEntity<String> product) {
 		
 		Product productObj = null;
 		try {
-			productObj = parseJSON(product);
+			productObj = parseJSON(product.getBody());
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
