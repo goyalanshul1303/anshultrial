@@ -98,22 +98,21 @@ public class ProductController extends ControllerBase{
     	int type = root.get("productType").asInt();
     	
     	Gson gson = new Gson();
+    	Product product = null;
     	switch(ProductType.getProductType(type)) {
     		case CORRUGATED_CARTON:
-    			gson.fromJson(json, Product.class);
+    			product = gson.fromJson(json, Product.class);
     			break;
     		case TAPE:
     			break;
     		case ALUMINIUM_CONTAINER:
-    			gson.fromJson(json, AlContainer.class);
+    			product = gson.fromJson(json, AlContainer.class);
     			break;
     		default:
     			break;
     	}
     	
-		
-		
-		return new Product();
+		return product;
 	}
     
 }
