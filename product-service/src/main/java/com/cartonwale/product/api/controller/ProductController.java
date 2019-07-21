@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,8 +66,8 @@ public class ProductController extends ControllerBase{
     	return makeResponse(productService.add(product), HttpStatus.CREATED);
     }
 	
-	@RequestMapping(value="/raw", method = RequestMethod.POST)
-    public ResponseEntity<Product> add(@RequestBody String product) {
+	@RequestMapping(value="/raw", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<Product> add(String product) {
 		
 		Product productObj = null;
 		try {
