@@ -1,5 +1,6 @@
 package com.cartonwale.product.api.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
+import com.cartonwale.product.api.model.AlContainer;
 import com.cartonwale.product.api.model.Product;
+import com.cartonwale.product.api.model.ProductType;
 import com.cartonwale.product.api.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.appengine.repackaged.com.google.gson.Gson;
 
 
 @RestController
@@ -45,9 +52,6 @@ public class ProductController extends ControllerBase{
 	
 	@RequestMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable("id") String id) {
-		logger.info("Fetching Product Details for: " + id);
-		logger.debug("Fetching Product Details for: " + id);
-		logger.error("Fetching Product Details for: " + id);
 		return makeResponse(productService.getById(id));
     }
 	
@@ -60,6 +64,19 @@ public class ProductController extends ControllerBase{
     public ResponseEntity<Product> add(@RequestBody Product product) {
     	return makeResponse(productService.add(product), HttpStatus.CREATED);
     }
+	
+	@RequestMapping(value="/raw", method = RequestMethod.POST)
+    public ResponseEntity<Product> add(@RequestBody String product) {
+		
+		Product productObj = null;
+		try {
+			productObj = parseJSON(product);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
+		
+    	return makeResponse(productService.add(productObj), HttpStatus.CREATED);
+    }
     
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Product> edit(@RequestBody Product product) {
@@ -69,6 +86,32 @@ public class ProductController extends ControllerBase{
     @RequestMapping("/acceptingOffers")
 	public ResponseEntity<List<Product>> productsAcceptingOffers() {
 		return makeResponse(productService.getProductsAcceptingOffers());
+	}
+    
+    public Product parseJSON(String json) throws JsonProcessingException, IOException {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+    	JsonNode root = objectMapper.readTree(json);
+    	
+    	int type = root.get("productType").asInt();
+    	
+    	Gson gson = new Gson();
+    	switch(ProductType.getProductType(type)) {
+    		case CORRUGATED_CARTON:
+    			gson.fromJson(json, Product.class);
+    			break;
+    		case TAPE:
+    			break;
+    		case ALUMINIUM_CONTAINER:
+    			gson.fromJson(json, AlContainer.class);
+    			break;
+    		default:
+    			break;
+    	}
+    	
+		
+		
+		return new Product();
 	}
     
 }
