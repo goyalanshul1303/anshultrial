@@ -68,7 +68,7 @@ public class ProductController extends ControllerBase{
     }
 	
 	@RequestMapping(value="/raw", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<Product> add(@RequestBody HttpEntity<String> product) {
+    public ResponseEntity<Product> add(HttpEntity<String> product) {
 		
 		Product productObj = null;
 		try {
