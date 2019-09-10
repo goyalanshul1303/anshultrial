@@ -2,10 +2,11 @@ package com.cartonwale.common.model;
 
 import java.util.Collection;
 import java.util.Date;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.cartonwale.auth.api.model.User;
 
 public class JwtUser implements UserDetails {
 
