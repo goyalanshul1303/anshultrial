@@ -23,10 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cartonwale.common.constants.ConfigConstants;
 import com.cartonwale.common.exception.DataAccessException;
-import com.cartonwale.common.exception.ServiceException;
 import com.cartonwale.common.messages.InfoMessage;
-import com.cartonwale.common.model.User;
 import com.cartonwale.common.model.image.Image;
+import com.cartonwale.common.security.AuthUser;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
@@ -173,7 +172,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	public Boolean uploadProductImage(ProductImageDto imageDto) {
 		
 		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
-		User loggedUser = SecurityUtil.getLoggedDbUser();
+		AuthUser authUser = SecurityUtil.getAuthUserDetails();
 		
 		//Prepare Product Picture File Names
         List<Image> tmpProductPictures = new ArrayList<>();
@@ -184,7 +183,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		IntStream.range(0, imageDto.getProductImagesFiles().size()).forEach(idx->{
 			
-			String id = loggedUser.getId();
+			String id = authUser.getUserId();
 			String fileName = tmpProductPictures.get(idx).getFileName();
 			MultipartFile file = imageDto.getProductImagesFiles().get(idx);
 			
