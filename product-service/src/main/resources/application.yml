@@ -32,6 +32,11 @@ eureka:
     #leaseRenewalIntervalInSeconds: 5   # DO NOT DO THIS IN PRODUCTION
     hostname: cartonwale-product-service.appspot.com
     #hostname: localhost
+    
+# Image Upload Location
+image:
+  upload:
+    location: @image.upload.location@
 
 # Auth JWT
 jwt:
