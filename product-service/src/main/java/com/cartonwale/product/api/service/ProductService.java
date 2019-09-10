@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cartonwale.common.service.GenericService;
 import com.cartonwale.product.api.model.Product;
+import com.cartonwale.product.api.model.ProductImageDto;
 
 public interface ProductService extends GenericService<Product>{
 
@@ -14,5 +15,7 @@ public interface ProductService extends GenericService<Product>{
 	List<Product> getAll(String authToken);
 
 	List<Product> getProductsAcceptingOffers();
+
+	Boolean uploadProductImage(ProductImageDto imageDto);
 
 }

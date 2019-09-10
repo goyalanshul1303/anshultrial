@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cartonwale.common.util.ControllerBase;
 import com.cartonwale.product.api.model.AlContainer;
 import com.cartonwale.product.api.model.Product;
+import com.cartonwale.product.api.model.ProductImageDto;
 import com.cartonwale.product.api.model.ProductType;
 import com.cartonwale.product.api.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -88,6 +90,11 @@ public class ProductController extends ControllerBase{
     @RequestMapping("/acceptingOffers")
 	public ResponseEntity<List<Product>> productsAcceptingOffers() {
 		return makeResponse(productService.getProductsAcceptingOffers());
+	}
+    
+    @RequestMapping(value = "/uploadProductImage", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> uploadProductImage(@ModelAttribute ProductImageDto productImageDto) {
+		return makeResponse(productService.uploadProductImage(productImageDto));
 	}
     
     public Product parseJSON(String json) throws JsonProcessingException, IOException {
