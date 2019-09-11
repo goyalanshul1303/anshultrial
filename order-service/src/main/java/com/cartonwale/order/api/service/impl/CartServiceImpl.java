@@ -2,6 +2,7 @@ package com.cartonwale.order.api.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,12 @@ public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartSe
 			}
 		} else {
 			Cart cart = carts.get(0);
-			cart.getItems().add(item);
+			if(cart.getItems() != null && !cart.getItems().isEmpty() && cart.getItems().contains(item)){
+				Optional<CartItem> cartItem = cart.getItems().stream().filter(ci -> ci.getProductId().equals(item.getProductId())).findAny();
+				cartItem.get().setQuantity(cartItem.get().getQuantity() + item.getQuantity());
+			} else {
+				cart.getItems().add(item);
+			}
 			try {
 				return cartDao.modify(cart);
 			} catch (DataAccessException e) {
