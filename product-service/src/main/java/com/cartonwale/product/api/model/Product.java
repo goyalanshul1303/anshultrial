@@ -1,5 +1,8 @@
 package com.cartonwale.product.api.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
@@ -22,6 +25,8 @@ public class Product extends EntityBase {
 	private Order lastOrder;
 
 	private String additionalComments;
+	
+	private List<String> images = new ArrayList<String>();
 
 	public String getName() {
 		return name;
@@ -80,6 +85,10 @@ public class Product extends EntityBase {
 
 	public void setAdditionalComments(String additionalComments) {
 		this.additionalComments = additionalComments;
+	}
+	
+	public List<String> getImages() {
+		return images;
 	}
 
 }

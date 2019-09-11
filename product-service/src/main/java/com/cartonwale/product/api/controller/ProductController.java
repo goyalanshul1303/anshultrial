@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.util.ControllerBase;
 import com.cartonwale.product.api.model.AlContainer;
@@ -92,10 +94,19 @@ public class ProductController extends ControllerBase{
 		return makeResponse(productService.getProductsAcceptingOffers());
 	}
     
-    @RequestMapping(value = "/uploadProductImage", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> uploadProductImage(@ModelAttribute ProductImageDto productImageDto) {
-		return makeResponse(productService.uploadProductImage(productImageDto));
+    @RequestMapping(value = "/uploadProductImage/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> uploadProductImage(@ModelAttribute ProductImageDto productImageDto, @PathVariable("id") String id) {
+		return makeResponse(productService.uploadProductImage(productImageDto, id));
 	}
+    
+    @RequestMapping(value = "/productImage/{id}", method = RequestMethod.GET)
+   	public ResponseEntity<StreamingResponseBody> getProductImage(@PathVariable("id") String id) {
+    	
+    	StreamingResponseBody streamingResponseBody = productService.getProductImage(id);
+   		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "image/*");
+		return new ResponseEntity<StreamingResponseBody>(streamingResponseBody, headers, HttpStatus.OK);
+   	}
     
     public Product parseJSON(String json) throws JsonProcessingException, IOException {
 		

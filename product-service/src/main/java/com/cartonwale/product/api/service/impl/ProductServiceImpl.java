@@ -20,12 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.constants.ConfigConstants;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.messages.InfoMessage;
 import com.cartonwale.common.model.image.Image;
-import com.cartonwale.common.security.AuthUser;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
@@ -169,11 +169,11 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	}
 	
 	@Override
-	public Boolean uploadProductImage(ProductImageDto imageDto) {
+	public Boolean uploadProductImage(ProductImageDto imageDto, String id) {
 		
 		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
-		AuthUser authUser = SecurityUtil.getAuthUserDetails();
-		
+		//AuthUser authUser = SecurityUtil.getAuthUserDetails();
+		Product product = getById(id);
 		//Prepare Product Picture File Names
         List<Image> tmpProductPictures = new ArrayList<>();
     	for(MultipartFile file : imageDto.getProductImagesFiles()){
@@ -183,19 +183,28 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		IntStream.range(0, imageDto.getProductImagesFiles().size()).forEach(idx->{
 			
-			String id = authUser.getUserId();
+			//String id = authUser.getUserId();
 			String fileName = tmpProductPictures.get(idx).getFileName();
 			MultipartFile file = imageDto.getProductImagesFiles().get(idx);
 			
 			try{
-				imageUtil.storeFile(String.valueOf(id), fileName, IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, file).subscribe(s->{
-					logger.info(InfoMessage.USER_PROFILE_IMAGE_SAVED, s);
-				});
+				String s = imageUtil.storeFile(String.valueOf(id), fileName, IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, file);
+				logger.info(InfoMessage.USER_PROFILE_IMAGE_SAVED, s);
 			}catch(Exception e){
 				logger.error("Error while uploading file" + e);
 			}
+			product.getImages().add(fileName);
 		});
 		
+		edit(product);
+		
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public StreamingResponseBody getProductImage(String id) {
+		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
+		return imageUtil.readFile(IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, id, getById(id).getImages().get(0));
+		
 	}
 }

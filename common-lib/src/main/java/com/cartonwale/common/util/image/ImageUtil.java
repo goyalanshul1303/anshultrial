@@ -1,19 +1,17 @@
 package com.cartonwale.common.util.image;
 
 import java.util.concurrent.ThreadLocalRandom;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.util.image.impl.DropBoxStorageImageUtil;
 import com.cartonwale.common.util.image.impl.LocalStorageImageUtil;
 
-import rx.Single;
-
 public abstract class ImageUtil {
 	
-	public abstract Single<Object> storeFile(String id, String fileName, String fileLocation, String imageDir, MultipartFile multipartFile);
-	public abstract ResponseEntity<StreamingResponseBody> readFile(String fileLocation, String imageDir, String id, String fileName);
+	public abstract String storeFile(String id, String fileName, String fileLocation, String imageDir, MultipartFile multipartFile);
+	public abstract StreamingResponseBody readFile(String fileLocation, String imageDir, String id, String fileName);
 	public abstract void resizeImage(byte[] bytes, String dirStr, String fileName, int targetSize) throws Exception;
 	
 	public static ImageUtil createLocalStorageImageUtil(){
