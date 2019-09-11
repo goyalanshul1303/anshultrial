@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.util.ControllerBase;
 import com.cartonwale.product.api.model.AlContainer;
@@ -100,12 +99,12 @@ public class ProductController extends ControllerBase{
 	}
     
     @RequestMapping(value = "/productImage/{id}", method = RequestMethod.GET)
-   	public ResponseEntity<StreamingResponseBody> getProductImage(@PathVariable("id") String id) {
+   	public ResponseEntity<byte[]> getProductImage(@PathVariable("id") String id) {
     	
-    	StreamingResponseBody streamingResponseBody = productService.getProductImage(id);
+    	byte[] bytes = productService.getProductImage(id);
    		HttpHeaders headers = new HttpHeaders();
 		headers.add(HttpHeaders.CONTENT_TYPE, "image/*");
-		return new ResponseEntity<StreamingResponseBody>(streamingResponseBody, headers, HttpStatus.OK);
+		return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
    	}
     
     public Product parseJSON(String json) throws JsonProcessingException, IOException {

@@ -4,16 +4,15 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.constants.ImageResizeLevel;
 import com.cartonwale.common.exception.ResourceNotFoundException;
@@ -68,29 +67,24 @@ public class DropBoxStorageImageUtil extends ImageUtil{
 	}
 
 	@Override
-	public StreamingResponseBody readFile(String fileLocation, String imageDir, String id,
+	public byte[] readFile(String fileLocation, String imageDir, String id,
 			String fileName) {
 		
-        StreamingResponseBody streamingResponseBody = new StreamingResponseBody() {
+		byte[] bytes = null;
+		
+		try {
+			String fileStr = SEPARATOR + imageDir + SEPARATOR + id + SEPARATOR + fileName;
 
-			@Override
-			public void writeTo(OutputStream outputStream) {
-				try {
+			DbxRequestConfig config = new DbxRequestConfig(APP_IDENTIFIER);
+	        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+	        bytes = IOUtils.toByteArray(client.files().download(fileStr).getInputStream());
 
-					String fileStr = SEPARATOR + imageDir + SEPARATOR + id + SEPARATOR + fileName;
-
-					DbxRequestConfig config = new DbxRequestConfig(APP_IDENTIFIER);
-			        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-			        client.files().download(fileStr).download(outputStream);
-
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new ResourceNotFoundException("Image Not Found : " + id + "/" + fileName);
-				}
-			}
-		};
-
-		return streamingResponseBody;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new ResourceNotFoundException("Image Not Found : " + id + "/" + fileName);
+		}
+		
+		return bytes;
 		
 	}
 

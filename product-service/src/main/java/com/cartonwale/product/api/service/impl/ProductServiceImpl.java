@@ -20,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.constants.ConfigConstants;
 import com.cartonwale.common.exception.DataAccessException;
@@ -202,7 +201,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	}
 
 	@Override
-	public StreamingResponseBody getProductImage(String id) {
+	public byte[] getProductImage(String id) {
 		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
 		return imageUtil.readFile(IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, id, getById(id).getImages().get(0));
 		

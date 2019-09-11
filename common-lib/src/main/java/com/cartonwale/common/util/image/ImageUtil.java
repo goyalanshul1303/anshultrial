@@ -3,7 +3,6 @@ package com.cartonwale.common.util.image;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.cartonwale.common.util.image.impl.DropBoxStorageImageUtil;
 import com.cartonwale.common.util.image.impl.LocalStorageImageUtil;
@@ -11,7 +10,7 @@ import com.cartonwale.common.util.image.impl.LocalStorageImageUtil;
 public abstract class ImageUtil {
 	
 	public abstract String storeFile(String id, String fileName, String fileLocation, String imageDir, MultipartFile multipartFile);
-	public abstract StreamingResponseBody readFile(String fileLocation, String imageDir, String id, String fileName);
+	public abstract byte[] readFile(String fileLocation, String imageDir, String id, String fileName);
 	public abstract void resizeImage(byte[] bytes, String dirStr, String fileName, int targetSize) throws Exception;
 	
 	public static ImageUtil createLocalStorageImageUtil(){
