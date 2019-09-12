@@ -170,7 +170,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public Boolean uploadProductImage(ProductImageDto imageDto, String id) {
 		
-		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
+		ImageUtil imageUtil = ImageUtil.createGoogleStorageImageUtil();
 		//AuthUser authUser = SecurityUtil.getAuthUserDetails();
 		Product product = getById(id);
 		//Prepare Product Picture File Names

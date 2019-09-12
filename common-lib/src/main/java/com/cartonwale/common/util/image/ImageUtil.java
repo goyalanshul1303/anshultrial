@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cartonwale.common.util.image.impl.DropBoxStorageImageUtil;
+import com.cartonwale.common.util.image.impl.GoogleStorageImageUtil;
 import com.cartonwale.common.util.image.impl.LocalStorageImageUtil;
 
 public abstract class ImageUtil {
@@ -19,6 +20,10 @@ public abstract class ImageUtil {
 	
 	public static ImageUtil createDropBoxStorageImageUtil(){
 		return new DropBoxStorageImageUtil();
+	}
+	
+	public static ImageUtil createGoogleStorageImageUtil(){
+		return new GoogleStorageImageUtil();
 	}
 	
 	protected String getFileExtension(String fileName) {
