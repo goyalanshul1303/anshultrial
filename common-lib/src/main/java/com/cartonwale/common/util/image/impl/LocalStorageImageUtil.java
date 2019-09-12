@@ -82,7 +82,6 @@ public class LocalStorageImageUtil extends ImageUtil {
 	public byte[] readFile(String fileLocation, String imageDir, String id,
 			String fileName) {
 		
-		
 		return null;
 	}
 
