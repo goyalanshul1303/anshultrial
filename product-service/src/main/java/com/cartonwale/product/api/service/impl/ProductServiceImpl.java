@@ -189,10 +189,11 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 			try{
 				String s = imageUtil.storeFile(String.valueOf(id), fileName, IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, file);
 				logger.info(InfoMessage.USER_PROFILE_IMAGE_SAVED, s);
+				product.getImages().add(s);
 			}catch(Exception e){
 				logger.error("Error while uploading file" + e);
 			}
-			product.getImages().add(fileName);
+			
 		});
 		
 		edit(product);
