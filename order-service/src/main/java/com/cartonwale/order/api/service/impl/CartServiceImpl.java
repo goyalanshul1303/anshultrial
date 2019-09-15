@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +69,7 @@ public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartSe
 		List<Cart> carts = new ArrayList<Cart>();
 		carts = cartDao.getByUserId(SecurityUtil.getAuthUserDetails().getEntityId());
 		
-		if(CollectionUtils.isNotEmpty(carts)){
+		if(carts != null && !carts.isEmpty()){
 			return carts.get(0);
 		} else {
 			return new Cart(SecurityUtil.getAuthUserDetails().getEntityId());
