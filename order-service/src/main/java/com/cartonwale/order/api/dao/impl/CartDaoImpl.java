@@ -11,11 +11,10 @@ import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.order.api.dao.CartDao;
 import com.cartonwale.order.api.model.Cart;
-import com.cartonwale.order.api.service.impl.OrderServiceImpl;
 
 public class CartDaoImpl extends GenericDaoImpl<Cart> implements CartDao {
 
-private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+private Logger logger = LoggerFactory.getLogger(CartDaoImpl.class);
 	
 	public CartDaoImpl() {
 		super(Cart.class);

@@ -63,7 +63,7 @@ public class AppConfiguration {
 	
 	@Bean
     public CacheManager cacheManager() {
-        return CacheConfig.createCacheManager("OrderDaoImpl", "QuoteDaoImpl");
+        return CacheConfig.createCacheManager("OrderDaoImpl", "QuoteDaoImpl", "CartDaoImpl");
     }
 	
 	@LoadBalanced

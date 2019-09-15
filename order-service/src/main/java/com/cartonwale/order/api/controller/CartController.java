@@ -24,4 +24,14 @@ public class CartController extends ControllerBase {
     public ResponseEntity<Cart> add(@RequestBody CartItem item) {
     	return makeResponse(cartService.add(item), HttpStatus.ACCEPTED);
     }
+	
+	@RequestMapping
+	public ResponseEntity<Cart> get() {
+		return makeResponse(cartService.get(), HttpStatus.FOUND);
+	}
+	
+	@RequestMapping
+	public ResponseEntity<Cart> remove(@RequestBody CartItem item) {
+    	return makeResponse(cartService.remove(item), HttpStatus.ACCEPTED);
+    }
 }

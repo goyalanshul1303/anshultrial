@@ -7,5 +7,9 @@ import com.cartonwale.order.api.model.CartItem;
 public interface CartService  extends GenericService<Cart> {
 
 	Cart add(CartItem item);
+	
+	Cart get();
+	
+	Cart remove(CartItem item);
 
 }
