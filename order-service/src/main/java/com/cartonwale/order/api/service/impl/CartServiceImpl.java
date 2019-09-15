@@ -91,7 +91,7 @@ public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartSe
 				Optional<CartItem> cartItem = cart.getItems().stream().filter(ci -> ci.getProductId().equals(item.getProductId())).findAny();
 				int updatedQuatity = cartItem.get().getQuantity() - item.getQuantity();
 				if(updatedQuatity == 0){
-					cart.getItems().remove(cartItem);
+					cart.getItems().remove(item);
 				} else {
 					cartItem.get().setQuantity(cartItem.get().getQuantity() - item.getQuantity());
 				}
