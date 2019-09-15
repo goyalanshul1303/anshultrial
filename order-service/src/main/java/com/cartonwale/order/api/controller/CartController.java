@@ -20,7 +20,7 @@ public class CartController extends ControllerBase {
 	@Autowired
 	private CartService cartService;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/remove", method = RequestMethod.PUT)
     public ResponseEntity<Cart> add(@RequestBody CartItem item) {
     	return makeResponse(cartService.add(item), HttpStatus.ACCEPTED);
     }
@@ -30,7 +30,7 @@ public class CartController extends ControllerBase {
 		return makeResponse(cartService.get(), HttpStatus.FOUND);
 	}
 	
-	@RequestMapping
+	@RequestMapping(value="/remove", method = RequestMethod.PUT)
 	public ResponseEntity<Cart> remove(@RequestBody CartItem item) {
     	return makeResponse(cartService.remove(item), HttpStatus.ACCEPTED);
     }

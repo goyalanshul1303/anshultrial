@@ -38,6 +38,8 @@ public class Order extends EntityBase{
 	private double orderAmount;
 	
 	private List<OrderStatus> statuses = new ArrayList<>();
+	
+	private List<String> items = new ArrayList<>();
 
 	public boolean isQuotesInvited() {
 		return quotesInvited;
