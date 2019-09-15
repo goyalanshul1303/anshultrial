@@ -39,7 +39,7 @@ public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartSe
 		List<Cart> carts = new ArrayList<Cart>();
 		carts = cartDao.getByUserId(SecurityUtil.getAuthUserDetails().getEntityId());
 		
-		if(carts.isEmpty()){
+		if(carts == null || carts.isEmpty()){
 			Cart cart = new Cart(SecurityUtil.getAuthUserDetails().getEntityId());
 			cart.getItems().add(item);
 			
