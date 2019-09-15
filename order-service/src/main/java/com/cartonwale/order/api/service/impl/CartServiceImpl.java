@@ -89,7 +89,12 @@ public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartSe
 			Cart cart = carts.get(0);
 			if(cart.getItems() != null && !cart.getItems().isEmpty() && cart.getItems().contains(item)){
 				Optional<CartItem> cartItem = cart.getItems().stream().filter(ci -> ci.getProductId().equals(item.getProductId())).findAny();
-				cartItem.get().setQuantity(cartItem.get().getQuantity() - item.getQuantity());
+				int updatedQuatity = cartItem.get().getQuantity() - item.getQuantity();
+				if(updatedQuatity == 0){
+					cart.getItems().remove(cartItem);
+				} else {
+					cartItem.get().setQuantity(cartItem.get().getQuantity() - item.getQuantity());
+				}
 			} else {
 				throw new CartItemNotFoundException("Cart Item not found");
 			}
