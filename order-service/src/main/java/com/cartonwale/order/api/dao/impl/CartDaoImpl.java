@@ -6,12 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
 
 import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.order.api.dao.CartDao;
 import com.cartonwale.order.api.model.Cart;
 
+@Repository
 public class CartDaoImpl extends GenericDaoImpl<Cart> implements CartDao {
 
 private Logger logger = LoggerFactory.getLogger(CartDaoImpl.class);

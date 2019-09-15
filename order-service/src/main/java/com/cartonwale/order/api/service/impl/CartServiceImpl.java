@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.security.SecurityUtil;
@@ -19,6 +20,7 @@ import com.cartonwale.order.api.model.Cart;
 import com.cartonwale.order.api.model.CartItem;
 import com.cartonwale.order.api.service.CartService;
 
+@Service
 public class CartServiceImpl  extends GenericServiceImpl<Cart> implements CartService {
 
 	private Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
