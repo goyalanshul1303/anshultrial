@@ -1,30 +1,39 @@
 package com.cartonwale.product.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cartonwale.common.constants.ConfigConstants;
 import com.cartonwale.common.exception.DataAccessException;
+import com.cartonwale.common.messages.InfoMessage;
+import com.cartonwale.common.model.image.Image;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
+import com.cartonwale.common.util.image.ImageUtil;
 import com.cartonwale.product.api.dao.ProductDao;
 import com.cartonwale.product.api.exception.DuplicateProductException;
 import com.cartonwale.product.api.model.Order;
 import com.cartonwale.product.api.model.Product;
+import com.cartonwale.product.api.model.ProductImageDto;
 import com.cartonwale.product.api.model.ProductPrice;
 import com.cartonwale.product.api.service.ProductPriceService;
 import com.cartonwale.product.api.service.ProductService;
@@ -49,6 +58,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	void init() {
 		init(Product.class, productDao);
 	}
+	
+	@Value(ConfigConstants.IMAGE_UPLOAD_LOCATION)
+	private String IMAGE_LOCATION;
 	
 	@Override
 	public Product add(Product product) {
@@ -153,5 +165,46 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		
 		List<String> productIds = productPriceService.getProductsAcceptingOffers();
 		return productDao.getByProductIds(productIds);
+	}
+	
+	@Override
+	public Boolean uploadProductImage(ProductImageDto imageDto, String id) {
+		
+		ImageUtil imageUtil = ImageUtil.createGoogleStorageImageUtil();
+		//AuthUser authUser = SecurityUtil.getAuthUserDetails();
+		Product product = getById(id);
+		//Prepare Product Picture File Names
+        List<Image> tmpProductPictures = new ArrayList<>();
+    	for(MultipartFile file : imageDto.getProductImagesFiles()){
+    		String fileName = imageUtil.genarateFileName(file);
+    		tmpProductPictures.add(new Image(fileName));
+    	}
+		
+		IntStream.range(0, imageDto.getProductImagesFiles().size()).forEach(idx->{
+			
+			//String id = authUser.getUserId();
+			String fileName = tmpProductPictures.get(idx).getFileName();
+			MultipartFile file = imageDto.getProductImagesFiles().get(idx);
+			
+			try{
+				String s = imageUtil.storeFile(String.valueOf(id), fileName, IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, file);
+				logger.info(InfoMessage.USER_PROFILE_IMAGE_SAVED, s);
+				product.getImages().add(s);
+			}catch(Exception e){
+				logger.error("Error while uploading file" + e);
+			}
+			
+		});
+		
+		edit(product);
+		
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public byte[] getProductImage(String id) {
+		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
+		return imageUtil.readFile(IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, id, getById(id).getImages().get(0));
+		
 	}
 }

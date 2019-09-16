@@ -4,26 +4,22 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.FileMetadata;
+
 import com.cartonwale.common.constants.ImageResizeLevel;
 import com.cartonwale.common.exception.ResourceNotFoundException;
 import com.cartonwale.common.util.image.ImageUtil;
-
-import rx.Single;
-import rx.schedulers.Schedulers;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
 
 public class DropBoxStorageImageUtil extends ImageUtil{
 
@@ -34,10 +30,10 @@ public class DropBoxStorageImageUtil extends ImageUtil{
 	private final String SEPARATOR = "/";
 	
 	@Override
-	public Single<Object> storeFile(String id, String fileName, String fileLocation, String imageDir,
+	public String storeFile(String id, String fileName, String fileLocation, String imageDir,
 			MultipartFile multipartFile){
 		
-		return Single.create(s->{
+		/*return Single.create(s->{*/
 			
 			try{
 			
@@ -57,42 +53,39 @@ public class DropBoxStorageImageUtil extends ImageUtil{
 			resizeImage(bytes, dirStr, fileName, ImageResizeLevel.MEDIUM.getSize());
 			resizeImage(bytes, dirStr, fileName, ImageResizeLevel.LOW.getSize());
 			
-			s.onSuccess(metadata.getName());
+			//s.onSuccess(metadata.getName());
+			return metadata.getName();
 			
 			}catch(Exception e){
 				logger.error(e.getMessage());
-				s.onError(e);
+				//s.onError(e);
 			}
 			
-		}).subscribeOn(Schedulers.io());
+			return null;
+			
+		/*}).subscribeOn(Schedulers.io());*/
 	}
 
 	@Override
-	public ResponseEntity<StreamingResponseBody> readFile(String fileLocation, String imageDir, String id,
+	public byte[] readFile(String fileLocation, String imageDir, String id,
 			String fileName) {
 		
-        StreamingResponseBody streamingResponseBody = new StreamingResponseBody() {
+		byte[] bytes = null;
+		
+		try {
+			String fileStr = SEPARATOR + imageDir + SEPARATOR + id + SEPARATOR + fileName;
 
-			@Override
-			public void writeTo(OutputStream outputStream) {
-				try {
+			DbxRequestConfig config = new DbxRequestConfig(APP_IDENTIFIER);
+	        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+	        bytes = IOUtils.toByteArray(client.files().download(fileStr).getInputStream());
 
-					String fileStr = SEPARATOR + imageDir + SEPARATOR + id + SEPARATOR + fileName;
-
-					DbxRequestConfig config = new DbxRequestConfig(APP_IDENTIFIER);
-			        DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
-			        client.files().download(fileStr).download(outputStream);
-
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new ResourceNotFoundException("Image Not Found : " + id + "/" + fileName);
-				}
-			}
-		};
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.CONTENT_TYPE, "image/*");
-		return new ResponseEntity<StreamingResponseBody>(streamingResponseBody, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new ResourceNotFoundException("Image Not Found : " + id + "/" + fileName);
+		}
+		
+		return bytes;
+		
 	}
 
 	@Override
