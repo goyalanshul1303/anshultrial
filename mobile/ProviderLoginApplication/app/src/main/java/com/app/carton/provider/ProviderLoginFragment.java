@@ -1,6 +1,8 @@
 package com.app.carton.provider;
 
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -64,15 +66,17 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
         setHasOptionsMenu(true);
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
+
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
 
@@ -152,7 +156,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             Toast.makeText(getActivity(),
                     "Enter both credentials.", Toast.LENGTH_SHORT).show();
 
-        } else{
+        } else {
             new SendPostRequest().execute();
         }
 //        new SendPostRequest().execute();
@@ -179,7 +183,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                 URL url = new URL(WebServiceConstants.LOGIN);
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("username",emailid.getText().toString());
+                postDataParams.put("username", emailid.getText().toString());
                 postDataParams.put("password", password.getText().toString());
 //                postDataParams.put("username", "abif13245e");
 //                postDataParams.put("password", "abc123");
@@ -232,11 +236,11 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                     || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                 Toast.makeText(getActivity(), object.optString("message"),
                         Toast.LENGTH_LONG).show();
-            }else if (null!=object &&!object.optString("token").isEmpty()) {
+            } else if (null != object && !object.optString("token").isEmpty()) {
                 Toast.makeText(getActivity(), "Login Successful",
                         Toast.LENGTH_LONG).show();
 
@@ -245,7 +249,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                         object.optString("token"));
                 getAuthorizationResponse();
 
-            } else{
+            } else {
                 Toast.makeText(getActivity(), "Something Went Wrong",
                         Toast.LENGTH_LONG).show();
             }
@@ -304,53 +308,62 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (null!=object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
+            if (null != object && !object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
                     || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
                 Toast.makeText(getActivity(), object.optString("message"),
                         Toast.LENGTH_LONG).show();
-            }else if (null!=object && null!=object.optJSONObject("dbUser")) {
+            } else if (null != object && null != object.optJSONObject("dbUser")) {
                 JSONObject dbUserObj = object.optJSONObject("dbUser");
-                SharedPreferences.putString(getActivity(),"entityId", dbUserObj.optString("entityId"));
+                SharedPreferences.putString(getActivity(), "entityId", dbUserObj.optString("entityId"));
                 SharedPreferences.putString(getActivity(), "companyName", dbUserObj.optString("companyName"));
 
-                if (null!=dbUserObj.optJSONArray("roles")){
+                if (null != dbUserObj.optJSONArray("roles")) {
                     JSONArray rolesArray = dbUserObj.optJSONArray("roles");
-                    for (int i = 0 ; i < 1; i++){
+                    for (int i = 0; i < 1; i++) {
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
-                        if (null!=rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")){
-                            if (object.optBoolean("enabled")){
+                        if (null != rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")) {
+                            if (object.optBoolean("enabled")) {
                                 new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
-                            }else{
+                            } else {
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
                             }
 
-                        }else{
+                        } else {
                             Toast.makeText(getActivity(), "Something Went Wrong",
                                     Toast.LENGTH_LONG).show();
                         }
                     }
                 }
-            }else{
+            } else {
                 Toast.makeText(getActivity(), "Something Went Wrong",
                         Toast.LENGTH_LONG).show();
             }
 
         }
 
+        ValueAnimator fadeAnim = ObjectAnimator.ofFloat(newBall, "alpha", 1f, 0f);
+fadeAnim.setDuration(250);
+fadeAnim.addListener(new
+
+        AnimatorListenerAdapter() {
+            public void onAnimationEnd (Animator animation){
+                balls.remove(((ObjectAnimator) animation).getTarget());
+            }
+
+        }
+
+        @Override
+        public void onPrepareOptionsMenu(Menu menu) {
+            MenuItem item = menu.findItem(R.id.over_flow_item);
+            if (item != null)
+                item.setVisible(false);
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            // TODO your code to hide item here
+            super.onCreateOptionsMenu(menu, inflater);
+        }
+
 
     }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.over_flow_item);
-        if(item!=null)
-            item.setVisible(false);
-    }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO your code to hide item here
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-}
