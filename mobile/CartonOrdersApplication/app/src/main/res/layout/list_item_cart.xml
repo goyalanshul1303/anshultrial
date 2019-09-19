@@ -37,40 +37,17 @@
                 android:text="Rs 1000"
                 android:textColor="#71c45c"
                 android:textSize="16sp" />
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/integer_number"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/decrease"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="5dp"
-                    android:onClick="decreaseInteger"
-                    android:background="@drawable/minus" />
-
-                <TextView
-                    android:id="@+id/integer_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="10dp"
-                    android:text="0"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
-
-                <ImageButton
-                    android:id="@+id/increase"
-                    android:layout_width="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="20dp"
-                    android:onClick="increaseInteger"
-                    android:background="@drawable/plus"/>
-            </LinearLayout>
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="10dp"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout

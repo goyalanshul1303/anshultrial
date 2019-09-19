@@ -22,6 +22,10 @@ public class WebServiceConstants {
     public static final String GET_CONSUMER_REQUIREMENTS_LIST = BASE_URL + "/order-service/orders/consumer/requirements";
     public static final String GET_DASHBOARD_DETAILS = BASE_URL +"/order-service/orders/consumer/dashboard";
     public static final String GET_COMPLETED_ORDERS = BASE_URL + "/order-service/orders/consumer/completed";
+    public static final String INSERT_ITEM_TO_CART = BASE_URL + "/order-service/cart/add";
+    public static final String REMOVE_ITEM_FROM_CART = BASE_URL + "/order-service/cart/remove";
+    public static final String GET_ALL_CART = BASE_URL + "/order-service/cart";
+
 
 
 }

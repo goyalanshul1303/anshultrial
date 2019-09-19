@@ -51,7 +51,7 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
     TextView nothing_available;
     private String urlType;
     DataView data = new DataView();
-    private MyProductsListAdapter adapter;
+    private AllProductsListAdapter adapter;
     View viewNoProductAdded;
     ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
     private Button tryAgain;
@@ -68,7 +68,7 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             customerType = getArguments().containsKey("urlType") ? getArguments().getString("urlType") : "";
             selectedId = getArguments().containsKey("selectedId") ? getArguments().getString("selectedId") : "";
         }
@@ -87,11 +87,11 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
 
     // Initiate Views
     private void initViews() {
-        nothing_available = (TextView)  view.findViewById(R.id.nothing_available);
+        nothing_available = (TextView) view.findViewById(R.id.nothing_available);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         productsRecyclerView = (RecyclerView) view.findViewById(R.id.productsRecyclerView);
-        viewNoProductAdded = (View)view.findViewById(R.id.viewNoProductAdded);
-        tryAgain = (Button)view.findViewById(R.id.tryAgain);
+        viewNoProductAdded = (View) view.findViewById(R.id.viewNoProductAdded);
+        tryAgain = (Button) view.findViewById(R.id.tryAgain);
         tryAgain.setOnClickListener(this);
 
         new GetAllProductsAsyncTask().execute();
@@ -147,22 +147,21 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
             JSONObject object = null;
 
             progressBar.setVisibility(View.GONE);
-            if (isVisible()){
-            if (null != result) {
-                if (result.trim().charAt(0) == '[') {
-                    Log.e("Response is : ", "JSONArray");
-                    parseListingData(result);
-                } else if (result.trim().charAt(0) == '{') {
-                    try {
-                        object = new JSONObject(result);
-                        if (null != object && !object.optString("status").isEmpty() ) {
-                            if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                                Toast.makeText(getActivity(), "You have been logged out",
-                                        Toast.LENGTH_LONG).show();
-                                MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
+            if (isVisible()) {
+                if (null != result) {
+                    if (result.trim().charAt(0) == '[') {
+                        Log.e("Response is : ", "JSONArray");
+                        parseListingData(result);
+                    } else if (result.trim().charAt(0) == '{') {
+                        try {
+                            object = new JSONObject(result);
+                            if (null != object && !object.optString("status").isEmpty()) {
+                                if (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                                    Toast.makeText(getActivity(), "You have been logged out",
+                                            Toast.LENGTH_LONG).show();
+                                    MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
-                            } else
-                                {
+                                } else {
                                     viewNoProductAdded.setVisibility(View.VISIBLE);
                                     productsRecyclerView.setVisibility(View.GONE);
                                     tryAgain.setVisibility(View.VISIBLE);
@@ -171,26 +170,26 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
                                 }
                             }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        viewNoProductAdded.setVisibility(View.VISIBLE);
+                        productsRecyclerView.setVisibility(View.GONE);
+                        tryAgain.setVisibility(View.VISIBLE);
+                        nothing_available.setText("Something went wrong, Please try again");
                     }
+
+
                 } else {
                     viewNoProductAdded.setVisibility(View.VISIBLE);
                     productsRecyclerView.setVisibility(View.GONE);
                     tryAgain.setVisibility(View.VISIBLE);
                     nothing_available.setText("Something went wrong, Please try again");
+
+
                 }
-
-
             } else {
-                viewNoProductAdded.setVisibility(View.VISIBLE);
-                productsRecyclerView.setVisibility(View.GONE);
-                tryAgain.setVisibility(View.VISIBLE);
-                nothing_available.setText("Something went wrong, Please try again");
-
-
-            }
-        }else{
                 FragmentManager fragmentManager = MainActivity.fragmentManager;
                 fragmentManager.popBackStackImmediate();
             }
@@ -206,20 +205,20 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
-            if (null!= list && list.length() > 0 ){
-                Gson gson=new Gson();
+            if (null != list && list.length() > 0) {
+                Gson gson = new Gson();
                 productDetailsItems = new ArrayList<>();
-                for (int i = 0 ; i < list.length() ;i ++){
-                    ProductsDetailsItem item= null;
+                for (int i = 0; i < list.length(); i++) {
+                    ProductsDetailsItem item = null;
                     try {
-                        item = gson.fromJson(String.valueOf(list.getJSONObject(i)),ProductsDetailsItem.class);
+                        item = gson.fromJson(String.valueOf(list.getJSONObject(i)), ProductsDetailsItem.class);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
                     productDetailsItems.add(item);
                     consumerId = item.consumerId;
                 }
-                adapter = new MyProductsListAdapter(getActivity(), productDetailsItems);
+                adapter = new AllProductsListAdapter(getActivity(), productDetailsItems);
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);
@@ -229,7 +228,7 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void onItemClick(View view, int position) {
                         ProductsDetailsItem item = productDetailsItems.get(position);
-                        if (view.getId() == R.id.textLL){
+                        if (view.getId() == R.id.textLL) {
                             Bundle bundle = new Bundle();
                             Fragment newFragment = new ProductDetailsFragment();
                             bundle.putString("selectedId", item.consumerId);
@@ -237,7 +236,7 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
                             productName = item.name;
                             newFragment.setArguments(bundle);
                             MainActivity.addActionFragment(newFragment);
-                        }else  if(view.getId()== R.id.noOrderll ){
+                        } else if (view.getId() == R.id.noOrderll) {
                             CreateOrderFragment fragment = new CreateOrderFragment();
                             Bundle bundle = new Bundle();
                             bundle.putBoolean("isFromProductDetail", true);
@@ -248,30 +247,29 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
 
                             fragment.setArguments(bundle);
                             MainActivity.addActionFragment(fragment);
-                        }
-                        else  if(view.getId()== R.id.detailsLink || view.getId() == R.id.reorder){
-                         // create order details link
+                        } else if (view.getId() == R.id.detailsLink || view.getId() == R.id.reorder) {
+                            // create order details link
 
-                              Bundle bundle = new Bundle();
-                              bundle.putString("orderId", item.getLastOrder().getId());
-                            if(item.getLastOrder().getOrderStatus() == 1) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("orderId", item.getLastOrder().getId());
+                            if (item.getLastOrder().getOrderStatus() == 1) {
                                 Fragment newFragment = new QuotationListingFragment();
                                 bundle.putBoolean("isFromOpenOrders", false);
                                 newFragment.setArguments(bundle);
                                 MainActivity.addActionFragment(newFragment);
-                            }else {
+                            } else {
                                 Fragment newFragment = new OpenOrdersDetailFragment();
                                 bundle.putBoolean("isFromOpenOrders", true);
                                 newFragment.setArguments(bundle);
                                 MainActivity.addActionFragment(newFragment);
                             }
 
-                            }
+                        }
 
                     }
                 });
 
-            }else{
+            } else {
                 // no consumers added . please add consumer first
                 viewNoProductAdded.setVisibility(View.VISIBLE);
                 tryAgain.setVisibility(View.GONE);
@@ -281,18 +279,23 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle("Product List");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) { ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
     }
+
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item=menu.findItem(R.id.over_flow_item);
-        if(item!=null)
+        MenuItem item = menu.findItem(R.id.over_flow_item);
+        if (item != null)
             item.setVisible(false);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // TODO your code to hide item here
@@ -301,9 +304,9 @@ public class AllProductsListFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-if (view.getId()== R.id.tryAgain){
-    new GetAllProductsAsyncTask().execute();
-}
+        if (view.getId() == R.id.tryAgain) {
+            new GetAllProductsAsyncTask().execute();
+        }
     }
 
     @Override
