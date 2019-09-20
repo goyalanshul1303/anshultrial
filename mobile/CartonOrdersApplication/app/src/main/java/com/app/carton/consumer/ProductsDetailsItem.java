@@ -17,6 +17,16 @@ public class ProductsDetailsItem {
     String corrugationType;
     String printingType;
 
+    public int getQuantityCount() {
+        return quantityCount;
+    }
+
+    public void setQuantityCount(int quantityCount) {
+        this.quantityCount = quantityCount;
+    }
+
+    int quantityCount = 0;
+
 
 
     public String getId() {
