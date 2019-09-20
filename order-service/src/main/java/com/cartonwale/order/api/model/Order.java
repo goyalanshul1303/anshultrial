@@ -39,7 +39,16 @@ public class Order extends EntityBase{
 	
 	private List<OrderStatus> statuses = new ArrayList<>();
 	
-	private List<String> items = new ArrayList<>();
+	private List<OrderItem> items = new ArrayList<>();
+
+	public Order(int orderStatus, String consumerId, String providerId, Date orderDate, List<OrderItem> items) {
+		super();
+		this.orderStatus = orderStatus;
+		this.consumerId = consumerId;
+		this.providerId = providerId;
+		this.orderDate = orderDate;
+		this.items = items;
+	}
 
 	public boolean isQuotesInvited() {
 		return quotesInvited;
@@ -153,6 +162,10 @@ public class Order extends EntityBase{
 	@JsonIgnore
 	public void setOrderAmount(double orderAmount) {
 		this.orderAmount = orderAmount;
+	}
+
+	public List<OrderItem> getItems() {
+		return items;
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.cartonwale.product.api.model;
 
 import com.cartonwale.common.model.SheetLayerType;
 
-public class CorrugatedBox extends Product {
+public class CorrugatedBox extends ProductSpecification {
 
 	private CartonType cartonType;
 	

@@ -45,8 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/product/{consumerId}/{id}/**").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.GET, "/product/{id}/**").hasAnyRole(Permission.USER_PROVIDER)
                 .antMatchers(HttpMethod.GET, "/product").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
+                .antMatchers(HttpMethod.GET, "/product/getByIds").hasAnyRole(Permission.USER_CONSUMER, Permission.USER_ADMIN)
                 .antMatchers(HttpMethod.GET, "/product/acceptingOffers").hasAnyRole(Permission.USER_PROVIDER, Permission.USER_ADMIN)
-                .antMatchers(HttpMethod.GET, "/product/consumer/{consumerId}/**").hasAnyRole(Permission.USER_ADMIN)
+                .antMatchers(HttpMethod.GET, "/product/consumer/{consumerId}/**").hasAnyRole(Permission.USER_ADMIN, Permission.USER_PROVIDER, Permission.USER_CONSUMER)
+                .antMatchers(HttpMethod.GET, "/product/provider/{providerId}/**").hasAnyRole(Permission.USER_ADMIN, Permission.USER_PROVIDER, Permission.USER_CONSUMER)
                 .antMatchers(HttpMethod.POST, "/product/**").hasAnyRole(Permission.USER_ADMIN)
 				.antMatchers(HttpMethod.PUT, "/product/**").hasAnyRole(Permission.USER_ADMIN, Permission.USER_CONSUMER)
 				

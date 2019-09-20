@@ -1,11 +1,14 @@
 package com.cartonwale.consumer.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.User;
+import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.consumer.api.dao.ConsumerDao;
 import com.cartonwale.consumer.api.model.Consumer;
+import com.cartonwale.consumer.api.model.Product;
 import com.cartonwale.consumer.api.service.ConsumerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,6 +87,27 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
 				getConsumerUserAsString(user), restTemplate);
 
+	}
+	
+	@Override
+	public List<Product> getProducts(String authToken) {
+		
+		List<Product> products = new ArrayList<Product>();
+		Consumer consumer = getById(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		if(consumer.getBoundedProviderId() != null && !consumer.getBoundedProviderId().isEmpty()) {
+			ResponseEntity<List<Product>> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/provider/"+consumer.getBoundedProviderId(),
+					"", restTemplate, new ParameterizedTypeReference<List<Product>>() {});
+			products.addAll(responseEntity.getBody());
+		} else {
+			ResponseEntity<List<Product>> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/consumer/"+SecurityUtil.getAuthUserDetails().getEntityId(),
+					"", restTemplate, new ParameterizedTypeReference<List<Product>>() {});
+			products.addAll(responseEntity.getBody());
+		}
+		
+		return products;
 	}
 
 }

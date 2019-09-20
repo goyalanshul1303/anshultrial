@@ -80,6 +80,11 @@ public class OrderController extends ControllerBase{
     public ResponseEntity<Order> add(@RequestBody Order order, HttpServletRequest request) {
     	return makeResponse(orderService.add(order, request.getHeader(tokenHeader)), HttpStatus.CREATED);
     }
+	
+	@RequestMapping(value = "/place", method = RequestMethod.POST)
+    public ResponseEntity<Order> add(HttpServletRequest request) {
+    	return makeResponse(orderService.add(request.getHeader(tokenHeader)), HttpStatus.CREATED);
+    }
     
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Order> edit(@RequestBody Order order) {

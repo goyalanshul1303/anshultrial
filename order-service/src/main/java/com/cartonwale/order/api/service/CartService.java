@@ -8,7 +8,7 @@ public interface CartService  extends GenericService<Cart> {
 
 	Cart add(CartItem item);
 	
-	Cart get();
+	Cart get(String authToken);
 	
 	Cart remove(CartItem item);
 

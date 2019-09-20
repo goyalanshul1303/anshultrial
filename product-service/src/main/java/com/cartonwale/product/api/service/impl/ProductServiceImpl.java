@@ -31,6 +31,8 @@ import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.common.util.image.ImageUtil;
 import com.cartonwale.product.api.dao.ProductDao;
 import com.cartonwale.product.api.exception.DuplicateProductException;
+import com.cartonwale.product.api.model.Cart;
+import com.cartonwale.product.api.model.CartItem;
 import com.cartonwale.product.api.model.Order;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductImageDto;
@@ -121,6 +123,14 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		return products ;
 	}
 
+	@Override
+	public List<Product> getAllByProvider(String providerId, String authToken) {
+		List<Product> products = productDao.getAllByConsumer(providerId);
+		
+		addCartQuantity(products, authToken);
+		return products ;
+	}
+
 	private void addPriceToProducts(List<Product> products) {
 		
 		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
@@ -129,6 +139,21 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		Map<String, ProductPrice> productPriceMap = productPrices.stream().collect(Collectors.toMap(ProductPrice::getProductId, pp -> pp));
 		
 		products.stream().forEach(p -> p.setPrice(productPriceMap.getOrDefault(p.getId(), new ProductPrice()).getPrice()));
+		
+	}
+	
+	private void addCartQuantity(List<Product> products, String authToken) {
+		
+		List<String> productIds = products.stream().map(product -> product.getId()).collect(Collectors.toList());
+		
+		ResponseEntity<Cart> responseEntity = ServiceUtil.callByType(HttpMethod.GET,
+				authToken, Arrays.asList(MediaType.APPLICATION_JSON), null, "http://ORDER-SERVICE/cart",
+				getProviderUserAsString(productIds), restTemplate, new ParameterizedTypeReference<Cart>() {});
+		
+		Cart cart = responseEntity.getBody();
+		Map<String, Integer> cartItemQuantityMap = cart.getItems().stream()
+				.collect(Collectors.toMap(CartItem::getProductId, CartItem::getQuantity));
+		products.stream().forEach(p -> p.setCartQuantity(cartItemQuantityMap.get(p.getId())));
 		
 	}
 
@@ -206,5 +231,11 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		ImageUtil imageUtil = ImageUtil.createDropBoxStorageImageUtil();
 		return imageUtil.readFile(IMAGE_LOCATION, ConfigConstants.IMAGE_PROFILE_UPLOAD_LOCATION, id, getById(id).getImages().get(0));
 		
+	}
+
+	@Override
+	public List<Product> getAllByIds(List<String> productIds) {
+		
+		return productDao.getByProductIds(productIds);
 	}
 }
