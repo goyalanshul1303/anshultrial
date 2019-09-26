@@ -47,6 +47,12 @@ public class ConsumerController extends ControllerBase{
 		consumerService.addConsumerUser(createdConsumer, request.getHeader(tokenHeader));
     	return makeResponse(consumer, HttpStatus.CREATED);
     }
+	
+	@RequestMapping(value = "/consumerOnly", method = RequestMethod.POST)
+    public ResponseEntity<Consumer> addConsumerOnly(@RequestBody Consumer consumer) {
+		Consumer createdConsumer = consumerService.add(consumer);
+    	return makeResponse(consumer, HttpStatus.CREATED);
+    }
     
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Consumer> edit(@ModelAttribute Consumer consumer) {
