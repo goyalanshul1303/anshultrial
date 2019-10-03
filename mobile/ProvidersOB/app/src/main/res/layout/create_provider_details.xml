@@ -37,25 +37,25 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_propeiter_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_propeiter_name"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
 
-                <EditText
-                    android:id="@+id/contactPersonET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Contact Person Name"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/contactPersonET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Contact Person Name"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_email"
@@ -79,47 +79,47 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_pan_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_pan_card"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
 
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
 
-                <EditText
-                    android:id="@+id/panCardET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="PAN Number"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/panCardET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="PAN Number"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_gst"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_gst"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
 
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
 
-                <EditText
-                    android:id="@+id/gst"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="GST Number"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+<!--                <EditText-->
+<!--                    android:id="@+id/gst"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="GST Number"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
 
 
             <TextView
@@ -336,491 +336,491 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_website"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/websiteET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Website Link"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_foundation_year"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/foundationYearET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Foundation Year"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_annula_income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/incomeET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Annual Income"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_clients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/numberClientsET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="No. of Clients"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_factory_capacity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/capacityET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Number Of Boxes / day"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dip"
-                android:text="Operating Hours:"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/spinnerOperatingHour"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"></Spinner>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dip"
-                android:text="Types of Carts Supported:"
-                android:textSize="16sp" />
-
-            <com.application.onboarding.providersob.FlowLayout
-                android:id="@+id/typesCartonCheckboxLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dip"
-                android:text="Types of Printing Supported:"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/typesPrintingSpinner"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"></Spinner>
-
-
-            <TextView
-                android:id="@+id/boxesSupportedTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-
-                android:text="Types of Boxes Supported:"
-                android:textSize="16sp" />
-
-            <com.application.onboarding.providersob.FlowLayout
-                android:id="@+id/typeBoxesCheckboxLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>
-
-            <TextView
-                android:id="@+id/typeOfCorrugationTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Types of Corrugation boxes Supported:"
-                android:textSize="16sp" />
-
-            <com.application.onboarding.providersob.FlowLayout
-                android:id="@+id/typeOfCorrugationLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_die_charges"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                <EditText
-                    android:id="@+id/dieCuttingET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Die Cutting charges"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textColorHint="@color/hint_text_light_grey"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Max Box Size"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="13dp"
-                    android:text="( W x H )"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/width"
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:hint="W"
-                    android:textSize="13sp"
-                    android:gravity="center"
-                    android:inputType="number" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="X"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/height"
-                    android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:hint="H"
-                    android:gravity="center"
-                    android:textSize="13sp"
-                    android:inputType="number" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="cms"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Is Credit Supported?"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/creditSupportRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yesCredit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/noCredit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:id="@+id/creditSupoortLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_credit_limit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/creditLimitET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Max Credit Limit"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textColor="#000000"
-                        android:textColorHint="@color/hint_text_light_grey"
-                        android:textSize="16sp" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_credit_days"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:errorTextAppearance="@style/WelcomeErrorAppearance"
-                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
-
-                    <EditText
-                        android:id="@+id/creditDaysET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="No Of Days for credit"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:paddingLeft="10dp"
-                        android:singleLine="true"
-                        android:textColor="#000000"
-                        android:textColorHint="@color/hint_text_light_grey"
-                        android:textSize="16sp" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Is Logistics Available?"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/logisticsRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yesLogistics"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/noLogistics"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Open for Quality Inspection?"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/qualityInspectionRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yesQuality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/noQuality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Open to share capacity on regular basis?"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/shareCapacityRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yesshareCapacity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/noshareCapacity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Open to manufacture if material provided?"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/manufactureRG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yesManufacture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/noManufacture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No"
-                    android:textSize="16sp" />
-            </RadioGroup>
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_website"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/websiteET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Website Link"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_foundation_year"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/foundationYearET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Foundation Year"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_annula_income"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/incomeET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Annual Income"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_clients"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/numberClientsET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="No. of Clients"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_factory_capacity"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/capacityET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Number Of Boxes / day"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dip"-->
+<!--                android:text="Operating Hours:"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerOperatingHour"-->
+<!--                style="@style/Widget.AppCompat.Spinner.Underlined"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"></Spinner>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dip"-->
+<!--                android:text="Types of Carts Supported:"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <com.application.onboarding.providersob.FlowLayout-->
+<!--                android:id="@+id/typesCartonCheckboxLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="5dp"-->
+
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dip"-->
+<!--                android:text="Types of Printing Supported:"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <Spinner-->
+<!--                android:id="@+id/typesPrintingSpinner"-->
+<!--                style="@style/Widget.AppCompat.Spinner.Underlined"-->
+<!--                android:layout_width="fill_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="5dp"></Spinner>-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/boxesSupportedTV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+
+<!--                android:text="Types of Boxes Supported:"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <com.application.onboarding.providersob.FlowLayout-->
+<!--                android:id="@+id/typeBoxesCheckboxLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/typeOfCorrugationTV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Types of Corrugation boxes Supported:"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <com.application.onboarding.providersob.FlowLayout-->
+<!--                android:id="@+id/typeOfCorrugationLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="5dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:orientation="vertical"></com.application.onboarding.providersob.FlowLayout>-->
+
+<!--            <android.support.design.widget.TextInputLayout-->
+<!--                android:id="@+id/input_layout_die_charges"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+
+<!--                app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/dieCuttingET"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:hint="Die Cutting charges"-->
+<!--                    android:imeOptions="actionNext"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingLeft="10dp"-->
+<!--                    android:singleLine="true"-->
+<!--                    android:textColor="#000000"-->
+<!--                    android:textColorHint="@color/hint_text_light_grey"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </android.support.design.widget.TextInputLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Max Box Size"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="left"-->
+<!--                    android:layout_marginLeft="10dp"-->
+<!--                    android:layout_marginTop="13dp"-->
+<!--                    android:text="( W x H )"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/width"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:hint="W"-->
+<!--                    android:textSize="13sp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:inputType="number" />-->
+
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="X"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <EditText-->
+<!--                    android:id="@+id/height"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="40dp"-->
+<!--                    android:hint="H"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textSize="13sp"-->
+<!--                    android:inputType="number" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="cms"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Is Credit Supported?"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/creditSupportRG"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/yesCredit"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Yes"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/noCredit"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="No"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </RadioGroup>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/creditSupoortLL"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="vertical"-->
+<!--                android:visibility="gone">-->
+
+<!--                <android.support.design.widget.TextInputLayout-->
+<!--                    android:id="@+id/input_layout_credit_limit"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+
+<!--                    app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                    <EditText-->
+<!--                        android:id="@+id/creditLimitET"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:hint="Max Credit Limit"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="number"-->
+<!--                        android:paddingLeft="10dp"-->
+<!--                        android:singleLine="true"-->
+<!--                        android:textColor="#000000"-->
+<!--                        android:textColorHint="@color/hint_text_light_grey"-->
+<!--                        android:textSize="16sp" />-->
+<!--                </android.support.design.widget.TextInputLayout>-->
+
+<!--                <android.support.design.widget.TextInputLayout-->
+<!--                    android:id="@+id/input_layout_credit_days"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+
+<!--                    app:errorTextAppearance="@style/WelcomeErrorAppearance"-->
+<!--                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">-->
+
+<!--                    <EditText-->
+<!--                        android:id="@+id/creditDaysET"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:hint="No Of Days for credit"-->
+<!--                        android:imeOptions="actionNext"-->
+<!--                        android:inputType="number"-->
+<!--                        android:paddingLeft="10dp"-->
+<!--                        android:singleLine="true"-->
+<!--                        android:textColor="#000000"-->
+<!--                        android:textColorHint="@color/hint_text_light_grey"-->
+<!--                        android:textSize="16sp" />-->
+<!--                </android.support.design.widget.TextInputLayout>-->
+<!--            </LinearLayout>-->
+
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Is Logistics Available?"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/logisticsRG"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/yesLogistics"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Yes"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/noLogistics"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="No"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </RadioGroup>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Open for Quality Inspection?"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/qualityInspectionRG"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/yesQuality"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Yes"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/noQuality"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="No"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </RadioGroup>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Open to share capacity on regular basis?"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/shareCapacityRG"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/yesshareCapacity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Yes"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/noshareCapacity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="No"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </RadioGroup>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Open to manufacture if material provided?"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/manufactureRG"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/yesManufacture"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Yes"-->
+<!--                    android:textSize="16sp" />-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/noManufacture"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="No"-->
+<!--                    android:textSize="16sp" />-->
+<!--            </RadioGroup>-->
 
             <Button
                 android:id="@+id/nextBtn"

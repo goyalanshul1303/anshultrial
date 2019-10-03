@@ -192,7 +192,6 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
         Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
         quantity.setVisibility(View.GONE);
 //        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
-
         Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
         Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
         if (!TextUtils.isEmpty(String.valueOf(result.optString("additionalComments")))) {

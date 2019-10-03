@@ -86,7 +86,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
             public void onItemClick(View view, int position) {
                 if ((int) view.getTag() == 0) {
                     // Get FragmentManager and FragmentTransaction object.
-                    MainActivity.addActionFragment(new ConsumerProductsListFragment());
+                    MainActivity.addActionFragment(new MyCartFragment());
 
                 } else if ((int) view.getTag() == 1) {
                     MainActivity.addActionFragment(new ConsumerRequirementsListFragment());

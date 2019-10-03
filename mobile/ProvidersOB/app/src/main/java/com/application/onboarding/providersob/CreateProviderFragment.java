@@ -89,36 +89,35 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         companyName = (EditText) view.findViewById(R.id.companyNameET);
-        contactName = (EditText) view.findViewById(R.id.contactPersonET);
+//        contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
         landline = (EditText) view.findViewById(R.id.landlineET);
-//        registeredaddress = (EditText) view.findViewById(R.id.registeredAddressET);
 //        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
-        websitelink = (EditText) view.findViewById(R.id.websiteET);
-        foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
-        annulaincome = (EditText) view.findViewById(R.id.incomeET);
+//        websitelink = (EditText) view.findViewById(R.id.websiteET);
+//        foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
+//        annulaincome = (EditText) view.findViewById(R.id.incomeET);
         nextButton = (Button) view.findViewById(R.id.nextBtn);
         nextButton.setOnClickListener(this);
-        operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
-        typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
-        typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
-        typesPrintingSpinner = (Spinner) view.findViewById(R.id.typesPrintingSpinner);
-        typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
-        panCardET = (EditText) view.findViewById(R.id.panCardET);
-        gst = (EditText) view.findViewById(R.id.gst);
+//        operatingHrsSpinner = (Spinner) view.findViewById(R.id.spinnerOperatingHour);
+//        typesOfBoxes = (FlowLayout) view.findViewById(R.id.typeBoxesCheckboxLL);
+//        typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
+//        typesPrintingSpinner = (Spinner) view.findViewById(R.id.typesPrintingSpinner);
+//        typeOfCorrugation = (FlowLayout) view.findViewById(R.id.typeOfCorrugationLL);
+//        panCardET = (EditText) view.findViewById(R.id.panCardET);
+//        gst = (EditText) view.findViewById(R.id.gst);
         email = (EditText) view.findViewById(R.id.emailEditText);
-        nooFClientsET = (EditText) view.findViewById(R.id.numberClientsET);
-        capacityET = (EditText) view.findViewById(R.id.capacityET);
-        dieCuttingET = (EditText) view.findViewById(R.id.dieCuttingET);
-        capacityRG = (RadioGroup) view.findViewById(R.id.shareCapacityRG);
-        isLogisticsRG = (RadioGroup) view.findViewById(R.id.logisticsRG);
-        isCreditRG = (RadioGroup) view
-                .findViewById(R.id.creditSupportRG);
-        manufactureRG = (RadioGroup) view.findViewById(R.id.manufactureRG);
-        qualityRG = (RadioGroup) view.findViewById(R.id.qualityInspectionRG);
-        creditSupoortLL = (LinearLayout) view.findViewById(R.id.creditSupoortLL);
-        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
-        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
+//        nooFClientsET = (EditText) view.findViewById(R.id.numberClientsET);
+//        capacityET = (EditText) view.findViewById(R.id.capacityET);
+//        dieCuttingET = (EditText) view.findViewById(R.id.dieCuttingET);
+//        capacityRG = (RadioGroup) view.findViewById(R.id.shareCapacityRG);
+//        isLogisticsRG = (RadioGroup) view.findViewById(R.id.logisticsRG);
+//        isCreditRG = (RadioGroup) view
+//                .findViewById(R.id.creditSupportRG);
+//        manufactureRG = (RadioGroup) view.findViewById(R.id.manufactureRG);
+//        qualityRG = (RadioGroup) view.findViewById(R.id.qualityInspectionRG);
+//        creditSupoortLL = (LinearLayout) view.findViewById(R.id.creditSupoortLL);
+//        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
+//        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
         sameAsRegistered = (CheckBox) view.findViewById(R.id.same_address);
         registeredAdd1 = (EditText) view.findViewById(R.id.registeredAddressET1);
         registeredAdd2 = (EditText) view.findViewById(R.id.registeredAddressET2);
@@ -136,8 +135,8 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
         corresCountry.setEnabled(false);
         corresCountry.setText("India");
         corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
-        height = (EditText) view.findViewById(R.id.height);
-        width = (EditText) view.findViewById(R.id.width);
+//        height = (EditText) view.findViewById(R.id.height);
+//        width = (EditText) view.findViewById(R.id.width);
         inflateDataView();
 
 
@@ -183,34 +182,34 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
         statesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        operatingHrsSpinner.setAdapter(dataAdapter);
-        typesPrintingSpinner.setAdapter(dataAdapterPrinting);
+//        operatingHrsSpinner.setAdapter(dataAdapter);
+//        typesPrintingSpinner.setAdapter(dataAdapterPrinting);
         corresState.setAdapter(statesAdapter);
         registeredState.setAdapter(statesAdapter);
-        operatingHrsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setOperatingHours((Integer) Utils.getElementByIndex(data.getOperatingHrs(), i));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        typesPrintingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setPrintingType((Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        operatingHrsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                request.setOperatingHours((Integer) Utils.getElementByIndex(data.getOperatingHrs(), i));
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//        typesPrintingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                request.setPrintingType((Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         registeredState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -240,177 +239,177 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
         });
 
 
-        for (Map.Entry<Integer, String> entry : data.getTypesOfCartons().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typesCartonCheckboxLL.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getTypesOfCartons(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getCartonType().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getCartonType().contains(key)) {
-                            request.getCartonType().remove(key);
-
-                        }
-                    }
-                    request.setCartonType(request.getCartonType());
-                }
-            });
-        }
-
-        for (Map.Entry<Integer, String> entry : data.getBoxType().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typesOfBoxes.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getBoxType(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getSupportedSheetLayers().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getSupportedSheetLayers().contains(key)) {
-                            request.getSupportedSheetLayers().remove(key);
-
-                        }
-                    }
-                    request.setSupportedSheetLayers(request.getSupportedSheetLayers());
-                }
-            });
-        }
-        for (Map.Entry<Integer, String> entry : data.getCorrugationType().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typeOfCorrugation.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getCorrugationType(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getCorrugationType().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getCorrugationType().contains(key)) {
-                            request.getCorrugationType().remove(key);
-
-                        }
-                    }
-                    request.setCorrugationType(request.getCorrugationType());
-                }
-            });
-        }
-        isCreditRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesCredit:
-                        isCredit = 1;
-                        creditSupoortLL.setVisibility(View.VISIBLE);
-                        request.setCreditSupported(true);
-
-                        break;
-                    case R.id.noCredit:
-                        isCredit = 0;
-                        creditSupoortLL.setVisibility(View.GONE);
-                        request.setCreditSupported(false);
-
-                        break;
-                    default:
-                        isCredit = -1;
-                }
-
-            }
-        });
-        manufactureRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesManufacture:
-                        isManufacture = 1;
-                        request.setManufactureWithProvidedMaterial(true);
-
-                        break;
-                    case R.id.noManufacture:
-                        isManufacture = 0;
-                        request.setManufactureWithProvidedMaterial(false);
-                        break;
-                    default:
-                        isManufacture = -1;
-                }
-
-            }
-        });
-        qualityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesQuality:
-                        isQuality = 1;
-                        request.setAllowQualityInspect(true);
-                        break;
-                    case R.id.noQuality:
-                        isQuality = 0;
-                        request.setAllowQualityInspect(false);
-                        break;
-                    default:
-                        isQuality = -1;
-                }
-
-            }
-        });
-        isLogisticsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesLogistics:
-                        isLogistics = 1;
-                        request.setLogisticAvailable(true);
-
-                        break;
-                    case R.id.noLogistics:
-                        isLogistics = 0;
-                        request.setLogisticAvailable(false);
-
-                        break;
-                    default:
-                        isLogistics = -1;
-                }
-            }
-        });
-        capacityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesshareCapacity:
-                        isCapacity = 1;
-                        request.setShareCapacity(true);
-
-                        break;
-                    case R.id.noshareCapacity:
-                        isCapacity = 0;
-                        request.setShareCapacity(false);
-
-                        break;
-                    default:
-                        isCapacity = -1;
-                }
-            }
-        });
-
+//        for (Map.Entry<Integer, String> entry : data.getTypesOfCartons().entrySet()) {
+//            final CheckBox cb = new CheckBox(getActivity());
+//            cb.setText(entry.getValue());
+//            typesCartonCheckboxLL.addView(cb);
+//            cb.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//                    Object key = Utils.getKeyFromValue(data.getTypesOfCartons(), cb.getText().toString());
+//                    if (cb.isChecked()) {
+//                        if (null != key) {
+//                            request.getCartonType().add((Integer) key);
+//                        }
+//                    } else {
+//                        if (null != key && request.getCartonType().contains(key)) {
+//                            request.getCartonType().remove(key);
+//
+//                        }
+//                    }
+//                    request.setCartonType(request.getCartonType());
+//                }
+//            });
+//        }
+//
+//        for (Map.Entry<Integer, String> entry : data.getBoxType().entrySet()) {
+//            final CheckBox cb = new CheckBox(getActivity());
+//            cb.setText(entry.getValue());
+//            typesOfBoxes.addView(cb);
+//            cb.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//                    Object key = Utils.getKeyFromValue(data.getBoxType(), cb.getText().toString());
+//                    if (cb.isChecked()) {
+//                        if (null != key) {
+//                            request.getSupportedSheetLayers().add((Integer) key);
+//                        }
+//                    } else {
+//                        if (null != key && request.getSupportedSheetLayers().contains(key)) {
+//                            request.getSupportedSheetLayers().remove(key);
+//
+//                        }
+//                    }
+//                    request.setSupportedSheetLayers(request.getSupportedSheetLayers());
+//                }
+//            });
+//        }
+//        for (Map.Entry<Integer, String> entry : data.getCorrugationType().entrySet()) {
+//            final CheckBox cb = new CheckBox(getActivity());
+//            cb.setText(entry.getValue());
+//            typeOfCorrugation.addView(cb);
+//            cb.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//                    Object key = Utils.getKeyFromValue(data.getCorrugationType(), cb.getText().toString());
+//                    if (cb.isChecked()) {
+//                        if (null != key) {
+//                            request.getCorrugationType().add((Integer) key);
+//                        }
+//                    } else {
+//                        if (null != key && request.getCorrugationType().contains(key)) {
+//                            request.getCorrugationType().remove(key);
+//
+//                        }
+//                    }
+//                    request.setCorrugationType(request.getCorrugationType());
+//                }
+//            });
+//        }
+//        isCreditRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesCredit:
+//                        isCredit = 1;
+//                        creditSupoortLL.setVisibility(View.VISIBLE);
+//                        request.setCreditSupported(true);
+//
+//                        break;
+//                    case R.id.noCredit:
+//                        isCredit = 0;
+//                        creditSupoortLL.setVisibility(View.GONE);
+//                        request.setCreditSupported(false);
+//
+//                        break;
+//                    default:
+//                        isCredit = -1;
+//                }
+//
+//            }
+//        });
+//        manufactureRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesManufacture:
+//                        isManufacture = 1;
+//                        request.setManufactureWithProvidedMaterial(true);
+//
+//                        break;
+//                    case R.id.noManufacture:
+//                        isManufacture = 0;
+//                        request.setManufactureWithProvidedMaterial(false);
+//                        break;
+//                    default:
+//                        isManufacture = -1;
+//                }
+//
+//            }
+//        });
+//        qualityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesQuality:
+//                        isQuality = 1;
+//                        request.setAllowQualityInspect(true);
+//                        break;
+//                    case R.id.noQuality:
+//                        isQuality = 0;
+//                        request.setAllowQualityInspect(false);
+//                        break;
+//                    default:
+//                        isQuality = -1;
+//                }
+//
+//            }
+//        });
+//        isLogisticsRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesLogistics:
+//                        isLogistics = 1;
+//                        request.setLogisticAvailable(true);
+//
+//                        break;
+//                    case R.id.noLogistics:
+//                        isLogistics = 0;
+//                        request.setLogisticAvailable(false);
+//
+//                        break;
+//                    default:
+//                        isLogistics = -1;
+//                }
+//            }
+//        });
+//        capacityRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesshareCapacity:
+//                        isCapacity = 1;
+//                        request.setShareCapacity(true);
+//
+//                        break;
+//                    case R.id.noshareCapacity:
+//                        isCapacity = 0;
+//                        request.setShareCapacity(false);
+//
+//                        break;
+//                    default:
+//                        isCapacity = -1;
+//                }
+//            }
+//        });
+//
         sameAsRegistered.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -441,13 +440,13 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getActivity(), "Please input company name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(contactName.getText())) {
-                request.setContactName(contactName.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!TextUtils.isEmpty(contactName.getText())) {
+//                request.setContactName(contactName.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             if (!TextUtils.isEmpty(email.getText())) {
                 request.setEmail(email.getText().toString());
 
@@ -456,20 +455,20 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
                 return;
             }
 
-            if (!TextUtils.isEmpty(panCardET.getText())) {
-                request.setCompanyPAN(panCardET.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input PAN number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(gst.getText())) {
-                request.setGstin(gst.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input GST number", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!TextUtils.isEmpty(panCardET.getText())) {
+//                request.setCompanyPAN(panCardET.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input PAN number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(gst.getText())) {
+//                request.setGstin(gst.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input GST number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             if (!TextUtils.isEmpty(registeredAdd1.getText())) {
                 rgistredAddress.setAddressLine1(registeredAdd1.getText().toString());
@@ -568,118 +567,118 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(websitelink.getText())) {
-                request.setWebsite(websitelink.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!TextUtils.isEmpty(foundationYear.getText())) {
-                request.setFoundationYear(Integer.parseInt(foundationYear.getText().toString()));
-
-            } else {
-                Toast.makeText(getActivity(), "Please input foundation year", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(annulaincome.getText())) {
-                request.setAnnualIncome(Integer.parseInt(annulaincome.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input annual income", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(nooFClientsET.getText())) {
-                request.setClientCount(Integer.parseInt(nooFClientsET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input number of clients", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(capacityET.getText())) {
-                request.setFactoryCapacity(Integer.parseInt(capacityET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input number of boxes produced per day", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getOperatingHours() == -1) {
-                Toast.makeText(getActivity(), "Please select operating hours", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getCartonType().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getPrintingType() == -1) {
-                Toast.makeText(getActivity(), "Please select printing type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (request.getCorrugationType().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select corrugation type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (request.getSupportedSheetLayers().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select supported sheets type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(dieCuttingET.getText())) {
-                request.setDieCuttingChargesperThousand(Integer.parseInt(dieCuttingET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input die cutting charges", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(width.getText())) {
-                request.setMaxBoxSizeW(Integer.parseInt(width.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input box width", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(height.getText())) {
-                request.setMaxBoxSizeL(Integer.parseInt(height.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input box length", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (isCredit == -1) {
-
-                Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                if (isCredit == 1) {
-                    if (!TextUtils.isEmpty(creditLimitET.getText())) {
-                        request.setCreditLimit(Integer.parseInt(creditLimitET.getText().toString()));
-                    } else {
-                        Toast.makeText(getActivity(), "Please input credit limit", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (!TextUtils.isEmpty(creditDaysET.getText())) {
-                        request.setCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
-                    } else {
-                        Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                }
-            }
-            if (isLogistics == -1) {
-                Toast.makeText(getActivity(), "Please select is logistics available", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (isQuality == -1) {
-                Toast.makeText(getActivity(), "Please select open to allow quality inspection", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (isCapacity == -1) {
-                Toast.makeText(getActivity(), "Please select open to share capacity changes", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (isManufacture == -1) {
-                Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!TextUtils.isEmpty(websitelink.getText())) {
+//                request.setWebsite(websitelink.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (!TextUtils.isEmpty(foundationYear.getText())) {
+//                request.setFoundationYear(Integer.parseInt(foundationYear.getText().toString()));
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input foundation year", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(annulaincome.getText())) {
+//                request.setAnnualIncome(Integer.parseInt(annulaincome.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input annual income", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(nooFClientsET.getText())) {
+//                request.setClientCount(Integer.parseInt(nooFClientsET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input number of clients", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(capacityET.getText())) {
+//                request.setFactoryCapacity(Integer.parseInt(capacityET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input number of boxes produced per day", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (request.getOperatingHours() == -1) {
+//                Toast.makeText(getActivity(), "Please select operating hours", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (request.getCartonType().isEmpty()) {
+//                Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (request.getPrintingType() == -1) {
+//                Toast.makeText(getActivity(), "Please select printing type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (request.getCorrugationType().isEmpty()) {
+//                Toast.makeText(getActivity(), "Please select corrugation type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (request.getSupportedSheetLayers().isEmpty()) {
+//                Toast.makeText(getActivity(), "Please select supported sheets type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(dieCuttingET.getText())) {
+//                request.setDieCuttingChargesperThousand(Integer.parseInt(dieCuttingET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input die cutting charges", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(width.getText())) {
+//                request.setMaxBoxSizeW(Integer.parseInt(width.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input box width", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(height.getText())) {
+//                request.setMaxBoxSizeL(Integer.parseInt(height.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input box length", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (isCredit == -1) {
+//
+//                Toast.makeText(getActivity(), "Please select is credit allowed or not", Toast.LENGTH_SHORT).show();
+//                return;
+//            } else {
+//                if (isCredit == 1) {
+//                    if (!TextUtils.isEmpty(creditLimitET.getText())) {
+//                        request.setCreditLimit(Integer.parseInt(creditLimitET.getText().toString()));
+//                    } else {
+//                        Toast.makeText(getActivity(), "Please input credit limit", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//                    if (!TextUtils.isEmpty(creditDaysET.getText())) {
+//                        request.setCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
+//                    } else {
+//                        Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
+//
+//                }
+//            }
+//            if (isLogistics == -1) {
+//                Toast.makeText(getActivity(), "Please select is logistics available", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (isQuality == -1) {
+//                Toast.makeText(getActivity(), "Please select open to allow quality inspection", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (isCapacity == -1) {
+//                Toast.makeText(getActivity(), "Please select open to share capacity changes", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (isManufacture == -1) {
+//                Toast.makeText(getActivity(), "Please select open to  manufacture with material provided", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             new SendPostRequest().execute();
 
 //            postDataToServer();
@@ -715,7 +714,7 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
 
                 }
                 request.setPhones(phones);
-                URL url = new URL(WebServiceConstants.CREATE_PROVIDER);
+                URL url = new URL(WebServiceConstants.CREATE_ONLY_CONSUMER);
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);

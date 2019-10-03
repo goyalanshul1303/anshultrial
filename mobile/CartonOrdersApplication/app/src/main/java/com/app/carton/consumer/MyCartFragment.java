@@ -48,7 +48,7 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
     DataView data = new DataView();
     private MyCartListAdapter adapter;
     View viewNoProductAdded;
-    ArrayList<ProductsDetailsItem> productDetailsItems = new ArrayList<>();
+    ArrayList<InsertItemRequest> cartItemList = new ArrayList<>();
     private Button tryAgain;
     String customerType = "";
     private String selectedId = "";
@@ -146,7 +146,6 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
                 if (null != result) {
                     if (result.trim().charAt(0) == '[') {
                         Log.e("Response is : ", "JSONArray");
-                        parseListingData(result);
                     } else if (result.trim().charAt(0) == '{') {
                         try {
                             object = new JSONObject(result);
@@ -157,11 +156,15 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
                                     MainActivity.replaceLoginFragment(new ConsumerLoginFragment());
 
                                 } else {
-                                    viewNoProductAdded.setVisibility(View.VISIBLE);
-                                    productsRecyclerView.setVisibility(View.GONE);
-                                    tryAgain.setVisibility(View.VISIBLE);
-                                    nothing_available.setText("Something went wrong, Please try again");
+                                    if(object.optJSONArray("items") != null && object.optJSONArray("items") .length() > 0){
+                                        parseListingData(object.optJSONArray("items"), object.optString("consumerId"));
 
+                                    }else {
+                                        viewNoProductAdded.setVisibility(View.VISIBLE);
+                                        productsRecyclerView.setVisibility(View.GONE);
+                                        tryAgain.setVisibility(View.VISIBLE);
+                                        nothing_available.setText("Something went wrong, Please try again");
+                                    }
                                 }
                             }
 
@@ -192,28 +195,22 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void parseListingData(String result) {
+    private void parseListingData(JSONArray list, String consumerId) {
         try {
-            JSONArray list = null;
-            try {
-                list = new JSONArray(result);
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
             if (null != list && list.length() > 0) {
                 Gson gson = new Gson();
-                productDetailsItems = new ArrayList<>();
+                cartItemList = new ArrayList<>();
                 for (int i = 0; i < list.length(); i++) {
-                    ProductsDetailsItem item = null;
+                    InsertItemRequest item = null;
                     try {
-                        item = gson.fromJson(String.valueOf(list.getJSONObject(i)), ProductsDetailsItem.class);
+                        item = gson.fromJson(String.valueOf(list.getJSONObject(i)), InsertItemRequest.class);
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }
-                    productDetailsItems.add(item);
-                    consumerId = item.consumerId;
+                    cartItemList.add(item);
+                    consumerId = consumerId;
                 }
-                adapter = new MyCartListAdapter(getActivity(), productDetailsItems);
+                adapter = new MyCartListAdapter(getActivity(), cartItemList);
                 productsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 productsRecyclerView.setAdapter(adapter);
                 viewNoProductAdded.setVisibility(View.GONE);
@@ -222,44 +219,8 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onItemClick(View view, int position) {
-                        ProductsDetailsItem item = productDetailsItems.get(position);
-                        if (view.getId() == R.id.textLL) {
-                            Bundle bundle = new Bundle();
-                            Fragment newFragment = new ProductDetailsFragment();
-                            bundle.putString("selectedId", item.consumerId);
-                            bundle.putString("productId", item.id);
-                            productName = item.name;
-                            newFragment.setArguments(bundle);
-                            MainActivity.addActionFragment(newFragment);
-                        } else if (view.getId() == R.id.noOrderll) {
-                            CreateOrderFragment fragment = new CreateOrderFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("isFromProductDetail", true);
-                            bundle.putString("productId", item.id);
-                            fragment.setProductPrice(item.price);
-                            fragment.setDimension(item.dimension);
-                            fragment.setProductName(item.name);
+                        InsertItemRequest item = cartItemList.get(position);
 
-                            fragment.setArguments(bundle);
-                            MainActivity.addActionFragment(fragment);
-                        } else if (view.getId() == R.id.detailsLink || view.getId() == R.id.reorder) {
-                            // create order details link
-
-                            Bundle bundle = new Bundle();
-                            bundle.putString("orderId", item.getLastOrder().getId());
-                            if (item.getLastOrder().getOrderStatus() == 1) {
-                                Fragment newFragment = new QuotationListingFragment();
-                                bundle.putBoolean("isFromOpenOrders", false);
-                                newFragment.setArguments(bundle);
-                                MainActivity.addActionFragment(newFragment);
-                            } else {
-                                Fragment newFragment = new OpenOrdersDetailFragment();
-                                bundle.putBoolean("isFromOpenOrders", true);
-                                newFragment.setArguments(bundle);
-                                MainActivity.addActionFragment(newFragment);
-                            }
-
-                        }
 
                     }
                 });
@@ -312,7 +273,6 @@ public class MyCartFragment extends Fragment implements View.OnClickListener {
                 CreateOrderFragment fragment = new CreateOrderFragment();
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFromProductDetail", false);
-                fragment.setProductList(productDetailsItems);
                 fragment.setArguments(bundle);
                 MainActivity.addActionFragment(fragment);
 

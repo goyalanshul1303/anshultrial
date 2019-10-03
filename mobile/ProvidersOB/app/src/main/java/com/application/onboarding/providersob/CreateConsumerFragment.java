@@ -45,7 +45,7 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
     private static View view;
 
     private static EditText companyName, contactName, email, websitelink, mobile, landline, foundationYear, annulaincome,
-            gst, panCardET, creditLimitET, registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
+            gst, panCardET, creditLimitET, providerId,registeredAdd1, registeredAdd2, registeredAdd3, registeredPincode,
             registeredCountry, corresAdd1, corresAdd2, corresAdd3, corresCountry, corresPincode,quantityET,vendorET;
     private static Button nextButton;
     private Spinner frequencySpinner, consumerTypeSpinner, consumerScaleSpinner,registeredState, corresState;
@@ -83,24 +83,26 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         companyName = (EditText) view.findViewById(R.id.consumerNameET);
-        contactName = (EditText) view.findViewById(R.id.contactPersonET);
+//        contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
+        providerId = (EditText) view.findViewById(R.id.providerIdET);
+
         landline = (EditText) view.findViewById(R.id.landlineET);
-        websitelink = (EditText) view.findViewById(R.id.websiteET);
-        foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
-        annulaincome = (EditText) view.findViewById(R.id.incomeET);
+//        websitelink = (EditText) view.findViewById(R.id.websiteET);
+//        foundationYear = (EditText) view.findViewById(R.id.foundationYearET);
+//        annulaincome = (EditText) view.findViewById(R.id.incomeET);
         nextButton = (Button) view.findViewById(R.id.nextBtn);
         nextButton.setOnClickListener(this);
-        frequencySpinner = (Spinner)view.findViewById(R.id.spinnerFrequency);
-        typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
-        consumerScaleSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerSCale);
-        consumerTypeSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerType);
-        panCardET = (EditText) view.findViewById(R.id.panCardET);
-        gst = (EditText) view.findViewById(R.id.gst);
-        email = (EditText) view.findViewById(R.id.emailEditText);
-        isSmapleRG = (RadioGroup) view.findViewById(R.id.sampleRG);
-        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
-        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
+//        frequencySpinner = (Spinner)view.findViewById(R.id.spinnerFrequency);
+//        typesCartonCheckboxLL = (FlowLayout) view.findViewById(R.id.typesCartonCheckboxLL);
+//        consumerScaleSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerSCale);
+//        consumerTypeSpinner = (Spinner) view.findViewById(R.id.spinnerConsumerType);
+//        panCardET = (EditText) view.findViewById(R.id.panCardET);
+//        gst = (EditText) view.findViewById(R.id.gst);
+//        email = (EditText) view.findViewById(R.id.emailEditText);
+//        isSmapleRG = (RadioGroup) view.findViewById(R.id.sampleRG);
+//        creditLimitET = (EditText) view.findViewById(R.id.creditLimitET);
+//        creditDaysET = (EditText) view.findViewById(R.id.creditDaysET);
         sameAsRegistered = (CheckBox) view.findViewById(R.id.same_address);
         registeredAdd1 = (EditText) view.findViewById(R.id.registeredAddressET1);
         registeredAdd2 = (EditText) view.findViewById(R.id.registeredAddressET2);
@@ -118,9 +120,9 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
         corresCountry.setEnabled(false);
         corresCountry.setText("India");
         corresPincode = (EditText) view.findViewById(R.id.correspondencePincode);
-        quantityET = (EditText)view.findViewById(R.id.quantityET);
-        vendorET = (EditText) view.findViewById(R.id.vendorET);
-        otherVendorET= (EditText)view.findViewById(R.id.otherVendorET);
+//        quantityET = (EditText)view.findViewById(R.id.quantityET);
+//        vendorET = (EditText) view.findViewById(R.id.vendorET);
+//        otherVendorET= (EditText)view.findViewById(R.id.otherVendorET);
         inflateDataView();
     }
     @Override
@@ -183,48 +185,48 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
         statesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
-        consumerScaleSpinner.setAdapter(dataAdapterScale);
-        consumerTypeSpinner.setAdapter(dataAdapterType);
-        frequencySpinner.setAdapter(dataAdapter);
+//        consumerScaleSpinner.setAdapter(dataAdapterScale);
+//        consumerTypeSpinner.setAdapter(dataAdapterType);
+//        frequencySpinner.setAdapter(dataAdapter);
         corresState.setAdapter(statesAdapter);
         registeredState.setAdapter(statesAdapter);
-        consumerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setConsumerType((Integer) Utils.getElementByIndex(data.getConsumerType(), i));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        consumerScaleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setConsumerScale((Integer) Utils.getElementByIndex(data.getConsumerScale(), i));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        frequencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                request.setExpectedQuantityFrequency((Integer) Utils.getElementByIndex(data.getConsumerFrequency(), i));
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        consumerTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                request.setConsumerType((Integer) Utils.getElementByIndex(data.getConsumerType(), i));
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//        consumerScaleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                request.setConsumerScale((Integer) Utils.getElementByIndex(data.getConsumerScale(), i));
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        frequencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                request.setExpectedQuantityFrequency((Integer) Utils.getElementByIndex(data.getConsumerFrequency(), i));
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         registeredState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -253,51 +255,51 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
             }
         });
 
+//
+//        for (Map.Entry<Integer, String> entry : data.getTypesOfCartons().entrySet()) {
+//            final CheckBox cb = new CheckBox(getActivity());
+//            cb.setText(entry.getValue());
+//            typesCartonCheckboxLL.addView(cb);
+//            cb.setOnClickListener(new View.OnClickListener() {
+//
+//                @Override
+//                public void onClick(View v) {
+//                    // TODO Auto-generated method stub
+//                    Object key = Utils.getKeyFromValue(data.getTypesOfCartons(), cb.getText().toString());
+//                    if (cb.isChecked()) {
+//                        if (null != key) {
+//                            request.getCartonType().add((Integer) key);
+//                        }
+//                    } else {
+//                        if (null != key && request.getCartonType().contains(key)) {
+//                            request.getCartonType().remove(key);
+//
+//                        }
+//                    }
+//                    request.setCartonType(request.getCartonType());
+//                }
+//            });
+//        }
 
-        for (Map.Entry<Integer, String> entry : data.getTypesOfCartons().entrySet()) {
-            final CheckBox cb = new CheckBox(getActivity());
-            cb.setText(entry.getValue());
-            typesCartonCheckboxLL.addView(cb);
-            cb.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Object key = Utils.getKeyFromValue(data.getTypesOfCartons(), cb.getText().toString());
-                    if (cb.isChecked()) {
-                        if (null != key) {
-                            request.getCartonType().add((Integer) key);
-                        }
-                    } else {
-                        if (null != key && request.getCartonType().contains(key)) {
-                            request.getCartonType().remove(key);
-
-                        }
-                    }
-                    request.setCartonType(request.getCartonType());
-                }
-            });
-        }
-
-
-        isSmapleRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-
-                    case R.id.yesSmaple:
-                        isSample = 1;
-                        request.setSampleCollection(true);
-                        break;
-                    case R.id.noSmaple:
-                        isSample = 0;
-                        request.setSampleCollection(false);
-                        break;
-                    default:
-                        isSample = -1;
-                }
-
-            }
-        });
+//        isSmapleRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                switch (checkedId) {
+//
+//                    case R.id.yesSmaple:
+//                        isSample = 1;
+//                        request.setSampleCollection(true);
+//                        break;
+//                    case R.id.noSmaple:
+//                        isSample = 0;
+//                        request.setSampleCollection(false);
+//                        break;
+//                    default:
+//                        isSample = -1;
+//                }
+//
+//            }
+//        });
 
         sameAsRegistered.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -329,35 +331,35 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getActivity(), "Please input company name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(contactName.getText())) {
-                request.setContactName(contactName.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(email.getText())) {
-                request.setEmail(email.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input email address", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!TextUtils.isEmpty(panCardET.getText())) {
-                request.setCompanyPAN(panCardET.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input PAN number", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(gst.getText())) {
-                request.setGstin(gst.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input GST number", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!TextUtils.isEmpty(contactName.getText())) {
+//                request.setContactName(contactName.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(email.getText())) {
+//                request.setEmail(email.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input email address", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (!TextUtils.isEmpty(panCardET.getText())) {
+//                request.setCompanyPAN(panCardET.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input PAN number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(gst.getText())) {
+//                request.setGstin(gst.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input GST number", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
 
             if (!TextUtils.isEmpty(registeredAdd1.getText())) {
                 rgistredAddress.setAddressLine1(registeredAdd1.getText().toString());
@@ -456,75 +458,80 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getActivity(), "Please input valid mobile number", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(websitelink.getText())) {
-                request.setWebsite(websitelink.getText().toString());
-
+//            if (!TextUtils.isEmpty(websitelink.getText())) {
+//                request.setWebsite(websitelink.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            if (!TextUtils.isEmpty(foundationYear.getText())) {
+//                request.setFoundationYear(Integer.parseInt(foundationYear.getText().toString()));
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input foundation year", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(annulaincome.getText())) {
+//                request.setAnnualIncome(Integer.parseInt(annulaincome.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input annual income", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (request.getConsumerType() == -1){
+//                Toast.makeText(getActivity(), "Please select consumer type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(request.getConsumerScale() == -1) {
+//                Toast.makeText(getActivity(), "Please select consumer scale", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (request.getCartonType().isEmpty()) {
+//                Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if(quantityET.getText().toString().isEmpty()) {
+//                Toast.makeText(getActivity(), "Please select quanity", Toast.LENGTH_SHORT).show();
+//                return;
+//            }else{
+//                request.setExpectedQuantity(Integer.parseInt(quantityET.getText().toString()));
+//            }
+//            if(request.getExpectedQuantityFrequency() == -1){
+//                Toast.makeText(getActivity(), "Please select frequency", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (isSample == -1) {
+//                Toast.makeText(getActivity(), "Please select is smaple provided or not", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(creditLimitET.getText())) {
+//                request.setPrepaymentPercent(Integer.parseInt(creditLimitET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input pre payment percentage", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(creditDaysET.getText())) {
+//                request.setMaxCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(vendorET.getText())) {
+//                request.setCurrentVendor((vendorET.getText().toString()));
+//            } else {
+//                Toast.makeText(getActivity(), "Please input vendor name", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (!TextUtils.isEmpty(otherVendorET.getText())) {
+//                request.setOtherVendor(otherVendorET.getText().toString());
+//            }
+            if (!TextUtils.isEmpty(providerId.getText())) {
+                request.setProviderId((providerId.getText().toString()));
             } else {
-                Toast.makeText(getActivity(), "Please input website link", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please input provider id", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            if (!TextUtils.isEmpty(foundationYear.getText())) {
-                request.setFoundationYear(Integer.parseInt(foundationYear.getText().toString()));
-
-            } else {
-                Toast.makeText(getActivity(), "Please input foundation year", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(annulaincome.getText())) {
-                request.setAnnualIncome(Integer.parseInt(annulaincome.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input annual income", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getConsumerType() == -1){
-                Toast.makeText(getActivity(), "Please select consumer type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(request.getConsumerScale() == -1) {
-                Toast.makeText(getActivity(), "Please select consumer scale", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (request.getCartonType().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select carton type", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(quantityET.getText().toString().isEmpty()) {
-                Toast.makeText(getActivity(), "Please select quanity", Toast.LENGTH_SHORT).show();
-                return;
-            }else{
-                request.setExpectedQuantity(Integer.parseInt(quantityET.getText().toString()));
-            }
-            if(request.getExpectedQuantityFrequency() == -1){
-                Toast.makeText(getActivity(), "Please select frequency", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (isSample == -1) {
-                Toast.makeText(getActivity(), "Please select is smaple provided or not", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(creditLimitET.getText())) {
-                request.setPrepaymentPercent(Integer.parseInt(creditLimitET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input pre payment percentage", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(creditDaysET.getText())) {
-                request.setMaxCreditDays(Integer.parseInt(creditDaysET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input number of days for credit", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(vendorET.getText())) {
-                request.setCurrentVendor((vendorET.getText().toString()));
-            } else {
-                Toast.makeText(getActivity(), "Please input vendor name", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!TextUtils.isEmpty(otherVendorET.getText())) {
-                request.setOtherVendor(otherVendorET.getText().toString());
-            }
-
 
             new SendPostRequest().execute();
 
@@ -560,7 +567,7 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
 
                 }
                 request.setPhones(phones);
-                URL url = new URL(WebServiceConstants.CREATE_CONSUMER);
+                URL url = new URL(WebServiceConstants.CREATE_ONLY_CONSUMER);
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);
