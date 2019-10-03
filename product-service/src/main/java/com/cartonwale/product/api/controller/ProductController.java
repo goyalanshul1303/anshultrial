@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
 import com.cartonwale.product.api.model.AlContainer;
+import com.cartonwale.product.api.model.ConsumerProduct;
+import com.cartonwale.product.api.model.CorrugatedBox;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductImageDto;
+import com.cartonwale.product.api.model.ProductSpecification;
 import com.cartonwale.product.api.model.ProductType;
+import com.cartonwale.product.api.model.ProviderProduct;
+import com.cartonwale.product.api.model.Tape;
 import com.cartonwale.product.api.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -54,6 +60,17 @@ public class ProductController extends ControllerBase{
     public ResponseEntity<List<Product>> getAll(@PathVariable("consumerId") String consumerId) {
 		return makeResponse(productService.getAllByConsumer(consumerId));
     }
+	
+	@RequestMapping("/provider/{providerId}")
+    public ResponseEntity<List<Product>> getAllByProvider(@PathVariable("providerId") String providerId, HttpServletRequest request) {
+		return makeResponse(productService.getAllByProvider(providerId, request.getHeader(tokenHeader)));
+    }
+	
+	@RequestMapping("/getByIds")
+	public ResponseEntity<List<Product>> getByIds(@RequestBody List<String> productIds) {
+		
+		return makeResponse(productService.getAllByIds(productIds), HttpStatus.FOUND);
+	}
 	
 	@RequestMapping("/{id}")
     public ResponseEntity<Product> getById(@PathVariable("id") String id) {
@@ -114,22 +131,51 @@ public class ProductController extends ControllerBase{
     	
     	int type = root.get("productType").asInt();
     	
+    	
     	Gson gson = new Gson();
     	Product product = null;
+    	ProductSpecification specs = null;
+    	
+    	if(root.get("consumerId") != null)
+    		product = gson.fromJson(json, ConsumerProduct.class);
+    	else if(root.get("providerId") != null)
+    		product = gson.fromJson(json, ProviderProduct.class);
+    	
     	switch(ProductType.getProductType(type)) {
-    		case CORRUGATED_CARTON:
-    			product = gson.fromJson(json, Product.class);
+    		case CORRUGATED_CARTON:    	
+    			specs = objectMapper.convertValue(root.get("specifications"), CorrugatedBox.class);
     			break;
     		case TAPE:
+    			specs = objectMapper.convertValue(root.get("specifications"), Tape.class);
     			break;
     		case ALUMINIUM_CONTAINER:
-    			product = gson.fromJson(json, AlContainer.class);
+    			specs = objectMapper.convertValue(root.get("specifications"), AlContainer.class);
     			break;
     		default:
     			break;
     	}
     	
+    	product.setSpecifications(specs);
+    	
 		return product;
 	}
+    
+    @Test
+    public void testParseJSON(){
+    	String json = "{\"name\": \"Product Raw AL\",\"providerId\": \"5c5b2db59943f200010bf6bf\",\"productType\": 3,\"quantity\": 123,\"category\": 1,\"specifications\": {" +
+    			    "\"vol\": 50,\"thickness\": 60}}";
+    	Product product = null;
+    	try {
+			product = parseJSON(json);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	System.out.println(product);
+    }
     
 }

@@ -39,6 +39,8 @@ public class Provider extends EntityBase{
 	private boolean manufactureWithProvidedMaterial;
 	private int maxBoxSizeL;
 	private int maxBoxSizeW;
+	private boolean isMakeToStock;
+	private boolean isMakeToOrder;
 	
 	public int getProviderId() {
 		return providerId;
@@ -208,6 +210,18 @@ public class Provider extends EntityBase{
 	}
 	public void setMaxBoxSizeW(int maxBoxSizeW) {
 		this.maxBoxSizeW = maxBoxSizeW;
+	}
+	public boolean isMakeToStock() {
+		return isMakeToStock;
+	}
+	public void setMakeToStock(boolean isMakeToStock) {
+		this.isMakeToStock = isMakeToStock;
+	}
+	public boolean isMakeToOrder() {
+		return isMakeToOrder;
+	}
+	public void setMakeToOrder(boolean isMakeToOrder) {
+		this.isMakeToOrder = isMakeToOrder;
 	}
 	
 	

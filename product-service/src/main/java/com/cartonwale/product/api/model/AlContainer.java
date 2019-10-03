@@ -1,6 +1,6 @@
 package com.cartonwale.product.api.model;
 
-public class AlContainer extends Product {
+public class AlContainer extends ProductSpecification {
 
 	private int vol;
 	

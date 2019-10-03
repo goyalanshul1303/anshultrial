@@ -1,6 +1,9 @@
 package com.cartonwale.order.api.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,9 @@ public class CartController extends ControllerBase {
 	
 	@Autowired
 	private CartService cartService;
+	
+	@Value("${jwt.header}")
+    private String tokenHeader;
 
 	@RequestMapping(value="/add", method = RequestMethod.PUT)
     public ResponseEntity<Cart> add(@RequestBody CartItem item) {
@@ -26,8 +32,8 @@ public class CartController extends ControllerBase {
     }
 	
 	@RequestMapping
-	public ResponseEntity<Cart> get() {
-		return makeResponse(cartService.get(), HttpStatus.FOUND);
+	public ResponseEntity<Cart> get(HttpServletRequest request) {
+		return makeResponse(cartService.get(request.getHeader(tokenHeader)), HttpStatus.FOUND);
 	}
 	
 	@RequestMapping(value="/remove", method = RequestMethod.PUT)

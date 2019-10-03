@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
-import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.consumer.api.model.Consumer;
+import com.cartonwale.consumer.api.model.Product;
 import com.cartonwale.consumer.api.service.ConsumerService;
 
 
@@ -47,10 +47,21 @@ public class ConsumerController extends ControllerBase{
 		consumerService.addConsumerUser(createdConsumer, request.getHeader(tokenHeader));
     	return makeResponse(consumer, HttpStatus.CREATED);
     }
+	
+	@RequestMapping(value = "/consumerOnly", method = RequestMethod.POST)
+    public ResponseEntity<Consumer> addConsumerOnly(@RequestBody Consumer consumer) {
+		Consumer createdConsumer = consumerService.add(consumer);
+    	return makeResponse(consumer, HttpStatus.CREATED);
+    }
     
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Consumer> edit(@ModelAttribute Consumer consumer) {
     	return makeResponse(consumerService.edit(consumer), HttpStatus.ACCEPTED);
+    }
+    
+    @RequestMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(HttpServletRequest request) {
+		return makeResponse(consumerService.getProducts(request.getHeader(tokenHeader)));
     }
     
 }

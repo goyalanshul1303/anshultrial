@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cartonwale.common.util.ControllerBase;
+import com.cartonwale.provider.api.model.Product;
 import com.cartonwale.provider.api.model.Provider;
 import com.cartonwale.provider.api.service.ProviderService;
 
@@ -50,6 +51,11 @@ public class ProviderController extends ControllerBase{
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Provider> edit(@ModelAttribute Provider provider) {
     	return makeResponse(providerService.edit(provider), HttpStatus.ACCEPTED);
+    }
+    
+    @RequestMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(HttpServletRequest request) {
+		return makeResponse(providerService.getProducts(request.getHeader(tokenHeader)));
     }
     
     /*@InitBinder

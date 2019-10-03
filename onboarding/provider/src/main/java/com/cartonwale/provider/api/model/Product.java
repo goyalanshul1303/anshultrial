@@ -1,15 +1,10 @@
-package com.cartonwale.product.api.model;
+package com.cartonwale.provider.api.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import com.cartonwale.common.model.EntityBase;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document(collection = "Product")
 public class Product extends EntityBase {
 
 	private String name;
@@ -18,11 +13,7 @@ public class Product extends EntityBase {
 
 	private String userId;
 
-	private Dimension dimension;
-
 	private Double price;
-
-	private Order lastOrder;
 
 	private String additionalComments;
 	
@@ -31,8 +22,6 @@ public class Product extends EntityBase {
 	private ProductCategory category;
 	
 	private ProductSpecification specifications;
-	
-	private int cartQuantity;
 
 	public String getName() {
 		return name;
@@ -57,32 +46,13 @@ public class Product extends EntityBase {
 	public void setConsumerId(String consumerId) {
 		this.userId = consumerId;
 	}
-
-	public Dimension getDimension() {
-		return dimension;
-	}
-
-	public void setDimension(Dimension dimension) {
-		this.dimension = dimension;
-	}
-
+	
 	public Double getPrice() {
 		return price;
 	}
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	@JsonProperty
-	public Order getLastOrder() {
-
-		return lastOrder;
-	}
-
-	@JsonIgnore
-	public void setLastOrder(Order lastOrder) {
-		this.lastOrder = lastOrder;
 	}
 
 	public String getAdditionalComments() {
@@ -111,16 +81,6 @@ public class Product extends EntityBase {
 
 	public void setSpecifications(ProductSpecification specifications) {
 		this.specifications = specifications;
-	}
-
-	@JsonProperty
-	public int getCartQuantity() {
-		return cartQuantity;
-	}
-
-	@JsonIgnore
-	public void setCartQuantity(int cartQuantity) {
-		this.cartQuantity = cartQuantity;
 	}
 
 }

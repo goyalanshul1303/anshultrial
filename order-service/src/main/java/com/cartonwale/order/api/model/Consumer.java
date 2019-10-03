@@ -1,4 +1,4 @@
-package com.cartonwale.consumer.api.model;
+package com.cartonwale.order.api.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,28 +6,21 @@ import java.util.stream.Collectors;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.cartonwale.common.model.EntityBase;
-import com.cartonwale.consumer.api.model.CartonType;
 
 @Document(collection = "Consumer")
 public class Consumer extends EntityBase{
 
 	private String consumerName;
 	private String contactName;
-	private List<Address> addresses;
-	private List<Phone> phones;
 	private String email;
 	private String website;
 	private int foundationYear;
 	private double annualIncome;
 	private String companyPAN;
 	private String gstin;
-	private ConsumerType consumerType;
-	private ConsumerScale consumerScale;
-	private ConsumerCategory consumerCategory;
 	private String boundedProviderId;
 	private List<CartonType> cartonType;
 	private int expectedQuantity;
-	private Frequency expectedQuantityFrequency;
 	private boolean sampleCollection;
 	private String currentVendor;
 	private String otherVendor;
@@ -45,18 +38,6 @@ public class Consumer extends EntityBase{
 	}
 	public void setContactName(String contactName) {
 		this.contactName = contactName;
-	}
-	public List<Address> getAddresses() {
-		return addresses;
-	}
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
-	}
-	public List<Phone> getPhones() {
-		return phones;
-	}
-	public void setPhones(List<Phone> phones) {
-		this.phones = phones;
 	}
 	public String getEmail() {
 		return email;
@@ -94,18 +75,6 @@ public class Consumer extends EntityBase{
 	public void setGstin(String gstin) {
 		this.gstin = gstin;
 	}
-	public ConsumerType getConsumerType() {
-		return consumerType;
-	}
-	public void setConsumerType(int consumerType) {
-		this.consumerType = ConsumerType.getConsumerType(consumerType);
-	}
-	public ConsumerScale getConsumerScale() {
-		return consumerScale;
-	}
-	public void setConsumerScale(int consumerScale) {
-		this.consumerScale = ConsumerScale.getConsumerScale(consumerScale);
-	}
 	public List<CartonType> getCartonType() {
 		return cartonType;
 	}
@@ -117,12 +86,6 @@ public class Consumer extends EntityBase{
 	}
 	public void setExpectedQuantity(int expectedQuantity) {
 		this.expectedQuantity = expectedQuantity;
-	}
-	public Frequency getExpectedQuantityFrequency() {
-		return expectedQuantityFrequency;
-	}
-	public void setExpectedQuantityFrequency(int expectedQuantityFrequency) {
-		this.expectedQuantityFrequency = Frequency.getFrequency(expectedQuantityFrequency);
 	}
 	public boolean isSampleCollection() {
 		return sampleCollection;
@@ -159,12 +122,6 @@ public class Consumer extends EntityBase{
 	}
 	public void setBoundedProviderId(String boundedProviderId) {
 		this.boundedProviderId = boundedProviderId;
-	}
-	public ConsumerCategory getConsumerCategory() {
-		return consumerCategory;
-	}
-	public void setConsumerCategory(int consumerCategory) {
-		this.consumerCategory = ConsumerCategory.getConsumerCategory(consumerCategory);
 	}
 	
 }

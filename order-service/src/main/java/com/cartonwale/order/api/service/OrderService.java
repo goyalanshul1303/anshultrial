@@ -35,4 +35,6 @@ public interface OrderService extends GenericService<Order>{
 
 	Order getById(String id, String authToken);
 
+	Order add(String authToken);
+
 }

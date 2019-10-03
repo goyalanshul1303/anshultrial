@@ -1,4 +1,4 @@
-package com.cartonwale.order.api.model;
+package com.cartonwale.product.api.model;
 
 public class CartItem {
 	
@@ -6,8 +6,6 @@ public class CartItem {
 	
 	private int quantity;
 
-	private Product product;
-	
 	public String getProductId() {
 		return productId;
 	}
@@ -23,15 +21,6 @@ public class CartItem {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

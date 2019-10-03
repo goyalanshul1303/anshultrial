@@ -20,4 +20,8 @@ public interface ProductService extends GenericService<Product>{
 
 	byte[] getProductImage(String id);
 
+	List<Product> getAllByIds(List<String> productIds);
+
+	List<Product> getAllByProvider(String providerId, String authToken);
+
 }

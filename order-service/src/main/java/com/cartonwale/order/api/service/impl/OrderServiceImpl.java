@@ -1,6 +1,7 @@
 package com.cartonwale.order.api.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -30,12 +31,16 @@ import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.order.api.dao.OrderDao;
+import com.cartonwale.order.api.model.Cart;
+import com.cartonwale.order.api.model.Consumer;
 import com.cartonwale.order.api.model.ConsumerDashboard;
 import com.cartonwale.order.api.model.Order;
+import com.cartonwale.order.api.model.OrderItem;
 import com.cartonwale.order.api.model.OrderStatus;
 import com.cartonwale.order.api.model.Product;
 import com.cartonwale.order.api.model.ProductPrice;
 import com.cartonwale.order.api.model.ProviderDashboard;
+import com.cartonwale.order.api.service.CartService;
 import com.cartonwale.order.api.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -56,6 +61,9 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 	
 	@Autowired
 	private SequenceDao sequenceDao;
+	
+	@Autowired
+	private CartService cartService;
 
 	@PostConstruct
 	void init() {
@@ -277,6 +285,52 @@ public class OrderServiceImpl extends GenericServiceImpl<Order> implements Order
 		Order order = super.getById(id);
 		List<Order> orders = Arrays.asList(order);
 		calculateOrderAmount(orders, authToken);
-		return orders.get(0);
+		order = orders.get(0);
+		addProductDetails(order, authToken);
+		return order;
+	}
+
+	private void addProductDetails(Order order, String authToken) {
+		List<String> productIds = order.getItems().stream().map(i -> i.getProduct().getId()).collect(Collectors.toList());
+		
+		ResponseEntity<List<Product>> responseEntity = ServiceUtil.callByType(HttpMethod.PUT, authToken,
+				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/product/getByIds",
+				getProductIdsAsString(productIds), restTemplate, new ParameterizedTypeReference<List<Product>>() {
+				});
+		
+		List<Product> products = responseEntity.getBody();
+		
+		Map<String, Product> productMap = products.stream().collect(Collectors.toMap(Product::getId, p -> p));
+		order.getItems().stream().forEach(i -> i.setProduct(productMap.get(i.getProduct().getId())));
+	}
+
+	@Override
+	public Order add(String authToken) {
+		
+		Cart cart = cartService.getById(SecurityUtil.getAuthUserDetails().getEntityId());
+		
+		ResponseEntity<Consumer> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers/" + SecurityUtil.getAuthUserDetails().getEntityId(),
+				"", restTemplate, new ParameterizedTypeReference<Consumer>() {
+				});
+		
+		List<OrderItem> items = new ArrayList<OrderItem>();
+		
+		cart.getItems().stream()
+				.forEach(item -> items.add(new OrderItem(new Product(item.getProductId()), item.getQuantity())));
+		
+		Order order = null;
+		
+		try {
+			order = orderDao.add(
+					new Order(OrderStatus.Status.MANUFACTURER_ASSIGNED.getValue(), SecurityUtil.getAuthUserDetails().getEntityId(),
+							responseEntity.getBody().getBoundedProviderId(), Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30")).getTime(), items));
+		} catch (DataAccessException e) {
+			logger.error(e.getMessage());
+		}
+		
+		addProductDetails(order, authToken);
+		 
+		return order;
 	}
 }

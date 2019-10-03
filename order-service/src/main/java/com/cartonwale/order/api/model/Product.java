@@ -26,6 +26,10 @@ public class Product extends EntityBase{
 	private int grammage;
 	
 	private String additionalComments;
+	
+	public Product(String id) {
+		super(id);
+	}
 
 	public String getName() {
 		return name;

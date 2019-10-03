@@ -1,6 +1,6 @@
 package com.cartonwale.product.api.model;
 
-public class Tape extends Product {
+public class Tape extends ProductSpecification {
 	
 	private int thickness;
 	
