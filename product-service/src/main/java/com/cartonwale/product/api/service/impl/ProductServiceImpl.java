@@ -67,7 +67,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	@Override
 	public Product add(Product product) {
 		
-		List<Product> existingProduct = productDao.getByName(product.getName(), product.getConsumerId());
+		List<Product> existingProduct = productDao.getByName(product.getName(), product.getUserId());
 		
 		if(existingProduct != null && !existingProduct.isEmpty())
 			
@@ -96,7 +96,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 				logger.error(e.getMessage());
 			}
 		else
-			products = productDao.getAllByConsumer(SecurityUtil.getAuthUserDetails().getEntityId());
+			products = productDao.getAllByUser(SecurityUtil.getAuthUserDetails().getEntityId());
 		
 		products.stream().peek(p -> logger.debug("Product Price: " + p.getPrice()));
 		
@@ -118,14 +118,14 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 
 	@Override
 	public List<Product> getAllByConsumer(String consumerId) {
-		List<Product> products = productDao.getAllByConsumer(consumerId);
+		List<Product> products = productDao.getAllByUser(consumerId);
 		
 		return products ;
 	}
 
 	@Override
 	public List<Product> getAllByProvider(String providerId, String authToken) {
-		List<Product> products = productDao.getAllByConsumer(providerId);
+		List<Product> products = productDao.getAllByUser(providerId);
 		
 		addCartQuantity(products, authToken);
 		return products ;

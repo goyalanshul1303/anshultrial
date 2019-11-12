@@ -50,12 +50,12 @@ public class Product extends EntityBase {
 		this.quantity = quantity;
 	}
 
-	public String getConsumerId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setConsumerId(String consumerId) {
-		this.userId = consumerId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public Dimension getDimension() {
