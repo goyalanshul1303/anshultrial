@@ -7,7 +7,7 @@ import com.cartonwale.product.api.model.Product;
 
 public interface ProductDao extends GenericDao<Product> {
 
-	List<Product> getAllByConsumer(String consumerId);
+	List<Product> getAllByUser(String consumerId);
 
 	Product getById(String entityId, String id);
 

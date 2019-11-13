@@ -20,10 +20,10 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 	}
 
 	@Override
-	public List<Product> getAllByConsumer(String consumerId) {
+	public List<Product> getAllByUser(String userId) {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("consumerId").is(consumerId));
+			query.addCriteria(Criteria.where("userId").is(userId));
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			throw new ProductException(e.getMessage());
@@ -31,10 +31,10 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 	}
 
 	@Override
-	public Product getById(String consumerId, String id) {
+	public Product getById(String userId, String id) {
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("consumerId").is(consumerId));
+			/*query.addCriteria(Criteria.where("userId").is(userId));*/
 			query.addCriteria(Criteria.where("_id").is(id));
 			return super.getAll(query).get(0);
 		} catch (DataAccessException e) {
@@ -55,11 +55,11 @@ public class ProductDaoImpl extends GenericDaoImpl<Product> implements ProductDa
 	}
 
 	@Override
-	public List<Product> getByName(String name, String consumerId) {
+	public List<Product> getByName(String name, String userId) {
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("name").is(name));
-			query.addCriteria(Criteria.where("consumerId").is(consumerId));
+			/*query.addCriteria(Criteria.where("userId").is(userId));*/
 			return super.getAll(query);
 		} catch (DataAccessException e) {
 			throw new ProductException(e.getMessage());
