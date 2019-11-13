@@ -341,17 +341,7 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
 
         }
 
-        ValueAnimator fadeAnim = ObjectAnimator.ofFloat(newBall, "alpha", 1f, 0f);
-fadeAnim.setDuration(250);
-fadeAnim.addListener(new
-
-        AnimatorListenerAdapter() {
-            public void onAnimationEnd (Animator animation){
-                balls.remove(((ObjectAnimator) animation).getTarget());
-            }
-
-        }
-
+    }
         @Override
         public void onPrepareOptionsMenu(Menu menu) {
             MenuItem item = menu.findItem(R.id.over_flow_item);

@@ -19,11 +19,17 @@
             android:id="@+id/placed_order"
             android:title="Placed Order List"
             app:showAsAction="never|withText" />
+        <item android:id="@+id/createConsumer"
+            android:title="Create Consumer"
+            app:showAsAction="never|withText"></item>
 
         <item
         android:id="@+id/completed_list"
         android:title="Completed Order List"
         app:showAsAction="never|withText" />
+        <item android:id="@+id/create_raw_product"
+            android:title="Create Raw Product"
+            app:showAsAction="never|withText"></item>
         <item
             android:id="@+id/logout"
             android:title="Logout"

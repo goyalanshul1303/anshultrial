@@ -3,8 +3,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/details_bg"
-    >
+    android:background="@color/details_bg">
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -37,90 +37,6 @@
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dip"
-                android:text="Types of Carts Supported:"
-                android:textSize="16sp" />
-
-
-            <RadioGroup
-                android:id="@+id/cartonTypeRg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/corrugatedRg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Corrugated"
-                    android:textSize="16sp" />
-
-                <RadioButton
-                    android:id="@+id/dieCuttRg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Die Cutting"
-                    android:textSize="16sp" />
-            </RadioGroup>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dip"
-                android:text="Types of Printing Supported:"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/typesPrintingSpinner"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"></Spinner>
-
-
-            <TextView
-                android:id="@+id/boxesSupportedTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-
-                android:text="Types of Boxes Supported:"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/typeBoxesRG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:orientation="vertical" />
-
-            <TextView
-                android:id="@+id/typeOfCorrugationTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Types of Corrugation boxes Supported:"
-                android:textSize="16sp" />
-
-            <RadioGroup
-                android:id="@+id/typeCorrugationRG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:orientation="vertical" />
-
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_quantity"
                 android:layout_width="match_parent"
@@ -142,6 +58,7 @@
                     android:textColorHint="@color/hint_text_light_grey"
                     android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,8 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -178,10 +95,10 @@
                     android:id="@+id/width"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:hint="W"
-                    android:textSize="13sp"
                     android:gravity="center"
-                    android:inputType="number" />
+                    android:hint="W"
+                    android:inputType="number"
+                    android:textSize="13sp" />
 
 
                 <TextView
@@ -194,10 +111,10 @@
                     android:id="@+id/height"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:hint="H"
                     android:gravity="center"
-                    android:textSize="13sp"
-                    android:inputType="number" />
+                    android:hint="H"
+                    android:inputType="number"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -209,10 +126,10 @@
                     android:id="@+id/length"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:hint="L"
                     android:gravity="center"
-                    android:textSize="13sp"
-                    android:inputType="number" />
+                    android:hint="L"
+                    android:inputType="number"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -221,6 +138,288 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dip"
+                android:text="Types of Products Supported:"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/typesProductsSpinner"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"></Spinner>
+
+
+
+            <!--- Start specifaction type product type 1-->
+            <LinearLayout
+                android:id="@+id/corrugatedCartonLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dip"
+                    android:text="Types of Carts Supported:"
+                    android:textSize="16sp" />
+
+
+                <RadioGroup
+                    android:id="@+id/cartonTypeRg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/corrugatedRg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Corrugated"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/dieCuttRg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Die Cutting"
+                        android:textSize="16sp" />
+                </RadioGroup>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dip"
+                    android:text="Types of Printing Supported:"
+                    android:textSize="16sp" />
+
+                <Spinner
+                    android:id="@+id/typesPrintingSpinner"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"></Spinner>
+
+
+                <TextView
+                    android:id="@+id/boxesSupportedTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+
+                    android:text="Types of Boxes Supported:"
+                    android:textSize="16sp" />
+
+                <RadioGroup
+                    android:id="@+id/typeBoxesRG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/typeOfCorrugationTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Types of Corrugation boxes Supported:"
+                    android:textSize="16sp" />
+
+                <RadioGroup
+                    android:id="@+id/typeCorrugationRG"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_grammage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:errorTextAppearance="@style/WelcomeErrorAppearance"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/grammageET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Grammage"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textColorHint="@color/hint_text_light_grey"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <!-- END product type 1-->
+
+            <!-- start product type 2 -->
+        <LinearLayout
+            android:id="@+id/tapeTypeLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_thickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:errorTextAppearance="@style/WelcomeErrorAppearance"
+                app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                <EditText
+                    android:id="@+id/thicknessET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tape Thickness"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textColorHint="@color/hint_text_light_grey"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Is Tape Double Sided?"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/doubleSideTapeRG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/yesDoubleSide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/noDoubleSide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:textSize="16sp" />
+            </RadioGroup>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Is Tape Printed ?"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/tapePrintedRG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/yesPrinted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/noPrinted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </LinearLayout>
+            <!-- end product type 2 -->
+
+            <!-- start product type 3 -->
+            <LinearLayout
+                android:id="@+id/containerTypeLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_continer_thickness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:errorTextAppearance="@style/WelcomeErrorAppearance"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/thicknessContainerET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Container Thickness"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textColorHint="@color/hint_text_light_grey"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_container_volume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:errorTextAppearance="@style/WelcomeErrorAppearance"
+                    app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/volContainerET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Container Volume"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="#000000"
+                        android:textColorHint="@color/hint_text_light_grey"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <!-- end product type 3 -->
 
             <Button
                 android:id="@+id/nextBtn"
@@ -237,11 +436,11 @@
 
 
     </ScrollView>
+
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        android:id="@+id/progressBar"
-        />
+        android:visibility="gone" />
 </FrameLayout>

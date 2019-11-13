@@ -68,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.productForOffers:
                 addActionFragment(new ProductListOpenForPrice());
                 return  true;
+            case R.id.createConsumer:
+                addActionFragment(new CreateConsumerFragment());
+                return  true;
+            case R.id.create_raw_product:
+
+                addActionFragment(new CreateRawProductFragment());
+                return true;
             case android.R.id.home:
 //                onBackPressed();
                 fragmentManager.popBackStackImmediate();

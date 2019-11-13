@@ -61,6 +61,7 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
+        setHasOptionsMenu(true);
 
     }
 
@@ -70,8 +71,10 @@ public class ChooseActivityFragment extends Fragment implements View.OnClickList
         view = inflater.inflate(R.layout.choose_action, container, false);
         inflateViews();
         init(view);
+        setHasOptionsMenu(true);
         return view;
     }
+
 
     private void inflateViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);

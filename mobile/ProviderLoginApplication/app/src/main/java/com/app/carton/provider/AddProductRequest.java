@@ -22,6 +22,7 @@ public class AddProductRequest {
     String consumerId ;
     int printingType;
 
+
     public DimensionClass getDimension() {
         return dimension;
     }
