@@ -203,7 +203,7 @@ public class CreateRawProductFragment extends Fragment implements View.OnClickLi
         typesPrintingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-               // specifications.put("printingType", (Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
+                specifications.put("printingType", (Integer) Utils.getElementByIndex(data.getTypeOfPrinting(), i));
 
             }
 
@@ -456,7 +456,7 @@ public class CreateRawProductFragment extends Fragment implements View.OnClickLi
                 } else {
                     Toast.makeText(getActivity(), "Product Created successfully",
                             Toast.LENGTH_LONG).show();
-//                    new MainActivity().replaceLoginFragment(new ProviderProductsListFragment());
+                    new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

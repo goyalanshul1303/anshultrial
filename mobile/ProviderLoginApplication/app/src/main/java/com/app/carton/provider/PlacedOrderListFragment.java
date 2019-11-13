@@ -60,7 +60,6 @@ public class PlacedOrderListFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.order_list, container, false);
         initViews();
-        setHasOptionsMenu(true);
         return view;
     }
 
