@@ -136,10 +136,14 @@ public class ProductController extends ControllerBase{
     	Product product = null;
     	ProductSpecification specs = null;
     	
-    	if(root.get("consumerId") != null)
+    	if(root.get("consumerId") != null) {
     		product = gson.fromJson(json, ConsumerProduct.class);
-    	else if(root.get("providerId") != null)
+    		product.setUserId(root.get("consumerId").textValue());
+    	}
+    	else if(root.get("providerId") != null) {
     		product = gson.fromJson(json, ProviderProduct.class);
+    		product.setUserId(root.get("providerId").textValue());
+    	}
     	
     	switch(ProductType.getProductType(type)) {
     		case CORRUGATED_CARTON:    	
