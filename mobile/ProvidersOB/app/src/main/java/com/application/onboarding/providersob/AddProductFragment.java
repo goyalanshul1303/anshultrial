@@ -1,13 +1,19 @@
 package com.application.onboarding.providersob;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -31,17 +38,26 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by aggarwal.swati on 2/18/19.
@@ -66,6 +82,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     private String consumerId;
     private RadioGroup cartonType, typeBoxesRG,typeCorrugationRG;
     private int cartonTypeSelected = -1;
+
 
     public AddProductFragment() {
 
@@ -111,7 +128,6 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         length = (EditText)view.findViewById(R.id.length);
         grammage = (EditText)view.findViewById(R.id.grammage);
         additionalDetails= (EditText)view.findViewById(R.id.additionalDetails);
-        
         inflateDataView();
 
 
@@ -319,7 +335,8 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
                 try {
                     JSONObject object = new JSONObject(result);
                     if (!object.optString("status").isEmpty() && (Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_BAD_REQUEST
-                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED)) {
+                            || Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_UNAUTHORIZED) ||
+                            Integer.valueOf(object.optString("status")) == HttpURLConnection.HTTP_FORBIDDEN) {
                         Toast.makeText(getActivity(), object.optString("message"),
                                 Toast.LENGTH_LONG).show();
                     } else {
@@ -383,5 +400,6 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             }
         }
     };
+
 
 }

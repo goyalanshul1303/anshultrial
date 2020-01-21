@@ -207,11 +207,11 @@ public class AgentDetailsFragment extends Fragment implements View.OnClickListen
 
         Utils.setDetailsTextField("Contact Name", getActivity(), contactName, result.optString("contactName"));
 
-        Utils.setDetailsTextField("Email", getActivity(), email, result.optString("email"));
-        Utils.setDetailsTextField("Website Link", getActivity(), website, result.optString("website"));
+        Utils.setDetailsTextField("Email", getActivity(), email, "");
+        Utils.setDetailsTextField("Website Link", getActivity(), website, "");
 
-        Utils.setDetailsTextField("Foundation Year", getActivity(), foundationYear, result.optString("foundationYear"));
-        Utils.setDetailsTextField("Company PAN ", getActivity(), pan, result.optString("companyPAN"));
+        Utils.setDetailsTextField("Foundation Year", getActivity(), foundationYear, "");
+        Utils.setDetailsTextField("Company PAN ", getActivity(), pan, "");
 
 
         String cartonTypeString = "";

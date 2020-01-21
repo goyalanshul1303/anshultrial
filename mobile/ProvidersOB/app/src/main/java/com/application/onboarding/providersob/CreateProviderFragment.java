@@ -89,7 +89,7 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
     private void initViews() {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         companyName = (EditText) view.findViewById(R.id.companyNameET);
-        contactName = (EditText) view.findViewById(R.id.contactPersonET);
+//        contactName = (EditText) view.findViewById(R.id.contactPersonET);
         mobile = (EditText) view.findViewById(R.id.mobileET);
         landline = (EditText) view.findViewById(R.id.landlineET);
 //        correspondenceAddress = (EditText) view.findViewById(R.id.corresAddressET);
@@ -440,13 +440,13 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
                 Toast.makeText(getActivity(), "Please input company name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(contactName.getText())) {
-                request.setContactName(contactName.getText().toString());
-
-            } else {
-                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if (!TextUtils.isEmpty(contactName.getText())) {
+//                request.setContactName(contactName.getText().toString());
+//
+//            } else {
+//                Toast.makeText(getActivity(), "Please input contact name", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             if (!TextUtils.isEmpty(email.getText())) {
                 request.setEmail(email.getText().toString());
 
