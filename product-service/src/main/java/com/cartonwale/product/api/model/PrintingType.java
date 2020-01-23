@@ -19,6 +19,10 @@ public enum PrintingType {
 	
 	public static PrintingType getPrintingType(int value){
 		
+		if(value == 0){
+			return PrintingType.SINGLE;
+		}
+		
 		for(PrintingType type : values()){
 			if(type.getValue() == value){
 				return type;

@@ -17,6 +17,9 @@ public enum OperatingHoursType {
 	
 	public static OperatingHoursType getOperatingHoursType(int value) {
 		
+		if(value == 0)
+			return OperatingHoursType.DAY;
+		
 		for(OperatingHoursType type : values()){
 			if(type.getValue() == value){
 				return type;

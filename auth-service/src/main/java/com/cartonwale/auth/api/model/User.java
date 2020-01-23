@@ -34,6 +34,8 @@ public class User extends EntityBase{
     private Integer attempts;
     
     private String companyName;
+    
+    private String contactNumber;
 
     @DBRef
     private List<Role> roles = new ArrayList<>();
@@ -192,6 +194,14 @@ public class User extends EntityBase{
 
 	public String getCompanyName() {
 		return companyName;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
 	public void setCompanyName(String companyName) {

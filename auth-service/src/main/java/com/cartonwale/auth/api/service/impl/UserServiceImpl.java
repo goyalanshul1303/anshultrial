@@ -111,8 +111,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 		
 		//setting default username, if username is empty
     	if(StringUtils.isEmpty(user.getUsername())){
-    		String[] splictedEmail = user.getEmail().split("@");
-    		if(splictedEmail.length >= 2) user.setUsername(splictedEmail[0]);
+    		/*String[] splictedEmail = user.getEmail().split("@");
+    		if(splictedEmail.length >= 2) user.setUsername(splictedEmail[0]);*/
+    		user.setUsername(user.getContactNumber());
     	}
     		
         //encode password
