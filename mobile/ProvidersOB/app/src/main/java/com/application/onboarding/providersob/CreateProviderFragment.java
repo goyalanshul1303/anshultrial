@@ -714,7 +714,7 @@ public class CreateProviderFragment extends Fragment implements View.OnClickList
 
                 }
                 request.setPhones(phones);
-                URL url = new URL(WebServiceConstants.CREATE_ONLY_CONSUMER);
+                URL url = new URL(WebServiceConstants.CREATE_PROVIDER);
                 JSONObject object = null;
                 Gson gson = new Gson();
                 String json = gson.toJson(request);
