@@ -88,9 +88,10 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 		//user.setPassword(PasswordGenerator.generatePassword());
 		user.setRegisteredOn(new Date());
 		user.setStatus(0);
-		user.setUsername(provider.getCompanyPAN());
+		user.setUsername(provider.getEmail());
 		user.setEntityId(provider.getId());
 		user.setCompanyName(provider.getCompanyName());
+		user.setContactNumber(provider.getPhones().get(0).getNumber());
 		return user;
 	}
 
