@@ -9,10 +9,9 @@ import java.util.List;
  */
 
 public class ProviderRequest extends RequestData {
-    int operatingHours;
+    int operatingHours = 1;
     String companyName;
     int clientCount;
-    int printingType;
     List<Integer> corrugationType = new ArrayList();
     List<Integer> supportedSheetLayers = new ArrayList();
     boolean isCreditSupported;
@@ -42,15 +41,6 @@ public class ProviderRequest extends RequestData {
     public void setOperatingHours(int operatingHours) {
         this.operatingHours = operatingHours;
     }
-
-    public int getPrintingType() {
-        return printingType;
-    }
-
-    public void setPrintingType(int printingType) {
-        this.printingType = printingType;
-    }
-
 
     public int getClientCount() {
         return clientCount;
