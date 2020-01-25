@@ -45,7 +45,7 @@ public class ProviderController extends ControllerBase{
     public ResponseEntity<Provider> add(@RequestBody Provider provider, HttpServletRequest request) {
 		Provider createdProvider = providerService.add(provider);
 		providerService.addProviderUser(createdProvider, request.getHeader(tokenHeader));
-    	return makeResponse(providerService.add(provider), HttpStatus.CREATED);
+    	return makeResponse(createdProvider, HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)
