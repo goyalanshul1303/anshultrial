@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 public class ServiceUtil<T> {
@@ -34,8 +35,13 @@ public class ServiceUtil<T> {
 			entity = new HttpEntity<String>(headers);
 		}
 
-		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,
-				String.class);
+		ResponseEntity<String> responseEntity = null;
+		try {
+			responseEntity = restTemplate.exchange(serviceUrl, method, entity,
+					String.class);
+		} catch (RestClientException e) {
+			throw new RestClientException("", e);
+		}
 
 		return responseEntity;
 
