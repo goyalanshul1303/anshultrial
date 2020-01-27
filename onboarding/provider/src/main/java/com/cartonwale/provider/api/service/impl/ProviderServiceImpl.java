@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
@@ -67,18 +69,14 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
 					getProviderUserAsString(user), restTemplate);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		/*if(!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
+		} catch (HttpClientErrorException ex) {
 			delete(provider);
-			if(HttpStatus.FORBIDDEN.equals(responseEntity.getStatusCode()))
-				throw new BadRequestException("Email already Registered");
+			if(HttpStatus.FORBIDDEN.equals(ex.getStatusCode()))
+				throw new BadRequestException("Email or Phone already registered");
 			else
 				throw new BadRequestException("Some exception occurred while creating user");
-		}*/
+		}
+		
 		
 		logger.info("User Created for Provider: " + provider.getId());
 
