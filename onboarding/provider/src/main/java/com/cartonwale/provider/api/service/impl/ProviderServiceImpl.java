@@ -62,17 +62,23 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 
 		User user = getProviderUser(provider);
 
-		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
-				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
-				getProviderUserAsString(user), restTemplate);
+		ResponseEntity<String> responseEntity;
+		try {
+			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
+					getProviderUserAsString(user), restTemplate);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		if(!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
+		/*if(!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
 			delete(provider);
 			if(HttpStatus.FORBIDDEN.equals(responseEntity.getStatusCode()))
 				throw new BadRequestException("Email already Registered");
 			else
 				throw new BadRequestException("Some exception occurred while creating user");
-		}
+		}*/
 		
 		logger.info("User Created for Provider: " + provider.getId());
 
