@@ -2,6 +2,7 @@ package com.cartonwale.auth.api.dao;
 
 import java.util.List;
 
+import com.cartonwale.auth.api.model.Role;
 import com.cartonwale.auth.api.model.User;
 import com.cartonwale.common.dao.GenericDao;
 import com.cartonwale.common.exception.DataAccessException;
@@ -15,8 +16,8 @@ public interface UserDao extends GenericDao<User>{
 	
 	User findUserByToken(String token)throws DataAccessException;
 
-	User findByUsernameOrEmail(String username, String email) throws DataAccessException;
-
 	User findByUsername(String username) throws DataAccessException;
+
+	User findByUsernameOrEmail(String username, String email, Role role) throws DataAccessException;
 	
 }

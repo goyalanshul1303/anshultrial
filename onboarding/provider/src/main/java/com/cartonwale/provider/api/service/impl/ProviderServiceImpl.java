@@ -77,7 +77,6 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 				throw new BadRequestException("Some exception occurred while creating user");
 		}
 		
-		
 		logger.info("User Created for Provider: " + provider.getId());
 
 	}

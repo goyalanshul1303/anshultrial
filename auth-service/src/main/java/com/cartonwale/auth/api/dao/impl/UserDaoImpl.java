@@ -2,6 +2,7 @@ package com.cartonwale.auth.api.dao.impl;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cartonwale.auth.api.dao.UserDao;
+import com.cartonwale.auth.api.model.Role;
 import com.cartonwale.auth.api.model.User;
 import com.cartonwale.common.dao.impl.GenericDaoImpl;
 import com.cartonwale.common.exception.DataAccessException;
@@ -36,13 +38,16 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao{
 	}
 	
 	@Override
-	public User findByUsernameOrEmail(String username, String email) throws DataAccessException {	
+	public User findByUsernameOrEmail(String username, String email, Role role) throws DataAccessException {	
 		Query query = new Query(
 				Criteria
 				.where("status").ne(-1)
 				.orOperator(
 						Criteria.where("username").is(username)
 						,Criteria.where("email").is(email)
+						)
+				.andOperator(
+						Criteria.where("roles.$id").is(new ObjectId(role.getId()))
 						)
 				);
 		

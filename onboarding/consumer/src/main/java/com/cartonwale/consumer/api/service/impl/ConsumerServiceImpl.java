@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
@@ -85,18 +86,19 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 		User user = getConsumerUser(consumer);
 
-		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
-				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
-				getConsumerUserAsString(user), restTemplate);
-		
-		if(!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
+		ResponseEntity<String> responseEntity;
+		try {
+			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
+					getConsumerUserAsString(user), restTemplate);
+		} catch (HttpClientErrorException ex) {
 			delete(consumer);
-			if(HttpStatus.FORBIDDEN.equals(responseEntity.getStatusCode()))
-				throw new BadRequestException("Email already Registered");
+			if(HttpStatus.FORBIDDEN.equals(ex.getStatusCode()))
+				throw new BadRequestException("Email or Phone already registered");
 			else
 				throw new BadRequestException("Some exception occurred while creating user");
 		}
-
+		
 	}
 	
 	@Override
