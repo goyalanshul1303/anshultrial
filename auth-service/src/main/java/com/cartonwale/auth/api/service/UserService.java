@@ -14,7 +14,9 @@ public interface UserService extends GenericService<User>{
 	
 	/*Single<*/User/*>*/ findByEmail(String email);
 	
-	/*Single<*/User/*>*/ findByUsernameOrEmail(String username, String email, Role role);
+	/*Single<*/User/*>*/ findByUsernameOrEmail(String username, String email);
+	
+	User findByUsernameOrEmailAndRole(String username, String email, Role role);
     
 	User edit(User user, UserImageDto imageDto) throws ServiceException;
 	

@@ -24,19 +24,26 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cartonwale.common.constants.ConfigConstants;
 import com.cartonwale.common.exception.DataAccessException;
 import com.cartonwale.common.messages.InfoMessage;
+import com.cartonwale.common.model.SMSRequestBody.SMSBodyBuilder;
 import com.cartonwale.common.model.image.Image;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
+import com.cartonwale.common.util.SMSTemplates;
+import com.cartonwale.common.util.SMSUtil;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.common.util.image.ImageUtil;
 import com.cartonwale.product.api.dao.ProductDao;
 import com.cartonwale.product.api.exception.DuplicateProductException;
 import com.cartonwale.product.api.model.Cart;
 import com.cartonwale.product.api.model.CartItem;
+import com.cartonwale.product.api.model.Consumer;
+import com.cartonwale.product.api.model.ConsumerProduct;
 import com.cartonwale.product.api.model.Order;
 import com.cartonwale.product.api.model.Product;
 import com.cartonwale.product.api.model.ProductImageDto;
 import com.cartonwale.product.api.model.ProductPrice;
+import com.cartonwale.product.api.model.Provider;
+import com.cartonwale.product.api.model.ProviderProduct;
 import com.cartonwale.product.api.service.ProductPriceService;
 import com.cartonwale.product.api.service.ProductService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -65,7 +72,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	private String IMAGE_LOCATION;
 	
 	@Override
-	public Product add(Product product) {
+	public Product add(Product product, String authToken) {
 		
 		List<Product> existingProduct = productDao.getByName(product.getName(), product.getUserId());
 		
@@ -76,9 +83,11 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 		Product productNew = super.add(product);
 		
 		productPriceService.add(new ProductPrice(productNew.getId()));
+		
+		sendProductConfirmation(productNew, authToken);
 		return productNew;
 	};
-	
+
 	@Override
 	public Product edit(Product product) {
 		
@@ -237,5 +246,36 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	public List<Product> getAllByIds(List<String> productIds) {
 		
 		return productDao.getByProductIds(productIds);
+	}
+	
+	private void sendProductConfirmation(Product product, String authToken) {
+		
+		if(product instanceof ProviderProduct) {
+			String providerId = ((ProviderProduct) product).getProviderId();
+			
+			ResponseEntity<Provider> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PROVIDER-SERVICE/providers/"+providerId,
+					null, restTemplate, new ParameterizedTypeReference<Provider>() {
+					});
+			
+			Provider provider = responseEntity.getBody();
+			
+			SMSBodyBuilder builder = new SMSBodyBuilder(SMSTemplates.PRODUCT_CREATED, provider.getPhones().get(0).getNumber());
+			SMSUtil.getInstance(restTemplate).sendSMS(builder.VAR1(product.getName()).build());
+		
+		} else if(product instanceof ConsumerProduct) {
+			String consumerId = ((ConsumerProduct) product).getConsumerId();
+			
+			ResponseEntity<Consumer> responseEntity = ServiceUtil.callByType(HttpMethod.GET, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://CONSUMER-SERVICE/consumers/"+consumerId,
+					null, restTemplate, new ParameterizedTypeReference<Consumer>() {
+					});
+			
+			Consumer consumer = responseEntity.getBody();
+			
+			SMSBodyBuilder builder = new SMSBodyBuilder(SMSTemplates.PRODUCT_CREATED, consumer.getPhones().get(0).getNumber());
+			SMSUtil.getInstance(restTemplate).sendSMS(builder.VAR1(product.getName()).build());
+		
+		}
 	}
 }

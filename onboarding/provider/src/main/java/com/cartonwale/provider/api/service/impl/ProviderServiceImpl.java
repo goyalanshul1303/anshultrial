@@ -16,13 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
+import com.cartonwale.common.model.SMSRequestBody.SMSBodyBuilder;
 import com.cartonwale.common.model.User;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
+import com.cartonwale.common.util.SMSTemplates;
+import com.cartonwale.common.util.SMSUtil;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.provider.api.dao.ProviderDao;
 import com.cartonwale.provider.api.model.Product;
@@ -50,9 +52,11 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 	@Override
 	public Provider add(Provider provider) {
 		
-		return super.add(provider);
+		Provider createdProvider = super.add(provider);
+		sendConfirmation(createdProvider);
+		return createdProvider;
 	}
-	
+
 	@Override
 	public Provider edit(Provider provider) {
 		
@@ -64,7 +68,7 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 
 		User user = getProviderUser(provider);
 
-		ResponseEntity<String> responseEntity;
+		ResponseEntity<String> responseEntity = null;
 		try {
 			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
@@ -115,6 +119,12 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://PRODUCT-SERVICE/provider/"+SecurityUtil.getAuthUserDetails().getEntityId(),
 				"", restTemplate, new ParameterizedTypeReference<List<Product>>() {});
 		return responseEntity.getBody();
+	}
+	
+	private void sendConfirmation(Provider createdProvider) {
+		
+		SMSBodyBuilder builder = new SMSBodyBuilder(SMSTemplates.PROVIDER_CREATED, createdProvider.getPhones().get(0).getNumber());
+		SMSUtil.getInstance(restTemplate).sendSMS(builder.VAR1(createdProvider.getContactName()).VAR2(createdProvider.getEmail()).build());
 	}
 	
 }

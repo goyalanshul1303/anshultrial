@@ -18,9 +18,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.exception.BadRequestException;
+import com.cartonwale.common.model.SMSRequestBody.SMSBodyBuilder;
 import com.cartonwale.common.model.User;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
+import com.cartonwale.common.util.SMSTemplates;
+import com.cartonwale.common.util.SMSUtil;
 import com.cartonwale.common.util.ServiceUtil;
 import com.cartonwale.consumer.api.dao.ConsumerDao;
 import com.cartonwale.consumer.api.model.Consumer;
@@ -46,7 +49,12 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 	@Override
 	public Consumer add(Consumer consumer) {
 
-		return super.add(consumer);
+		Consumer createdConsumer = super.add(consumer);
+		
+		sendConfirmation(createdConsumer);
+		
+		return createdConsumer;
+		
 	}
 
 	private String getConsumerUserAsString(User user) {
@@ -86,7 +94,7 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 
 		User user = getConsumerUser(consumer);
 
-		ResponseEntity<String> responseEntity;
+		ResponseEntity<String> responseEntity = null;
 		try {
 			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
 					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/consumers",
@@ -120,6 +128,12 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 		}
 		
 		return products;
+	}
+	
+	private void sendConfirmation(Consumer createdConsumer) {
+		
+		SMSBodyBuilder builder = new SMSBodyBuilder(SMSTemplates.CONSUMER_CREATED, createdConsumer.getPhones().get(0).getNumber());
+		SMSUtil.getInstance(restTemplate).sendSMS(builder.VAR1(createdConsumer.getContactName()).VAR2(createdConsumer.getEmail()).build());
 	}
 
 }
