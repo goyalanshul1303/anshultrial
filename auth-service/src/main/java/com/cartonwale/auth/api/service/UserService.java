@@ -3,6 +3,7 @@ package com.cartonwale.auth.api.service;
 import java.util.List;
 
 import com.cartonwale.auth.api.dto.UserImageDto;
+import com.cartonwale.auth.api.model.Role;
 import com.cartonwale.auth.api.model.User;
 import com.cartonwale.common.exception.ServiceException;
 import com.cartonwale.common.service.GenericService;
@@ -13,7 +14,7 @@ public interface UserService extends GenericService<User>{
 	
 	/*Single<*/User/*>*/ findByEmail(String email);
 	
-	/*Single<*/User/*>*/ findByUsernameOrEmail(String username, String email);
+	/*Single<*/User/*>*/ findByUsernameOrEmail(String username, String email, Role role);
     
 	User edit(User user, UserImageDto imageDto) throws ServiceException;
 	

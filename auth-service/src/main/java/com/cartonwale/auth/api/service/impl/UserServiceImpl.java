@@ -3,7 +3,6 @@ package com.cartonwale.auth.api.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 
@@ -30,7 +29,6 @@ import com.cartonwale.common.exception.OldPasswordNotMatch;
 import com.cartonwale.common.exception.RequiredFieldMissingException;
 import com.cartonwale.common.exception.ServiceException;
 import com.cartonwale.common.messages.ErrorMessage;
-import com.cartonwale.common.messages.InfoMessage;
 import com.cartonwale.common.model.Mail;
 import com.cartonwale.common.model.Permission;
 import com.cartonwale.common.model.image.Image;
@@ -39,7 +37,6 @@ import com.cartonwale.common.util.MailUtil;
 import com.cartonwale.common.util.image.ImageUtil;
 
 import rx.Single;
-import rx.exceptions.Exceptions;
 
 @Service
 public class UserServiceImpl extends GenericServiceImpl<User> implements UserService{
@@ -86,9 +83,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 	}
 	
 	@Override
-	public User findByUsernameOrEmail(String username, String email){
+	public User findByUsernameOrEmail(String username, String email, Role role){
 		try{
-			return /*Single.just(*/userDao.findByUsernameOrEmail(username, email)/*)*/;
+			return /*Single.just(*/userDao.findByUsernameOrEmail(username, email, role)/*)*/;
 		}catch (DataAccessException e) {
 			System.out.println(e);
 			return null;
@@ -103,7 +100,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     	
     	/*return findByEmail(user.getEmail()).flatMap(*/
     			
-		User checkUser = findByUsernameOrEmail(user.getUsername(), user.getEmail());
+		User checkUser = findByUsernameOrEmail(user.getUsername(), user.getEmail(),user.getRoles().get(0));
 		
 		//check email already registered
 		if(checkUser != null)

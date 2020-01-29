@@ -11,11 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.cartonwale.common.exception.BadRequestException;
 import com.cartonwale.common.model.User;
 import com.cartonwale.common.security.SecurityUtil;
 import com.cartonwale.common.service.impl.GenericServiceImpl;
@@ -60,9 +64,18 @@ public class ProviderServiceImpl extends GenericServiceImpl<Provider> implements
 
 		User user = getProviderUser(provider);
 
-		ResponseEntity<String> responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
-				Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
-				getProviderUserAsString(user), restTemplate);
+		ResponseEntity<String> responseEntity;
+		try {
+			responseEntity = ServiceUtil.call(HttpMethod.POST, authToken,
+					Arrays.asList(MediaType.APPLICATION_JSON), null, "http://AUTH-SERVICE/providers",
+					getProviderUserAsString(user), restTemplate);
+		} catch (HttpClientErrorException ex) {
+			delete(provider);
+			if(HttpStatus.FORBIDDEN.equals(ex.getStatusCode()))
+				throw new BadRequestException("Email or Phone already registered");
+			else
+				throw new BadRequestException("Some exception occurred while creating user");
+		}
 		
 		logger.info("User Created for Provider: " + provider.getId());
 
