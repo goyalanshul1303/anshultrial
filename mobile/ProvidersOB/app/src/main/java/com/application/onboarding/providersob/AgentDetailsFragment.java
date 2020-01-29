@@ -375,11 +375,19 @@ public class AgentDetailsFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.addProductBtn) {
-            AddProductFragment fragment = new AddProductFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("consumerId", id);
-            fragment.setArguments(bundle);
-            MainActivity.addActionFragment(fragment);
+            if (urlType.contains("providers")) {
+                CreateRawProductFragment fragment = new CreateRawProductFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("providerId", id);
+                fragment.setArguments(bundle);
+                MainActivity.addActionFragment(fragment);
+            }else {
+                AddProductFragment fragment = new AddProductFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("consumerId", id);
+                fragment.setArguments(bundle);
+                MainActivity.addActionFragment(fragment);
+            }
         }
 
     }

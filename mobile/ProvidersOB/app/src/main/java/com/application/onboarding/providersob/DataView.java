@@ -13,7 +13,19 @@ public class DataView {
     public LinkedHashMap<String, String> getStatesMap() {
         return statesMap;
     }
+    public LinkedHashMap<Integer, String> getTypesOfProducts() {
+        return typesOfProducts;
+    }
 
+    public void setTypesOfProducts(LinkedHashMap<Integer, String> typesOfProducts) {
+        this.typesOfProducts = typesOfProducts;
+        typesOfProducts.put(-1, "Select Product Type");
+        typesOfProducts.put(1, "Corrugated Carton");
+        typesOfProducts.put(2, "Tape");
+        typesOfProducts.put(3, "Aluminium Container");
+    }
+
+    LinkedHashMap<Integer, String> typesOfProducts = new LinkedHashMap<>();
     public void setStatesMap(LinkedHashMap<String, String> statesMap) {
         this.statesMap = statesMap;
         statesMap.put("", "Select State");
