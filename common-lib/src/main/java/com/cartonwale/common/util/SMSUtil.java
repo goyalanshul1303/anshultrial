@@ -19,7 +19,7 @@ public class SMSUtil {
 	
 	private final Logger logger = LoggerFactory.getLogger(SMSUtil.class);
 
-	private static final String twoFactorURL = "http://2factor.in/API/V1/";
+	private static final String twoFactorURL = "https://2factor.in/API/V1/";
 
 	private static final String API_KEY = "4a80b40a-3ba6-11ea-9fa5-0200cd936042";
 
