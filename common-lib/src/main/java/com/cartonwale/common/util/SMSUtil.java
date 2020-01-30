@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.SMSRequestBody;
@@ -33,13 +35,22 @@ public class SMSUtil {
 
 	public boolean sendSMS(SMSRequestBody smsBody) {
 
-		ResponseEntity<String> response = ServiceUtil.call(HttpMethod.POST, null, null, null, tSMS,
-				getSMSBodyAsMap(smsBody), restTemplate, MediaType.MULTIPART_FORM_DATA);
+		ResponseEntity<String> response;
+		try {
+			response = ServiceUtil.call(HttpMethod.POST, null, null, null, tSMS,
+					getSMSBodyAsMap(smsBody), restTemplate, MediaType.MULTIPART_FORM_DATA);
+			
+			if (HttpStatus.OK.equals(response.getStatusCode()))
+				return true;
+			
+			return false;
+		} catch (HttpClientErrorException e) {
+			
+			
+			return false;
+		}
 
-		if (HttpStatus.OK.equals(response.getStatusCode()))
-			return true;
 		
-		return false;
 	}
 
 	private MultiValueMap<String, String> getSMSBodyAsMap(SMSRequestBody body) {
