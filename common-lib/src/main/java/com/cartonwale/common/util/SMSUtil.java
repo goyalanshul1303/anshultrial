@@ -1,12 +1,17 @@
 package com.cartonwale.common.util;
 
+import java.util.Map;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.SMSRequestBody;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SMSUtil {
@@ -29,7 +34,7 @@ public class SMSUtil {
 	public boolean sendSMS(SMSRequestBody smsBody) {
 
 		ResponseEntity<String> response = ServiceUtil.call(HttpMethod.POST, null, null, null, tSMS,
-				getSMSBodyAsString(smsBody), restTemplate);
+				getSMSBodyAsMap(smsBody), restTemplate, MediaType.MULTIPART_FORM_DATA);
 
 		if (HttpStatus.OK.equals(response.getStatusCode()))
 			return true;
@@ -37,16 +42,15 @@ public class SMSUtil {
 		return false;
 	}
 
-	private String getSMSBodyAsString(SMSRequestBody body) {
+	private MultiValueMap<String, String> getSMSBodyAsMap(SMSRequestBody body) {
 		ObjectMapper mapper = new ObjectMapper();
 
-		String json = null;
-		try {
-			json = mapper.writeValueAsString(body);
-		} catch (JsonProcessingException e) {
-			System.out.println(e);
-		}
-		return json;
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		
+		Map<String, String> maps = mapper.convertValue(body, new TypeReference<Map<String,String>>() {});
+		parameters.setAll(maps);			
+		
+		return parameters;
 	}
 
 	public static SMSUtil getInstance(RestTemplate restTemplate) {
