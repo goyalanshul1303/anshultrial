@@ -39,7 +39,7 @@ public class SMSUtil {
 		ResponseEntity<String> response;
 		try {
 			response = ServiceUtil.call(HttpMethod.POST, null, null, null, tSMS,
-					getSMSBodyAsMap(smsBody), restTemplate, MediaType.MULTIPART_FORM_DATA);
+					getSMSBodyAsMap(smsBody), new RestTemplate(), MediaType.MULTIPART_FORM_DATA);
 			
 			if (HttpStatus.OK.equals(response.getStatusCode()))
 				return true;
