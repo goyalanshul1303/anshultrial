@@ -1,21 +1,33 @@
 package com.cartonwale.common.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming()
 public class SMSRequestBody{
 
+	@JsonProperty("TemplateName")
 	private final String TemplateName;
 	
+	@JsonProperty("To")
 	private final String To;
 	
+	@JsonProperty("From")
 	private final String From = "PACKFY";
 	
+	@JsonProperty("VAR1")
 	private final String VAR1;
 	
+	@JsonProperty("VAR2")
 	private final String VAR2;
 
+	@JsonProperty("VAR3")
 	private final String VAR3;
 	
+	@JsonProperty("VAR4")
 	private final String VAR4;
 	
+	@JsonProperty("VAR5")
 	private final String VAR5;
 
 	private SMSRequestBody(SMSBodyBuilder builder) {
