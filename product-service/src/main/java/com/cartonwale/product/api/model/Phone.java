@@ -8,9 +8,7 @@ public class Phone {
 	public PhoneType getType() {
 		return type;
 	}
-	public void setType(int type) {
-		this.type = PhoneType.getPhoneType(type);
-	}
+	
 	public void setType(String type) {
 		this.type = PhoneType.valueOf(type);
 	}
