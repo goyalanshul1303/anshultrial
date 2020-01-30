@@ -57,7 +57,7 @@ public class SMSUtil {
 
 		if (INSTANCE == null) {
 
-			synchronized (INSTANCE) {
+			synchronized (SMSUtil.class) {
 				if (INSTANCE == null) {
 					INSTANCE = new SMSUtil(restTemplate);
 				}
