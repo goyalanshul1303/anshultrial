@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 public class ServiceUtil<T> {
@@ -54,7 +54,7 @@ public class ServiceUtil<T> {
 	}
 	
 	public static ResponseEntity<String> call(HttpMethod method, String authToken, List<MediaType> accepts,
-			HttpHeaders headers, String serviceUrl, MultiValueMap<String, String> map, RestTemplate restTemplate, MediaType contentType) {
+			HttpHeaders headers, String serviceUrl, LinkedMultiValueMap<String, String> map, RestTemplate restTemplate, MediaType contentType) {
 
 		if (headers == null)
 			headers = new HttpHeaders();
@@ -70,10 +70,10 @@ public class ServiceUtil<T> {
 		
 		headers.setContentType(contentType);
 
-		HttpEntity<MultiValueMap<String, String>> entity = null;
+		HttpEntity<LinkedMultiValueMap<String, String>> entity = null;
 		if (map != null) {
 			
-			entity = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+			entity = new HttpEntity<LinkedMultiValueMap<String, String>>(map, headers);
 		} 
 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(serviceUrl, method, entity,

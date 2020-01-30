@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.SMSRequestBody;
@@ -53,10 +51,10 @@ public class SMSUtil {
 		
 	}
 
-	private MultiValueMap<String, String> getSMSBodyAsMap(SMSRequestBody body) {
+	private LinkedMultiValueMap<String, String> getSMSBodyAsMap(SMSRequestBody body) {
 		ObjectMapper mapper = new ObjectMapper();
 
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+		LinkedMultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		
 		Map<String, String> maps = mapper.convertValue(body, new TypeReference<Map<String,String>>() {});
 		parameters.setAll(maps);			
