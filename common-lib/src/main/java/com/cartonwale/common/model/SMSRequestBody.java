@@ -7,72 +7,88 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 public class SMSRequestBody{
 
 	@JsonProperty("TemplateName")
-	private final String TemplateName;
+	private final String templateName;
 	
 	@JsonProperty("To")
-	private final String To;
+	private final String to;
 	
 	@JsonProperty("From")
-	private final String From = "PACKFY";
+	private final String from = "PACKFY";
 	
 	@JsonProperty("VAR1")
-	private final String VAR1;
+	private final String var1;
 	
 	@JsonProperty("VAR2")
-	private final String VAR2;
+	private final String var2;
 
 	@JsonProperty("VAR3")
-	private final String VAR3;
+	private final String var3;
 	
 	@JsonProperty("VAR4")
-	private final String VAR4;
+	private final String var4;
 	
 	@JsonProperty("VAR5")
-	private final String VAR5;
+	private final String var5;
 
 	private SMSRequestBody(SMSBodyBuilder builder) {
 		super();
-		TemplateName = builder.TemplateName;
-		To = builder.To;
-		VAR1 = builder.VAR1;
-		VAR2 = builder.VAR2;
-		VAR3 = builder.VAR3;
-		VAR4 = builder.VAR4;
-		VAR5 = builder.VAR5;
-	}
-
-	public String getTemplateName() {
-		return TemplateName;
-	}
-
-	public String getTo() {
-		return To;
-	}
-
-	public String getFrom() {
-		return From;
-	}
-
-	public String getVAR1() {
-		return VAR1;
-	}
-
-	public String getVAR2() {
-		return VAR2;
-	}
-
-	public String getVAR3() {
-		return VAR3;
-	}
-
-	public String getVAR4() {
-		return VAR4;
-	}
-
-	public String getVAR5() {
-		return VAR5;
+		templateName = builder.TemplateName;
+		to = builder.To;
+		var1 = builder.VAR1;
+		var2 = builder.VAR2;
+		var3 = builder.VAR3;
+		var4 = builder.VAR4;
+		var5 = builder.VAR5;
 	}
 	
+	public String getTemplateName() {
+		return templateName;
+	}
+
+
+
+	public String getTo() {
+		return to;
+	}
+
+
+
+	public String getFrom() {
+		return from;
+	}
+
+
+
+	public String getVar1() {
+		return var1;
+	}
+
+
+
+	public String getVar2() {
+		return var2;
+	}
+
+
+
+	public String getVar3() {
+		return var3;
+	}
+
+
+
+	public String getVar4() {
+		return var4;
+	}
+
+
+
+	public String getVar5() {
+		return var5;
+	}
+
+
+
 	public static class SMSBodyBuilder {
 		
 		private final String TemplateName;
