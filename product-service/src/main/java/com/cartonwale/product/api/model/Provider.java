@@ -100,7 +100,8 @@ public class Provider extends EntityBase{
 		return cartonType;
 	}
 	public void setCartonType(List<Integer> cartonType) {
-		this.cartonType = cartonType.stream().map(value -> CartonType.getCartonType(value)).collect(Collectors.toList());
+		if(cartonType != null)
+			this.cartonType = cartonType.stream().map(value -> CartonType.getCartonType(value)).collect(Collectors.toList());
 	}
 	public PrintingType getPrintingType() {
 		return printingType;
@@ -113,13 +114,15 @@ public class Provider extends EntityBase{
 		return corrugationType;
 	}
 	public void setCorrugationType(List<Integer> corrugationType) {
-		this.corrugationType = corrugationType.stream().map(value -> CorrugationType.getCorrugationType(value)).collect(Collectors.toList());;
+		if(corrugationType != null)
+			this.corrugationType = corrugationType.stream().map(value -> CorrugationType.getCorrugationType(value)).collect(Collectors.toList());;
 	}
 	public List<SheetLayerType> getSupportedSheetLayers() {
 		return supportedSheetLayers;
 	}
 	public void setSupportedSheetLayers(List<Integer> supportedSheetLayers) {
-		this.supportedSheetLayers = supportedSheetLayers.stream().map(value -> SheetLayerType.getSheetLayerType(value)).collect(Collectors.toList());
+		if(supportedSheetLayers != null)
+			this.supportedSheetLayers = supportedSheetLayers.stream().map(value -> SheetLayerType.getSheetLayerType(value)).collect(Collectors.toList());
 	}
 	public boolean isCreditSupported() {
 		return isCreditSupported;
