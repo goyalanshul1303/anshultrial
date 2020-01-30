@@ -2,12 +2,13 @@ package com.cartonwale.common.util;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.cartonwale.common.model.SMSRequestBody;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SMSUtil {
+	
+	private final Logger logger = LoggerFactory.getLogger(SMSUtil.class);
 
 	private static final String twoFactorURL = "http://2factor.in/API/V1/";
 
@@ -42,9 +45,9 @@ public class SMSUtil {
 				return true;
 			
 			return false;
-		} catch (HttpClientErrorException e) {
+		} catch(Exception e) {
 			
-			
+			logger.error(e.getMessage());
 			return false;
 		}
 
