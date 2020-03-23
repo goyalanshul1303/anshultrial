@@ -136,7 +136,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
 	public List<Product> getAllByProvider(String providerId, String authToken) {
 		List<Product> products = productDao.getAllByUser(providerId);
 		
-		addCartQuantity(products, authToken);
+		//addCartQuantity(products, authToken);
 		return products ;
 	}
 
