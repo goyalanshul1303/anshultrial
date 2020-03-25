@@ -11,6 +11,7 @@ public class ProductsDetailsItem {
     String cartonType;
     String sheetLayerType;
     String consumerId;
+    String providerId;
     String quantity;
     String corrugationType;
     String printingType;

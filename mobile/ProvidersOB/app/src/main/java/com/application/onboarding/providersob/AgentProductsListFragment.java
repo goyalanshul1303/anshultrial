@@ -103,6 +103,11 @@ String productName;
             try {
 
                 SpannableStringBuilder string = new SpannableStringBuilder(WebServiceConstants.GET_ALL_PRODUCTS);
+                if (customerType.equalsIgnoreCase("consumers")) {
+                    string.append("consumer/");
+                }else{
+                    string.append("provider/");
+                }
                 string.append(selectedId);
                 URL url = new URL(string.toString());
 
@@ -201,7 +206,12 @@ String productName;
                         Fragment newFragment = new ProductDetailsFragment();
                         Bundle bundle = new Bundle();
                         ProductsDetailsItem item = productDetailsItems.get(position);
-                        bundle.putString("selectedId", item.consumerId);
+                        if (customerType.equalsIgnoreCase("consumers")) {
+                            bundle.putString("selectedId", item.consumerId);
+                        }else{
+                            bundle.putString("selectedId", item.providerId);
+                        }
+
                         bundle.putString("productId", item.id);
                         productName = item.name;
                         newFragment.setArguments(bundle);

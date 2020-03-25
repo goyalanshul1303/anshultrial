@@ -2,6 +2,7 @@ package com.application.onboarding.providersob;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +51,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -64,15 +68,17 @@ public class ProductDetailsFragment extends Fragment implements View.OnClickList
 
     private ProgressBar progressBar;
     private Button addOrderBtn, viewOffersBtn , getImageFromGalleryButton, uploadImageOnServerButton;
-    TextView productName, email, additionalComments, quantity, printingType, grammage, cartonType, corrugationType, sheetLayerType,dimensions;
+    TextView productName, email, additionalComments, quantity,dimensions;
     String consumerId, productId;
     private String productNameString;
     EditText  getImageNameFromEditText, getImageName;
     DimensionClass dimensionClass = new DimensionClass();
+    SpecificationClass specificationClass = new SpecificationClass();
     private String price;
     ArrayList<OffersData> offersList = new ArrayList<>();
     ImageView showSelectedImage;
     ByteArrayOutputStream byteArrayOutputStream ;
+    LinearLayout additionaFieldLL;
 
     byte[] byteArray ;
     HttpURLConnection httpURLConnection ;
@@ -122,13 +128,9 @@ Bitmap fixBitMap;
         addOrderBtn = (Button) view.findViewById(R.id.addOrderBtn);
         viewOffersBtn = (Button) view.findViewById(R.id.viewOffersBtn);
         quantity = (TextView) view.findViewById(R.id.expectedQuantity);
-        sheetLayerType = (TextView) view.findViewById(R.id.sheetLayerType);
         productName = (TextView) view.findViewById(R.id.productName);
-        printingType = (TextView) view.findViewById(R.id.printingType);
-        corrugationType = (TextView) view.findViewById(R.id.corrugationType);
-        cartonType = (TextView) view.findViewById(R.id.cartonType);
         additionalComments = (TextView) view.findViewById(R.id.additionalComments);
-        grammage = (TextView)view.findViewById(R.id.grammage);
+        additionaFieldLL = (LinearLayout) view.findViewById(R.id.additionaFieldLL);
         dimensions = (TextView)view.findViewById(R.id.dimensions);
         addOrderBtn.setVisibility(View.VISIBLE);
         addOrderBtn.setOnClickListener(this);
@@ -143,32 +145,32 @@ Bitmap fixBitMap;
 
         byteArrayOutputStream = new ByteArrayOutputStream();
 
-        getImageFromGalleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent();
-
-                intent.setType("image/*");
-
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-
-                startActivityForResult(Intent.createChooser(intent, "Select Image From Gallery"), 1);
-
-            }
-        });
-
-
-        uploadImageOnServerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                getImageNameFromEditTextString = getImageName.getText().toString();
-
-                UploadImageToServer();
-
-            }
-        });
+//        getImageFromGalleryButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent = new Intent();
+//
+//                intent.setType("image/*");
+//
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                startActivityForResult(Intent.createChooser(intent, "Select Image From Gallery"), 1);
+//
+//            }
+//        });
+//
+//
+//        uploadImageOnServerButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                getImageNameFromEditTextString = getImageName.getText().toString();
+//
+//                UploadImageToServer();
+//
+//            }
+//        });
         new FetchDetailsTask().execute();
 
     }
@@ -265,25 +267,48 @@ Bitmap fixBitMap;
     private void parseListingData(JSONObject result) {
         productNameString = result.optString("name");
         Utils.setDetailsTextField("Name", getActivity(), productName, result.optString("name"));
-
-        Utils.setDetailsTextField("Carton Type", getActivity(), cartonType, result.optString("cartonType"));
-        Utils.setDetailsTextField("Sheet Layer Type", getActivity(), sheetLayerType, result.optString("sheetLayerType"));
-        quantity.setVisibility(View.GONE);
-//        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
-        Utils.setDetailsTextField("Corrugation Type", getActivity(), corrugationType, String.valueOf(result.optString("corrugationType")));
-        Utils.setDetailsTextField("Printing Type", getActivity(), printingType, String.valueOf(result.optString("printingType")));
+        Utils.setDetailsTextField("Quantity ", getActivity(), quantity, result.optString("quantity"));
         if (!TextUtils.isEmpty(String.valueOf(result.optString("additionalComments")))) {
-            Utils.setDetailsTextField("Additional Comments", getActivity(), additionalComments, String.valueOf(result.optString("additionalComments")));
             additionalComments.setVisibility(View.VISIBLE);
+            Utils.setDetailsTextField("Additional Comments", getActivity(), additionalComments, String.valueOf(result.optString("additionalComments")));
         } else {
             additionalComments.setVisibility(View.GONE);
         }
-        Utils.setDetailsTextField("Grammage", getActivity(), grammage, String.valueOf(result.optString("grammage")+ " gsm"));
         Gson gson = new Gson();
         dimensionClass = gson.fromJson(String.valueOf(result.optJSONObject("dimension")), DimensionClass.class);
         Utils.setDetailsTextField("Dimesnions", getActivity(), dimensions, dimensionClass.width + "\"" + " x " + dimensionClass.height + "\" x " + dimensionClass.length+"\"");
+        Map<String, Object> mapData = new HashMap<String, Object>();
 
+        try {
+            mapData =   parseJSONObjectToMap(result.optJSONObject("specifications"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        if (null != mapData && mapData.size() > 0 ){
+            for(Map.Entry entry: mapData.entrySet()){
+                View v = vi.inflate(R.layout.additiona_textview, null);
+                TextView textView = (TextView) v.findViewById(R.id.additionalFields);
+                Utils.setDetailsTextField(String.valueOf(entry.getKey()), getActivity(), textView, String.valueOf(entry.getValue()));
+                additionaFieldLL.addView(v);
+            }
+            additionaFieldLL.setVisibility(View.VISIBLE);
+
+        }else{
+            additionaFieldLL.setVisibility(View.GONE);
+        }
+    }
+
+    public static Map<String,Object> parseJSONObjectToMap(JSONObject jsonObject) throws JSONException{
+        Map<String, Object> mapData = new HashMap<String, Object>();
+        Iterator<String> keysItr = jsonObject.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            String value = String.valueOf(jsonObject.get(key));
+            mapData.put(key, value);
+        }
+        return mapData;
     }
 
     public class FetchOffersTask extends AsyncTask<String, Void, String> {

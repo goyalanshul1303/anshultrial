@@ -88,7 +88,7 @@ public class MyProductsListAdapter extends RecyclerView.Adapter<MyProductsListAd
             super(view);
             this.productName = (TextView) view.findViewById(R.id.productName);
             dimensions= (TextView)view.findViewById(R.id.dimensions);
-            textLL = (RelativeLayout)view.findViewById(R.id.textLL);
+            textLL = (RelativeLayout)view.findViewById(R.id.topRl);
             textLL.setOnClickListener(this);
 
         }
