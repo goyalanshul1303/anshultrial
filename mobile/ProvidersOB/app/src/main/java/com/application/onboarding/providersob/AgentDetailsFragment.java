@@ -205,14 +205,26 @@ public class AgentDetailsFragment extends Fragment implements View.OnClickListen
     private void parseListingData(JSONObject result) {
         Gson gson = new Gson();
 
-        Utils.setDetailsTextField("Contact Name", getActivity(), contactName, result.optString("contactName"));
 
         Utils.setDetailsTextField("Email", getActivity(), email, result.optString("email"));
         Utils.setDetailsTextField("Website Link", getActivity(), website, "");
 
         Utils.setDetailsTextField("Foundation Year", getActivity(), foundationYear, "");
         Utils.setDetailsTextField("Company PAN ", getActivity(), pan, "");
+        if (result.optJSONArray("phones") !=null && result.optJSONArray("phones").length() > 0){
+            for (int i = 0; i <result.optJSONArray("phones").length() ; i++){
 
+                try {
+                    JSONObject object = (JSONObject) result.optJSONArray("phones").get(0);
+                    Utils.setDetailsTextField("Contact Number", getActivity(), contactName, object.optString("number"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
 
         String cartonTypeString = "";
         if (null != result.optString("cartonType") && !result.optString("cartonType").isEmpty()
@@ -323,10 +335,35 @@ public class AgentDetailsFragment extends Fragment implements View.OnClickListen
             } else {
                 operatingHours.setVisibility(View.GONE);
             }
-            Utils.setDetailsTextField("Factory Capacity ", getActivity(), factoryCapacity, String.valueOf(item.factoryCapacity));
-            Utils.setDetailsTextField("Credit Limit  ", getActivity(), creditLimit, String.valueOf(item.creditLimit));
-            Utils.setDetailsTextField("Client Count  ", getActivity(), clientCount, String.valueOf(item.clientCount));
-            Utils.setDetailsTextField("Credit Days  ", getActivity(), creditDays, String.valueOf(item.creditDays));
+            if(item.factoryCapacity == 0){
+                factoryCapacity.setVisibility(View.GONE);
+            }else{
+                Utils.setDetailsTextField("Factory Capacity ", getActivity(), factoryCapacity, String.valueOf(item.factoryCapacity));
+
+                factoryCapacity.setVisibility(View.VISIBLE);
+
+            }
+            if(item.creditLimit == 0){
+                creditLimit.setVisibility(View.GONE);
+            }else{
+                Utils.setDetailsTextField("Credit Limit  ", getActivity(), creditLimit, String.valueOf(item.creditLimit));
+
+                creditLimit.setVisibility(View.VISIBLE);
+
+            }if(item.creditDays == 0){
+                creditDays.setVisibility(View.GONE);
+            }else{
+                Utils.setDetailsTextField("Credit Days  ", getActivity(), creditDays, String.valueOf(item.creditDays));
+                creditDays.setVisibility(View.VISIBLE);
+
+            }
+            if(item.clientCount == 0){
+                clientCount.setVisibility(View.GONE);
+            }else{
+                Utils.setDetailsTextField("Client Count  ", getActivity(), clientCount, String.valueOf(item.clientCount));
+                clientCount.setVisibility(View.VISIBLE);
+            }
+
             Utils.setDetailsTextField("Is Logistics Available", getActivity(), logisticsAvailable, String.valueOf(item.logisticAvailable));
         } else {
             ConsumerDetailsItem item = gson.fromJson(String.valueOf(result), ConsumerDetailsItem.class);

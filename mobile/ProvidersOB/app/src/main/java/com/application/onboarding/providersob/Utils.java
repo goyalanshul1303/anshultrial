@@ -100,6 +100,11 @@ public class Utils {
         if (null == context) {
             return;
         }
+        if (postText.isEmpty() || postText.equalsIgnoreCase("null")){
+            textView.setVisibility(View.GONE);
+        }else{
+            textView.setVisibility(View.VISIBLE);
+        }
         SpannableStringBuilder longDescription = new SpannableStringBuilder();
 
         longDescription.append(getKeyword(preText,
