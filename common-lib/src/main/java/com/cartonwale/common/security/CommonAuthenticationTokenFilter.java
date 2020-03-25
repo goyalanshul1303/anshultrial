@@ -15,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +27,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.cartonwale.common.util.ServiceUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.cartonwale.common.security.AuthUser;
-import com.cartonwale.common.util.ServiceUtil;
 
 public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -84,6 +81,7 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     	String entityId = root.get("dbUser").get("entityId").asText();
     	String username = root.get("username").asText();
     	boolean isEnabled =  root.get("enabled").asBoolean();
+    	int status = root.get("status").asInt();
     	
     	List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     	
@@ -93,6 +91,6 @@ public class CommonAuthenticationTokenFilter extends OncePerRequestFilter {
     		authorities.add(new SimpleGrantedAuthority(authorityNode.get("authority").asText()));
     	}
     	
-    	return new AuthUser(userId, username, authorities, isEnabled, entityId);
+    	return new AuthUser(userId, username, authorities, isEnabled, entityId, status);
     }
 }

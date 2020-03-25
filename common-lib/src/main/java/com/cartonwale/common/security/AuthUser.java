@@ -12,13 +12,15 @@ public class AuthUser implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
     private String entityId;
+    private int status;
     
-	public AuthUser(String userId, String username, Collection<? extends GrantedAuthority> authorities, boolean enabled, String entityId) {
+	public AuthUser(String userId, String username, Collection<? extends GrantedAuthority> authorities, boolean enabled, String entityId, int status) {
 		this.userId = userId;
 		this.username = username;
 		this.authorities = authorities;
 		this.enabled = enabled;
 		this.entityId = entityId;
+		this.status = status;
 	}
 	
 	public String getUserId() {
@@ -68,6 +70,14 @@ public class AuthUser implements UserDetails {
 	public String toString() {
 		return "AuthUser [userId=" + userId + ", username=" + username + ", authorities=" + authorities + ", enabled="
 				+ enabled + "]";
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
     
 }

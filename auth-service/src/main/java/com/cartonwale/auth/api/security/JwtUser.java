@@ -14,15 +14,17 @@ public class JwtUser implements UserDetails {
 	private User user;
     private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
+    private final int status;
 
     public JwtUser(
     		User user
 			, Collection<? extends GrantedAuthority> authorities
-			, boolean enabled) {
+			, boolean enabled, int status) {
 		
     	this.user = user;
 		this.authorities = authorities;
 		this.enabled = enabled;
+		this.status = status;
 		
 	}
 
@@ -72,5 +74,9 @@ public class JwtUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+	public int getStatus() {
+		return status;
+	}
     
 }
