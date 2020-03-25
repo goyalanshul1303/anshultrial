@@ -83,12 +83,12 @@ public class ProductController extends ControllerBase{
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Product> add(@RequestBody Product product) {
-    	return makeResponse(productService.add(product), HttpStatus.CREATED);
+    public ResponseEntity<Product> add(@RequestBody Product product, HttpServletRequest request) {
+    	return makeResponse(productService.add(product, request.getHeader(tokenHeader)), HttpStatus.CREATED);
     }
 	
 	@RequestMapping(value="/raw", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<Product> add(HttpEntity<String> product) {
+    public ResponseEntity<Product> add(HttpEntity<String> product, HttpServletRequest request) {
 		
 		Product productObj = null;
 		try {
@@ -97,7 +97,7 @@ public class ProductController extends ControllerBase{
 			logger.error(e.getMessage());
 		}
 		
-    	return makeResponse(productService.add(productObj), HttpStatus.CREATED);
+    	return makeResponse(productService.add(productObj, request.getHeader(tokenHeader)), HttpStatus.CREATED);
     }
     
     @RequestMapping(method = RequestMethod.PUT)

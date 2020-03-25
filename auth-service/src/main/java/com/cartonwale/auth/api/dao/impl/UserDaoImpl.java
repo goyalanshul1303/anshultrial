@@ -38,7 +38,21 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements UserDao{
 	}
 	
 	@Override
-	public User findByUsernameOrEmail(String username, String email, Role role) throws DataAccessException {	
+	public User findByUsernameOrEmail(String username, String email) throws DataAccessException {	
+		Query query = new Query(
+				Criteria
+				.where("status").ne(-1)
+				.orOperator(
+						Criteria.where("username").is(username)
+						,Criteria.where("email").is(email)
+						)
+				);
+		
+		return mongoOperations.findOne(query, User.class);
+	}
+	
+	@Override
+	public User findByUsernameOrEmailAndRole(String username, String email, Role role) throws DataAccessException {	
 		Query query = new Query(
 				Criteria
 				.where("status").ne(-1)

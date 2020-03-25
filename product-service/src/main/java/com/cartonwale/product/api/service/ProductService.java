@@ -24,4 +24,6 @@ public interface ProductService extends GenericService<Product>{
 
 	List<Product> getAllByProvider(String providerId, String authToken);
 
+	Product add(Product product, String authToken);
+
 }

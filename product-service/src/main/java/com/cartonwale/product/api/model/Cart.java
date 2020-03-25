@@ -13,6 +13,10 @@ public class Cart extends EntityBase {
 	private String consumerId;
 	
 	private List<CartItem> items = new ArrayList<CartItem>();
+	
+	public Cart() {
+		super();
+	}
 
 	public Cart(String consumerId) {
 		super();
