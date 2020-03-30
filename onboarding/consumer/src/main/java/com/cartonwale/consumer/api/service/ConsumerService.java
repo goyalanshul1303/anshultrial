@@ -11,4 +11,6 @@ public interface ConsumerService extends GenericService<Consumer>{
 	void addConsumerUser(Consumer consumer, String authToken);
 
 	List<Product> getProducts(String token);
+
+	List<Consumer> getBoundedConsumersByProviderId(String providerId);
 }
