@@ -27,6 +27,10 @@ public class Product extends EntityBase{
 	
 	private String additionalComments;
 	
+	public Product(){
+		super();
+	}
+	
 	public Product(String id) {
 		super(id);
 	}

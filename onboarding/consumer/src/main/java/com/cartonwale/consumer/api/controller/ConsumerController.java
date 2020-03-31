@@ -41,6 +41,11 @@ public class ConsumerController extends ControllerBase{
 		return makeResponse(consumerService.getById(id));
     }
 	
+	@RequestMapping("boundedConsumers/{providerId}")
+    public ResponseEntity<List<Consumer>> getBoundedConsumersByProviderId(@PathVariable("providerId") String providerId, HttpServletRequest request) {
+		return makeResponse(consumerService.getBoundedConsumersByProviderId(providerId));
+    }
+	
 	@RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Consumer> add(@RequestBody Consumer consumer, HttpServletRequest request) {
 		Consumer createdConsumer = consumerService.add(consumer);

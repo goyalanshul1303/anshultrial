@@ -136,4 +136,11 @@ public class ConsumerServiceImpl extends GenericServiceImpl<Consumer> implements
 		SMSUtil.getInstance(restTemplate).sendSMS(builder.VAR1(createdConsumer.getContactName()).VAR2(createdConsumer.getEmail()).build());
 	}
 
+	@Override
+	public List<Consumer> getBoundedConsumersByProviderId(String providerId) {
+		
+		List<Consumer> consumers = consumerDao.getBoundedConsumersByProviderId(providerId);
+		return consumers;
+	}
+
 }
