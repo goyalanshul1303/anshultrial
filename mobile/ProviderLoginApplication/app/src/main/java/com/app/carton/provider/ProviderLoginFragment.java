@@ -322,10 +322,10 @@ public class ProviderLoginFragment extends Fragment implements View.OnClickListe
                     for (int i = 0; i < 1; i++) {
                         JSONObject rolesObj = rolesArray.optJSONObject(i);
                         if (null != rolesObj && rolesObj.optString("code").equalsIgnoreCase("role.provider")) {
-                            if (object.optBoolean("enabled")) {
-                                new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
-                            } else {
+                            if (dbUserObj.optInt("status")==0) {
                                 new MainActivity().replaceLoginFragment(new ChangePasswordFragment());
+                            } else {
+                                new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                             }
 
                         } else {

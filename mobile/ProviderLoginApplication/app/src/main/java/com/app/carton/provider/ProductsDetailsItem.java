@@ -14,4 +14,6 @@ public class ProductsDetailsItem {
     String quantity;
     String corrugationType;
     String printingType;
+    DimensionClass dimension;
+
 }

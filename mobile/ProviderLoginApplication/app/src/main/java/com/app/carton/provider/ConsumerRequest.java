@@ -27,15 +27,15 @@ public class ConsumerRequest extends RequestData {
 //    int prepaymentPercent;
 //    int maxCreditDays;
 
-    public String getProviderId() {
-        return providerId;
+    public String getBoundedProviderId() {
+        return boundedProviderId;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setBoundedProviderId(String providerId) {
+        this.boundedProviderId = providerId;
     }
 
-    String providerId;
+    String boundedProviderId;
 
 //    public int getConsumerType() {
 //        return consumerType;

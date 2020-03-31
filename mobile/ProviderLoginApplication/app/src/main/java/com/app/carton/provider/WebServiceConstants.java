@@ -24,9 +24,7 @@ public class WebServiceConstants {
     public static final String GET_DASHBOARD_DETAILS = BASE_URL +"/order-service/orders/provider/dashboard";
     public static final String CREATE_ONLY_CONSUMER = BASE_URL + "/consumer-service/consumers/consumerOnly";
     public static final String CREATE_PRODUCTS_RAW = BASE_URL + "/product-service/product/raw";
-
-
-
-
+    public static final String GET_ALL_PRODUCTS = BASE_URL + "/product-service/product/";
+    public static final String GET_ALL_BOUNDED_CONSUMERS = BASE_URL + "/consumer-service/consumers/boundedConsumers/";
 
 }

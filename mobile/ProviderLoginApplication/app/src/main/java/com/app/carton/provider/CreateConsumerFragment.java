@@ -511,6 +511,7 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
 //                Toast.makeText(getActivity(), "Please input provider id", Toast.LENGTH_SHORT).show();
 //                return;
 //            }
+            request.setBoundedProviderId(SharedPreferences.getString(getActivity(), "entityId"));
 
             new SendPostRequest().execute();
 
@@ -607,7 +608,7 @@ public class CreateConsumerFragment extends Fragment implements View.OnClickList
                 } else {
                     Toast.makeText(getActivity(), "Consumer created successfully",
                             Toast.LENGTH_LONG).show();
-//                    new MainActivity().replaceLoginFragment(new ChooseListActivityFragment());
+                    new MainActivity().replaceLoginFragment(new ChooseActivityFragment());
                 }
 
 //                new MainActivity().replaceLoginFragment(new ChangePasswordFragment());

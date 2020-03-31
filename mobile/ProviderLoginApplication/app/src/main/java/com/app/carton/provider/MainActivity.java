@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
                replaceLoginFragment(new ProviderLoginFragment());
                 return true;
             case R.id.completed_list:
-
                 addActionFragment(new CompletedOrderListFragment());
+                return true;
+            case R.id.myProducts:
+                addActionFragment(new AgentDetailPagerFragment());
                 return true;
             case R.id.ongoingOrders:
 
@@ -99,6 +101,15 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
                 .replace(R.id.frameContainer, fragment)
+                .addToBackStack(null).commit();
+
+    }
+    protected static void addTobackstackActionFragment(Fragment fragment) {
+
+        fragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.left_enter, R.anim.right_out)
+                .add(R.id.frameContainer, fragment)
                 .addToBackStack(null).commit();
 
     }
